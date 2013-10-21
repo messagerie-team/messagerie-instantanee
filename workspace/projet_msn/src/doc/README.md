@@ -27,5 +27,12 @@ nom variable camelcase;
 nom fonction camelcase;
 nom de variable explicite pas de private int x;
 nom de fonction explicite pas de private void a(){};
-commentaire en javadoc
+commentaire en javadoc;
+commentaire sur les fonctions qui en ont besoin;
 
+Outils et méthodologie
+==========
+Utilisation d'Eclipse
+Test JUnit
+Utilisation de Ant
+Utilisation de git,svn
