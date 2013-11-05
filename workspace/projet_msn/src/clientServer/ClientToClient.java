@@ -43,13 +43,14 @@ public class ClientToClient
 	
 	public static void send(String message, String ip)
 	{
-		InetAddress serveur;
+		InetAddress server;
 		try {
-			serveur = InetAddress.getByName(ip);
-			int length = message.length(); 
+			server = InetAddress.getByName(ip);
+			//int length = message.length(); 
 			byte buffer[] = message.getBytes("UTF-8"); 
+			int length = buffer.length;
 			System.out.println("BUFFER : " + message + " ET TAILLE : " + length);
-			DatagramPacket dataSent = new DatagramPacket(buffer,length,serveur,ThreadListenerUDP.getPort()); 
+			DatagramPacket dataSent = new DatagramPacket(buffer,length,server,ThreadListenerUDP.getPort()); 
 			DatagramSocket socket = new DatagramSocket(); 
 			socket.send(dataSent); 
 		} catch (IOException e) {
