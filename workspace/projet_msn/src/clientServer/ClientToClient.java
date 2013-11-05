@@ -33,9 +33,9 @@ public class ClientToClient
 		while(!"exit".equals(buff))
 		{	
 			buff = sc.nextLine();
+			System.out.println("APRES NEXT : " + buff);
 			send(buff, args[0]);
 			sc.reset();
-			buff = null;
 		}
 		sc.close();
 	
@@ -48,6 +48,7 @@ public class ClientToClient
 			serveur = InetAddress.getByName(ip);
 			int length = message.length(); 
 			byte buffer[] = message.getBytes(); 
+			System.out.println("BUFFER : " + message + " ET TAILLE : " + length);
 			DatagramPacket dataSent = new DatagramPacket(buffer,length,serveur,ThreadListenerUDP.getPort()); 
 			DatagramSocket socket = new DatagramSocket(); 
 			socket.send(dataSent); 

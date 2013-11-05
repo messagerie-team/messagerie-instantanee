@@ -6,7 +6,7 @@ public class ThreadListenerUDP extends Thread {
 
 	private static int port;
 	private final static int size = 1024;
-	private final static byte buffer[] = new byte[size];
+	private static byte buffer[] = new byte[size];
 	private DatagramSocket socket;
 	
 	public ThreadListenerUDP(int port)
@@ -25,6 +25,7 @@ public class ThreadListenerUDP extends Thread {
 				socket.receive(data);
 				System.out.println(data.getAddress());
 				System.out.println(new String(data.getData()));
+				buffer = new byte[size];
 			}
 		} catch (Exception e) 
 		{
