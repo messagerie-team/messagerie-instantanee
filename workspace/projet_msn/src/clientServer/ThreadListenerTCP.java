@@ -14,7 +14,7 @@ import java.net.Socket;
  * @author raphael
  * 
  */
-public class ThreadListener extends Thread
+public class ThreadListenerTCP extends Thread
 {
 	// Serveur a qui appartient le thread d'ecoute
 	private Server server;
@@ -31,7 +31,7 @@ public class ThreadListener extends Thread
 	 * @param port
 	 *            numero de port d'ecoute
 	 */
-	public ThreadListener(Server server, int port)
+	public ThreadListenerTCP(Server server, int port)
 	{
 		try
 		{

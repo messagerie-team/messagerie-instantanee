@@ -16,7 +16,7 @@ public class Server extends Thread
 	// Liste des clients que connait le serveur
 	private Vector<ClientServerData> clients;
 	// Thread d'ecoute du serveur
-	private ThreadListener threadListener;
+	private ThreadListenerTCP threadListener;
 
 	/**
 	 * Construct Server() Constructeur le la class Server. Initialise les
@@ -25,7 +25,7 @@ public class Server extends Thread
 	public Server()
 	{
 		this.clients = new Vector<ClientServerData>();
-		this.threadListener = new ThreadListener(this, 30972);
+		this.threadListener = new ThreadListenerTCP(this, 30972);
 	}
 
 	/**
@@ -37,7 +37,7 @@ public class Server extends Thread
 	public Server(int port)
 	{
 		this.clients = new Vector<ClientServerData>();
-		this.threadListener = new ThreadListener(this, port);
+		this.threadListener = new ThreadListenerTCP(this, port);
 	}
 
 	/**
@@ -134,12 +134,12 @@ public class Server extends Thread
 		this.clients = clients;
 	}
 
-	public ThreadListener getThreadListener()
+	public ThreadListenerTCP getThreadListener()
 	{
 		return threadListener;
 	}
 
-	public void setThreadListener(ThreadListener threadListener)
+	public void setThreadListener(ThreadListenerTCP threadListener)
 	{
 		this.threadListener = threadListener;
 	}
