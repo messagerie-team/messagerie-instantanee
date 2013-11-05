@@ -1,7 +1,7 @@
 projet_msn
 ==========
 
-M1 informatique d'une application de messagerie instantanée
+M1 informatique Projet d'une application de messagerie instantanée
 
 Octobre 2013
 
@@ -36,3 +36,4 @@ Utilisation d'Eclipse
 Test JUnit
 Utilisation de Ant
 Utilisation de git,svn
+Utilisation de ObjectAid UML plug-in Eclipse http://www.objectaid.com/installation
