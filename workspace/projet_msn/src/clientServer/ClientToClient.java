@@ -27,14 +27,15 @@ public class ClientToClient
 		threadListenerUDP.start();
 		
 		String buff = null;
+		Scanner sc = new Scanner(System.in);
 		
 		while(!"exit".equals(buff))
-		{
-			Scanner sc = new Scanner(System.in);
-			buff = sc.next();
+		{	
+			buff = sc.nextLine();
 			send(buff, args[0]);
-			sc.close();
+			sc.reset();
 		}
+		sc.close();
 	
 	}
 	
