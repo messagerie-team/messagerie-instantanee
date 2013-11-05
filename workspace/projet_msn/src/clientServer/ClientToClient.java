@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class ClientToClient 
 {
 
-	private final static int size = 2048; 
+	private final static int size = 1024; 
 	private final static byte buffer[] = new byte[size];
 
 	/**
@@ -49,9 +49,13 @@ public class ClientToClient
 			byte buffer[] = message.getBytes("UTF-8"); 
 			int length = buffer.length;
 			System.out.println("BUFFER : " + message + " ET TAILLE : " + length);
-			DatagramPacket dataSent = new DatagramPacket(buffer,length,server,ThreadListenerUDP.getPort()); 
-			DatagramSocket socket = new DatagramSocket(); 
-			socket.send(dataSent); 
+			
+			for (byte b : buffer) {
+				DatagramPacket dataSent = new DatagramPacket(buffer,length,server,ThreadListenerUDP.getPort()); 
+				DatagramSocket socket = new DatagramSocket(); 
+				socket.send(dataSent); 
+			}
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
