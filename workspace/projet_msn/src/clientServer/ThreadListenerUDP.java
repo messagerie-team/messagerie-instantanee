@@ -4,9 +4,9 @@ import java.net.*;
 
 public class ThreadListenerUDP extends Thread {
 
-	final static int port = 30003;
-	final static int size = 1024;
-	final static byte buffer[] = new byte[size];
+	private final static int port = 30003;
+	private final static int size = 1024;
+	private final static byte buffer[] = new byte[size];
 	private DatagramSocket socket;
 
 	public void run() 
@@ -25,6 +25,11 @@ public class ThreadListenerUDP extends Thread {
 		{
 			// TODO: handle exception
 		}
+	}
+	
+	public static int getPort()
+	{
+		return port;
 	}
 
 }
