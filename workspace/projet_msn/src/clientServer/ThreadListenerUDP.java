@@ -9,11 +9,19 @@ public class ThreadListenerUDP extends Thread {
 	private static byte buffer[] = new byte[size];
 	private DatagramSocket socket;
 	
+	/**
+	 * Constructeur de la classe ThreadListenerUDP.
+	 * Il recoit le port d'écoute en paramètre.
+	 * @param port
+	 */
 	public ThreadListenerUDP(int port)
 	{
 		this.port = port;
 	}
-
+	
+	/**
+	 * Ce thread récéptionne les messages et les affiches dans la console.
+	 */
 	public void run() 
 	{
 		try 
