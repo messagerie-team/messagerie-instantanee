@@ -47,7 +47,7 @@ public class ClientToClient
 		try {
 			serveur = InetAddress.getByName(ip);
 			int length = message.length(); 
-			byte buffer[] = message.getBytes(); 
+			byte buffer[] = message.getBytes("UTF-8"); 
 			System.out.println("BUFFER : " + message + " ET TAILLE : " + length);
 			DatagramPacket dataSent = new DatagramPacket(buffer,length,serveur,ThreadListenerUDP.getPort()); 
 			DatagramSocket socket = new DatagramSocket(); 
