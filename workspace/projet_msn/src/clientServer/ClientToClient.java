@@ -34,6 +34,7 @@ public class ClientToClient
 			buff = sc.nextLine();
 			send(buff, args[0]);
 			sc.reset();
+			buff = "";
 		}
 		sc.close();
 	
