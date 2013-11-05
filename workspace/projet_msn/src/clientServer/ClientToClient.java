@@ -5,6 +5,7 @@ package clientServer;
 
 import java.io.IOException;
 import java.net.*;
+import java.util.Scanner;
 
 /**
  * @author Mickael
@@ -13,7 +14,6 @@ import java.net.*;
 public class ClientToClient 
 {
 
-	private String ip;
 	final static int size = 1024; 
 	final static byte buffer[] = new byte[size];
 
@@ -22,11 +22,22 @@ public class ClientToClient
 	 */
 	public static void main(String[] args) 
 	{
-		// TODO Auto-generated method stub
-
+		
+		ThreadListenerUDP threadListenerUDP = new ThreadListenerUDP();
+		threadListenerUDP.start();
+		
+		String buff = null;
+		while(!"exit".equals(buff))
+		{
+			Scanner sc = new Scanner(System.in);
+			buff = sc.nextLine();
+			send(buff, args[1]);
+			sc.close();
+		}
+		
 	}
 	
-	public void send(String message)
+	public static void send(String message, String ip)
 	{
 		InetAddress serveur;
 		try {
@@ -42,9 +53,4 @@ public class ClientToClient
 		} 	
 	}
 	
-	public void setIp(String ip) 
-	{
-		this.ip = ip;
-	}
-
 }

@@ -19,7 +19,7 @@ public class ThreadListenerUDP extends Thread {
 				DatagramPacket data = new DatagramPacket(buffer, buffer.length);
 				socket.receive(data);
 				System.out.println(data.getAddress());
-				socket.send(data);
+				System.out.println(data.getData());
 			}
 		} catch (Exception e) 
 		{
