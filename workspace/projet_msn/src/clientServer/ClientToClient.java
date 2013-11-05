@@ -26,15 +26,16 @@ public class ClientToClient
 		ThreadListenerUDP threadListenerUDP = new ThreadListenerUDP(Integer.parseInt(args[1]));
 		threadListenerUDP.start();
 		
-		String buff = null;
+		
 		Scanner sc = new Scanner(System.in);
+		String buff = null;
 		
 		while(!"exit".equals(buff))
 		{	
 			buff = sc.nextLine();
 			send(buff, args[0]);
 			sc.reset();
-			buff = "";
+			buff = null;
 		}
 		sc.close();
 	
