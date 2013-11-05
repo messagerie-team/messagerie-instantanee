@@ -5,7 +5,7 @@ import java.net.*;
 public class ThreadListenerUDP extends Thread {
 
 	private static int port;
-	private final static int size = 1024;
+	private final static int size = 2048;
 	private static byte buffer[] = new byte[size];
 	private DatagramSocket socket;
 	

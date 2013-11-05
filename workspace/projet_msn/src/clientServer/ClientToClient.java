@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class ClientToClient 
 {
 
-	final static int size = 1024; 
+	final static int size = 2048; 
 	final static byte buffer[] = new byte[size];
 
 	/**
