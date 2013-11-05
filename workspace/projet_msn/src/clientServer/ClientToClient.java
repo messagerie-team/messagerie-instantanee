@@ -16,8 +16,8 @@ import java.util.Scanner;
  */
 public class ClientToClient 
 {
-	
-	private final static int size = 1024; 
+	// Pourquoi 60000 ? Limite théorique = 65535, limite en IPv4 = 65507
+	private final static int size = 60000; 
 	private final static byte buffer[] = new byte[size];
 
 	/**
@@ -39,7 +39,7 @@ public class ClientToClient
 		{	
 			buff = sc.nextLine();
 			System.out.println("APRES NEXT : " + buff);
-			send(buff, args[0]);
+			send(buff, args[0]);	
 			sc.reset();
 		}
 		sc.close();
@@ -58,8 +58,8 @@ public class ClientToClient
 		try {
 			server = InetAddress.getByName(ip);
 			byte buffer[] = message.getBytes("UTF-8"); 
-			int length = buffer.length;
-			System.out.println("BUFFER : " + message + " ET TAILLE : " + length);
+			int length = buffer.length;			
+			// System.out.println("BUFFER : " + message + " ET TAILLE : " + length);
 			DatagramPacket dataSent = new DatagramPacket(buffer,length,server,ThreadListenerUDP.getPort()); 
 			DatagramSocket socket = new DatagramSocket(); 
 			socket.send(dataSent); 
@@ -68,5 +68,5 @@ public class ClientToClient
 			e.printStackTrace();
 		} 	
 	}
-	
+ 
 }
