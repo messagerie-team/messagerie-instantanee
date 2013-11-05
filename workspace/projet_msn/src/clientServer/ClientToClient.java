@@ -14,8 +14,8 @@ import java.util.Scanner;
 public class ClientToClient 
 {
 
-	final static int size = 2048; 
-	final static byte buffer[] = new byte[size];
+	private final static int size = 2048; 
+	private final static byte buffer[] = new byte[size];
 
 	/**
 	 * @param args
@@ -46,7 +46,6 @@ public class ClientToClient
 		InetAddress server;
 		try {
 			server = InetAddress.getByName(ip);
-			//int length = message.length(); 
 			byte buffer[] = message.getBytes("UTF-8"); 
 			int length = buffer.length;
 			System.out.println("BUFFER : " + message + " ET TAILLE : " + length);
