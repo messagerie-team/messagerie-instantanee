@@ -23,18 +23,19 @@ public class ClientToClient
 	public static void main(String[] args) 
 	{
 		
-		ThreadListenerUDP threadListenerUDP = new ThreadListenerUDP();
+		ThreadListenerUDP threadListenerUDP = new ThreadListenerUDP(Integer.parseInt(args[1]));
 		threadListenerUDP.start();
 		
 		String buff = null;
+		Scanner sc = new Scanner(System.in);
 		while(!"exit".equals(buff))
 		{
-			Scanner sc = new Scanner(System.in);
-			buff = sc.nextLine();
-			send(buff, args[1]);
-			sc.close();
+			
+			buff = sc.next();
+			send(buff, args[0]);
+
 		}
-		
+		sc.close();
 	}
 	
 	public static void send(String message, String ip)
