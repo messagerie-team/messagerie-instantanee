@@ -37,3 +37,4 @@ Test JUnit
 Utilisation de Ant
 Utilisation de git,svn
 Utilisation de ObjectAid UML plug-in Eclipse http://www.objectaid.com/installation
+Utilisation de Visual Automata Simulator pour la représentation des automates http://www.cs.usfca.edu/~jbovet/vas.html
