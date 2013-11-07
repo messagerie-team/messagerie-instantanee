@@ -52,26 +52,32 @@ public class ClientServerData
 	{
 		this.port = port;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj)
 	{
-		if(!(obj instanceof ClientServerData))
+		if (!(obj instanceof ClientServerData))
 		{
 			return false;
-		}else if(obj == this)
+		} else if (obj == this)
 		{
 			return true;
-		}else if(!this.name.equals(((ClientServerData)obj).name))
+		} else if (!this.name.equals(((ClientServerData) obj).name))
 		{
 			return false;
-		}else if(this.port!=((ClientServerData)obj).port)
+		} else if (this.port != ((ClientServerData) obj).port)
 		{
 			return false;
-		}else if(!this.ip.equals(((ClientServerData)obj).ip))
+		} else if (!this.ip.equals(((ClientServerData) obj).ip))
 		{
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "Client: " + this.name + " " + this.ip;
 	}
 }

@@ -88,7 +88,7 @@ public class ThreadComunicationServer extends Thread
 			this.registerClient(token);
 			break;
 		case "unregister":
-			this.unregisterClient();
+			this.unregisterClient(token);
 			break;
 
 		default:
@@ -105,7 +105,7 @@ public class ThreadComunicationServer extends Thread
 			this.registerClient(token);
 			break;
 		case "unregister":
-			this.unregisterClient();
+			this.unregisterClient(token);
 			break;
 		case "list":
 			break;
@@ -115,11 +115,17 @@ public class ThreadComunicationServer extends Thread
 		}
 	}
 
-	private void unregisterClient()
+	private void unregisterClient(StringTokenizer token)
 	{
-		this.server.removeClient(this.socket.getLocalAddress());
-		this.protocol.sendMessage("reply:unregister:DONE");
-		this.stopThread();
+		if(token.hasMoreTokens())
+		{
+			
+		}else
+		{
+			this.server.removeClient(this.socket.getLocalAddress());
+			this.protocol.sendMessage("reply:unregister:DONE");
+		}
+		//this.stopThread();
 	}
 
 	private void registerClient(StringTokenizer token)
