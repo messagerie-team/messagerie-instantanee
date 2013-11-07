@@ -63,7 +63,7 @@ public class ThreadListenerTCP extends Thread
 			this.socket.close();
 		} catch (Exception e)
 		{
-			System.err.println("Erreur du ThreadListener, message: " + e.getMessage());
+			System.err.println("Erreur du ThreadListenerTCP, message: " + e.getMessage());
 		}
 	}
 

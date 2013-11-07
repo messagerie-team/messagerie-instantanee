@@ -9,6 +9,8 @@ public class ThreadListenerUDP extends Thread {
 	private final static int size = 60000;
 	private static byte buffer[];
 	private DatagramSocket socket;
+	// Boolean permettant de stopper le Thread
+	private boolean running;
 	
 	/**
 	 * Constructeur de la classe ThreadListenerUDP.
@@ -25,10 +27,11 @@ public class ThreadListenerUDP extends Thread {
 	 */
 	public void run() 
 	{
+		this.running=true;
 		try 
 		{
 			socket = new DatagramSocket(port);
-			while (true) 
+			while (this.running) 
 			{
 				buffer = new byte[size];
 				DatagramPacket data = new DatagramPacket(buffer, buffer.length);
@@ -38,7 +41,7 @@ public class ThreadListenerUDP extends Thread {
 			}
 		} catch (Exception e) 
 		{
-			// TODO: handle exception
+			System.err.println("Erreur du ThreadListenerUDP, message: " + e.getMessage());
 		}
 	}
 	

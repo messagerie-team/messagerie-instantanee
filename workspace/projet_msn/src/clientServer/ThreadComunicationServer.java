@@ -1,6 +1,7 @@
 package clientServer;
 
 import java.net.Socket;
+import java.util.StringTokenizer;
 
 import dataLink.Protocol;
 
@@ -49,16 +50,56 @@ public class ThreadComunicationServer extends Thread
 
 	private void messageTraitement(String message)
 	{
+		StringTokenizer token = new StringTokenizer(message, ":");
+		String firstToken = token.nextToken();
+		if (token.hasMoreTokens())
+		{
+			String nextToken = token.nextToken();
+			switch (firstToken)
+			{
+			case "request:":
+				this.messageTraitementRequest(nextToken, token);
+				break;
+			case "reply:":
+				this.messageTraitementReply(nextToken, token);
+				break;
+			case "end":
+				this.stopThread();
+				break;
+
+			default:
+				break;
+			}
+		}
+	}
+
+	private void messageTraitementRequest(String message, StringTokenizer token)
+	{
 		switch (message)
 		{
-		case "request:register":
-			this.registerClient();
+		case "register":
+			this.registerClient(token);
 			break;
-		case "request:unregister":
+		case "unregister":
 			this.unregisterClient();
 			break;
-		case "end":
-			this.stopThread();
+
+		default:
+			break;
+		}
+	}
+
+	private void messageTraitementReply(String message, StringTokenizer token)
+	{
+		switch (message)
+		{
+		case "register":
+			this.registerClient(token);
+			break;
+		case "unregister":
+			this.unregisterClient();
+			break;
+		case "list":
 			break;
 
 		default:
@@ -69,24 +110,44 @@ public class ThreadComunicationServer extends Thread
 	private void unregisterClient()
 	{
 		this.server.removeClient(this.socket.getLocalAddress());
+		this.protocol.sendMessage("reply:unregister:DONE");
+		this.stopThread();
 	}
 
-	private void registerClient()
+	private void registerClient(StringTokenizer token)
 	{
-		// On envoie un message pour dire que on a bien recu son message
-		this.protocol.sendMessage("OK");
-		// On envoie un autre pour demander son nom
-		this.protocol.sendMessage("request:name");
-		// On attend la reponse
-		String name = this.protocol.readMessage();
-		// On informe le client qu'on a bien reçu son nom
-		this.protocol.sendMessage("reply:name.ok");
-		// TODO gestion des mots de passe
-		// TODO gestion de l'ip hors reseau local
+		// Si on a un element de plus dans le token, alors il s'agit d'un reply
+		if (token.hasMoreTokens())
+		{
+			String nextToken = token.nextToken();
+			if (token.hasMoreTokens())
+			{
+				switch (nextToken)
+				{
+				case "name":
+					// On informe le client qu'on a bien reçu son nom
+					this.protocol.sendMessage("reply:register:name:OK");
+					String name = token.nextToken();
+					if (this.server.addClient(name, this.socket))
+					{
+						this.protocol.sendMessage("reply:register:DONE");
+						this.stopThread();
+					}
+					break;
 
-		// On enregitre donc le client dans le serveur pour mettre à jour sa
-		// base de client en ligne
-		this.server.addClient(name, this.socket);
+				default:
+					break;
+				}
+			}
+		}
+		// Sinon c'est qu'il s'agit d'un request
+		else
+		{
+			// On envoie un message pour dire que on a bien recu son message
+			this.protocol.sendMessage("reply:register:OK");
+			// On envoie un autre pour demander son nom
+			this.protocol.sendMessage("request:register:name");
+		}
 	}
 
 	public void stopThread()
