@@ -11,7 +11,7 @@ import java.util.Vector;
  * @author Mickael
  * 
  */
-public class Server extends Thread
+public class Server
 {
 	// Liste des clients que connait le serveur
 	private Vector<ClientServerData> clients;
@@ -25,7 +25,7 @@ public class Server extends Thread
 	public Server()
 	{
 		this.clients = new Vector<ClientServerData>();
-		this.threadListener = new ThreadListenerTCP(this, 30972);
+		this.threadListener = new ThreadListenerTCP(this, 30970);
 	}
 
 	/**
@@ -142,6 +142,12 @@ public class Server extends Thread
 	public void setThreadListener(ThreadListenerTCP threadListener)
 	{
 		this.threadListener = threadListener;
+	}
+	
+	public static void main(String[] args)
+	{
+		Server server = new Server();
+		server.launch();
 	}
 
 }

@@ -1,5 +1,7 @@
 package clientServer;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.StringTokenizer;
 
@@ -35,6 +37,7 @@ public class ThreadComunicationServer extends Thread
 			this.running = true;
 			while (running)
 			{
+				Thread.sleep(500);
 				// On attent que le client nous envoie un message
 				String message = protocol.readMessage();
 				// On traite ensuite le message reçu.
@@ -45,11 +48,13 @@ public class ThreadComunicationServer extends Thread
 		} catch (Exception e)
 		{
 			System.err.println("Erreur du ThreadComunicationServer, message: " + e.getMessage());
+			//e.printStackTrace();
 		}
 	}
 
 	private void messageTraitement(String message)
 	{
+		System.out.println("Début du traitement du message : "+message);
 		StringTokenizer token = new StringTokenizer(message, ":");
 		String firstToken = token.nextToken();
 		if (token.hasMoreTokens())
@@ -57,10 +62,10 @@ public class ThreadComunicationServer extends Thread
 			String nextToken = token.nextToken();
 			switch (firstToken)
 			{
-			case "request:":
+			case "request":
 				this.messageTraitementRequest(nextToken, token);
 				break;
-			case "reply:":
+			case "reply":
 				this.messageTraitementReply(nextToken, token);
 				break;
 			case "end":
@@ -68,6 +73,7 @@ public class ThreadComunicationServer extends Thread
 				break;
 
 			default:
+				this.stopThread();
 				break;
 			}
 		}
@@ -75,6 +81,7 @@ public class ThreadComunicationServer extends Thread
 
 	private void messageTraitementRequest(String message, StringTokenizer token)
 	{
+		System.out.println("Message request");
 		switch (message)
 		{
 		case "register":
@@ -91,6 +98,7 @@ public class ThreadComunicationServer extends Thread
 
 	private void messageTraitementReply(String message, StringTokenizer token)
 	{
+		System.out.println("Message reply");
 		switch (message)
 		{
 		case "register":
@@ -116,6 +124,7 @@ public class ThreadComunicationServer extends Thread
 
 	private void registerClient(StringTokenizer token)
 	{
+		System.out.println("register");
 		// Si on a un element de plus dans le token, alors il s'agit d'un reply
 		if (token.hasMoreTokens())
 		{
@@ -131,6 +140,7 @@ public class ThreadComunicationServer extends Thread
 					if (this.server.addClient(name, this.socket))
 					{
 						this.protocol.sendMessage("reply:register:DONE");
+						System.out.println(this.server.getClients());
 						this.stopThread();
 					}
 					break;
@@ -143,6 +153,16 @@ public class ThreadComunicationServer extends Thread
 		// Sinon c'est qu'il s'agit d'un request
 		else
 		{
+			System.out.println("Demande d'enregistrement");
+			try
+			{
+				PrintWriter out = new PrintWriter(this.socket.getOutputStream());
+				out.println("test");
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			// On envoie un message pour dire que on a bien recu son message
 			this.protocol.sendMessage("reply:register:OK");
 			// On envoie un autre pour demander son nom
