@@ -67,10 +67,10 @@ public class Server
 	 */
 	public String addClient(String name, Socket client)
 	{
-		if( this.clients.add(new ClientServerData(name, client.getLocalAddress(), client.getLocalPort())))
+		if (this.clients.add(new ClientServerData(name, client.getLocalAddress(), client.getLocalPort())))
 		{
 			return this.clients.lastElement().getId();
-		}else
+		} else
 		{
 			return null;
 		}
@@ -98,13 +98,18 @@ public class Server
 	public boolean removeClient(String id)
 	{
 		boolean erase = false;
+		ClientServerData eraseClient = null;
 		for (ClientServerData client : this.clients)
 		{
 			if (client.getId().equals(id))
 			{
-				this.clients.remove(client);
+				eraseClient = client;
 				erase = true;
 			}
+		}
+		if(erase)
+		{
+			clients.remove(eraseClient);
 		}
 		return erase;
 	}
@@ -149,7 +154,7 @@ public class Server
 	{
 		this.threadListener = threadListener;
 	}
-	
+
 	public static void main(String[] args)
 	{
 		Server server = new Server();

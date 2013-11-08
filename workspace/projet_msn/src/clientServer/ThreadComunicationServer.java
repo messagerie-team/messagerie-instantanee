@@ -45,7 +45,7 @@ public class ThreadComunicationServer extends Thread
 			}
 			System.out.println("Arret du Thread de communication");
 			this.socket.close();
-		} catch (Exception e)
+		} catch (IOException | InterruptedException e)
 		{
 			System.err.println("Erreur du ThreadComunicationServer, message: " + e.getMessage());
 			// e.printStackTrace();
@@ -81,7 +81,6 @@ public class ThreadComunicationServer extends Thread
 
 	private void messageTraitementRequest(String message, StringTokenizer token)
 	{
-		System.out.println("Message request");
 		switch (message)
 		{
 		case "register":
@@ -98,7 +97,6 @@ public class ThreadComunicationServer extends Thread
 
 	private void messageTraitementReply(String message, StringTokenizer token)
 	{
-		System.out.println("Message reply");
 		switch (message)
 		{
 		case "register":
@@ -119,18 +117,15 @@ public class ThreadComunicationServer extends Thread
 	{
 		if (token.hasMoreTokens())
 		{
-
-		} else
-		{
-			this.server.removeClient(this.socket.getLocalAddress());
+			String id = token.nextToken();
+			this.server.removeClient(id);
 			this.protocol.sendMessage("reply:unregister:DONE");
+			this.stopThread();
 		}
-		// this.stopThread();
 	}
 
 	private void registerClient(StringTokenizer token)
 	{
-		System.out.println("register");
 		// Si on a un element de plus dans le token, alors il s'agit d'un reply
 		if (token.hasMoreTokens())
 		{
@@ -143,15 +138,16 @@ public class ThreadComunicationServer extends Thread
 					// On informe le client qu'on a bien reçu son nom
 					this.protocol.sendMessage("reply:register:name:OK");
 					String name = token.nextToken();
-					String id=this.server.addClient(name, this.socket);
-					if (id!=null)
+					String id = this.server.addClient(name, this.socket);
+					if (id != null)
 					{
-						this.protocol.sendMessage("reply:register:id:"+id);
-						//System.out.println(this.server.getClients());
-						//this.stopThread();
+						this.protocol.sendMessage("reply:register:id:" + id);
+						// System.out.println(this.server.getClients());
+						// this.stopThread();
 					}
 					break;
 				case "id":
+					this.protocol.sendMessage("reply:register:DONE");
 					System.out.println(this.server.getClients());
 					this.stopThread();
 					break;
