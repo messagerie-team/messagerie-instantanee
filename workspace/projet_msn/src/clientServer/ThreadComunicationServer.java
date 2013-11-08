@@ -89,6 +89,9 @@ public class ThreadComunicationServer extends Thread
 		case "unregister":
 			this.unregisterClient(token);
 			break;
+		case "list":
+			this.askListClient(token);
+			break;
 
 		default:
 			break;
@@ -106,6 +109,7 @@ public class ThreadComunicationServer extends Thread
 			this.unregisterClient(token);
 			break;
 		case "list":
+			this.askListClient(token);
 			break;
 
 		default:
@@ -180,10 +184,10 @@ public class ThreadComunicationServer extends Thread
 	{
 		if (token.hasMoreTokens())
 		{
-
+			this.stopThread();
 		} else
 		{
-
+			this.protocol.sendMessage("reply:list:" + this.server.getListClient());
 		}
 	}
 

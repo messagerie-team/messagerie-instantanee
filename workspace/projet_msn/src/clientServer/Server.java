@@ -67,7 +67,7 @@ public class Server
 	 */
 	public String addClient(String name, Socket client)
 	{
-		if (this.clients.add(new ClientServerData(name, client.getLocalAddress(), client.getLocalPort())))
+		if (this.clients.add(new ClientServerData(name, client.getInetAddress(), client.getPort())))
 		{
 			return this.clients.lastElement().getId();
 		} else
@@ -107,7 +107,7 @@ public class Server
 				erase = true;
 			}
 		}
-		if(erase)
+		if (erase)
 		{
 			clients.remove(eraseClient);
 		}
@@ -133,6 +133,18 @@ public class Server
 			}
 		}
 		return erase;
+	}
+
+	public String getListClient()
+	{
+		String ret = "";
+		boolean firstOne = true;
+		for (ClientServerData client : this.clients)
+		{
+			ret += ((firstOne) ? "" : "|") + client.getId() + "-" + client.getName();
+			firstOne = false;
+		}
+		return ret;
 	}
 
 	public Vector<ClientServerData> getClients()
