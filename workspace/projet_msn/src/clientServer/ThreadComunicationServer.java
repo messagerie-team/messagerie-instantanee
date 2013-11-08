@@ -48,13 +48,13 @@ public class ThreadComunicationServer extends Thread
 		} catch (Exception e)
 		{
 			System.err.println("Erreur du ThreadComunicationServer, message: " + e.getMessage());
-			//e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 
 	private void messageTraitement(String message)
 	{
-		System.out.println("Début du traitement du message : "+message);
+		System.out.println("Début du traitement du message : " + message);
 		StringTokenizer token = new StringTokenizer(message, ":");
 		String firstToken = token.nextToken();
 		if (token.hasMoreTokens())
@@ -117,15 +117,15 @@ public class ThreadComunicationServer extends Thread
 
 	private void unregisterClient(StringTokenizer token)
 	{
-		if(token.hasMoreTokens())
+		if (token.hasMoreTokens())
 		{
-			
-		}else
+
+		} else
 		{
 			this.server.removeClient(this.socket.getLocalAddress());
 			this.protocol.sendMessage("reply:unregister:DONE");
 		}
-		//this.stopThread();
+		// this.stopThread();
 	}
 
 	private void registerClient(StringTokenizer token)
@@ -143,14 +143,18 @@ public class ThreadComunicationServer extends Thread
 					// On informe le client qu'on a bien reçu son nom
 					this.protocol.sendMessage("reply:register:name:OK");
 					String name = token.nextToken();
-					if (this.server.addClient(name, this.socket))
+					String id=this.server.addClient(name, this.socket);
+					if (id!=null)
 					{
-						this.protocol.sendMessage("reply:register:DONE");
-						System.out.println(this.server.getClients());
-						this.stopThread();
+						this.protocol.sendMessage("reply:register:id:"+id);
+						//System.out.println(this.server.getClients());
+						//this.stopThread();
 					}
 					break;
-
+				case "id":
+					System.out.println(this.server.getClients());
+					this.stopThread();
+					break;
 				default:
 					break;
 				}
@@ -173,6 +177,17 @@ public class ThreadComunicationServer extends Thread
 			this.protocol.sendMessage("reply:register:OK");
 			// On envoie un autre pour demander son nom
 			this.protocol.sendMessage("request:register:name");
+		}
+	}
+
+	public void askListClient(StringTokenizer token)
+	{
+		if (token.hasMoreTokens())
+		{
+
+		} else
+		{
+
 		}
 	}
 

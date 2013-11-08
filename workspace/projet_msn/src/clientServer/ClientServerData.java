@@ -1,6 +1,9 @@
 package clientServer;
 
+import java.math.BigInteger;
 import java.net.InetAddress;
+import java.security.SecureRandom;
+import java.util.Random;
 
 /**
  * Class permettant de stocker les informations client. Comme son nom, son IP,
@@ -12,12 +15,15 @@ import java.net.InetAddress;
  */
 public class ClientServerData
 {
+	private String id;
 	private String name;
 	private InetAddress ip;
 	private int port;
 
 	public ClientServerData(String name, InetAddress ip, int port)
 	{
+		SecureRandom random = new SecureRandom();
+		this.id = new BigInteger(130, random).toString(32);
 		this.name = name;
 		this.ip = ip;
 		this.port = port;
@@ -53,6 +59,16 @@ public class ClientServerData
 		this.port = port;
 	}
 
+	public String getId()
+	{
+		return id;
+	}
+
+	public void setId(String id)
+	{
+		this.id = id;
+	}
+
 	@Override
 	public boolean equals(Object obj)
 	{
@@ -71,6 +87,9 @@ public class ClientServerData
 		} else if (!this.ip.equals(((ClientServerData) obj).ip))
 		{
 			return false;
+		} else if (!this.id.equals(((ClientServerData) obj).id))
+		{
+			return false;
 		}
 		return true;
 	}
@@ -78,6 +97,6 @@ public class ClientServerData
 	@Override
 	public String toString()
 	{
-		return "Client: " + this.name + " " + this.ip;
+		return "Client: " + this.name + " " + this.ip + " " + this.port;
 	}
 }

@@ -65,9 +65,15 @@ public class Server
 	 *            Socket du client
 	 * @return true si client ajouté, false sinon.
 	 */
-	public boolean addClient(String name, Socket client)
+	public String addClient(String name, Socket client)
 	{
-		return this.clients.add(new ClientServerData(name, client.getLocalAddress(), client.getLocalPort()));
+		if( this.clients.add(new ClientServerData(name, client.getLocalAddress(), client.getLocalPort())))
+		{
+			return this.clients.lastElement().getId();
+		}else
+		{
+			return null;
+		}
 	}
 
 	/**
@@ -89,12 +95,12 @@ public class Server
 	 *            Nom du client
 	 * @return true si réussit, false sinon
 	 */
-	public boolean removeClient(String name)
+	public boolean removeClient(String id)
 	{
 		boolean erase = false;
 		for (ClientServerData client : this.clients)
 		{
-			if (client.getName().equals(name))
+			if (client.getId().equals(id))
 			{
 				this.clients.remove(client);
 				erase = true;
