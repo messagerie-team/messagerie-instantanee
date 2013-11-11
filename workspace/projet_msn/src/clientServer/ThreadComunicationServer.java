@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.StringTokenizer;
 
+import dataLink.Protocol;
 import dataLink.ProtocolTCP;
 
 /**
@@ -18,7 +19,7 @@ public class ThreadComunicationServer extends Thread
 {
 	private Server server;
 	private Socket socket;
-	private ProtocolTCP protocol;
+	private Protocol protocol;
 	private boolean running;
 	private String tempVar;
 
@@ -237,12 +238,12 @@ public class ThreadComunicationServer extends Thread
 		this.socket = socket;
 	}
 
-	public ProtocolTCP getProtocol()
+	public Protocol getProtocol()
 	{
 		return protocol;
 	}
 
-	public void setProtocol(ProtocolTCP protocol)
+	public void setProtocol(Protocol protocol)
 	{
 		this.protocol = protocol;
 	}

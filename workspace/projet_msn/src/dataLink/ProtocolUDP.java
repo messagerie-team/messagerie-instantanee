@@ -58,6 +58,21 @@ public class ProtocolUDP extends Protocol
 		}
 	}
 
+	public void sendMessage(String message)
+	{
+		byte buffer[];
+		try
+		{
+			buffer = message.getBytes("UTF-8");
+			int length = buffer.length;
+			this.writer = new DatagramPacket(buffer, length, this.socket.getInetAddress(), this.socket.getPort());
+			this.socket.send(writer);
+		} catch (IOException e)
+		{
+			System.err.println("Erreur d'envoie du message de ProtocolUDP, message:" + e.getMessage());
+		}
+	}
+
 	public String readMessage()
 	{
 		try
