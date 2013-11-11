@@ -58,6 +58,10 @@ public class ProtocolUDP extends Protocol
 		}
 	}
 
+	public ProtocolUDP() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public void sendMessage(String message)
 	{
 		byte buffer[];

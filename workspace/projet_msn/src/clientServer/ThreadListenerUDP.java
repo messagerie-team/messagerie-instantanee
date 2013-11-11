@@ -2,6 +2,8 @@ package clientServer;
 
 import java.net.*;
 
+import userInterface.ClientUI;
+
 public class ThreadListenerUDP extends Thread {
 
 	private AbstractClientServer clientServer;
@@ -12,6 +14,7 @@ public class ThreadListenerUDP extends Thread {
 	private DatagramSocket socket;
 	// Boolean permettant de stopper le Thread
 	private boolean running;
+	ClientUI client;
 	
 	/**
 	 * Constructeur de la classe ThreadListenerUDP.
@@ -23,6 +26,16 @@ public class ThreadListenerUDP extends Thread {
 		this.port = port;
 	}
 	
+	/**
+	 * Constructeur de la classe ThreadListenerUDP.
+	 * Il recoit le port d'écoute en paramètre.
+	 * @param port
+	 */
+	public ThreadListenerUDP(int port, ClientUI c)
+	{
+		client = c;
+		this.port = port;
+	}
 	/**
 	 * Ce thread récéptionne les messages et les affiches dans la console.
 	 */
@@ -39,6 +52,9 @@ public class ThreadListenerUDP extends Thread {
 				socket.receive(data);
 				//System.out.println(data.getAddress());
 				System.out.println(new String(data.getData()));
+//<<<<<<< HEAD
+////				client.addMessage(new String(data.getData()));
+//			
 				this.clientServer.treatIncomeUDP(new String(data.getData()));
 			}
 		} catch (Exception e) 
