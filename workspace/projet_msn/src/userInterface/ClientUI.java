@@ -8,23 +8,32 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.JTextPane;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.Vector;
 
 import javax.swing.JList;
+
+import clientServer.ThreadListenerUDP;
+import dataLink.Protocol;
+
 import java.awt.Color;
 
-public class ClientUI {
+public class ClientUI
+{
 
 	private JFrame frame;
-
+	private final static int size = 60000; 
+	private final static byte buffer[] = new byte[size];
+	private static Protocol protocol = new Protocol();
+	private JTextArea textAreaSaisie;
+	private JTextArea textAreaRecu;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -40,14 +49,18 @@ public class ClientUI {
 	/**
 	 * Create the application.
 	 */
-	public ClientUI() {
+	public ClientUI()
+	{
 		initialize();
+		ThreadListenerUDP threadListenerUDP = new ThreadListenerUDP(30006, this);
+		threadListenerUDP.start();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize()
+	{
 		frame = new JFrame();
 		frame.getContentPane().setForeground(Color.WHITE);
 		frame.setResizable(false);
@@ -65,9 +78,11 @@ public class ClientUI {
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-
-				//TODO action bouton envoyer
-
+				String textToSend = textAreaSaisie.getText();
+				System.out.println(textToSend);
+				protocol.send(textToSend, "127.0.0.1");
+				textAreaRecu.append("me<" + textToSend + "\n");
+				textAreaSaisie.setText("");
 			}
 		});
 		btnEnvoyer.setBounds(504, 520, 89, 60);
@@ -89,7 +104,7 @@ public class ClientUI {
 		scrollPaneSaisie.setBounds(10, 520, 482, 131);
 		panelTchat.add(scrollPaneSaisie);
 
-		JTextArea textAreaSaisie = new JTextArea();
+		textAreaSaisie = new JTextArea();
 		scrollPaneSaisie.setViewportView(textAreaSaisie);
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -97,8 +112,8 @@ public class ClientUI {
 		scrollPane.setBounds(10, 11, 583, 496);
 		panelTchat.add(scrollPane);
 
-		JTextPane textPane = new JTextPane();
-		scrollPane.setViewportView(textPane);
+		textAreaRecu = new JTextArea();
+		scrollPane.setViewportView(textAreaRecu);
 		
 		JScrollPane scrollPaneClient = new JScrollPane();
 		scrollPaneClient.setBounds(10, 11, 172, 640);
@@ -112,5 +127,10 @@ public class ClientUI {
         clientVector.add(new String("Raph"));
 		JList listClients = new JList(clientVector);
 		scrollPaneClient.setViewportView(listClients);
+	}
+	
+	public void addMessage(String msg)
+	{
+		textAreaRecu.append(msg + "\n");
 	}
 }

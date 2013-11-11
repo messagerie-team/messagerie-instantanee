@@ -2,6 +2,8 @@ package clientServer;
 
 import java.net.*;
 
+import userInterface.ClientUI;
+
 public class ThreadListenerUDP extends Thread {
 
 	// Pourquoi 60000 ? Limite théorique = 65535, limite en IPv4 = 65507
@@ -11,13 +13,14 @@ public class ThreadListenerUDP extends Thread {
 	private DatagramSocket socket;
 	// Boolean permettant de stopper le Thread
 	private boolean running;
+	ClientUI client;
 	
 	/**
 	 * Constructeur de la classe ThreadListenerUDP.
 	 * Il recoit le port d'écoute en paramètre.
 	 * @param port
 	 */
-	public ThreadListenerUDP(int port)
+	public ThreadListenerUDP(int port, ClientUI c)
 	{
 		this.port = port;
 	}
@@ -38,6 +41,8 @@ public class ThreadListenerUDP extends Thread {
 				socket.receive(data);
 				//System.out.println(data.getAddress());
 				System.out.println(new String(data.getData()));
+//				client.addMessage(new String(data.getData()));
+				
 			}
 		} catch (Exception e) 
 		{
