@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.StringTokenizer;
 
+import dataLink.Protocol;
 import dataLink.ProtocolTCP;
 
 /**
@@ -17,7 +18,7 @@ public class ThreadComunicationClient extends Thread
 {
 	private Client client;
 	private Socket socket;
-	private ProtocolTCP protocol;
+	private Protocol protocol;
 	private boolean running;
 
 	public ThreadComunicationClient(Client client)
@@ -239,7 +240,7 @@ public class ThreadComunicationClient extends Thread
 		this.socket = socket;
 	}
 
-	public ProtocolTCP getProtocol()
+	public Protocol getProtocol()
 	{
 		return protocol;
 	}
