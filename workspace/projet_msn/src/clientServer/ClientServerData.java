@@ -3,7 +3,6 @@ package clientServer;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.security.SecureRandom;
-import java.util.Random;
 
 /**
  * Class permettant de stocker les informations client. Comme son nom, son IP,

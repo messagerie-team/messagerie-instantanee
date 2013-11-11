@@ -1,24 +1,20 @@
 package userInterface;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Vector;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.util.Vector;
-
-import javax.swing.JList;
-
-import clientServer.ThreadListenerUDP;
 import dataLink.ProtocolUDP;
-
-import java.awt.Color;
 
 public class ClientUI
 {
@@ -52,8 +48,6 @@ public class ClientUI
 	public ClientUI()
 	{
 		initialize();
-		ThreadListenerUDP threadListenerUDP = new ThreadListenerUDP(30006, this);
-		threadListenerUDP.start();
 	}
 
 	/**

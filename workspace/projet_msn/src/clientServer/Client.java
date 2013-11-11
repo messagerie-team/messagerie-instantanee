@@ -1,10 +1,7 @@
 package clientServer;
 
-import java.net.Socket;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.Set;
-import java.util.Iterator;
 import java.util.StringTokenizer;
 
 public class Client extends AbstractClientServer
@@ -23,13 +20,13 @@ public class Client extends AbstractClientServer
 		this.clientList = new HashMap<String, String>();
 		this.threadComunicationClient = new ThreadComunicationClient(this);
 		this.threadListenerUDP = new ThreadListenerUDP(listeningUDPPort);
+		this.threadListenerUDP.start();
 	}
 
 	public void registerToServer()
 	{
 		try
 		{
-			// threadComunicationClient.start();
 			this.launchThread();
 			Thread.sleep(500);
 			threadComunicationClient.registerClient(new StringTokenizer(""));
@@ -156,13 +153,13 @@ public class Client extends AbstractClientServer
 	@Override
 	public void treatIncomeUDP(String message)
 	{
-
+		System.out.println(message);
 	}
 
 	public static void main(String[] args)
 	{
 		Scanner sc = new Scanner(System.in);
-		Client client = new Client("client2", 30002);
+		Client client = new Client("client1", 30001);
 		boolean running = true;
 		while (running)
 		{
@@ -185,9 +182,14 @@ public class Client extends AbstractClientServer
 				client.askListToServer();
 				break;
 			case "connectionClient":
+				Object[] list = client.clientList.keySet().toArray();
+				System.out.println("Liste des clients:");
+				for (int i = 0; i < list.length; i++)
+				{
+					System.out.println("-" + i + ":" + client.clientList.get(list[i]));
+				}
 				System.out.println("entré le numéro d'ordre dans la liste:");
 				String num = sc.nextLine();
-				Object[] list = client.clientList.keySet().toArray();
 				client.askClientConnectionToServer((String) list[Integer.parseInt(num)]);
 				break;
 			case "refrech":
@@ -199,30 +201,16 @@ public class Client extends AbstractClientServer
 			default:
 				break;
 			}
+			sc.close();
 		}
-		client.registerToServer();
-		while (client.id == null)
-		{
-			try
-			{
-				Thread.sleep(5000);
-			} catch (InterruptedException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		System.out.println("Demande de liste");
-		client.askListToServer();
-		try
-		{
-			Thread.sleep(5000);
-		} catch (InterruptedException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println("Demande de deco");
-		client.unregisterToServer();
+		/*
+		 * client.registerToServer(); while (client.id == null) { try {
+		 * Thread.sleep(5000); } catch (InterruptedException e) { // TODO
+		 * Auto-generated catch block e.printStackTrace(); } }
+		 * System.out.println("Demande de liste"); client.askListToServer(); try
+		 * { Thread.sleep(5000); } catch (InterruptedException e) { // TODO
+		 * Auto-generated catch block e.printStackTrace(); }
+		 * System.out.println("Demande de deco"); client.unregisterToServer();
+		 */
 	}
 }

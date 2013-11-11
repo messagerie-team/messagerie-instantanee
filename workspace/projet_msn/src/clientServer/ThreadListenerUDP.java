@@ -1,71 +1,51 @@
 package clientServer;
 
-import java.net.*;
+import dataLink.Protocol;
+import dataLink.ProtocolUDP;
 
-import userInterface.ClientUI;
-
-public class ThreadListenerUDP extends Thread {
+public class ThreadListenerUDP extends Thread
+{
 
 	private AbstractClientServer clientServer;
 	// Pourquoi 60000 ? Limite théorique = 65535, limite en IPv4 = 65507
-	private static int port;
-	private final static int size = 60000;
-	private static byte buffer[];
-	private DatagramSocket socket;
+	private int port;
 	// Boolean permettant de stopper le Thread
 	private boolean running;
-	ClientUI client;
-	
+
 	/**
-	 * Constructeur de la classe ThreadListenerUDP.
-	 * Il recoit le port d'écoute en paramètre.
+	 * Constructeur de la classe ThreadListenerUDP. Il recoit le port d'écoute
+	 * en paramètre.
+	 * 
 	 * @param port
 	 */
 	public ThreadListenerUDP(int port)
 	{
 		this.port = port;
 	}
-	
-	/**
-	 * Constructeur de la classe ThreadListenerUDP.
-	 * Il recoit le port d'écoute en paramètre.
-	 * @param port
-	 */
-	public ThreadListenerUDP(int port, ClientUI c)
-	{
-		client = c;
-		this.port = port;
-	}
+
 	/**
 	 * Ce thread récéptionne les messages et les affiches dans la console.
 	 */
-	public void run() 
+	public void run()
 	{
-		this.running=true;
-		try 
+		this.running = true;
+		Protocol protocol = new ProtocolUDP(this.port);
+		try
 		{
-			socket = new DatagramSocket(port);
-			while (this.running) 
+			while (this.running)
 			{
-				buffer = new byte[size];
-				DatagramPacket data = new DatagramPacket(buffer, buffer.length);
-				socket.receive(data);
-				//System.out.println(data.getAddress());
-				System.out.println(new String(data.getData()));
-//<<<<<<< HEAD
-////				client.addMessage(new String(data.getData()));
-//			
-				this.clientServer.treatIncomeUDP(new String(data.getData()));
+				String message = protocol.readMessage();
+				this.clientServer.treatIncomeUDP(message);
 			}
-		} catch (Exception e) 
+		} catch (Exception e)
 		{
 			System.err.println("Erreur du ThreadListenerUDP, message: " + e.getMessage());
 		}
 	}
-	
-	public static int getPort()
+
+	public int getPort()
 	{
-		return port;
+		return this.port;
 	}
 
 }
