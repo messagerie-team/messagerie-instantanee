@@ -20,19 +20,19 @@ import clientServer.ThreadListenerUDP;
  * @author Mickael
  * 
  */
-public class Protocol
+public class ProtocolTCP
 {
 	public Socket socket;
 	public PrintWriter writer;
 	public BufferedReader reader;
 
-	public Protocol(PrintWriter writer, BufferedReader reader)
+	public ProtocolTCP(PrintWriter writer, BufferedReader reader)
 	{
 		this.writer = writer;
 		this.reader = reader;
 	}
 
-	public Protocol(Socket socket)
+	public ProtocolTCP(Socket socket)
 	{
 		try
 		{

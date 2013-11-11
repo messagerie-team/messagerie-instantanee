@@ -6,6 +6,7 @@ import userInterface.ClientUI;
 
 public class ThreadListenerUDP extends Thread {
 
+	private AbstractClientServer clientServer;
 	// Pourquoi 60000 ? Limite théorique = 65535, limite en IPv4 = 65507
 	private static int port;
 	private final static int size = 60000;
@@ -41,8 +42,12 @@ public class ThreadListenerUDP extends Thread {
 				socket.receive(data);
 				//System.out.println(data.getAddress());
 				System.out.println(new String(data.getData()));
+<<<<<<< HEAD
 //				client.addMessage(new String(data.getData()));
 				
+=======
+				this.clientServer.treatIncomeUDP(new String(data.getData()));
+>>>>>>> 001b442e3f8e111adb9387e93b62dd8467a6fd2d
 			}
 		} catch (Exception e) 
 		{
