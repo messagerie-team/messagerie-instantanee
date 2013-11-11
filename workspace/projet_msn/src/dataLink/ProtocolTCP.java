@@ -9,11 +9,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-<<<<<<< HEAD
-=======
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
->>>>>>> 5f12c63e013d0450d5c06ee0d018adb09f6dfe85
 import java.net.InetAddress;
 import java.net.Socket;
 
