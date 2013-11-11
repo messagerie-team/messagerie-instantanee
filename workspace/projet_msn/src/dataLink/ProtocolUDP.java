@@ -12,7 +12,9 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
 
 import clientServer.ThreadListenerUDP;
 
@@ -20,7 +22,7 @@ import clientServer.ThreadListenerUDP;
  * @author Mickael
  * 
  */
-public class ProtocolUDP
+public class ProtocolUDP extends Protocol
 {
 	public DatagramSocket socket;
 	public DatagramPacket writer;
@@ -28,27 +30,27 @@ public class ProtocolUDP
 	private static byte bufferReader[];
 	private final static int sizeBufferReader = 60000;
 
-	public ProtocolUDP(DatagramPacket writer, DatagramPacket reader)
+	public ProtocolUDP(int localPort)
 	{
-		this.writer = writer;
-		this.reader = reader;
+		try
+		{
+			this.socket = new DatagramSocket(localPort);
+			this.writer = new DatagramPacket(null, 0);
+			this.reader = new DatagramPacket(bufferReader, sizeBufferReader);
+		} catch (SocketException e)
+		{
+			System.err.println("Erreur d'initialisation de ProtocolUDP, message: " + e.getMessage());
+		}
 	}
 
-	public ProtocolUDP(DatagramSocket socket)
-	{
-		this.socket = socket;
-		this.writer = new DatagramPacket(null, 0);
-		this.reader = new DatagramPacket(bufferReader, sizeBufferReader);
-	}
-
-	public void sendMessage(String message)
+	public void sendMessage(String message, InetAddress adress, int port)
 	{
 		byte buffer[];
 		try
 		{
 			buffer = message.getBytes("UTF-8");
 			int length = buffer.length;
-			this.writer = new DatagramPacket(buffer, length);
+			this.writer = new DatagramPacket(buffer, length, adress, port);
 			this.socket.send(writer);
 		} catch (IOException e)
 		{

@@ -9,23 +9,18 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
 
 /**
  * @author Mickael
  * 
  */
-public class ProtocolTCP
+public class ProtocolTCP extends Protocol
 {
 	public Socket socket;
 	public PrintWriter writer;
 	public BufferedReader reader;
-
-	public ProtocolTCP(PrintWriter writer, BufferedReader reader)
-	{
-		this.writer = writer;
-		this.reader = reader;
-	}
 
 	public ProtocolTCP(Socket socket)
 	{
@@ -40,9 +35,14 @@ public class ProtocolTCP
 		}
 	}
 
-	public void sendMessage(String message)
+	public void sendMessage(String message, InetAddress adress, int port)
 	{
 		this.writer.println(message);
+	}
+
+	public void sendMessage(String message)
+	{
+		this.sendMessage(message, null, 0);
 	}
 
 	public String readMessage()
