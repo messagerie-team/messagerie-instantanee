@@ -3,6 +3,7 @@ package clientServer;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.StringTokenizer;
 
 import dataLink.ProtocolTCP;
@@ -14,17 +15,21 @@ import dataLink.ProtocolTCP;
  * @author raphael
  * 
  */
-public class ThreadComunicationServer extends Thread
+public class ThreadComunicationClient extends Thread
 {
-	private Server server;
+	private Client client;
 	private Socket socket;
 	private ProtocolTCP protocol;
 	private boolean running;
-	private String tempVar;
 
-	public ThreadComunicationServer(Server server, Socket socket)
+	public ThreadComunicationClient(Client client)
 	{
-		this.server = server;
+		this.client = client;
+	}
+
+	public ThreadComunicationClient(Client client, Socket socket)
+	{
+		this.client = client;
 		this.socket = socket;
 		this.protocol = new ProtocolTCP(socket);
 	}
@@ -34,12 +39,20 @@ public class ThreadComunicationServer extends Thread
 	{
 		try
 		{
+			this.socket = new Socket("localhost", 30970);
+			this.protocol = new ProtocolTCP(socket);
+		} catch (Exception e)
+		{
+			System.err.println("Erreur du ThreadComunicationClient,Connexion, message: " + e.getMessage());
+		}
+		try
+		{
 			System.out.println("Lancement du Thread de communication");
 			this.running = true;
 			while (running)
 			{
 				Thread.sleep(500);
-				// On attent que le client nous envoie un message
+				// On attent que le serveur nous envoie un message
 				String message = protocol.readMessage();
 				// On traite ensuite le message reçu.
 				this.messageTraitement(message);
@@ -48,7 +61,7 @@ public class ThreadComunicationServer extends Thread
 			this.socket.close();
 		} catch (IOException | InterruptedException e)
 		{
-			System.err.println("Erreur du ThreadComunicationServer, message: " + e.getMessage());
+			System.err.println("Erreur du ThreadComunicationClient, message: " + e.getMessage());
 			// e.printStackTrace();
 		}
 	}
@@ -90,12 +103,10 @@ public class ThreadComunicationServer extends Thread
 		case "unregister":
 			this.unregisterClient(token);
 			break;
-		case "list":
-			this.askListClient(token);
-			break;
 		case "clientConnection":
 			this.getClientConnection(token);
 			break;
+
 		default:
 			break;
 		}
@@ -123,72 +134,65 @@ public class ThreadComunicationServer extends Thread
 		}
 	}
 
-	private void unregisterClient(StringTokenizer token)
+	public void unregisterClient(StringTokenizer token)
 	{
-		if (token.hasMoreTokens())
-		{
-			String id = token.nextToken();
-			this.server.removeClient(id);
-			this.protocol.sendMessage("reply:unregister:DONE");
-			this.stopThread();
-		}
-	}
-
-	private void registerClient(StringTokenizer token)
-	{
-		// Si on a un element de plus dans le token, alors il s'agit d'un reply
 		if (token.hasMoreTokens())
 		{
 			String nextToken = token.nextToken();
-			if (token.hasMoreTokens())
+			switch (nextToken)
 			{
-				switch (nextToken)
-				{
-				case "name":
-					// On informe le client qu'on a bien reçu son nom
-					this.protocol.sendMessage("reply:register:name:OK");
-					this.tempVar = token.nextToken();
-					this.protocol.sendMessage("request:register:port");
-					break;
-				case "port":
-					this.protocol.sendMessage("reply:register:port:OK");
-					String stringPort = token.nextToken();
-					int port = Integer.parseInt(stringPort);
-					String id = this.server.addClient(this.tempVar, this.socket, port);
-					if (id != null)
-					{
-						this.protocol.sendMessage("reply:register:id:" + id);
-						// System.out.println(this.server.getClients());
-						// this.stopThread();
-					}
-					break;
-				case "id":
-					this.protocol.sendMessage("reply:register:DONE");
-					System.out.println(this.server.getClients());
-					this.stopThread();
-					break;
-				default:
-					break;
-				}
+			case "DONE":
+				this.stopThread();
+				break;
+
+			default:
+				this.stopThread();
+				break;
 			}
-		}
-		// Sinon c'est qu'il s'agit d'un request
-		else
+		} else
 		{
-			System.out.println("Demande d'enregistrement");
-			try
+			this.protocol.sendMessage("request:unregister:" + this.client.getId());
+		}
+	}
+
+	public void registerClient(StringTokenizer token)
+	{
+		if (token.hasMoreTokens())
+		{
+			String nextToken = token.nextToken();
+			switch (nextToken)
 			{
-				PrintWriter out = new PrintWriter(this.socket.getOutputStream());
-				out.println("test");
-			} catch (IOException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			case "name":
+				if (!token.hasMoreTokens())
+				{
+					this.protocol.sendMessage("reply:register:name:" + this.client.getName());
+				}
+				break;
+			case "port":
+				if (!token.hasMoreTokens())
+				{
+					this.protocol.sendMessage("reply:register:port:" + this.client.getListeningUDPPort());
+				}
+				break;
+			case "id":
+				if (token.hasMoreTokens())
+				{
+					this.client.setId(token.nextToken());
+					this.protocol.sendMessage("reply:register:id:OK");
+				}
+				break;
+			case "OK":
+				break;
+			case "DONE":
+				this.stopThread();
+				break;
+			default:
+				this.stopThread();
+				break;
 			}
-			// On envoie un message pour dire que on a bien recu son message
-			this.protocol.sendMessage("reply:register:OK");
-			// On envoie un autre pour demander son nom
-			this.protocol.sendMessage("request:register:name");
+		} else
+		{
+			this.protocol.sendMessage("request:register");
 		}
 	}
 
@@ -196,30 +200,30 @@ public class ThreadComunicationServer extends Thread
 	{
 		if (token.hasMoreTokens())
 		{
+			String list = token.nextToken();
+			this.client.addClientList(list);
+			this.protocol.sendMessage("reply:list:DONE");
 			this.stopThread();
 		} else
 		{
-			this.protocol.sendMessage("reply:list:" + this.server.getListClient());
+			this.protocol.sendMessage("request:list");
+		}
+	}
+
+	public void getClientConnection(StringTokenizer token)
+	{
+		if (token.hasMoreTokens())
+		{
+			System.out.println(token.nextToken());
+		} else
+		{
+			
 		}
 	}
 	
-	public void getClientConnection(StringTokenizer token)
+	public void getClientConnection(String clientId)
 	{
-		if(token.hasMoreTokens())
-		{
-			String clientId = token.nextToken();
-			String requested = this.server.getClient(clientId);
-			if(requested!=null)
-			{
-				this.protocol.sendMessage("reply:clientConnection:"+requested);
-			}else
-			{
-				this.stopThread();
-			}
-		}else
-		{
-			this.stopThread();
-		}
+		this.protocol.sendMessage("request:clientConnection:"+clientId);
 	}
 
 	public void stopThread()

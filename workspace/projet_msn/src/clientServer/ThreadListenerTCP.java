@@ -17,7 +17,7 @@ import java.net.Socket;
 public class ThreadListenerTCP extends Thread
 {
 	// Serveur a qui appartient le thread d'ecoute
-	private Server server;
+	private AbstractClientServer clientServer;
 	// Socket permettant le dialogue
 	private ServerSocket socket;
 	// Boolean permettant de stopper le Thread
@@ -31,11 +31,11 @@ public class ThreadListenerTCP extends Thread
 	 * @param port
 	 *            numero de port d'ecoute
 	 */
-	public ThreadListenerTCP(Server server, int port)
+	public ThreadListenerTCP(AbstractClientServer server, int port)
 	{
 		try
 		{
-			this.server = server;
+			this.clientServer = server;
 			this.socket = new ServerSocket(port);
 			this.running = false;
 		} catch (IOException e)
@@ -56,8 +56,9 @@ public class ThreadListenerTCP extends Thread
 				Socket socketClient = this.socket.accept();
 				// Si on a une connection avec un client
 				// On lance un thread de discution avec le client
-				ThreadComunicationServer threadClientCom = new ThreadComunicationServer(this.server, socketClient);
-				threadClientCom.start();
+				this.clientServer.treatIncomeTCP(socketClient);
+				//ThreadComunicationServer threadClientCom = new ThreadComunicationServer(this.server, socketClient);
+				//threadClientCom.start();
 			}
 			System.out.println("Arret du Thread d'ecoute");
 			this.socket.close();

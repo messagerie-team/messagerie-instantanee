@@ -11,7 +11,7 @@ import java.util.Vector;
  * @author Mickael
  * 
  */
-public class Server
+public class Server extends AbstractClientServer
 {
 	// Liste des clients que connait le serveur
 	private Vector<ClientServerData> clients;
@@ -65,9 +65,9 @@ public class Server
 	 *            Socket du client
 	 * @return true si client ajouté, false sinon.
 	 */
-	public String addClient(String name, Socket client)
+	public String addClient(String name, Socket client, int listeningUDPPort)
 	{
-		if (this.clients.add(new ClientServerData(name, client.getInetAddress(), client.getPort())))
+		if (this.clients.add(new ClientServerData(name, client.getInetAddress(), listeningUDPPort)))
 		{
 			return this.clients.lastElement().getId();
 		} else
@@ -146,6 +146,18 @@ public class Server
 		}
 		return ret;
 	}
+	
+	public String getClient(String id)
+	{
+		for (ClientServerData client : this.clients)
+		{
+			if(client.getId().equals(id))
+			{
+				return client.getId()+"|"+client.getIp()+"|"+client.getPort();
+			}
+		}
+		return null;
+	}
 
 	public Vector<ClientServerData> getClients()
 	{
@@ -167,10 +179,28 @@ public class Server
 		this.threadListener = threadListener;
 	}
 
+	@Override
+	public void treatIncomeTCP(Object object)
+	{
+		if (object instanceof Socket)
+		{
+			ThreadComunicationServer threadClientCom = new ThreadComunicationServer(this, (Socket) object);
+			threadClientCom.start();
+		}else
+		{
+			System.err.println("Erreur serveur, treatIncome: mauvaise argument");
+		}
+	}
+	
+	@Override
+	public void treatIncomeUDP(String message)
+	{
+		
+	}
+
 	public static void main(String[] args)
 	{
 		Server server = new Server();
 		server.launch();
 	}
-
 }
