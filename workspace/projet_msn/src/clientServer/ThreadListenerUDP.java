@@ -8,7 +8,7 @@ public class ThreadListenerUDP extends Thread
 
 	private AbstractClientServer clientServer;
 	// Pourquoi 60000 ? Limite théorique = 65535, limite en IPv4 = 65507
-	private static int port;
+	private int port;
 	// Boolean permettant de stopper le Thread
 	private boolean running;
 
@@ -43,7 +43,7 @@ public class ThreadListenerUDP extends Thread
 		}
 	}
 
-	public static int getPort()
+	public int getPort()
 	{
 		return port;
 	}

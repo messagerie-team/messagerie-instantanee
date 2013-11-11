@@ -9,12 +9,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
-
-import clientServer.ThreadListenerUDP;
 
 /**
  * @author Mickael
@@ -79,22 +75,5 @@ public class ProtocolTCP extends Protocol
 	public void setReader(BufferedReader reader)
 	{
 		this.reader = reader;
-	}
-		
-	public void send(String message, String ip)
-	{
-		InetAddress server;
-		try {
-			server = InetAddress.getByName(ip);
-			byte buffer[] = message.getBytes("UTF-8"); 
-			int length = buffer.length;			
-			// System.out.println("BUFFER : " + message + " ET TAILLE : " + length);
-			DatagramPacket dataSent = new DatagramPacket(buffer,length,server,ThreadListenerUDP.getPort()); 
-			DatagramSocket socket = new DatagramSocket(); 
-			socket.send(dataSent); 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 	
 	}
 }
