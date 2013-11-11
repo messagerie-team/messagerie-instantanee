@@ -41,6 +41,10 @@ public class ProtocolUDP
 		this.reader = new DatagramPacket(bufferReader, sizeBufferReader);
 	}
 
+	public ProtocolUDP() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public void sendMessage(String message)
 	{
 		byte buffer[];

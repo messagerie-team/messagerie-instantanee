@@ -16,7 +16,7 @@ import java.util.Vector;
 import javax.swing.JList;
 
 import clientServer.ThreadListenerUDP;
-import dataLink.Protocol;
+import dataLink.ProtocolUDP;
 
 import java.awt.Color;
 
@@ -26,7 +26,7 @@ public class ClientUI
 	private JFrame frame;
 	private final static int size = 60000; 
 	private final static byte buffer[] = new byte[size];
-	private static Protocol protocol = new Protocol();
+	private static ProtocolUDP protocol = new ProtocolUDP();
 	private JTextArea textAreaSaisie;
 	private JTextArea textAreaRecu;
 	/**
@@ -80,7 +80,7 @@ public class ClientUI
 			{
 				String textToSend = textAreaSaisie.getText();
 				System.out.println(textToSend);
-				protocol.send(textToSend, "127.0.0.1");
+				protocol.sendMessage(textToSend);
 				textAreaRecu.append("me<" + textToSend + "\n");
 				textAreaSaisie.setText("");
 			}

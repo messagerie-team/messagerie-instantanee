@@ -45,10 +45,6 @@ public class ProtocolTCP
 		}
 	}
 
-	public Protocol() {
-		// TODO Auto-generated constructor stub
-	}
-
 	public void sendMessage(String message)
 	{
 		this.writer.println(message);

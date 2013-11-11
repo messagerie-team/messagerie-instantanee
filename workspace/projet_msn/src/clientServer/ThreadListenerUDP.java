@@ -21,11 +21,21 @@ public class ThreadListenerUDP extends Thread {
 	 * Il recoit le port d'écoute en paramètre.
 	 * @param port
 	 */
-	public ThreadListenerUDP(int port, ClientUI c)
+	public ThreadListenerUDP(int port)
 	{
 		this.port = port;
 	}
 	
+	/**
+	 * Constructeur de la classe ThreadListenerUDP.
+	 * Il recoit le port d'écoute en paramètre.
+	 * @param port
+	 */
+	public ThreadListenerUDP(int port, ClientUI c)
+	{
+		client = c;
+		this.port = port;
+	}
 	/**
 	 * Ce thread récéptionne les messages et les affiches dans la console.
 	 */
@@ -42,12 +52,10 @@ public class ThreadListenerUDP extends Thread {
 				socket.receive(data);
 				//System.out.println(data.getAddress());
 				System.out.println(new String(data.getData()));
-<<<<<<< HEAD
-//				client.addMessage(new String(data.getData()));
-				
-=======
+//<<<<<<< HEAD
+////				client.addMessage(new String(data.getData()));
+//			
 				this.clientServer.treatIncomeUDP(new String(data.getData()));
->>>>>>> 001b442e3f8e111adb9387e93b62dd8467a6fd2d
 			}
 		} catch (Exception e) 
 		{
