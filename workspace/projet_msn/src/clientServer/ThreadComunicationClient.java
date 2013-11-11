@@ -213,16 +213,21 @@ public class ThreadComunicationClient extends Thread
 	{
 		if (token.hasMoreTokens())
 		{
-			System.out.println(token.nextToken());
+			// System.out.println(token.nextToken());
+			String[] elements = token.nextToken().split("|");
+			if (elements.length == 3)
+			{
+				this.client.starDialogToClient(elements[0], elements[1], elements[2]);
+			}
 		} else
 		{
-			
+
 		}
 	}
-	
+
 	public void getClientConnection(String clientId)
 	{
-		this.protocol.sendMessage("request:clientConnection:"+clientId);
+		this.protocol.sendMessage("request:clientConnection:" + clientId);
 	}
 
 	public void stopThread()

@@ -26,7 +26,9 @@ public class ProtocolUDP extends Protocol
 		try
 		{
 			this.socket = new DatagramSocket(localPort);
-			this.writer = new DatagramPacket(null, 0);
+			byte[] buffer = ("").getBytes();
+			bufferReader = new byte[sizeBufferReader];
+			this.writer = new DatagramPacket(buffer, 0);
 			this.reader = new DatagramPacket(bufferReader, sizeBufferReader);
 		} catch (SocketException e)
 		{
@@ -49,7 +51,8 @@ public class ProtocolUDP extends Protocol
 		}
 	}
 
-	public ProtocolUDP() {
+	public ProtocolUDP()
+	{
 		// TODO Auto-generated constructor stub
 	}
 

@@ -1,16 +1,23 @@
 package clientServer;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.StringTokenizer;
+import java.util.Vector;
+
+import dataLink.Protocol;
+import dataLink.ProtocolUDP;
 
 public class Client extends AbstractClientServer
 {
 	private String id;
 	private String name;
-	private int listeningUDPPort;
 	private HashMap<String, String> clientList;
+	private Vector<ClientDialog> dialogs;
 	private ThreadComunicationClient threadComunicationClient;
+	private int listeningUDPPort;
 	private ThreadListenerUDP threadListenerUDP;
 
 	public Client(String name, int listeningUDPPort)
@@ -18,6 +25,7 @@ public class Client extends AbstractClientServer
 		this.name = name;
 		this.listeningUDPPort = listeningUDPPort;
 		this.clientList = new HashMap<String, String>();
+		this.dialogs = new Vector<ClientDialog>();
 		this.threadComunicationClient = new ThreadComunicationClient(this);
 		this.threadListenerUDP = new ThreadListenerUDP(listeningUDPPort);
 		this.threadListenerUDP.start();
@@ -72,6 +80,23 @@ public class Client extends AbstractClientServer
 			this.threadComunicationClient.getClientConnection(clientId);
 		} catch (InterruptedException e)
 		{
+			e.printStackTrace();
+		}
+	}
+
+	public void starDialogToClient(String idClient, String ip, String port)
+	{
+		try
+		{
+			ClientDialog dialog = new ClientDialog(this.listeningUDPPort);
+			dialog.addClient(new ClientServerData(this.clientList.get(idClient), InetAddress.getByName(ip), Integer.parseInt(port)));
+			String idDialog = dialog.getIdDialog();
+			Protocol protocol = new ProtocolUDP();
+			protocol.sendMessage("dialog:newDialog:" + idDialog, InetAddress.getByName(ip), Integer.parseInt(port));
+			protocol.sendMessage("dialog:newDialog:clients:" + idDialog + ":" + this.id, InetAddress.getByName(ip), Integer.parseInt(port));
+		} catch (NumberFormatException | UnknownHostException e)
+		{
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -147,19 +172,125 @@ public class Client extends AbstractClientServer
 	public void treatIncomeTCP(Object object)
 	{
 		// TODO Auto-generated method stub
-
+		// Pour le moment pas d'income TCP a géré vue que aucune machine ne se
+		// connecte a un client en TCP
 	}
 
 	@Override
 	public void treatIncomeUDP(String message)
 	{
 		System.out.println(message);
+		StringTokenizer token = new StringTokenizer(message, ":");
+		String firstToken = token.nextToken();
+		switch (firstToken)
+		{
+		case "dialog":
+			this.treatIncomeDialog(token);
+			break;
+
+		default:
+			break;
+		}
+
+	}
+
+	public void treatIncomeDialog(StringTokenizer token)
+	{
+		if (token.hasMoreTokens())
+		{
+			String nextToken = token.nextToken();
+			switch (nextToken)
+			{
+			case "newDialog":
+				// Dans le cas d'une demande de dialogue d'un autre client
+				if (token.hasMoreTokens())
+				{
+					// On récupère l'id de conversation
+					String idDialog = token.nextToken();
+					// SI c'est bien un id de conversation, alors on crée la
+					// conversation
+					if (idDialog.length() > 5)
+					{
+						// On crée le dialog
+						this.dialogs.add(new ClientDialog(idDialog, this.listeningUDPPort));
+					}
+
+					else if (idDialog.equals("clients"))
+					{
+						if (token.hasMoreTokens())
+						{
+							String realIdDialog = token.nextToken();
+							if (token.hasMoreTokens())
+							{
+								ClientDialog dialog = null;
+								for (ClientDialog dialogL : this.dialogs)
+								{
+									if (dialog.getIdDialog().equals(realIdDialog))
+									{
+										dialog = dialogL;
+									}
+								}
+								if (dialog != null)
+								{
+									String[] clients = token.nextToken().split("|");
+									for (String client : clients)
+									{
+										if(this.clientList.containsKey(client))
+										{
+											//dialog.addClient(new ClientServerData(this.clientList.get(client), ip, port));
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				/*
+				 * // Dans le cas d'une génération de dialog de notre part
+				 * 
+				 * else { ClientDialog dialog = new
+				 * ClientDialog(this.listeningUDPPort);
+				 * this.dialogs.add(dialog);
+				 * dialog.sendMessage("dialog:newDialog:" +
+				 * dialog.getIdDialog()); } break;
+				 */
+
+			default:
+				if (token.hasMoreTokens())
+				{
+					String idDialog = token.nextToken();
+					// SI c'est bien un id de conversation, alors on crée la
+					// conversation
+					if (idDialog.length() > 5 && token.hasMoreTokens())
+					{
+						for (ClientDialog dialog : this.dialogs)
+						{
+							if (dialog.getIdDialog().equals(idDialog))
+							{
+								// On récupère le message
+								String message = token.nextToken();
+								while (token.hasMoreTokens())
+								{
+									message += ":" + token.nextToken();
+								}
+								// On indique qu'on a reçu un message
+								dialog.receiveMessage(message);
+							}
+						}
+					}
+				}
+				break;
+			}
+		} else
+		{
+
+		}
 	}
 
 	public static void main(String[] args)
 	{
 		Scanner sc = new Scanner(System.in);
-		Client client = new Client("client1", 30001);
+		Client client = new Client("client12", 30002);
 		boolean running = true;
 		while (running)
 		{
@@ -201,8 +332,9 @@ public class Client extends AbstractClientServer
 			default:
 				break;
 			}
-			sc.close();
+
 		}
+		sc.close();
 		/*
 		 * client.registerToServer(); while (client.id == null) { try {
 		 * Thread.sleep(5000); } catch (InterruptedException e) { // TODO
