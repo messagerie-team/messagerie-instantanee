@@ -12,12 +12,16 @@ public class ClientDialog
 	private String idDialog;
 	private Vector<ClientServerData> clients;
 	private Protocol protocol;
+	private String dialogue;
+	private String lastMessage;
 
-	public ClientDialog(String idDialog, int port)
+	public ClientDialog(String idDialog, Protocol protocol)
 	{
 		this.idDialog = idDialog;
 		this.clients = new Vector<ClientServerData>();
-		this.protocol = new ProtocolUDP(port);
+		this.protocol = protocol;
+		this.dialogue = "";
+		this.lastMessage = "";
 	}
 
 	public ClientDialog(int port)
@@ -26,6 +30,13 @@ public class ClientDialog
 		this.idDialog = new BigInteger(130, random).toString(32);
 		this.clients = new Vector<ClientServerData>();
 		this.protocol = new ProtocolUDP(port);
+		this.dialogue = "";
+	}
+
+	private void addMessage(String message)
+	{
+		this.dialogue += "\n" + message;
+		this.lastMessage = message;
 	}
 
 	public void sendMessage(String message)
@@ -33,12 +44,14 @@ public class ClientDialog
 		for (ClientServerData client : this.clients)
 		{
 			this.protocol.sendMessage(message, client.getIp(), client.getPort());
+			this.addMessage(message);
 		}
 	}
 
 	public String receiveMessage(String message)
 	{
 		System.out.println(this.idDialog + "->" + message);
+		this.addMessage(message);
 		return message;
 	}
 
@@ -82,4 +95,23 @@ public class ClientDialog
 		this.protocol = protocol;
 	}
 
+	public String getDialogue()
+	{
+		return dialogue;
+	}
+
+	public void setDialogue(String dialogue)
+	{
+		this.dialogue = dialogue;
+	}
+
+	public String getLastMessage()
+	{
+		return lastMessage;
+	}
+
+	public void setLastMessage(String lastMessage)
+	{
+		this.lastMessage = lastMessage;
+	}
 }

@@ -14,7 +14,7 @@ import java.util.Vector;
 public class Server extends AbstractClientServer
 {
 	// Liste des clients que connait le serveur
-	private Vector<ClientServerData> clients;
+
 	// Thread d'ecoute du serveur
 	private ThreadListenerTCP threadListener;
 
@@ -24,7 +24,7 @@ public class Server extends AbstractClientServer
 	 */
 	public Server()
 	{
-		this.clients = new Vector<ClientServerData>();
+		super();
 		this.threadListener = new ThreadListenerTCP(this, 30970);
 	}
 
@@ -36,7 +36,7 @@ public class Server extends AbstractClientServer
 	 */
 	public Server(int port)
 	{
-		this.clients = new Vector<ClientServerData>();
+		super();
 		this.threadListener = new ThreadListenerTCP(this, port);
 	}
 
@@ -67,9 +67,9 @@ public class Server extends AbstractClientServer
 	 */
 	public String addClient(String name, Socket client, int listeningUDPPort)
 	{
-		if (this.clients.add(new ClientServerData(name, client.getInetAddress(), listeningUDPPort)))
+		if (this.getClients().add(new ClientServerData(name, client.getInetAddress(), listeningUDPPort)))
 		{
-			return this.clients.lastElement().getId();
+			return this.getClients().lastElement().getId();
 		} else
 		{
 			return null;
@@ -85,7 +85,7 @@ public class Server extends AbstractClientServer
 	 */
 	public boolean removeClient(ClientServerData client)
 	{
-		return this.clients.remove(client);
+		return this.getClients().remove(client);
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class Server extends AbstractClientServer
 	{
 		boolean erase = false;
 		ClientServerData eraseClient = null;
-		for (ClientServerData client : this.clients)
+		for (ClientServerData client : this.getClients())
 		{
 			if (client.getId().equals(id))
 			{
@@ -109,7 +109,7 @@ public class Server extends AbstractClientServer
 		}
 		if (erase)
 		{
-			clients.remove(eraseClient);
+			this.getClients().remove(eraseClient);
 		}
 		return erase;
 	}
@@ -124,11 +124,11 @@ public class Server extends AbstractClientServer
 	public boolean removeClient(InetAddress ip)
 	{
 		boolean erase = false;
-		for (ClientServerData client : this.clients)
+		for (ClientServerData client : this.getClients())
 		{
 			if (client.getIp().equals(ip))
 			{
-				this.clients.remove(client);
+				this.getClients().remove(client);
 				erase = true;
 			}
 		}
@@ -139,34 +139,24 @@ public class Server extends AbstractClientServer
 	{
 		String ret = "";
 		boolean firstOne = true;
-		for (ClientServerData client : this.clients)
+		for (ClientServerData client : this.getClients())
 		{
 			ret += ((firstOne) ? "" : "|") + client.getId() + "-" + client.getName();
 			firstOne = false;
 		}
 		return ret;
 	}
-	
+
 	public String getClient(String id)
 	{
-		for (ClientServerData client : this.clients)
+		for (ClientServerData client : this.getClients())
 		{
-			if(client.getId().equals(id))
+			if (client.getId().equals(id))
 			{
-				return client.getId()+"|"+client.getIp()+"|"+client.getPort();
+				return client.getId() + "|" + client.getName() + "|" + client.getIp().getCanonicalHostName() + "|" + client.getPort();
 			}
 		}
 		return null;
-	}
-
-	public Vector<ClientServerData> getClients()
-	{
-		return clients;
-	}
-
-	public void setClients(Vector<ClientServerData> clients)
-	{
-		this.clients = clients;
 	}
 
 	public ThreadListenerTCP getThreadListener()
@@ -186,16 +176,16 @@ public class Server extends AbstractClientServer
 		{
 			ThreadComunicationServer threadClientCom = new ThreadComunicationServer(this, (Socket) object);
 			threadClientCom.start();
-		}else
+		} else
 		{
 			System.err.println("Erreur serveur, treatIncome: mauvaise argument");
 		}
 	}
-	
+
 	@Override
 	public void treatIncomeUDP(String message)
 	{
-		
+
 	}
 
 	public static void main(String[] args)

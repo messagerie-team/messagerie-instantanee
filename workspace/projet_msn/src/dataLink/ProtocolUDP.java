@@ -16,6 +16,7 @@ import java.net.SocketException;
 public class ProtocolUDP extends Protocol
 {
 	public DatagramSocket socket;
+	public DatagramSocket socketReceive;
 	public DatagramPacket writer;
 	public DatagramPacket reader;
 	private static byte bufferReader[];
@@ -25,7 +26,8 @@ public class ProtocolUDP extends Protocol
 	{
 		try
 		{
-			this.socket = new DatagramSocket(localPort);
+			this.socket = new DatagramSocket();
+			this.socketReceive = new DatagramSocket(localPort);
 			byte[] buffer = ("").getBytes();
 			bufferReader = new byte[sizeBufferReader];
 			this.writer = new DatagramPacket(buffer, 0);
@@ -44,6 +46,7 @@ public class ProtocolUDP extends Protocol
 			buffer = message.getBytes("UTF-8");
 			int length = buffer.length;
 			this.writer = new DatagramPacket(buffer, length, adress, port);
+			this.socket=new DatagramSocket();
 			this.socket.send(writer);
 		} catch (IOException e)
 		{
@@ -77,7 +80,7 @@ public class ProtocolUDP extends Protocol
 		{
 			bufferReader = new byte[sizeBufferReader];
 			DatagramPacket data = new DatagramPacket(bufferReader, sizeBufferReader);
-			socket.receive(data);
+			socketReceive.receive(data);
 			return new String(data.getData());
 		} catch (IOException e)
 		{

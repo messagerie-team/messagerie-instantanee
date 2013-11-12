@@ -8,9 +8,10 @@ public class ThreadListenerUDP extends Thread
 
 	private AbstractClientServer clientServer;
 	// Pourquoi 60000 ? Limite théorique = 65535, limite en IPv4 = 65507
-	private int port;
+	// private int port;
 	// Boolean permettant de stopper le Thread
 	private boolean running;
+	private Protocol protocol;
 
 	/**
 	 * Constructeur de la classe ThreadListenerUDP. Il recoit le port d'écoute
@@ -18,9 +19,10 @@ public class ThreadListenerUDP extends Thread
 	 * 
 	 * @param port
 	 */
-	public ThreadListenerUDP(int port)
+	public ThreadListenerUDP(AbstractClientServer clientServer, Protocol protocol)
 	{
-		this.port = port;
+		this.protocol = protocol;
+		this.clientServer = clientServer;
 	}
 
 	/**
@@ -29,7 +31,7 @@ public class ThreadListenerUDP extends Thread
 	public void run()
 	{
 		this.running = true;
-		Protocol protocol = new ProtocolUDP(this.port);
+
 		try
 		{
 			while (this.running)
@@ -41,11 +43,6 @@ public class ThreadListenerUDP extends Thread
 		{
 			System.err.println("Erreur du ThreadListenerUDP, message: " + e.getMessage());
 		}
-	}
-
-	public int getPort()
-	{
-		return port;
 	}
 
 }

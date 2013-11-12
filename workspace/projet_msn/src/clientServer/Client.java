@@ -19,15 +19,18 @@ public class Client extends AbstractClientServer
 	private ThreadComunicationClient threadComunicationClient;
 	private int listeningUDPPort;
 	private ThreadListenerUDP threadListenerUDP;
-
+	private Protocol protocol;
+	
 	public Client(String name, int listeningUDPPort)
 	{
+		super();
 		this.name = name;
 		this.listeningUDPPort = listeningUDPPort;
+		this.protocol= new ProtocolUDP(listeningUDPPort);
 		this.clientList = new HashMap<String, String>();
 		this.dialogs = new Vector<ClientDialog>();
 		this.threadComunicationClient = new ThreadComunicationClient(this);
-		this.threadListenerUDP = new ThreadListenerUDP(listeningUDPPort);
+		this.threadListenerUDP = new ThreadListenerUDP(this,this.protocol);
 		this.threadListenerUDP.start();
 	}
 
@@ -78,23 +81,33 @@ public class Client extends AbstractClientServer
 			this.launchThread();
 			Thread.sleep(500);
 			this.threadComunicationClient.getClientConnection(clientId);
+			int cpt = 0;
+			int sizeClients = this.getClients().size();
+			System.out.println("taille : "+sizeClients);
+			while (cpt < 50 && this.getClients().size() == sizeClients)
+			{
+				Thread.sleep(1000);
+			}
+			System.out.println("taille1 : "+sizeClients);
+			this.startDialogToClient(this.getClients().lastElement());
 		} catch (InterruptedException e)
 		{
 			e.printStackTrace();
 		}
 	}
 
-	public void starDialogToClient(String idClient, String ip, String port)
+	public void startDialogToClient(ClientServerData client)
 	{
 		try
 		{
+			System.out.println("Début de dialogue");
 			ClientDialog dialog = new ClientDialog(this.listeningUDPPort);
-			dialog.addClient(new ClientServerData(this.clientList.get(idClient), InetAddress.getByName(ip), Integer.parseInt(port)));
+			dialog.addClient(client);
 			String idDialog = dialog.getIdDialog();
 			Protocol protocol = new ProtocolUDP();
-			protocol.sendMessage("dialog:newDialog:" + idDialog, InetAddress.getByName(ip), Integer.parseInt(port));
-			protocol.sendMessage("dialog:newDialog:clients:" + idDialog + ":" + this.id, InetAddress.getByName(ip), Integer.parseInt(port));
-		} catch (NumberFormatException | UnknownHostException e)
+			protocol.sendMessage("dialog:newDialog:" + idDialog, client.getIp(), client.getPort());
+			protocol.sendMessage("dialog:newDialog:clients:" + idDialog + ":" + this.id, client.getIp(), client.getPort());
+		} catch (NumberFormatException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -168,6 +181,36 @@ public class Client extends AbstractClientServer
 		this.listeningUDPPort = listeningUDPPort;
 	}
 
+	public Vector<ClientDialog> getDialogs()
+	{
+		return dialogs;
+	}
+
+	public void setDialogs(Vector<ClientDialog> dialogs)
+	{
+		this.dialogs = dialogs;
+	}
+
+	public ThreadComunicationClient getThreadComunicationClient()
+	{
+		return threadComunicationClient;
+	}
+
+	public void setThreadComunicationClient(ThreadComunicationClient threadComunicationClient)
+	{
+		this.threadComunicationClient = threadComunicationClient;
+	}
+
+	public ThreadListenerUDP getThreadListenerUDP()
+	{
+		return threadListenerUDP;
+	}
+
+	public void setThreadListenerUDP(ThreadListenerUDP threadListenerUDP)
+	{
+		this.threadListenerUDP = threadListenerUDP;
+	}
+
 	@Override
 	public void treatIncomeTCP(Object object)
 	{
@@ -212,7 +255,7 @@ public class Client extends AbstractClientServer
 					if (idDialog.length() > 5)
 					{
 						// On crée le dialog
-						this.dialogs.add(new ClientDialog(idDialog, this.listeningUDPPort));
+						this.dialogs.add(new ClientDialog(idDialog, this.protocol));
 					}
 
 					else if (idDialog.equals("clients"))
@@ -235,9 +278,25 @@ public class Client extends AbstractClientServer
 									String[] clients = token.nextToken().split("|");
 									for (String client : clients)
 									{
-										if(this.clientList.containsKey(client))
+										boolean estAjoute = false;
+										for (ClientServerData clientSe : this.getClients())
 										{
-											//dialog.addClient(new ClientServerData(this.clientList.get(client), ip, port));
+											if (clientSe.getId().equals(client))
+											{
+												dialog.addClient(clientSe);
+												estAjoute = true;
+											}
+										}
+										if (!estAjoute)
+										{
+											this.askClientConnectionToServer(client);
+											try
+											{
+												Thread.sleep(500);
+											} catch (InterruptedException e)
+											{
+												e.printStackTrace();
+											}
 										}
 									}
 								}
@@ -290,7 +349,7 @@ public class Client extends AbstractClientServer
 	public static void main(String[] args)
 	{
 		Scanner sc = new Scanner(System.in);
-		Client client = new Client("client12", 30002);
+		Client client = new Client("client1", 30001);
 		boolean running = true;
 		while (running)
 		{

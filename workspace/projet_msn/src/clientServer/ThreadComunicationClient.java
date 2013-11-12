@@ -1,7 +1,9 @@
 package clientServer;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.StringTokenizer;
 
 import dataLink.Protocol;
@@ -38,11 +40,12 @@ public class ThreadComunicationClient extends Thread
 	{
 		try
 		{
-			this.socket = new Socket("localhost", 30970);
+			this.socket = new Socket(InetAddress.getLocalHost(), 30970);
 			this.protocol = new ProtocolTCP(socket);
 		} catch (Exception e)
 		{
 			System.err.println("Erreur du ThreadComunicationClient,Connexion, message: " + e.getMessage());
+			e.printStackTrace();
 		}
 		try
 		{
@@ -61,7 +64,6 @@ public class ThreadComunicationClient extends Thread
 		} catch (IOException | InterruptedException e)
 		{
 			System.err.println("Erreur du ThreadComunicationClient, message: " + e.getMessage());
-			// e.printStackTrace();
 		}
 	}
 
@@ -214,10 +216,22 @@ public class ThreadComunicationClient extends Thread
 		if (token.hasMoreTokens())
 		{
 			// System.out.println(token.nextToken());
-			String[] elements = token.nextToken().split("|");
-			if (elements.length == 3)
+			String[] elements = token.nextToken().split("\\|");
+			if (elements.length == 4)
 			{
-				this.client.starDialogToClient(elements[0], elements[1], elements[2]);
+				ClientServerData client;
+				try
+				{
+					client = new ClientServerData(elements[0], elements[1], InetAddress.getByName(elements[2]), Integer.parseInt(elements[3]));
+
+					// this.client.startDialogToClient(client);
+					this.client.getClients().add(client);
+					System.out.println("Ajout du client recu");
+				} catch (NumberFormatException | UnknownHostException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		} else
 		{

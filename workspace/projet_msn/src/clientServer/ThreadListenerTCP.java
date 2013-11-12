@@ -1,6 +1,7 @@
 package clientServer;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -37,6 +38,7 @@ public class ThreadListenerTCP extends Thread
 		{
 			this.clientServer = server;
 			this.socket = new ServerSocket(port);
+			System.out.println(this.socket.getInetAddress());
 			this.running = false;
 		} catch (IOException e)
 		{

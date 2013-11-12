@@ -18,7 +18,15 @@ public class ClientServerData
 	private String name;
 	private InetAddress ip;
 	private int port;
-
+	
+	public ClientServerData(String id,String name, InetAddress ip, int port)
+	{
+		this.id = id;
+		this.name = name;
+		this.ip = ip;
+		this.port = port;
+	}
+	
 	public ClientServerData(String name, InetAddress ip, int port)
 	{
 		SecureRandom random = new SecureRandom();
