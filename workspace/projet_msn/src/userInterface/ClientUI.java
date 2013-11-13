@@ -14,28 +14,36 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
+import clientServer.Client;
+
 import dataLink.ProtocolUDP;
 
 public class ClientUI
 {
 
 	private JFrame frame;
-	private final static int size = 60000; 
-	private final static byte buffer[] = new byte[size];
-	private static ProtocolUDP protocol = new ProtocolUDP();
+	// private final static int size = 60000;
+	// private final static byte buffer[] = new byte[size];
+	// private static ProtocolUDP protocol = new ProtocolUDP();
+	private Client client;
 	private JTextArea textAreaSaisie;
 	private JTextArea textAreaRecu;
+
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args)
 	{
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
 					ClientUI window = new ClientUI();
 					window.frame.setVisible(true);
-				} catch (Exception e) {
+				} catch (Exception e)
+				{
 					e.printStackTrace();
 				}
 			}
@@ -47,7 +55,10 @@ public class ClientUI
 	 */
 	public ClientUI()
 	{
+		this.client = new Client("toto", 3000);
 		initialize();
+		this.client.registerToServer();
+		this.client.askListToServer();
 	}
 
 	/**
@@ -68,13 +79,14 @@ public class ClientUI
 		panelTchat.setLayout(null);
 
 		JButton btnEnvoyer = new JButton("Envoyer");
-		btnEnvoyer.addActionListener(new ActionListener() 
+		btnEnvoyer.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
 				String textToSend = textAreaSaisie.getText();
 				System.out.println(textToSend);
-				protocol.sendMessage(textToSend);
+				// protocol.sendMessage(textToSend);
+				client.sendMessageToClient(textToSend, client.getDialogs().firstElement().getIdDialog());
 				textAreaRecu.append("me<" + textToSend + "\n");
 				textAreaSaisie.setText("");
 			}
@@ -83,11 +95,13 @@ public class ClientUI
 		panelTchat.add(btnEnvoyer);
 
 		JButton btnQuitter = new JButton("Quitter");
-		btnQuitter.addActionListener(new ActionListener() 
+		btnQuitter.addActionListener(new ActionListener()
 		{
-			public void actionPerformed(ActionEvent e) 
+			public void actionPerformed(ActionEvent e)
 			{
-				//TODO action bouton quitter
+				// TODO action bouton quitter
+				client.unregisterToServer();
+				client.getThreadListenerUDP().stopThread();
 			}
 		});
 		btnQuitter.setBounds(504, 591, 89, 60);
@@ -108,21 +122,20 @@ public class ClientUI
 
 		textAreaRecu = new JTextArea();
 		scrollPane.setViewportView(textAreaRecu);
-		
+
 		JScrollPane scrollPaneClient = new JScrollPane();
 		scrollPaneClient.setBounds(10, 11, 172, 640);
 		frame.getContentPane().add(scrollPaneClient);
-		
-		
-		Vector<String> clientVector=new Vector<String>();
-        clientVector.add(new String("Micka"));
-        clientVector.add(new String("Thibault"));
-        clientVector.add(new String("Dorian"));
-        clientVector.add(new String("Raph"));
+
+		Vector<String> clientVector = new Vector<String>();
+		clientVector.add(new String("Micka"));
+		clientVector.add(new String("Thibault"));
+		clientVector.add(new String("Dorian"));
+		clientVector.add(new String("Raph"));
 		JList listClients = new JList(clientVector);
 		scrollPaneClient.setViewportView(listClients);
 	}
-	
+
 	public void addMessage(String msg)
 	{
 		textAreaRecu.append(msg + "\n");

@@ -47,6 +47,7 @@ public class ThreadComunicationServer extends Thread
 			}
 			System.out.println("Arret du Thread de communication");
 			this.socket.close();
+			this.protocol.close();
 		} catch (IOException | InterruptedException e)
 		{
 			System.err.println("Erreur du ThreadComunicationServer, message: " + e.getMessage());
@@ -203,21 +204,21 @@ public class ThreadComunicationServer extends Thread
 			this.protocol.sendMessage("reply:list:" + this.server.getListClient());
 		}
 	}
-	
+
 	public void getClientConnection(StringTokenizer token)
 	{
-		if(token.hasMoreTokens())
+		if (token.hasMoreTokens())
 		{
 			String clientId = token.nextToken();
 			String requested = this.server.getClient(clientId);
-			if(requested!=null)
+			if (requested != null)
 			{
-				this.protocol.sendMessage("reply:clientConnection:"+requested);
-			}else
+				this.protocol.sendMessage("reply:clientConnection:" + requested);
+			} else
 			{
 				this.stopThread();
 			}
-		}else
+		} else
 		{
 			this.stopThread();
 		}

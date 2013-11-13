@@ -1,5 +1,8 @@
 package clientServer;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import dataLink.Protocol;
 import dataLink.ProtocolUDP;
 
@@ -39,10 +42,22 @@ public class ThreadListenerUDP extends Thread
 				String message = protocol.readMessage();
 				this.clientServer.treatIncomeUDP(message);
 			}
+			this.protocol.close();
 		} catch (Exception e)
 		{
 			System.err.println("Erreur du ThreadListenerUDP, message: " + e.getMessage());
 		}
 	}
 
+	public void stopThread()
+	{
+		try
+		{
+			protocol.sendMessage("", InetAddress.getByName("localhost"), this.protocol.getLocalPort());
+		} catch (UnknownHostException e)
+		{
+			System.err.println("Erreur du ThreadListenerUDP, stopThread, message: " + e.getMessage());
+		}
+		this.running = false;
+	}
 }

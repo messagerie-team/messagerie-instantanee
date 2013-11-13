@@ -24,12 +24,12 @@ public class ClientDialog
 		this.lastMessage = "";
 	}
 
-	public ClientDialog(int port)
+	public ClientDialog(Protocol protocol)
 	{
 		SecureRandom random = new SecureRandom();
 		this.idDialog = new BigInteger(130, random).toString(32);
 		this.clients = new Vector<ClientServerData>();
-		this.protocol = new ProtocolUDP(port);
+		this.protocol = protocol;
 		this.dialogue = "";
 	}
 
@@ -43,7 +43,7 @@ public class ClientDialog
 	{
 		for (ClientServerData client : this.clients)
 		{
-			this.protocol.sendMessage(message, client.getIp(), client.getPort());
+			this.protocol.sendMessage("dialog:message:" + this.idDialog + ":>" + message, client.getIp(), client.getPort());
 			this.addMessage(message);
 		}
 	}

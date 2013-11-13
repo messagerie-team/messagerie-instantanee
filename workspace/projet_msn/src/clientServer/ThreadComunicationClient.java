@@ -61,6 +61,7 @@ public class ThreadComunicationClient extends Thread
 			}
 			System.out.println("Arret du Thread de communication");
 			this.socket.close();
+			this.protocol.close();
 		} catch (IOException | InterruptedException e)
 		{
 			System.err.println("Erreur du ThreadComunicationClient, message: " + e.getMessage());

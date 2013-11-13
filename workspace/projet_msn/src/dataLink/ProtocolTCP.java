@@ -24,6 +24,7 @@ public class ProtocolTCP extends Protocol
 
 	public ProtocolTCP(Socket socket)
 	{
+		super(socket.getLocalPort());
 		try
 		{
 			this.socket = socket;
@@ -55,6 +56,19 @@ public class ProtocolTCP extends Protocol
 			System.err.println("Erreur lecture message dans la class Protocol, message: " + e.getMessage());
 		}
 		return null;
+	}
+
+	public void close()
+	{
+		try
+		{
+			this.reader.close();
+			this.writer.close();
+			this.socket.close();
+		} catch (IOException e)
+		{
+			System.err.println("Erreur fermeture dans la class Protocol, message: " + e.getMessage());
+		}
 	}
 
 	public PrintWriter getWriter()

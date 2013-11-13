@@ -20,17 +20,17 @@ public class Client extends AbstractClientServer
 	private int listeningUDPPort;
 	private ThreadListenerUDP threadListenerUDP;
 	private Protocol protocol;
-	
+
 	public Client(String name, int listeningUDPPort)
 	{
 		super();
 		this.name = name;
 		this.listeningUDPPort = listeningUDPPort;
-		this.protocol= new ProtocolUDP(listeningUDPPort);
+		this.protocol = new ProtocolUDP(listeningUDPPort);
 		this.clientList = new HashMap<String, String>();
 		this.dialogs = new Vector<ClientDialog>();
 		this.threadComunicationClient = new ThreadComunicationClient(this);
-		this.threadListenerUDP = new ThreadListenerUDP(this,this.protocol);
+		this.threadListenerUDP = new ThreadListenerUDP(this, this.protocol);
 		this.threadListenerUDP.start();
 	}
 
@@ -83,12 +83,12 @@ public class Client extends AbstractClientServer
 			this.threadComunicationClient.getClientConnection(clientId);
 			int cpt = 0;
 			int sizeClients = this.getClients().size();
-			System.out.println("taille : "+sizeClients);
+			System.out.println("taille : " + sizeClients);
 			while (cpt < 50 && this.getClients().size() == sizeClients)
 			{
 				Thread.sleep(1000);
 			}
-			System.out.println("taille1 : "+sizeClients);
+			System.out.println("taille1 : " + sizeClients);
 			this.startDialogToClient(this.getClients().lastElement());
 		} catch (InterruptedException e)
 		{
@@ -101,17 +101,35 @@ public class Client extends AbstractClientServer
 		try
 		{
 			System.out.println("Début de dialogue");
-			ClientDialog dialog = new ClientDialog(this.listeningUDPPort);
+			ClientDialog dialog = new ClientDialog(this.protocol);
 			dialog.addClient(client);
 			String idDialog = dialog.getIdDialog();
-			Protocol protocol = new ProtocolUDP();
 			protocol.sendMessage("dialog:newDialog:" + idDialog, client.getIp(), client.getPort());
 			protocol.sendMessage("dialog:newDialog:clients:" + idDialog + ":" + this.id, client.getIp(), client.getPort());
+			this.dialogs.add(dialog);
 		} catch (NumberFormatException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public boolean sendMessageToClient(String message, String idDialog)
+	{
+		ClientDialog dialog = null;
+		for (ClientDialog dial : this.dialogs)
+		{
+			if (dial.getIdDialog().equals(idDialog))
+			{
+				dialog = dial;
+			}
+		}
+		if (dialog != null)
+		{
+			dialog.sendMessage(message);
+			return true;
+		}
+		return false;
 	}
 
 	public void launchThread()
@@ -252,7 +270,7 @@ public class Client extends AbstractClientServer
 					String idDialog = token.nextToken();
 					// SI c'est bien un id de conversation, alors on crée la
 					// conversation
-					if (idDialog.length() > 5)
+					if (idDialog.length() > 20)
 					{
 						// On crée le dialog
 						this.dialogs.add(new ClientDialog(idDialog, this.protocol));
@@ -268,7 +286,7 @@ public class Client extends AbstractClientServer
 								ClientDialog dialog = null;
 								for (ClientDialog dialogL : this.dialogs)
 								{
-									if (dialog.getIdDialog().equals(realIdDialog))
+									if (dialogL.getIdDialog().equals(realIdDialog))
 									{
 										dialog = dialogL;
 									}
@@ -313,14 +331,14 @@ public class Client extends AbstractClientServer
 				 * dialog.sendMessage("dialog:newDialog:" +
 				 * dialog.getIdDialog()); } break;
 				 */
-
-			default:
+				break;
+			case "message":
 				if (token.hasMoreTokens())
 				{
 					String idDialog = token.nextToken();
 					// SI c'est bien un id de conversation, alors on crée la
 					// conversation
-					if (idDialog.length() > 5 && token.hasMoreTokens())
+					if (idDialog.length() > 20 && token.hasMoreTokens())
 					{
 						for (ClientDialog dialog : this.dialogs)
 						{
@@ -338,6 +356,10 @@ public class Client extends AbstractClientServer
 						}
 					}
 				}
+				break;
+
+			default:
+
 				break;
 			}
 		} else
@@ -357,6 +379,7 @@ public class Client extends AbstractClientServer
 			System.out.println("-unregister");
 			System.out.println("-list");
 			System.out.println("-connectionClient");
+			System.out.println("-sendMessage");
 			System.out.println("-refresh");
 			System.out.println("-close");
 			System.out.print("lecture=");
@@ -381,6 +404,12 @@ public class Client extends AbstractClientServer
 				System.out.println("entré le numéro d'ordre dans la liste:");
 				String num = sc.nextLine();
 				client.askClientConnectionToServer((String) list[Integer.parseInt(num)]);
+				break;
+			case "sendMessage":
+				sc.reset();
+				System.out.println("Message:");
+				String mes = sc.nextLine();
+				client.sendMessageToClient(mes, client.dialogs.firstElement().getIdDialog());
 				break;
 			case "refrech":
 				break;

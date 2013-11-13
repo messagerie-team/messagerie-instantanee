@@ -24,6 +24,7 @@ public class ProtocolUDP extends Protocol
 
 	public ProtocolUDP(int localPort)
 	{
+		super(localPort);
 		try
 		{
 			this.socket = new DatagramSocket();
@@ -35,6 +36,7 @@ public class ProtocolUDP extends Protocol
 		} catch (SocketException e)
 		{
 			System.err.println("Erreur d'initialisation de ProtocolUDP, message: " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
@@ -46,17 +48,13 @@ public class ProtocolUDP extends Protocol
 			buffer = message.getBytes("UTF-8");
 			int length = buffer.length;
 			this.writer = new DatagramPacket(buffer, length, adress, port);
-			this.socket=new DatagramSocket();
+			this.socket = new DatagramSocket();
 			this.socket.send(writer);
 		} catch (IOException e)
 		{
 			System.err.println("Erreur d'envoie du message de ProtocolUDP, message:" + e.getMessage());
+			e.printStackTrace();
 		}
-	}
-
-	public ProtocolUDP()
-	{
-		// TODO Auto-generated constructor stub
 	}
 
 	public void sendMessage(String message)
@@ -87,6 +85,12 @@ public class ProtocolUDP extends Protocol
 			System.err.println("Erreur de reception de message de ProtocolUDP, message:" + e.getMessage());
 		}
 		return null;
+	}
+
+	public void close()
+	{
+		this.socket.close();
+		this.socketReceive.close();
 	}
 
 	public DatagramPacket getWriter()
