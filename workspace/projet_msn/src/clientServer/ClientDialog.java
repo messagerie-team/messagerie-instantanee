@@ -2,6 +2,7 @@ package clientServer;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.Random;
 import java.util.Vector;
 
 import dataLink.Protocol;
@@ -27,7 +28,9 @@ public class ClientDialog
 	public ClientDialog(Protocol protocol)
 	{
 		SecureRandom random = new SecureRandom();
-		this.idDialog = new BigInteger(130, random).toString(32);
+		Random ran = new Random();
+		//this.idDialog = new BigInteger(130, random).toString(32);
+		this.idDialog=ran.nextInt()+"";
 		this.clients = new Vector<ClientServerData>();
 		this.protocol = protocol;
 		this.dialogue = "";
@@ -44,8 +47,8 @@ public class ClientDialog
 		for (ClientServerData client : this.clients)
 		{
 			this.protocol.sendMessage("dialog:message:" + this.idDialog + ":>" + message, client.getIp(), client.getPort());
-			this.addMessage(message);
 		}
+		this.addMessage(message);
 	}
 
 	public String receiveMessage(String message)
