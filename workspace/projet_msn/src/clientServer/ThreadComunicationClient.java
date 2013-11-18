@@ -217,7 +217,7 @@ public class ThreadComunicationClient extends Thread
 		if (token.hasMoreTokens())
 		{
 			// System.out.println(token.nextToken());
-			String[] elements = token.nextToken().split("\\|");
+			String[] elements = token.nextToken().split(",");
 			if (elements.length == 4)
 			{
 				ClientServerData client;

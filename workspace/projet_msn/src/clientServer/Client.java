@@ -176,7 +176,7 @@ public class Client extends AbstractClientServer
 
 	public void addClientList(String list)
 	{
-		StringTokenizer token = new StringTokenizer(list, "|");
+		StringTokenizer token = new StringTokenizer(list, ",");
 		while (token.hasMoreTokens())
 		{
 			String element = token.nextToken();
@@ -301,7 +301,7 @@ public class Client extends AbstractClientServer
 									// String[] clients =
 									// token.nextToken().split(",");
 									String clientsT = token.nextToken();
-									String[] clients = new String[0];
+									String[] clients = new String[1];
 									clients[0] = clientsT;
 									for (String client : clients)
 									{
@@ -318,6 +318,7 @@ public class Client extends AbstractClientServer
 										if (!estAjoute)
 										{
 											ClientServerData newClient = new ClientServerData(client, this.clientList.get(client), ((ProtocolUDP) protocol).getLastAdress(), ((ProtocolUDP) protocol).getLastPort());
+											System.out.println(newClient);
 											this.getClients().add(newClient);
 											dialog.addClient(newClient);
 										}

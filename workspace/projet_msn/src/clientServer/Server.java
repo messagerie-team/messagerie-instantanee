@@ -141,7 +141,7 @@ public class Server extends AbstractClientServer
 		boolean firstOne = true;
 		for (ClientServerData client : this.getClients())
 		{
-			ret += ((firstOne) ? "" : "|") + client.getId() + "-" + client.getName();
+			ret += ((firstOne) ? "" : ",") + client.getId() + "-" + client.getName();
 			firstOne = false;
 		}
 		return ret;
@@ -153,7 +153,7 @@ public class Server extends AbstractClientServer
 		{
 			if (client.getId().equals(id))
 			{
-				return client.getId() + "|" + client.getName() + "|" + client.getIp().getCanonicalHostName() + "|" + client.getPort();
+				return client.getId() + "," + client.getName() + "," + client.getIp().getCanonicalHostName() + "," + client.getPort();
 			}
 		}
 		return null;
