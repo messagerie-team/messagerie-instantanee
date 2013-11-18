@@ -40,7 +40,7 @@ public class ThreadComunicationClient extends Thread
 	{
 		try
 		{
-			this.socket = new Socket(InetAddress.getLocalHost(), 30970);
+			this.socket = new Socket("192.168.99.71", 30970);
 			this.protocol = new ProtocolTCP(socket);
 		} catch (Exception e)
 		{

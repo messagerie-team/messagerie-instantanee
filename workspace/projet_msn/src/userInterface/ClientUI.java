@@ -55,7 +55,7 @@ public class ClientUI
 	 */
 	public ClientUI()
 	{
-		this.client = new Client("toto", 3000);
+		this.client = new Client("toto2", 3001);
 		initialize();
 		this.client.registerToServer();
 		this.client.askListToServer();

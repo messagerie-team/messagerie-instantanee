@@ -296,6 +296,7 @@ public class Client extends AbstractClientServer
 									String[] clients = token.nextToken().split("|");
 									for (String client : clients)
 									{
+										System.out.println("ici "+client);
 										boolean estAjoute = false;
 										for (ClientServerData clientSe : this.getClients())
 										{
@@ -305,16 +306,12 @@ public class Client extends AbstractClientServer
 												estAjoute = true;
 											}
 										}
-										if (!estAjoute)
+										while (!estAjoute)
 										{
+											ClientServerData newClient = new ClientServerData(client, this.clientList.get(client), ((ProtocolUDP) protocol).getLastAdress(), ((ProtocolUDP) protocol).getLastPort());
+											this.getClients().add(newClient);
+											dialog.addClient(newClient);
 											this.askClientConnectionToServer(client);
-											try
-											{
-												Thread.sleep(500);
-											} catch (InterruptedException e)
-											{
-												e.printStackTrace();
-											}
 										}
 									}
 								}
@@ -371,7 +368,7 @@ public class Client extends AbstractClientServer
 	public static void main(String[] args)
 	{
 		Scanner sc = new Scanner(System.in);
-		Client client = new Client("client1", 30001);
+		Client client = new Client("raphael", 30001);
 		boolean running = true;
 		while (running)
 		{

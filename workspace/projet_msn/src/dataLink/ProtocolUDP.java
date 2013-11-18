@@ -15,24 +15,30 @@ import java.net.SocketException;
  */
 public class ProtocolUDP extends Protocol
 {
+	private int localPort;
 	public DatagramSocket socket;
 	public DatagramSocket socketReceive;
 	public DatagramPacket writer;
 	public DatagramPacket reader;
 	private static byte bufferReader[];
 	private final static int sizeBufferReader = 60000;
+	private int lastPort;
+	private InetAddress lastAdress;
 
 	public ProtocolUDP(int localPort)
 	{
 		super(localPort);
 		try
 		{
+			this.localPort=localPort;
 			this.socket = new DatagramSocket();
 			this.socketReceive = new DatagramSocket(localPort);
 			byte[] buffer = ("").getBytes();
 			bufferReader = new byte[sizeBufferReader];
 			this.writer = new DatagramPacket(buffer, 0);
 			this.reader = new DatagramPacket(bufferReader, sizeBufferReader);
+			this.lastPort = 0;
+			this.lastAdress = null;
 		} catch (SocketException e)
 		{
 			System.err.println("Erreur d'initialisation de ProtocolUDP, message: " + e.getMessage());
@@ -64,7 +70,7 @@ public class ProtocolUDP extends Protocol
 		{
 			buffer = message.getBytes("UTF-8");
 			int length = buffer.length;
-			this.writer = new DatagramPacket(buffer, length, this.socket.getInetAddress(), this.socket.getPort());
+			this.writer = new DatagramPacket(buffer, length, this.socket.getInetAddress(), this.localPort);
 			this.socket.send(writer);
 		} catch (IOException e)
 		{
@@ -79,6 +85,9 @@ public class ProtocolUDP extends Protocol
 			bufferReader = new byte[sizeBufferReader];
 			DatagramPacket data = new DatagramPacket(bufferReader, sizeBufferReader);
 			socketReceive.receive(data);
+			System.out.println(data.getPort() +" "+data.getAddress());
+			this.lastPort = data.getPort();
+			this.lastAdress = data.getAddress();
 			return new String(data.getData());
 		} catch (IOException e)
 		{
@@ -112,4 +121,25 @@ public class ProtocolUDP extends Protocol
 	{
 		this.reader = reader;
 	}
+
+	public int getLastPort()
+	{
+		return lastPort;
+	}
+
+	public void setLastPort(int lastPort)
+	{
+		this.lastPort = lastPort;
+	}
+
+	public InetAddress getLastAdress()
+	{
+		return lastAdress;
+	}
+
+	public void setLastAdress(InetAddress lastAdress)
+	{
+		this.lastAdress = lastAdress;
+	}
+
 }
