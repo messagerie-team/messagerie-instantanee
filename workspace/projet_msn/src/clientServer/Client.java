@@ -278,11 +278,13 @@ public class Client extends AbstractClientServer
 
 					else if (idDialog.equals("clients"))
 					{
+						System.out.println("je recois un message pour ajouter les clients");
 						if (token.hasMoreTokens())
 						{
 							String realIdDialog = token.nextToken();
 							if (token.hasMoreTokens())
 							{
+								System.out.println("je recherche le dialog");
 								ClientDialog dialog = null;
 								for (ClientDialog dialogL : this.dialogs)
 								{
@@ -291,12 +293,13 @@ public class Client extends AbstractClientServer
 										dialog = dialogL;
 									}
 								}
+								System.out.println("le dialog est :"+dialog.getIdDialog());
 								if (dialog != null)
 								{
-									String[] clients = token.nextToken().split("|");
+									String[] clients = token.nextToken().split("\\|");
 									for (String client : clients)
 									{
-										System.out.println("ici "+client);
+										System.out.println("client: "+client);
 										boolean estAjoute = false;
 										for (ClientServerData clientSe : this.getClients())
 										{
@@ -306,7 +309,7 @@ public class Client extends AbstractClientServer
 												estAjoute = true;
 											}
 										}
-										while (!estAjoute)
+										if (!estAjoute)
 										{
 											ClientServerData newClient = new ClientServerData(client, this.clientList.get(client), ((ProtocolUDP) protocol).getLastAdress(), ((ProtocolUDP) protocol).getLastPort());
 											this.getClients().add(newClient);
