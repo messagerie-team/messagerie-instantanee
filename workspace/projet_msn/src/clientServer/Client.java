@@ -284,7 +284,7 @@ public class Client extends AbstractClientServer
 							String realIdDialog = token.nextToken();
 							if (token.hasMoreTokens())
 							{
-								System.out.println("je recherche le dialog");
+								System.out.println("je recherche le dialog "+realIdDialog);
 								ClientDialog dialog = null;
 								for (ClientDialog dialogL : this.dialogs)
 								{

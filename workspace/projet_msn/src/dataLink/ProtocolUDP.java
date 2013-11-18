@@ -92,7 +92,7 @@ public class ProtocolUDP extends Protocol
 		{
 			System.err.println("Erreur de reception de message de ProtocolUDP, message:" + e.getMessage());
 		}
-		return null;
+		return "";
 	}
 
 	public void close()
