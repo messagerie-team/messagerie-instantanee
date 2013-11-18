@@ -105,7 +105,7 @@ public class Client extends AbstractClientServer
 			dialog.addClient(client);
 			String idDialog = dialog.getIdDialog();
 			protocol.sendMessage("dialog:newDialog:" + idDialog, client.getIp(), client.getPort());
-			protocol.sendMessage("dialog:newDialog:clients:" + idDialog + ":" + this.id, client.getIp(), client.getPort());
+			protocol.sendMessage("dialog:newDialog:clients:" + idDialog + ":" + this.id + ",", client.getIp(), client.getPort());
 			this.dialogs.add(dialog);
 		} catch (NumberFormatException e)
 		{
@@ -284,7 +284,7 @@ public class Client extends AbstractClientServer
 							String realIdDialog = token.nextToken();
 							if (token.hasMoreTokens())
 							{
-								System.out.println("je recherche le dialog "+realIdDialog);
+								System.out.println("je recherche le dialog " + realIdDialog);
 								ClientDialog dialog = null;
 								for (ClientDialog dialogL : this.dialogs)
 								{
@@ -295,13 +295,13 @@ public class Client extends AbstractClientServer
 										dialog = dialogL;
 									}
 								}
-								System.out.println("le dialog est :"+dialog.getIdDialog());
+								System.out.println("le dialog est :" + dialog.getIdDialog());
 								if (dialog != null)
 								{
-									String[] clients = token.nextToken().split("\\|");
+									String[] clients = token.nextToken().split(",");
 									for (String client : clients)
 									{
-										System.out.println("client: "+client);
+										System.out.println("client: " + client);
 										boolean estAjoute = false;
 										for (ClientServerData clientSe : this.getClients())
 										{
