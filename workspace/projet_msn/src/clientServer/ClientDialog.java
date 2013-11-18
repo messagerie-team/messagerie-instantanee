@@ -28,10 +28,7 @@ public class ClientDialog
 	public ClientDialog(Protocol protocol)
 	{
 		SecureRandom random = new SecureRandom();
-		Random ran = new Random();
-		int nb = ran.nextInt();
-		// this.idDialog = new BigInteger(130, random).toString(32);
-		this.idDialog = (nb * nb) + "";
+		this.idDialog = new BigInteger(130, random).toString(32);
 		this.clients = new Vector<ClientServerData>();
 		this.protocol = protocol;
 		this.dialogue = "";
