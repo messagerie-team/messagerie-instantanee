@@ -29,8 +29,9 @@ public class ClientDialog
 	{
 		SecureRandom random = new SecureRandom();
 		Random ran = new Random();
-		//this.idDialog = new BigInteger(130, random).toString(32);
-		this.idDialog=ran.nextInt()+"";
+		int nb = ran.nextInt();
+		// this.idDialog = new BigInteger(130, random).toString(32);
+		this.idDialog = nb * nb + "";
 		this.clients = new Vector<ClientServerData>();
 		this.protocol = protocol;
 		this.dialogue = "";
