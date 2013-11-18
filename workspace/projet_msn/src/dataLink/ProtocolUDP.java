@@ -15,9 +15,9 @@ import java.net.SocketException;
  */
 public class ProtocolUDP extends Protocol
 {
-	private int localPort;
+	private final int localPort;
 	public DatagramSocket socket;
-	public DatagramSocket socketReceive;
+	//public DatagramSocket socketReceive;
 	public DatagramPacket writer;
 	public DatagramPacket reader;
 	private static byte bufferReader[];
@@ -28,11 +28,11 @@ public class ProtocolUDP extends Protocol
 	public ProtocolUDP(int localPort)
 	{
 		super(localPort);
+		this.localPort=localPort;
 		try
-		{
-			this.localPort=localPort;
-			this.socket = new DatagramSocket();
-			this.socketReceive = new DatagramSocket(localPort);
+		{	
+			this.socket = new DatagramSocket(localPort);
+			//this.socketReceive = new DatagramSocket(localPort);
 			byte[] buffer = ("").getBytes();
 			bufferReader = new byte[sizeBufferReader];
 			this.writer = new DatagramPacket(buffer, 0);
@@ -54,7 +54,6 @@ public class ProtocolUDP extends Protocol
 			buffer = message.getBytes("UTF-8");
 			int length = buffer.length;
 			this.writer = new DatagramPacket(buffer, length, adress, port);
-			this.socket = new DatagramSocket();
 			this.socket.send(writer);
 		} catch (IOException e)
 		{
@@ -84,7 +83,7 @@ public class ProtocolUDP extends Protocol
 		{
 			bufferReader = new byte[sizeBufferReader];
 			DatagramPacket data = new DatagramPacket(bufferReader, sizeBufferReader);
-			socketReceive.receive(data);
+			socket.receive(data);
 			System.out.println(data.getPort() +" "+data.getAddress());
 			this.lastPort = data.getPort();
 			this.lastAdress = data.getAddress();
@@ -99,7 +98,7 @@ public class ProtocolUDP extends Protocol
 	public void close()
 	{
 		this.socket.close();
-		this.socketReceive.close();
+		//this.socketReceive.close();
 	}
 
 	public DatagramPacket getWriter()
