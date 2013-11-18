@@ -34,7 +34,7 @@ public class ClientServerData
 		Random ran = new Random();
 		// this.id = new BigInteger(130, random).toString(32);
 		int nb = ran.nextInt();
-		this.id = nb*nb + "";
+		this.id = (nb*nb) + "";
 		this.name = name;
 		this.ip = ip;
 		this.port = port;

@@ -31,7 +31,7 @@ public class ClientDialog
 		Random ran = new Random();
 		int nb = ran.nextInt();
 		// this.idDialog = new BigInteger(130, random).toString(32);
-		this.idDialog = nb * nb + "";
+		this.idDialog = (nb * nb) + "";
 		this.clients = new Vector<ClientServerData>();
 		this.protocol = protocol;
 		this.dialogue = "";
