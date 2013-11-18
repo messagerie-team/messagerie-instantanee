@@ -288,8 +288,10 @@ public class Client extends AbstractClientServer
 								ClientDialog dialog = null;
 								for (ClientDialog dialogL : this.dialogs)
 								{
-									if (dialogL.getIdDialog().equals(realIdDialog))
+									System.out.println(dialogL.getIdDialog());
+									if (dialogL.getIdDialog().trim().equals(realIdDialog.trim()))
 									{
+										System.out.println("affectation du dialog");
 										dialog = dialogL;
 									}
 								}
@@ -314,7 +316,6 @@ public class Client extends AbstractClientServer
 											ClientServerData newClient = new ClientServerData(client, this.clientList.get(client), ((ProtocolUDP) protocol).getLastAdress(), ((ProtocolUDP) protocol).getLastPort());
 											this.getClients().add(newClient);
 											dialog.addClient(newClient);
-											this.askClientConnectionToServer(client);
 										}
 									}
 								}
