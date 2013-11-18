@@ -105,7 +105,7 @@ public class Client extends AbstractClientServer
 			dialog.addClient(client);
 			String idDialog = dialog.getIdDialog();
 			protocol.sendMessage("dialog:newDialog:" + idDialog, client.getIp(), client.getPort());
-			protocol.sendMessage("dialog:newDialog:clients:" + idDialog + ":" + this.id + ",", client.getIp(), client.getPort());
+			protocol.sendMessage("dialog:newDialog:clients:" + idDialog + ":" + this.id, client.getIp(), client.getPort());
 			this.dialogs.add(dialog);
 		} catch (NumberFormatException e)
 		{
@@ -298,7 +298,11 @@ public class Client extends AbstractClientServer
 								System.out.println("le dialog est :" + dialog.getIdDialog());
 								if (dialog != null)
 								{
-									String[] clients = token.nextToken().split(",");
+									// String[] clients =
+									// token.nextToken().split(",");
+									String clientsT = token.nextToken();
+									String[] clients = new String[0];
+									clients[0] = clientsT;
 									for (String client : clients)
 									{
 										System.out.println("client: " + client);
