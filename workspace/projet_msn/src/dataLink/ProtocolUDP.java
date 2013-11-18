@@ -87,7 +87,7 @@ public class ProtocolUDP extends Protocol
 			System.out.println(data.getPort() +" "+data.getAddress());
 			this.lastPort = data.getPort();
 			this.lastAdress = data.getAddress();
-			return new String(data.getData(), "UTF-8");
+			return new String(data.getData(), 0, data.getLength());
 		} catch (IOException e)
 		{
 			System.err.println("Erreur de reception de message de ProtocolUDP, message:" + e.getMessage());
