@@ -11,9 +11,12 @@ import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.ListSelectionModel;
+
 import java.awt.Dimension;
 import java.awt.Component;
 
@@ -54,7 +57,7 @@ public class ClientUI extends JFrame
 		contentPane.add(vbGlobale, BorderLayout.CENTER);
 		
 		JPanel panelHaut = new JPanel();
-		panelHaut.setPreferredSize(new Dimension(10, 200));
+		panelHaut.setPreferredSize(new Dimension(10, 2500));
 		vbGlobale.add(panelHaut);
 		panelHaut.setLayout(new BorderLayout(0, 0));
 		
@@ -62,18 +65,22 @@ public class ClientUI extends JFrame
 		panelHaut.add(hbHaut, BorderLayout.CENTER);
 		
 		JPanel panelList = new JPanel();
+		panelList.setMinimumSize(new Dimension(20, 10));
+		panelList.setMaximumSize(new Dimension(1000, 32767));
 		hbHaut.add(panelList);
 		panelList.setLayout(new BorderLayout(0, 0));
 		
-		JList list = new JList();
+		JList<String> list = new JList<String>();
+		list.setMinimumSize(new Dimension(100, 0));
 		panelList.add(list, BorderLayout.CENTER);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		list.setModel(new AbstractListModel() {
-			String[] values = new String[] {"Micka", "Thibault", "Dorian", "Raph"};
+		list.setModel(new AbstractListModel<String>() {
+			private static final long serialVersionUID = 1L;
+			String[] values = new String[] {"Micka", "Thibault  ", "Dorian", "Raph"};
 			public int getSize() {
 				return values.length;
 			}
-			public Object getElementAt(int index) {
+			public String getElementAt(int index) {
 				return values[index];
 			}
 		});
@@ -106,16 +113,24 @@ public class ClientUI extends JFrame
 		Box vbBouton = Box.createVerticalBox();
 		hbBas.add(vbBouton);
 		
-		JButton btnValider = new JButton("Valider");
-		btnValider.setPreferredSize(new Dimension(67, 23));
-		btnValider.addActionListener(new ActionListener() {
+		JButton btnEnvoyer = new JButton("Envoyer");
+		btnEnvoyer.setPreferredSize(new Dimension(80, 23));
+		btnEnvoyer.setMaximumSize(new Dimension(80, 23));
+		btnEnvoyer.setMinimumSize(new Dimension(80, 23));
+		btnEnvoyer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		vbBouton.add(btnValider);
 		
-		JButton btnQuitter = new JButton("Quitter");
-		btnQuitter.addActionListener(new ActionListener() {
+		JPanel panelVideBtn = new JPanel();
+		vbBouton.add(panelVideBtn);
+		vbBouton.add(btnEnvoyer);
+		
+		JButton btnFermer = new JButton("Fermer");
+		btnFermer.setPreferredSize(new Dimension(80, 23));
+		btnFermer.setMaximumSize(new Dimension(80, 23));
+		btnFermer.setMinimumSize(new Dimension(80, 23));
+		btnFermer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
@@ -124,7 +139,7 @@ public class ClientUI extends JFrame
 		vsBtn.setMinimumSize(new Dimension(0, 5));
 		vsBtn.setPreferredSize(new Dimension(0, 5));
 		vbBouton.add(vsBtn);
-		vbBouton.add(btnQuitter);
+		vbBouton.add(btnFermer);
 	}
 
 }
