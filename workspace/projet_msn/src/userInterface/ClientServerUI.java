@@ -20,6 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import clientServer.Client;
+import javax.swing.Box;
+import java.awt.Component;
 
 public class ClientServerUI
 {
@@ -34,7 +36,6 @@ public class ClientServerUI
 
 	private static ActionListener listenerMenu;
 	private static JMenuBar menuBar;
-	private static JPanel connectionPanel;
 
 	/**
 	 * Launch the application.
@@ -98,9 +99,31 @@ public class ClientServerUI
 		constructMenu();
 		constructConnectionPanel();
 		refreshClient();
-		frame.add(menuBar, BorderLayout.NORTH);
-		frame.add(connectionPanel, BorderLayout.CENTER);
-		frame.add(list, BorderLayout.SOUTH);
+		frame.getContentPane().add(menuBar, BorderLayout.NORTH);
+		
+		JPanel panel = new JPanel();
+		frame.getContentPane().add(panel, BorderLayout.CENTER);
+		panel.setLayout(new BorderLayout(0, 0));
+		
+		Box verticalBox = Box.createVerticalBox();
+		panel.add(verticalBox, BorderLayout.CENTER);
+				
+				Component verticalStrut_1 = Box.createVerticalStrut(20);
+				verticalStrut_1.setMaximumSize(new Dimension(32767, 100));
+				verticalBox.add(verticalStrut_1);
+		
+				JTextField pseudoField = new JTextField("Raphael");
+				pseudoField.setMinimumSize(new Dimension(95, 20));
+				pseudoField.setMaximumSize(new Dimension(110, 25));
+				verticalBox.add(pseudoField);
+				
+				Component verticalStrut = Box.createVerticalStrut(5);
+				verticalBox.add(verticalStrut);
+				JButton connectionButton = new JButton("Se connecter");
+				connectionButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+				verticalBox.add(connectionButton);
+				connectionButton.addActionListener(listenerMenu);
+		frame.getContentPane().add(list, BorderLayout.SOUTH);
 		
 		frame.setLocation(400, 300);
 		frame.setMinimumSize(new Dimension(200, 300));
@@ -146,13 +169,5 @@ public class ClientServerUI
 
 	private void constructConnectionPanel()
 	{
-		connectionPanel = new JPanel();
-		connectionPanel.setLayout(new GridLayout(10,3));
-
-		JTextField pseudoField = new JTextField("Raphael");
-		JButton connectionButton = new JButton("Se connecter");
-		connectionButton.addActionListener(listenerMenu);
-		connectionPanel.add(pseudoField);
-		connectionPanel.add(connectionButton);
 	}
 }
