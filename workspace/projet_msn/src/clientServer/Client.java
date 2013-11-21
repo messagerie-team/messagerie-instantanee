@@ -179,6 +179,7 @@ public class Client extends AbstractClientServer
 	public void addClientList(String list)
 	{
 		StringTokenizer token = new StringTokenizer(list, ",");
+		this.clientList=new HashMap<String, String>();
 		while (token.hasMoreTokens())
 		{
 			String element = token.nextToken();

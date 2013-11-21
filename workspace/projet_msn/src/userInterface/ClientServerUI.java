@@ -30,9 +30,8 @@ public class ClientServerUI
 	public static Client client;
 	public static HashMap<String, String> clientList;
 	private static Set<String> keyClientList;
-	private static Vector<String> SimpleClientList;
-	private static JPanel list;
-	private static JList<String> listTest;
+	private static Vector<ClientListData> SimpleClientList;
+	private static JList<ClientListData> listTest;
 
 	public static ActionListener listenerMenu;
 	public static JMenuBar menuBar;
@@ -65,7 +64,7 @@ public class ClientServerUI
 	 */
 	public ClientServerUI()
 	{
-		client = new Client("client3", 3003, "localhost");
+		client = new Client("client3", 3002, "localhost");
 		clientList = client.getClientList();
 		keyClientList = clientList.keySet();
 		listenerMenu = new ClientServerListener();
@@ -74,22 +73,27 @@ public class ClientServerUI
 
 	public static void refreshClient()
 	{
-		//connectionPanel.removeAll();
+		// connectionPanel.removeAll();
 		connectionPanel.setVisible(false);
+		clientList = client.getClientList();
 		keyClientList = clientList.keySet();
-		SimpleClientList = new Vector<String>();
+		SimpleClientList = new Vector<ClientListData>();
+
 		for (String key : keyClientList)
 		{
-			SimpleClientList.add(clientList.get(key));
+			SimpleClientList.add(new ClientListData(key, clientList.get(key)));
 		}
 		System.out.println("nouvelle list" + SimpleClientList);
-		listTest = new JList<String>(SimpleClientList);
-		list.add(listTest, BorderLayout.CENTER);
-		list.repaint();
+		// listTest = new JList<ClientListData>(SimpleClientList);
+		listTest.setListData(SimpleClientList);
+		frame.getContentPane().add(listTest, BorderLayout.CENTER);
+		listTest.updateUI();
+		listTest.setVisible(true);
+		listTest.validate();
 		listTest.repaint();
 		frame.validate();
 		frame.repaint();
-		//System.out.println(list);
+		// System.out.println(list);
 	}
 
 	/**
@@ -98,16 +102,16 @@ public class ClientServerUI
 	private void initialize()
 	{
 		frame = new JFrame("Projet msn");
-		list = new JPanel();
-		list.repaint();
-		list.setLayout(new BorderLayout());
 
 		constructMenu();
 		constructConnectionPanel();
 
 		frame.getContentPane().add(menuBar, BorderLayout.NORTH);
 		frame.getContentPane().add(connectionPanel, BorderLayout.CENTER);
-		frame.getContentPane().add(list, BorderLayout.SOUTH);
+		listTest = new JList<ClientListData>();
+		listTest.setListData(new Vector<ClientListData>());
+		listTest.updateUI();
+		// frame.getContentPane().add(list, BorderLayout.SOUTH);
 
 		frame.setLocation(400, 300);
 		frame.setMinimumSize(new Dimension(200, 300));
@@ -131,7 +135,7 @@ public class ClientServerUI
 		unConnection.addActionListener(listenerMenu);
 		menuPrincipal.add(profil);
 		menuPrincipal.add(refresh);
-		menuPrincipal.add(connection);
+		// menuPrincipal.add(connection);
 		menuPrincipal.add(unConnection);
 
 		JMenuItem adressServer = new JMenuItem("Adresse serveur");

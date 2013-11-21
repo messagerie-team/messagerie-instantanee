@@ -148,6 +148,7 @@ public class ThreadComunicationClient extends Thread
 			switch (nextToken)
 			{
 			case "DONE":
+				this.client.setId("");
 				this.stopThread();
 				break;
 
