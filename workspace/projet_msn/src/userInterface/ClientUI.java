@@ -44,45 +44,18 @@ public class ClientUI extends JFrame
 	 */
 	public ClientUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 600, 400);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
-		JPanel panelBas = new JPanel();
-		contentPane.add(panelBas, BorderLayout.SOUTH);
-		panelBas.setLayout(new BorderLayout(0, 0));
-		
-		Box hbBas = Box.createHorizontalBox();
-		panelBas.add(hbBas, BorderLayout.CENTER);
-		
-		JTextArea textAreaSaisie = new JTextArea();
-		hbBas.add(textAreaSaisie);
-		
-		Component hsRightSaisie = Box.createHorizontalStrut(20);
-		hsRightSaisie.setPreferredSize(new Dimension(5, 0));
-		hbBas.add(hsRightSaisie);
-		
-		Box vbBouton = Box.createVerticalBox();
-		hbBas.add(vbBouton);
-		
-		JButton btnValider = new JButton("Valider");
-		btnValider.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		vbBouton.add(btnValider);
-		
-		JButton btnQuitter = new JButton("Quitter");
-		btnQuitter.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		vbBouton.add(btnQuitter);
+		Box vbGlobale = Box.createVerticalBox();
+		contentPane.add(vbGlobale, BorderLayout.CENTER);
 		
 		JPanel panelHaut = new JPanel();
-		contentPane.add(panelHaut, BorderLayout.CENTER);
+		panelHaut.setPreferredSize(new Dimension(10, 200));
+		vbGlobale.add(panelHaut);
 		panelHaut.setLayout(new BorderLayout(0, 0));
 		
 		Box hbHaut = Box.createHorizontalBox();
@@ -110,7 +83,48 @@ public class ClientUI extends JFrame
 		hbHaut.add(hsRightList);
 		
 		JTextArea textAreaDialog = new JTextArea();
+		textAreaDialog.setColumns(40);
 		hbHaut.add(textAreaDialog);
+		
+		Component vsPanHautPanBas = Box.createVerticalStrut(5);
+		vbGlobale.add(vsPanHautPanBas);
+		
+		JPanel panelBas = new JPanel();
+		vbGlobale.add(panelBas);
+		panelBas.setLayout(new BorderLayout(0, 0));
+		
+		Box hbBas = Box.createHorizontalBox();
+		panelBas.add(hbBas, BorderLayout.CENTER);
+		
+		JTextArea textAreaSaisie = new JTextArea();
+		hbBas.add(textAreaSaisie);
+		
+		Component hsRightSaisie = Box.createHorizontalStrut(20);
+		hsRightSaisie.setPreferredSize(new Dimension(5, 0));
+		hbBas.add(hsRightSaisie);
+		
+		Box vbBouton = Box.createVerticalBox();
+		hbBas.add(vbBouton);
+		
+		JButton btnValider = new JButton("Valider");
+		btnValider.setPreferredSize(new Dimension(67, 23));
+		btnValider.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		vbBouton.add(btnValider);
+		
+		JButton btnQuitter = new JButton("Quitter");
+		btnQuitter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		
+		Component vsBtn = Box.createVerticalStrut(5);
+		vsBtn.setMinimumSize(new Dimension(0, 5));
+		vsBtn.setPreferredSize(new Dimension(0, 5));
+		vbBouton.add(vsBtn);
+		vbBouton.add(btnQuitter);
 	}
 
 }
