@@ -30,6 +30,7 @@ public class Client extends AbstractClientServer
 		this.protocol = new ProtocolUDP(listeningUDPPort);
 		this.clientList = new HashMap<String, String>();
 		this.dialogs = new Vector<ClientDialog>();
+		this.ipServer=ipServer;
 		this.threadComunicationClient = new ThreadComunicationClient(this, ipServer);
 		this.threadListenerUDP = new ThreadListenerUDP(this, this.protocol);
 		this.threadListenerUDP.start();
@@ -378,7 +379,7 @@ public class Client extends AbstractClientServer
 	public static void main(String[] args)
 	{
 		Scanner sc = new Scanner(System.in);
-		Client client = new Client("raphael", 30001, "localhost");
+		Client client = new Client("raphael", 30001, "192.168.99.230");
 		boolean running = true;
 		while (running)
 		{

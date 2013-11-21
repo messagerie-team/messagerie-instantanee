@@ -64,7 +64,7 @@ public class ClientServerUI
 	 */
 	public ClientServerUI()
 	{
-		client = new Client("client3", 3003, "localhost");
+		client = new Client("client3", 3003, "192.168.99.71");
 		clientList = client.getClientList();
 		keyClientList = clientList.keySet();
 		listenerMenu = new ClientServerListener();
