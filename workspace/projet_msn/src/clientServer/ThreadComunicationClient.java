@@ -24,17 +24,17 @@ public class ThreadComunicationClient extends Thread
 	private boolean running;
 	private String ipServer;
 
-	public ThreadComunicationClient(Client client,String ipServer)
+	public ThreadComunicationClient(Client client, String ipServer)
 	{
 		this.client = client;
-		this.ipServer=ipServer;
+		this.ipServer = ipServer;
 	}
 
-	public ThreadComunicationClient(Client client, Socket socket,String ipServer)
+	public ThreadComunicationClient(Client client, Socket socket, String ipServer)
 	{
 		this.client = client;
 		this.socket = socket;
-		this.ipServer=ipServer;
+		this.ipServer = ipServer;
 		this.protocol = new ProtocolTCP(socket);
 	}
 
@@ -43,6 +43,7 @@ public class ThreadComunicationClient extends Thread
 	{
 		try
 		{
+			System.out.println(this.ipServer);
 			this.socket = new Socket(this.ipServer, 30970);
 			this.protocol = new ProtocolTCP(socket);
 		} catch (Exception e)
