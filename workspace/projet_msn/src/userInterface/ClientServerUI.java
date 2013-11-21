@@ -31,9 +31,10 @@ public class ClientServerUI
 	public static HashMap<String, String> clientList;
 	private static Set<String> keyClientList;
 	private static Vector<ClientListData> SimpleClientList;
-	private static JList<ClientListData> listTest;
+	public static JList<ClientListData> listTest;
 
-	public static ActionListener listenerMenu;
+	public static ClientServerListener listenerMenu;
+	public static ListClientListener listenerList;
 	public static JMenuBar menuBar;
 	public static JPanel connectionPanel;
 	public static JTextField pseudoField;
@@ -64,10 +65,11 @@ public class ClientServerUI
 	 */
 	public ClientServerUI()
 	{
-		client = new Client("client3", 3002, "localhost");
+		client = new Client("client3", 3000, "localhost");
 		clientList = client.getClientList();
 		keyClientList = clientList.keySet();
 		listenerMenu = new ClientServerListener();
+		listenerList = new ListClientListener();
 		initialize();
 	}
 
@@ -81,7 +83,8 @@ public class ClientServerUI
 
 		for (String key : keyClientList)
 		{
-			SimpleClientList.add(new ClientListData(key, clientList.get(key)));
+			ClientListData clientListData = new ClientListData(key, clientList.get(key));
+			SimpleClientList.add(clientListData);
 		}
 		System.out.println("nouvelle list" + SimpleClientList);
 		// listTest = new JList<ClientListData>(SimpleClientList);
@@ -111,6 +114,7 @@ public class ClientServerUI
 		listTest = new JList<ClientListData>();
 		listTest.setListData(new Vector<ClientListData>());
 		listTest.updateUI();
+		listTest.addMouseListener(listenerList);
 		// frame.getContentPane().add(list, BorderLayout.SOUTH);
 
 		frame.setLocation(400, 300);

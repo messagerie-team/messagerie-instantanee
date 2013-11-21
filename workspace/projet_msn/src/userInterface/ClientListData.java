@@ -1,9 +1,17 @@
 package userInterface;
 
+import java.awt.event.MouseListener;
+import java.io.Serializable;
 import java.util.Map.Entry;
 
-public class ClientListData implements Entry<String, String> 
+import javax.swing.JComponent;
+
+public class ClientListData extends JComponent implements Entry<String, String>
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7871773513120449008L;
 	private final String key;
 	private String value;
 
