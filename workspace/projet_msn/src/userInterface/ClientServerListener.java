@@ -31,6 +31,7 @@ public class ClientServerListener implements ActionListener
 			break;
 		case "Se connecter":
 			ClientServerUI.client.registerToServer();
+			ClientServerUI.refreshClient();
 			break;
 		case "Se déconnecter":
 			ClientServerUI.client.unregisterToServer();
