@@ -15,8 +15,8 @@ Il s'agit de concevoir une application de messagerie instantanée et semi-décen
 
 == Groupe de projet
 * FARDILHA Mickaël
-* {COFFINET Dorian}[https://github.com/geeknbar]
-* GAUTHIER Thibault
+* {COFFINET Dorian}[http://github.com/geeknbar]
+* {GAUTHIER Thibault}[http://github.com/thgauthier]
 * PILLIE Raphaël
 
 == Environnement requis
