@@ -30,7 +30,19 @@ public class ClientServerListener implements ActionListener
 			ClientServerUI.refreshClient();
 			break;
 		case "Se connecter":
+			ClientServerUI.client.setName(ClientServerUI.pseudoField.getText());
 			ClientServerUI.client.registerToServer();
+			ClientServerUI.client.askListToServer();
+			try
+			{
+				Thread.sleep(1000);
+			} catch (InterruptedException e1)
+			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			System.out.println(ClientServerUI.client.getClientList());
+			System.out.println(ClientServerUI.clientList);
 			ClientServerUI.refreshClient();
 			break;
 		case "Se déconnecter":

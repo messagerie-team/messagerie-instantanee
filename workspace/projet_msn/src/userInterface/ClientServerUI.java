@@ -37,6 +37,7 @@ public class ClientServerUI
 	public static ActionListener listenerMenu;
 	public static JMenuBar menuBar;
 	public static JPanel connectionPanel;
+	public static JTextField pseudoField;
 
 	/**
 	 * Launch the application.
@@ -163,7 +164,7 @@ public class ClientServerUI
 		verticalStrut_1.setMaximumSize(new Dimension(32767, 100));
 		verticalBox.add(verticalStrut_1);
 
-		JTextField pseudoField = new JTextField("Raphael");
+		pseudoField = new JTextField("Raphael");
 		pseudoField.setMinimumSize(new Dimension(95, 20));
 		pseudoField.setMaximumSize(new Dimension(110, 25));
 		verticalBox.add(pseudoField);
