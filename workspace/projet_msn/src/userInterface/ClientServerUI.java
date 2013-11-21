@@ -55,7 +55,7 @@ public class ClientServerUI
 	 */
 	public ClientServerUI()
 	{
-		client = new Client("client3", 3003);
+		client = new Client("client3", 3003,"localhost");
 		clientList = client.getClientList();
 		keyClientList = clientList.keySet();
 		initialize();

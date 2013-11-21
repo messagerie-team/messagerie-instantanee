@@ -20,8 +20,9 @@ public class Client extends AbstractClientServer
 	private int listeningUDPPort;
 	private ThreadListenerUDP threadListenerUDP;
 	private Protocol protocol;
+	private String ipServer;
 
-	public Client(String name, int listeningUDPPort)
+	public Client(String name, int listeningUDPPort, String ipServer)
 	{
 		super();
 		this.name = name;
@@ -29,7 +30,7 @@ public class Client extends AbstractClientServer
 		this.protocol = new ProtocolUDP(listeningUDPPort);
 		this.clientList = new HashMap<String, String>();
 		this.dialogs = new Vector<ClientDialog>();
-		this.threadComunicationClient = new ThreadComunicationClient(this);
+		this.threadComunicationClient = new ThreadComunicationClient(this, ipServer);
 		this.threadListenerUDP = new ThreadListenerUDP(this, this.protocol);
 		this.threadListenerUDP.start();
 	}
@@ -139,7 +140,7 @@ public class Client extends AbstractClientServer
 			this.threadComunicationClient.start();
 		} else
 		{
-			this.threadComunicationClient = new ThreadComunicationClient(this);
+			this.threadComunicationClient = new ThreadComunicationClient(this, this.ipServer);
 			this.threadComunicationClient.start();
 		}
 	}
@@ -377,7 +378,7 @@ public class Client extends AbstractClientServer
 	public static void main(String[] args)
 	{
 		Scanner sc = new Scanner(System.in);
-		Client client = new Client("raphael", 30001);
+		Client client = new Client("raphael", 30001, "localhost");
 		boolean running = true;
 		while (running)
 		{
