@@ -34,9 +34,9 @@ public class ClientServerUI
 	private static JPanel list;
 	private static JList<String> listTest;
 
-	private static ActionListener listenerMenu;
-	private static JMenuBar menuBar;
-	private static JPanel connectionPanel;
+	public static ActionListener listenerMenu;
+	public static JMenuBar menuBar;
+	public static JPanel connectionPanel;
 
 	/**
 	 * Launch the application.
@@ -64,7 +64,7 @@ public class ClientServerUI
 	 */
 	public ClientServerUI()
 	{
-		client = new Client("client3", 3003, "192.168.99.71");
+		client = new Client("client3", 3003, "localhost");
 		clientList = client.getClientList();
 		keyClientList = clientList.keySet();
 		listenerMenu = new ClientServerListener();
@@ -73,7 +73,8 @@ public class ClientServerUI
 
 	public static void refreshClient()
 	{
-		connectionPanel.removeAll();
+		//connectionPanel.removeAll();
+		connectionPanel.setVisible(false);
 		keyClientList = clientList.keySet();
 		SimpleClientList = new Vector<String>();
 		for (String key : keyClientList)

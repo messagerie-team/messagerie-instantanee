@@ -35,6 +35,7 @@ public class ClientServerListener implements ActionListener
 			break;
 		case "Se déconnecter":
 			ClientServerUI.client.unregisterToServer();
+			ClientServerUI.connectionPanel.setVisible(true);
 			break;
 
 		default:
