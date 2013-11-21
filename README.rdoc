@@ -1,5 +1,4 @@
-projet_msn
-==========
+== Projet MSN
 
 == Description :
 Projet réalisé dans le cadre du Master 1 Informatique à l'université d'Angers.
@@ -16,7 +15,7 @@ Il s'agit de concevoir une application de messagerie instantanée et semi-décen
 
 == Groupe de projet
 * FARDILHA Mickaël
-*{COFFINET Dorian}[https://github.com/geeknbar]
+* {COFFINET Dorian}[https://github.com/geeknbar]
 * GAUTHIER Thibault
 * PILLIE Raphaël
 
