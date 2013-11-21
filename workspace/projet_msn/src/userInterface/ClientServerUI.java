@@ -4,17 +4,20 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Frame;
+import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Vector;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import clientServer.Client;
 
@@ -28,6 +31,10 @@ public class ClientServerUI
 	private static Vector<String> SimpleClientList;
 	private static JPanel list;
 	private static JList<String> listTest;
+
+	private static ActionListener listenerMenu;
+	private static JMenuBar menuBar;
+	private static JPanel connectionPanel;
 
 	/**
 	 * Launch the application.
@@ -55,9 +62,10 @@ public class ClientServerUI
 	 */
 	public ClientServerUI()
 	{
-		client = new Client("client3", 3003,"localhost");
+		client = new Client("client3", 3003, "localhost");
 		clientList = client.getClientList();
 		keyClientList = clientList.keySet();
+		listenerMenu = new ClientServerListener();
 		initialize();
 	}
 
@@ -83,19 +91,27 @@ public class ClientServerUI
 	private void initialize()
 	{
 		frame = new JFrame("Projet msn");
-		/*
-		 * frame.getContentPane().setForeground(Color.WHITE);
-		 * frame.setResizable(false);
-		 * frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		 * frame.getContentPane().setLayout(new BorderLayout());
-		 */
 		list = new JPanel();
 		list.repaint();
 		list.setLayout(new BorderLayout());
-		refreshClient();
 
-		ActionListener listenerMenu = new ClientServerListener();
-		JMenuBar menuBar = new JMenuBar();
+		constructMenu();
+		constructConnectionPanel();
+		refreshClient();
+		frame.add(menuBar, BorderLayout.NORTH);
+		frame.add(connectionPanel, BorderLayout.CENTER);
+		frame.add(list, BorderLayout.SOUTH);
+		
+		frame.setLocation(400, 300);
+		frame.setMinimumSize(new Dimension(200, 300));
+		frame.setResizable(false);
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+
+	private void constructMenu()
+	{
+		menuBar = new JMenuBar();
 		JMenu menuPrincipal = new JMenu("Fichier");
 		JMenu menuConfiguration = new JMenu("Configuration");
 		JMenuItem profil = new JMenuItem("Profil");
@@ -126,14 +142,17 @@ public class ClientServerUI
 
 		menuBar.add(menuPrincipal);
 		menuBar.add(menuConfiguration);
+	}
 
-		frame.add(menuBar, BorderLayout.NORTH);
-		frame.add(list, BorderLayout.CENTER);
+	private void constructConnectionPanel()
+	{
+		connectionPanel = new JPanel();
+		connectionPanel.setLayout(new GridLayout(10,3));
 
-		frame.setLocation(400, 300);
-		frame.setMinimumSize(new Dimension(200, 300));
-		frame.setResizable(false);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JTextField pseudoField = new JTextField("Raphael");
+		JButton connectionButton = new JButton("Se connecter");
+		connectionButton.addActionListener(listenerMenu);
+		connectionPanel.add(pseudoField);
+		connectionPanel.add(connectionButton);
 	}
 }
