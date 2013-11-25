@@ -7,14 +7,16 @@ import dataLink.Protocol;
 
 public class ClientDialog
 {
+	private Client client;
 	private String idDialog;
 	private Vector<ClientServerData> clients;
 	private Protocol protocol;
 	private String dialogue;
 	private String lastMessage;
 
-	public ClientDialog(String idDialog, Protocol protocol)
+	public ClientDialog(String idDialog, Client client, Protocol protocol)
 	{
+		this.client = client;
 		this.idDialog = idDialog;
 		this.clients = new Vector<ClientServerData>();
 		this.protocol = protocol;
@@ -22,8 +24,9 @@ public class ClientDialog
 		this.lastMessage = "";
 	}
 
-	public ClientDialog(Protocol protocol)
+	public ClientDialog(Client client, Protocol protocol)
 	{
+		this.client = client;
 		SecureRandom random = new SecureRandom();
 		this.idDialog = new BigInteger(130, random).toString(32);
 		this.clients = new Vector<ClientServerData>();
@@ -41,9 +44,9 @@ public class ClientDialog
 	{
 		for (ClientServerData client : this.clients)
 		{
-			this.protocol.sendMessage("dialog:message:" + this.idDialog + ":>" + message, client.getIp(), client.getPort());
+			this.protocol.sendMessage("dialog:message:" + this.idDialog + ":" + this.client.getName() + ">" + message, client.getIp(), client.getPort());
 		}
-		this.addMessage(message);
+		this.addMessage("moi>" + message);
 	}
 
 	public String receiveMessage(String message)

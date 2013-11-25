@@ -132,7 +132,7 @@ public class Client extends AbstractClientServer
 			}
 			if (!alreadyDone)
 			{
-				ClientDialog dialog = new ClientDialog(this.protocol);
+				ClientDialog dialog = new ClientDialog(this, this.protocol);
 				dialog.addClient(client);
 				String idDialog = dialog.getIdDialog();
 				protocol.sendMessage("dialog:newDialog:" + idDialog, client.getIp(), client.getPort());
@@ -317,7 +317,7 @@ public class Client extends AbstractClientServer
 					if (idDialog.length() > 20)
 					{
 						// On crée le dialog
-						this.dialogs.add(new ClientDialog(idDialog, this.protocol));
+						this.dialogs.add(new ClientDialog(idDialog, this, this.protocol));
 					}
 
 					else if (idDialog.equals("clients"))
