@@ -8,12 +8,19 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.ListSelectionModel;
 
@@ -43,23 +50,12 @@ public class ClientUI extends JFrame
 	/**
 	 * Launch the application.
 	 */
-	/*public static void main(String[] args)
-	{
-		EventQueue.invokeLater(new Runnable()
-		{
-			public void run()
-			{
-				try
-				{
-					ClientUI frame = new ClientUI(new Client("", 3000, ""));
-					frame.setVisible(true);
-				} catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-			}
-		});
-	}*/
+	/*
+	 * public static void main(String[] args) { EventQueue.invokeLater(new
+	 * Runnable() { public void run() { try { ClientUI frame = new ClientUI(new
+	 * Client("", 3000, "")); frame.setVisible(true); } catch (Exception e) {
+	 * e.printStackTrace(); } } }); }
+	 */
 
 	/**
 	 * Create the frame.
@@ -129,6 +125,31 @@ public class ClientUI extends JFrame
 
 		textAreaSaisie = new JTextArea();
 		hbBas.add(textAreaSaisie);
+		textAreaSaisie.addKeyListener(new KeyListener()
+		{
+
+			@Override
+			public void keyTyped(KeyEvent e)
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER)
+				{
+					sendMessage();
+				}
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e)
+			{
+				// TODO Auto-generated method stub
+			}
+		});
 
 		Component hsRightSaisie = Box.createHorizontalStrut(20);
 		hsRightSaisie.setPreferredSize(new Dimension(5, 0));
@@ -145,11 +166,7 @@ public class ClientUI extends JFrame
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				if (list.getSelectedValue() != null)
-				{
-					ClientListData dialog = list.getSelectedValue();
-					client.sendMessageToClient(textAreaSaisie.getText(), dialog.getKey());
-				}
+				sendMessage();
 			}
 		});
 
@@ -259,6 +276,23 @@ public class ClientUI extends JFrame
 		}
 		System.out.println("nouvelle list" + simpleClientList);
 		list.setListData(simpleClientList);
+	}
+
+	public void sendMessage()
+	{
+		if (list.getSelectedValue() != null)
+		{
+			ClientListData dialog = list.getSelectedValue();
+			String message = textAreaSaisie.getText();
+			String[] messagesSplit = message.split("[\r\n]");
+			message = "";
+			for (String messageSplit : messagesSplit)
+			{
+				message += messageSplit + " ";
+			}
+			client.sendMessageToClient(message, dialog.getKey());
+			textAreaSaisie.setText("");
+		}
 	}
 
 }
