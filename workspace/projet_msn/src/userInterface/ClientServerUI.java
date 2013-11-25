@@ -3,9 +3,6 @@ package userInterface;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.Frame;
-import java.awt.GridLayout;
-import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Vector;
@@ -20,7 +17,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import clientServer.Client;
+
 import javax.swing.Box;
+
 import java.awt.Component;
 
 public class ClientServerUI
@@ -46,12 +45,13 @@ public class ClientServerUI
 	{
 		EventQueue.invokeLater(new Runnable()
 		{
+			@SuppressWarnings("static-access")
 			public void run()
 			{
 				try
 				{
 					ClientServerUI window = new ClientServerUI();
-					window.frame.setVisible(true);
+					window.getFrame().setVisible(true);
 				} catch (Exception e)
 				{
 					e.printStackTrace();
@@ -89,13 +89,13 @@ public class ClientServerUI
 		System.out.println("nouvelle list" + SimpleClientList);
 		// listTest = new JList<ClientListData>(SimpleClientList);
 		listTest.setListData(SimpleClientList);
-		frame.getContentPane().add(listTest, BorderLayout.CENTER);
+		getFrame().getContentPane().add(listTest, BorderLayout.CENTER);
 		listTest.updateUI();
 		listTest.setVisible(true);
 		listTest.validate();
 		listTest.repaint();
-		frame.validate();
-		frame.repaint();
+		getFrame().validate();
+		getFrame().repaint();
 		// System.out.println(list);
 	}
 
@@ -104,24 +104,24 @@ public class ClientServerUI
 	 */
 	private void initialize()
 	{
-		frame = new JFrame("Projet msn");
+		setFrame(new JFrame("Projet msn"));
 
 		constructMenu();
 		constructConnectionPanel();
 
-		frame.getContentPane().add(menuBar, BorderLayout.NORTH);
-		frame.getContentPane().add(connectionPanel, BorderLayout.CENTER);
+		getFrame().getContentPane().add(menuBar, BorderLayout.NORTH);
+		getFrame().getContentPane().add(connectionPanel, BorderLayout.CENTER);
 		listTest = new JList<ClientListData>();
 		listTest.setListData(new Vector<ClientListData>());
 		listTest.updateUI();
 		listTest.addMouseListener(listenerList);
 		// frame.getContentPane().add(list, BorderLayout.SOUTH);
 
-		frame.setLocation(400, 300);
-		frame.setMinimumSize(new Dimension(200, 300));
-		frame.setResizable(false);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getFrame().setLocation(400, 300);
+		getFrame().setMinimumSize(new Dimension(200, 300));
+		getFrame().setResizable(false);
+		getFrame().setVisible(true);
+		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	private void constructMenu()
@@ -168,20 +168,30 @@ public class ClientServerUI
 		Box verticalBox = Box.createVerticalBox();
 		connectionPanel.add(verticalBox, BorderLayout.CENTER);
 
-		Component verticalStrut_1 = Box.createVerticalStrut(20);
-		verticalStrut_1.setMaximumSize(new Dimension(32767, 100));
-		verticalBox.add(verticalStrut_1);
+		Component vsTop = Box.createVerticalStrut(20);
+		vsTop.setMaximumSize(new Dimension(32767, 100));
+		verticalBox.add(vsTop);
 
 		pseudoField = new JTextField("Raphael");
 		pseudoField.setMinimumSize(new Dimension(95, 20));
 		pseudoField.setMaximumSize(new Dimension(110, 25));
 		verticalBox.add(pseudoField);
 
-		Component verticalStrut = Box.createVerticalStrut(5);
-		verticalBox.add(verticalStrut);
+		Component vsCenter = Box.createVerticalStrut(5);
+		verticalBox.add(vsCenter);
 		JButton connectionButton = new JButton("Se connecter");
 		connectionButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		verticalBox.add(connectionButton);
 		connectionButton.addActionListener(listenerMenu);
+	}
+
+	public static JFrame getFrame()
+	{
+		return frame;
+	}
+
+	public static void setFrame(JFrame frame) 
+	{
+		ClientServerUI.frame = frame;
 	}
 }
