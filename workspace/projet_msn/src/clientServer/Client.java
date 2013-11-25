@@ -1,5 +1,7 @@
 package clientServer;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -28,7 +30,7 @@ public class Client extends AbstractClientServer
 		this.protocol = new ProtocolUDP(listeningUDPPort);
 		this.clientList = new HashMap<String, String>();
 		this.dialogs = new Vector<ClientDialog>();
-		this.ipServer=ipServer;
+		this.ipServer = ipServer;
 		this.threadComunicationClient = new ThreadComunicationClient(this, ipServer);
 		this.threadListenerUDP = new ThreadListenerUDP(this, this.protocol);
 		this.threadListenerUDP.start();
@@ -41,6 +43,25 @@ public class Client extends AbstractClientServer
 			this.launchThread();
 			Thread.sleep(500);
 			threadComunicationClient.registerClient(new StringTokenizer(""));
+			new Thread(new Runnable()
+			{
+
+				@Override
+				public void run()
+				{
+					while (true)
+					{
+						try
+						{
+							Thread.sleep(1000);
+							protocol.sendMessage("alive:" + id, InetAddress.getByName(ipServer), 30971);
+						} catch (InterruptedException | UnknownHostException e)
+						{
+							e.printStackTrace();
+						}
+					}
+				}
+			}).start();
 		} catch (InterruptedException e)
 		{
 			e.printStackTrace();
@@ -177,7 +198,7 @@ public class Client extends AbstractClientServer
 	public void addClientList(String list)
 	{
 		StringTokenizer token = new StringTokenizer(list, ",");
-		this.clientList=new HashMap<String, String>();
+		this.clientList = new HashMap<String, String>();
 		while (token.hasMoreTokens())
 		{
 			String element = token.nextToken();
@@ -249,9 +270,21 @@ public class Client extends AbstractClientServer
 		case "dialog":
 			this.treatIncomeDialog(token);
 			break;
+		case "listClient":
+			this.treatIncomeList(token);
+			break;
 
 		default:
 			break;
+		}
+	}
+
+	public void treatIncomeList(StringTokenizer token)
+	{
+		if (token.hasMoreTokens())
+		{
+			String nextToken = token.nextToken();
+			this.addClientList(nextToken);
 		}
 	}
 

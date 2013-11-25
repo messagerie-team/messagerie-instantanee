@@ -13,7 +13,7 @@ public class ClientServerListener implements ActionListener
 		switch (e.getActionCommand())
 		{
 		case "Profil":
-			
+
 			break;
 		case "Rafraichir":
 			ClientServerUI.client.askListToServer();
@@ -35,21 +35,12 @@ public class ClientServerListener implements ActionListener
 			try
 			{
 				Thread.sleep(3000);
+				ClientServerUI.refreshClient();
 			} catch (InterruptedException e1)
 			{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			ClientServerUI.client.askListToServer();
-			try
-			{
-				Thread.sleep(1000);
-			} catch (InterruptedException e1)
-			{
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			ClientServerUI.refreshClient();
 			break;
 		case "Se déconnecter":
 			ClientServerUI.client.unregisterToServer();

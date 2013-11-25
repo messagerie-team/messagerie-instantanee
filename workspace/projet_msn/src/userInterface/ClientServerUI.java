@@ -28,7 +28,7 @@ public class ClientServerUI
 	private static JFrame mainFrame;
 	public static JFrame dialogFrame;
 	public static Client client;
-	
+
 	public static HashMap<String, String> clientList;
 	private static Set<String> keyClientList;
 	private static Vector<ClientListData> SimpleClientList;
@@ -54,8 +54,8 @@ public class ClientServerUI
 				{
 					ClientServerUI window = new ClientServerUI();
 					window.getMainFrame().setVisible(true);
-					//window.dialogFrame = new ClientUI();
-					//window.dialogFrame.setVisible(true);
+					// window.dialogFrame = new ClientUI();
+					// window.dialogFrame.setVisible(true);
 				} catch (Exception e)
 				{
 					e.printStackTrace();
@@ -77,6 +77,33 @@ public class ClientServerUI
 		dialogFrame = new ClientUI(client);
 		dialogFrame.setVisible(true);
 		initialize();
+
+		new Thread(new Runnable()
+		{
+
+			@Override
+			public void run()
+			{
+				// TODO Auto-generated method stub
+				HashMap<String, String> listTemp = new HashMap<>(client.getClientList());
+				while (true)
+				{
+					if (!listTemp.equals(client.getClientList()))
+					{
+						listTemp = new HashMap<>(client.getClientList());
+						refreshClient();
+					}
+					try
+					{
+						Thread.sleep(500);
+					} catch (InterruptedException e)
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}).start();
 	}
 
 	public static void refreshClient()
@@ -96,12 +123,7 @@ public class ClientServerUI
 		// listTest = new JList<ClientListData>(SimpleClientList);
 		listTest.setListData(SimpleClientList);
 		getMainFrame().getContentPane().add(listTest, BorderLayout.CENTER);
-		listTest.updateUI();
 		listTest.setVisible(true);
-		listTest.validate();
-		listTest.repaint();
-		getMainFrame().validate();
-		getMainFrame().repaint();
 		// System.out.println(list);
 	}
 

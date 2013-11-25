@@ -5,7 +5,16 @@ package clientServer;
 
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.StringTokenizer;
 import java.util.Vector;
+
+import userInterface.ClientListData;
+
+import dataLink.Protocol;
+import dataLink.ProtocolUDP;
 
 /**
  * @author Mickael
@@ -17,6 +26,9 @@ public class Server extends AbstractClientServer
 
 	// Thread d'ecoute du serveur
 	private ThreadListenerTCP threadListener;
+	private ThreadListenerUDP threadListenerUDP;
+	Protocol protocol;
+	private HashMap<String, Integer> clientTTL;
 
 	/**
 	 * Construct Server() Constructeur le la class Server. Initialise les
@@ -25,7 +37,10 @@ public class Server extends AbstractClientServer
 	public Server()
 	{
 		super();
+		this.protocol = new ProtocolUDP(30971);
 		this.threadListener = new ThreadListenerTCP(this, 30970);
+		this.threadListenerUDP = new ThreadListenerUDP(this, this.protocol);
+		this.clientTTL = new HashMap<String, Integer>();
 	}
 
 	/**
@@ -37,7 +52,10 @@ public class Server extends AbstractClientServer
 	public Server(int port)
 	{
 		super();
+		this.protocol = new ProtocolUDP(port + 1);
 		this.threadListener = new ThreadListenerTCP(this, port);
+		this.threadListenerUDP = new ThreadListenerUDP(this, this.protocol);
+		this.clientTTL = new HashMap<String, Integer>();
 	}
 
 	/**
@@ -46,6 +64,36 @@ public class Server extends AbstractClientServer
 	public void launch()
 	{
 		this.threadListener.start();
+		this.threadListenerUDP.start();
+		new Thread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				while (true)
+				{
+					try
+					{
+						Thread.sleep(1000);
+					} catch (InterruptedException e)
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					Set<String> keys = clientTTL.keySet();
+					for (String key : keys)
+					{
+						int ttl = clientTTL.get(key);
+						clientTTL.put(key, ttl - 1);
+						if ((ttl - 1) < 0)
+						{
+							removeClient(key);
+						}
+
+					}
+				}
+			}
+		}).start();
 	}
 
 	/**
@@ -54,6 +102,7 @@ public class Server extends AbstractClientServer
 	public void stopServer()
 	{
 		this.threadListener.stopThread();
+		this.threadListenerUDP.stopThread();
 	}
 
 	/**
@@ -69,6 +118,27 @@ public class Server extends AbstractClientServer
 	{
 		if (this.getClients().add(new ClientServerData(name, client.getInetAddress(), listeningUDPPort)))
 		{
+			new Thread(new Runnable()
+			{
+
+				@Override
+				public void run()
+				{
+					try
+					{
+						Thread.sleep(3500);
+					} catch (InterruptedException e)
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					for (ClientServerData clientServerData : getClients())
+					{
+						sendListClient(clientServerData);
+					}
+				}
+			}).start();
+			this.clientTTL.put(this.getClients().lastElement().getId(), 10);
 			return this.getClients().lastElement().getId();
 		} else
 		{
@@ -85,7 +155,13 @@ public class Server extends AbstractClientServer
 	 */
 	public boolean removeClient(ClientServerData client)
 	{
-		return this.getClients().remove(client);
+		boolean ret = this.getClients().remove(client);
+		this.clientTTL.remove(client.getId());
+		for (ClientServerData clientServerData : this.getClients())
+		{
+			this.sendListClient(clientServerData);
+		}
+		return ret;
 	}
 
 	/**
@@ -98,6 +174,7 @@ public class Server extends AbstractClientServer
 	public boolean removeClient(String id)
 	{
 		boolean erase = false;
+		this.clientTTL.remove(id);
 		ClientServerData eraseClient = null;
 		for (ClientServerData client : this.getClients())
 		{
@@ -109,9 +186,14 @@ public class Server extends AbstractClientServer
 		}
 		if (erase)
 		{
-			this.getClients().remove(eraseClient);
+			boolean ret = this.getClients().remove(eraseClient);
+			for (ClientServerData clientServerData : this.getClients())
+			{
+				this.sendListClient(clientServerData);
+			}
+			return ret;
 		}
-		return erase;
+		return false;
 	}
 
 	/**
@@ -128,9 +210,14 @@ public class Server extends AbstractClientServer
 		{
 			if (client.getIp().equals(ip))
 			{
+				this.clientTTL.remove(client.getId());
 				this.getClients().remove(client);
 				erase = true;
 			}
+		}
+		for (ClientServerData clientServerData : this.getClients())
+		{
+			this.sendListClient(clientServerData);
 		}
 		return erase;
 	}
@@ -145,6 +232,12 @@ public class Server extends AbstractClientServer
 			firstOne = false;
 		}
 		return ret;
+	}
+
+	public void sendListClient(ClientServerData client)
+	{
+		String listClient = this.getListClient();
+		protocol.sendMessage("listClient:" + listClient, client.getIp(), client.getPort());
 	}
 
 	public String getClient(String id)
@@ -185,7 +278,26 @@ public class Server extends AbstractClientServer
 	@Override
 	public void treatIncomeUDP(String message)
 	{
+		System.out.println(message);
+		StringTokenizer token = new StringTokenizer(message, ":");
+		String firstToken = token.nextToken();
+		switch (firstToken)
+		{
+		case "alive":
+			if (token.hasMoreElements())
+			{
+				String key = token.nextToken();
+				if (key.length() > 20)
+				{
+					int ttl = clientTTL.get(key);
+					clientTTL.put(key, ttl + 1);
+				}
+			}
+			break;
 
+		default:
+			break;
+		}
 	}
 
 	public static void main(String[] args)
