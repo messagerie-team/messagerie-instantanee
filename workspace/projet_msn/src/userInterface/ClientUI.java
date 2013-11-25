@@ -17,8 +17,14 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.ListSelectionModel;
 
+import clientServer.Client;
+import clientServer.ClientDialog;
+import clientServer.ClientServerData;
+
 import java.awt.Dimension;
 import java.awt.Component;
+import java.util.HashMap;
+import java.util.Set;
 import java.util.Vector;
 
 public class ClientUI extends JFrame
@@ -26,9 +32,13 @@ public class ClientUI extends JFrame
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	public static Client client;
 
-	private JList<ClientListData> list;
+	public static Vector<ClientDialog> dialogList;
 	private static Vector<ClientListData> simpleClientList;
+	private JList<ClientListData> list;
+	private JTextArea textAreaDialog;
+	private JTextArea textAreaSaisie;
 
 	/**
 	 * Launch the application.
@@ -41,7 +51,7 @@ public class ClientUI extends JFrame
 			{
 				try
 				{
-					ClientUI frame = new ClientUI();
+					ClientUI frame = new ClientUI(new Client("", 3000, ""));
 					frame.setVisible(true);
 				} catch (Exception e)
 				{
@@ -54,9 +64,10 @@ public class ClientUI extends JFrame
 	/**
 	 * Create the frame.
 	 */
-	public ClientUI()
+	public ClientUI(Client clientServer)
 	{
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		client = clientServer;
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 400);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -102,7 +113,7 @@ public class ClientUI extends JFrame
 		hsRightList.setPreferredSize(new Dimension(5, 0));
 		hbHaut.add(hsRightList);
 
-		JTextArea textAreaDialog = new JTextArea();
+		textAreaDialog = new JTextArea();
 		textAreaDialog.setColumns(40);
 		hbHaut.add(textAreaDialog);
 
@@ -116,7 +127,7 @@ public class ClientUI extends JFrame
 		Box hbBas = Box.createHorizontalBox();
 		panelBas.add(hbBas, BorderLayout.CENTER);
 
-		JTextArea textAreaSaisie = new JTextArea();
+		textAreaSaisie = new JTextArea();
 		hbBas.add(textAreaSaisie);
 
 		Component hsRightSaisie = Box.createHorizontalStrut(20);
@@ -134,6 +145,11 @@ public class ClientUI extends JFrame
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
+				if (list.getSelectedValue() != null)
+				{
+					ClientListData dialog = list.getSelectedValue();
+					client.sendMessageToClient(textAreaSaisie.getText(), dialog.getKey());
+				}
 			}
 		});
 
@@ -157,6 +173,92 @@ public class ClientUI extends JFrame
 		vsBtn.setPreferredSize(new Dimension(0, 5));
 		vbBouton.add(vsBtn);
 		vbBouton.add(btnFermer);
+
+		new Thread(new Runnable()
+		{
+
+			@Override
+			public void run()
+			{
+				Vector<ClientDialog> temp = new Vector<ClientDialog>(client.getDialogs());
+				while (true)
+				{
+					if (!temp.equals(client.getDialogs()))
+					{
+						System.out.println("changement");
+						temp = new Vector<ClientDialog>(client.getDialogs());
+						refreshList();
+					}
+					try
+					{
+						Thread.sleep(200);
+					} catch (InterruptedException e)
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+			}
+		}).start();
+
+		new Thread(new Runnable()
+		{
+
+			@Override
+			public void run()
+			{
+				while (true)
+				{
+					if (!list.isSelectionEmpty())
+					{
+						ClientListData dialog = list.getSelectedValue();
+						String idDialog = dialog.getKey();
+						Vector<ClientDialog> listDialog = client.getDialogs();
+						String textDialog = "";
+						for (ClientDialog clientDialog : listDialog)
+						{
+							if (clientDialog.getIdDialog().equals(idDialog))
+							{
+								textDialog = clientDialog.getDialogue();
+							}
+						}
+						textAreaDialog.setText(textDialog);
+					}
+
+					try
+					{
+						Thread.sleep(20);
+					} catch (InterruptedException e)
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+			}
+		}).start();
+	}
+
+	public void refreshList()
+	{
+		dialogList = client.getDialogs();
+		simpleClientList = new Vector<ClientListData>();
+
+		for (ClientDialog dialog : dialogList)
+		{
+			String idDialog = dialog.getIdDialog();
+			Vector<ClientServerData> clients = dialog.getClients();
+			String clientstring = "";
+			for (ClientServerData clientServerData : clients)
+			{
+				clientstring += clientServerData + " ";
+			}
+			ClientListData clientListData = new ClientListData(idDialog, clientstring);
+			simpleClientList.add(clientListData);
+		}
+		System.out.println("nouvelle list" + simpleClientList);
+		list.setListData(simpleClientList);
 	}
 
 }

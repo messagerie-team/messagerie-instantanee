@@ -28,6 +28,7 @@ public class ClientServerUI
 	private static JFrame mainFrame;
 	public static JFrame dialogFrame;
 	public static Client client;
+	
 	public static HashMap<String, String> clientList;
 	private static Set<String> keyClientList;
 	private static Vector<ClientListData> SimpleClientList;
@@ -53,8 +54,8 @@ public class ClientServerUI
 				{
 					ClientServerUI window = new ClientServerUI();
 					window.getMainFrame().setVisible(true);
-					window.dialogFrame = new ClientUI();
-					window.dialogFrame.setVisible(true);
+					//window.dialogFrame = new ClientUI();
+					//window.dialogFrame.setVisible(true);
 				} catch (Exception e)
 				{
 					e.printStackTrace();
@@ -68,11 +69,13 @@ public class ClientServerUI
 	 */
 	public ClientServerUI()
 	{
-		client = new Client("client3", 3000, "localhost");
+		client = new Client("client1", 3002, "localhost");
 		clientList = client.getClientList();
 		keyClientList = clientList.keySet();
 		listenerMenu = new ClientServerListener();
 		listenerList = new ListClientListener();
+		dialogFrame = new ClientUI(client);
+		dialogFrame.setVisible(true);
 		initialize();
 	}
 
