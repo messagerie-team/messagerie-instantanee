@@ -2,11 +2,14 @@ package jUnitTest;
 
 import static org.junit.Assert.*;
 
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import org.junit.Test;
 
 import clientServer.ClientDialog;
+import clientServer.ClientServerData;
 import dataLink.ProtocolTCP;
 
 public class ClientDialogTest {
@@ -56,7 +59,15 @@ public class ClientDialogTest {
 	@Test
 	public void testAddClient()
 	{
-		fail("Not yet implemented");
+		ClientDialog cTest = new ClientDialog(new ProtocolTCP(new Socket()));
+		InetAddress intTest=null;
+		try {
+			intTest = InetAddress.getLocalHost();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		ClientServerData client = new ClientServerData("JUNIT", intTest, 3009);
+		cTest.addClient(client);
 	}
 
 	@Test
