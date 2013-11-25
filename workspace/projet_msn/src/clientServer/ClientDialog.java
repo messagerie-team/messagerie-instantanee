@@ -2,11 +2,8 @@ package clientServer;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.Random;
 import java.util.Vector;
-
 import dataLink.Protocol;
-import dataLink.ProtocolUDP;
 
 public class ClientDialog
 {
@@ -34,7 +31,7 @@ public class ClientDialog
 		this.dialogue = "";
 	}
 
-	private void addMessage(String message)
+	public void addMessage(String message)
 	{
 		this.dialogue += "\n" + message;
 		this.lastMessage = message;

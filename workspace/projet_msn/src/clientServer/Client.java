@@ -1,7 +1,5 @@
 package clientServer;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -255,7 +253,6 @@ public class Client extends AbstractClientServer
 		default:
 			break;
 		}
-
 	}
 
 	public void treatIncomeDialog(StringTokenizer token)
