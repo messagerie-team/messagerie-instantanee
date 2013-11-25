@@ -25,7 +25,8 @@ import java.awt.Component;
 public class ClientServerUI
 {
 
-	private static JFrame frame;
+	private static JFrame mainFrame;
+	public static JFrame dialogFrame;
 	public static Client client;
 	public static HashMap<String, String> clientList;
 	private static Set<String> keyClientList;
@@ -51,7 +52,9 @@ public class ClientServerUI
 				try
 				{
 					ClientServerUI window = new ClientServerUI();
-					window.getFrame().setVisible(true);
+					window.getMainFrame().setVisible(true);
+					window.dialogFrame = new ClientUI();
+					window.dialogFrame.setVisible(true);
 				} catch (Exception e)
 				{
 					e.printStackTrace();
@@ -89,13 +92,13 @@ public class ClientServerUI
 		System.out.println("nouvelle list" + SimpleClientList);
 		// listTest = new JList<ClientListData>(SimpleClientList);
 		listTest.setListData(SimpleClientList);
-		getFrame().getContentPane().add(listTest, BorderLayout.CENTER);
+		getMainFrame().getContentPane().add(listTest, BorderLayout.CENTER);
 		listTest.updateUI();
 		listTest.setVisible(true);
 		listTest.validate();
 		listTest.repaint();
-		getFrame().validate();
-		getFrame().repaint();
+		getMainFrame().validate();
+		getMainFrame().repaint();
 		// System.out.println(list);
 	}
 
@@ -104,24 +107,23 @@ public class ClientServerUI
 	 */
 	private void initialize()
 	{
-		setFrame(new JFrame("Projet msn"));
-
+		setMainFrame(new JFrame("Projet msn"));
 		constructMenu();
 		constructConnectionPanel();
 
-		getFrame().getContentPane().add(menuBar, BorderLayout.NORTH);
-		getFrame().getContentPane().add(connectionPanel, BorderLayout.CENTER);
+		getMainFrame().getContentPane().add(menuBar, BorderLayout.NORTH);
+		getMainFrame().getContentPane().add(connectionPanel, BorderLayout.CENTER);
 		listTest = new JList<ClientListData>();
 		listTest.setListData(new Vector<ClientListData>());
 		listTest.updateUI();
 		listTest.addMouseListener(listenerList);
 		// frame.getContentPane().add(list, BorderLayout.SOUTH);
 
-		getFrame().setLocation(400, 300);
-		getFrame().setMinimumSize(new Dimension(200, 300));
-		getFrame().setResizable(false);
-		getFrame().setVisible(true);
-		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getMainFrame().setLocation(400, 300);
+		getMainFrame().setMinimumSize(new Dimension(200, 300));
+		getMainFrame().setResizable(false);
+		getMainFrame().setVisible(true);
+		getMainFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	private void constructMenu()
@@ -185,13 +187,13 @@ public class ClientServerUI
 		connectionButton.addActionListener(listenerMenu);
 	}
 
-	public static JFrame getFrame()
+	public static JFrame getMainFrame()
 	{
-		return frame;
+		return mainFrame;
 	}
 
-	public static void setFrame(JFrame frame) 
+	public static void setMainFrame(JFrame frame)
 	{
-		ClientServerUI.frame = frame;
+		ClientServerUI.mainFrame = frame;
 	}
 }
