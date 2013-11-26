@@ -231,12 +231,27 @@ public class ThreadComunicationClient extends Thread
 					client = new ClientServerData(elements[0], elements[1], InetAddress.getByName(elements[2]), Integer.parseInt(elements[3]));
 
 					// this.client.startDialogToClient(client);
-					this.client.getClients().add(client);
+					boolean add = this.client.getClients().add(client);
 					System.out.println("Ajout du client recu");
+					if(add)
+					{
+						protocol.sendMessage("reply:clientConnection:DONE");
+						this.stopThread();
+					}else
+					{
+						protocol.sendMessage("reply:clientConnection:ERROR");
+						this.stopThread();
+					}
 				} catch (NumberFormatException | UnknownHostException e)
 				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				}
+			}else
+			{
+				if(elements[0].equals("ERROR"))
+				{
+					this.stopThread();
 				}
 			}
 		} else

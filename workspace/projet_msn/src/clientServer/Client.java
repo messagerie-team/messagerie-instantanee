@@ -99,18 +99,29 @@ public class Client extends AbstractClientServer
 	{
 		try
 		{
-			this.launchThread();
-			Thread.sleep(500);
-			this.threadComunicationClient.getClientConnection(clientId);
-			int cpt = 0;
-			int sizeClients = this.getClients().size();
-			System.out.println("taille : " + sizeClients);
-			while (cpt < 50 && this.getClients().size() == sizeClients)
+			boolean alreadyDone = false;
+			for (ClientDialog dialog : this.dialogs)
 			{
-				Thread.sleep(1000);
+				if (dialog.getClients().size() == 1 && dialog.getClients().firstElement().getId().equals(clientId))
+				{
+					alreadyDone = true;
+				}
 			}
-			System.out.println("taille1 : " + sizeClients);
-			this.startDialogToClient(this.getClients().lastElement());
+			if (!alreadyDone)
+			{
+				this.launchThread();
+				Thread.sleep(500);
+				this.threadComunicationClient.getClientConnection(clientId);
+				int cpt = 0;
+				int sizeClients = this.getClients().size();
+				System.out.println("taille : " + sizeClients);
+				while (cpt < 50 && this.getClients().size() == sizeClients)
+				{
+					Thread.sleep(1000);
+				}
+				System.out.println("taille1 : " + sizeClients);
+				this.startDialogToClient(this.getClients().lastElement());
+			}
 		} catch (InterruptedException e)
 		{
 			e.printStackTrace();

@@ -209,17 +209,35 @@ public class ThreadComunicationServer extends Thread
 	{
 		if (token.hasMoreTokens())
 		{
-			String clientId = token.nextToken();
-			String requested = this.server.getClient(clientId);
-			if (requested != null)
+			String nextToken = token.nextToken();
+			if (nextToken.length() > 20)
 			{
-				this.protocol.sendMessage("reply:clientConnection:" + requested);
+				String requested = this.server.getClient(nextToken);
+				if (requested != null)
+				{
+					this.protocol.sendMessage("reply:clientConnection:" + requested);
+				} else
+				{
+					this.protocol.sendMessage("reply:clientConnection:ERROR");
+					this.stopThread();
+				}
 			} else
 			{
-				this.stopThread();
+				if (nextToken.equals("DONE"))
+				{
+					this.stopThread();
+				} else if (nextToken.equals("ERROR"))
+				{
+					this.stopThread();
+				}else
+				{
+					this.protocol.sendMessage("reply:clientConnection:ERROR");
+					this.stopThread();
+				}
 			}
 		} else
 		{
+			this.protocol.sendMessage("reply:clientConnection:ERROR");
 			this.stopThread();
 		}
 	}
