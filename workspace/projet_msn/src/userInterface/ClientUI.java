@@ -269,7 +269,7 @@ public class ClientUI extends JFrame
 			String clientstring = "";
 			for (ClientServerData clientServerData : clients)
 			{
-				clientstring += clientServerData + " ";
+				clientstring += clientServerData.getName() + " ";
 			}
 			ClientListData clientListData = new ClientListData(idDialog, clientstring);
 			simpleClientList.add(clientListData);
