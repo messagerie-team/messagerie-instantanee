@@ -285,8 +285,7 @@ public class Server extends AbstractClientServer
 				String key = token.nextToken();
 				if (key.length() > 20)
 				{
-					int ttl = clientTTL.get(key);
-					clientTTL.put(key, ttl + 1);
+					clientTTL.put(key, 10);
 				}
 			}
 			break;
