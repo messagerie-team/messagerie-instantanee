@@ -4,7 +4,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import dataLink.Protocol;
-import dataLink.ProtocolUDP;
 
 public class ThreadListenerUDP extends Thread
 {
