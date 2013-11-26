@@ -68,6 +68,7 @@ public class ClientDialogTest {
 		}
 		ClientServerData client = new ClientServerData("JUNIT", intTest, 3009);
 		cTest.addClient(client);
+		
 	}
 
 	@Test
