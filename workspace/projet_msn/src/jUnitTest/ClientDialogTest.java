@@ -13,71 +13,127 @@ import clientServer.ClientDialog;
 import clientServer.ClientServerData;
 import dataLink.ProtocolTCP;
 
-public class ClientDialogTest {
+public class ClientDialogTest 
+{
+	private Client clientTest;
+	private InetAddress inetTest;
+	private ClientServerData clientDataTest;
+	private ClientDialog clientDialogueTest;
 
-	@Test
-	public void testClientDialogStringProtocol() 
+	
+	private void initTest()
 	{
-		fail("Not yet implemented");
+		try 
+		{
+			inetTest = InetAddress.getLocalHost();
+		} 
+		catch (UnknownHostException e) 
+		{
+			e.printStackTrace();
+		}
+
+		clientTest = new Client("TestUnitaire_C2",3009,"localhost");
+		clientDialogueTest = new ClientDialog(clientTest,new ProtocolTCP(new Socket()));
+		clientDataTest = new ClientServerData("JUNIT_C1", inetTest, 3009);
 	}
 
-	@Test
-	public void testClientDialogProtocol() 
-	{
-		fail("Not yet implemented");
-	}
 
 	@Test
 	public void testAddMessage()
 	{
-		Client Ctest = new Client("TestUnitaire",3009,"localhost");
-		ClientDialog cTest = new ClientDialog(Ctest,new ProtocolTCP(new Socket()));
-		cTest.addMessage("test junit");
+		initTest();
+		//ajout du premier message
+		clientDialogueTest.addMessage("test junit");
 		//test si le dernier message est egale a celui qui est inserré 
-		assertEquals("test junit", cTest.getLastMessage());
+		assertEquals("test junit", clientDialogueTest.getLastMessage());
 		//test si le dialogue message est egale au message la premiere fois
-		assertEquals("\ntest junit", cTest.getDialogue());
-		cTest.addMessage("test junit2");
+		assertEquals("\ntest junit", clientDialogueTest.getDialogue());
+		//ajout du second message
+		clientDialogueTest.addMessage("test junit2");
 		//test si le dernier message est egale a celui qui est inserré 
-		assertEquals("test junit2", cTest.getLastMessage());
+		assertEquals("test junit2", clientDialogueTest.getLastMessage());
 		//test si le dialogue message n'est egale au message puisuqu'il contient tous les messages
-		assertNotEquals("\ntest junit2", cTest.getDialogue());
+		assertNotEquals("\ntest junit2", clientDialogueTest.getDialogue());
 		//test si le dialogue est égale a l'ensemble des messages ajoutés
-		assertEquals("\ntest junit\ntest junit2", cTest.getDialogue());
+		assertEquals("\ntest junit\ntest junit2", clientDialogueTest.getDialogue());
 	}
 	
 	@Test
 	public void testSendMessage() 
 	{
-		fail("Not yet implemented");
+		initTest();
+		//ajout du premier message
+		clientDialogueTest.sendMessage("test junit");
+		//test si le dernier message est egale a celui qui est inserré 
+		assertEquals("moi>test junit", clientDialogueTest.getLastMessage());
+		//test si le dialogue message est egale au message la premiere fois
+		assertEquals("\nmoi>test junit", clientDialogueTest.getDialogue());
+		//ajout du second message
+		clientDialogueTest.sendMessage("test junit2");
+		//test si le dernier message est egale a celui qui est inserré 
+		assertEquals("moi>test junit2", clientDialogueTest.getLastMessage());
+		//test si le dialogue message n'est egale au message puisuqu'il contient tous les messages
+		assertNotEquals("\nmoi>test junit2", clientDialogueTest.getDialogue());
+		//test si le dialogue est égale a l'ensemble des messages ajoutés
+		assertEquals("\nmoi>test junit\nmoi>test junit2", clientDialogueTest.getDialogue());
 	}
 
 	@Test
 	public void testReceiveMessage() 
 	{
-		fail("Not yet implemented");
+		initTest();
+		//ajout du premier message
+		clientDialogueTest.receiveMessage("test junit");
+		//test si le dernier message est egale a celui qui est inserré 
+		assertEquals("test junit", clientDialogueTest.getLastMessage());
+		//test si le dialogue message est egale au message la premiere fois
+		assertEquals("\ntest junit", clientDialogueTest.getDialogue());
+		//ajout du second message
+		clientDialogueTest.receiveMessage("test junit2");
+		//test si le dernier message est egale a celui qui est inserré 
+		assertEquals("test junit2", clientDialogueTest.getLastMessage());
+		//test si le dialogue message n'est egale au message puisuqu'il contient tous les messages
+		assertNotEquals("\ntest junit2", clientDialogueTest.getDialogue());
+		//test si le dialogue est égale a l'ensemble des messages ajoutés
+		assertEquals("\ntest junit\ntest junit2", clientDialogueTest.getDialogue());
 	}
 
 	@Test
 	public void testAddClient()
 	{
-		Client Ctest = new Client("TestUnitaire",3009,"localhost");
-		ClientDialog cTestDial = new ClientDialog(Ctest,new ProtocolTCP(new Socket()));
-		InetAddress intTest=null;
-		try {
-			intTest = InetAddress.getLocalHost();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
-		ClientServerData client = new ClientServerData("JUNIT", intTest, 3009);
-		cTestDial.addClient(client);
-		
+		//initialisation des variables utils pour les tests
+		initTest();
+		//test si la liste (ou plutot vector de merde) est vide
+		assertEquals(clientDialogueTest.getClients().size(),0);
+		//test si la liste (ou plutot vector de merde) n'est pas null
+		assertNotNull(clientDialogueTest.getClients());
+		//ajout d'un client
+		clientDialogueTest.addClient(clientDataTest);
+		//test si la liste (ou plutot vector de merde) possède un element
+		assertEquals(clientDialogueTest.getClients().size(),1);
 	}
 
 	@Test
 	public void testRemoveClient()
 	{
-		fail("Not yet implemented");
+		//initialisation des variables utils pour les tests
+		initTest();
+		//test si la liste (ou plutot vector de merde) est vide
+		assertEquals(clientDialogueTest.getClients().size(),0);
+		//test si la liste (ou plutot vector de merde) n'est pas null
+		assertNotNull(clientDialogueTest.getClients());
+		//ajout d'un client
+		clientDialogueTest.addClient(clientDataTest);
+		//test si la liste (ou plutot vector de merde) possède un element
+		assertEquals(clientDialogueTest.getClients().size(),1);
+		//on supprime un élément existant
+		clientDialogueTest.removeClient(clientDataTest);
+		//test si la liste (ou plutot vector de merde) est vide
+		assertEquals(clientDialogueTest.getClients().size(),0);
+		//on ressuprime un élément pour vérifier si ça ne plante pas
+		clientDialogueTest.removeClient(clientDataTest);
+		//test si la liste (ou plutot vector de merde) est vide
+		assertEquals(clientDialogueTest.getClients().size(),0);
 	}
 
 }
