@@ -473,14 +473,5 @@ public class Client extends AbstractClientServer
 
 		}
 		sc.close();
-		/*
-		 * client.registerToServer(); while (client.id == null) { try {
-		 * Thread.sleep(5000); } catch (InterruptedException e) { // TODO
-		 * Auto-generated catch block e.printStackTrace(); } }
-		 * System.out.println("Demande de liste"); client.askListToServer(); try
-		 * { Thread.sleep(5000); } catch (InterruptedException e) { // TODO
-		 * Auto-generated catch block e.printStackTrace(); }
-		 * System.out.println("Demande de deco"); client.unregisterToServer();
-		 */
 	}
 }

@@ -5,13 +5,9 @@ package clientServer;
 
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.StringTokenizer;
-import java.util.Vector;
-
-import userInterface.ClientListData;
 
 import dataLink.Protocol;
 import dataLink.ProtocolUDP;

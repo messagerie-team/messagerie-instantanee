@@ -1,21 +1,14 @@
 package userInterface;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JList;
-import javax.swing.AbstractListModel;
-import javax.swing.JTextField;
-import javax.swing.JTextPane;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -30,8 +23,6 @@ import clientServer.ClientServerData;
 
 import java.awt.Dimension;
 import java.awt.Component;
-import java.util.HashMap;
-import java.util.Set;
 import java.util.Vector;
 
 public class ClientUI extends JFrame
