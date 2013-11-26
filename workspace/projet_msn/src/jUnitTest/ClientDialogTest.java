@@ -8,6 +8,7 @@ import java.net.UnknownHostException;
 
 import org.junit.Test;
 
+import clientServer.Client;
 import clientServer.ClientDialog;
 import clientServer.ClientServerData;
 import dataLink.ProtocolTCP;
@@ -29,7 +30,8 @@ public class ClientDialogTest {
 	@Test
 	public void testAddMessage()
 	{
-		ClientDialog cTest = new ClientDialog(new ProtocolTCP(new Socket()));
+		Client Ctest = new Client("TestUnitaire",3009,"localhost");
+		ClientDialog cTest = new ClientDialog(Ctest,new ProtocolTCP(new Socket()));
 		cTest.addMessage("test junit");
 		//test si le dernier message est egale a celui qui est inserré 
 		assertEquals("test junit", cTest.getLastMessage());
@@ -59,7 +61,8 @@ public class ClientDialogTest {
 	@Test
 	public void testAddClient()
 	{
-		ClientDialog cTest = new ClientDialog(new ProtocolTCP(new Socket()));
+		Client Ctest = new Client("TestUnitaire",3009,"localhost");
+		ClientDialog cTestDial = new ClientDialog(Ctest,new ProtocolTCP(new Socket()));
 		InetAddress intTest=null;
 		try {
 			intTest = InetAddress.getLocalHost();
@@ -67,7 +70,7 @@ public class ClientDialogTest {
 			e.printStackTrace();
 		}
 		ClientServerData client = new ClientServerData("JUNIT", intTest, 3009);
-		cTest.addClient(client);
+		cTestDial.addClient(client);
 		
 	}
 
