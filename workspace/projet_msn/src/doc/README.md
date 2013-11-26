@@ -39,3 +39,24 @@ Utilisation de git,svn
 Utilisation de ObjectAid UML plug-in Eclipse http://www.objectaid.com/installation
 Utilisation de Visual Automata Simulator pour la représentation des automates http://www.cs.usfca.edu/~jbovet/vas.html
 Planner pour le diagramme de Gantt (logiciel Unix)
+
+
+
+Carnet de route Mika - avancement TU
+- AbstractClientServer : RAF
+- Client : EC
+- ClientDialog : OK
+- ClientServerData : RAF 
+- Server : KO
+- ThreadComunicationClient : KO
+- ThreadComunicationServer : KO
+- ThreadListenerTCP : RAF
+- ThreadListenerUDP : RAF
+- Protocol : RAF
+- ProtocolTCP : KO
+- ProtocolUDP : KO
+- ClientListData : RAF
+- ClientServerListener : RAF
+- ClientServerUI : RAF
+- ClientUI : RAF
+- ListClientListener : RAF
