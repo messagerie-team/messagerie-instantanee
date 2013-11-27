@@ -7,12 +7,19 @@ import dataLink.Protocol;
 
 public class ThreadListenerUDP extends Thread
 {
-
+	/**
+	 * Client/Serveur a qui appartient le thread.
+	 * 
+	 * @see AbstractClientServer
+	 */
 	private AbstractClientServer clientServer;
-	// Pourquoi 60000 ? Limite théorique = 65535, limite en IPv4 = 65507
-	// private int port;
-	// Boolean permettant de stopper le Thread
+	/**
+	 * Parametre permettant de stopper le Thread.
+	 */
 	private boolean running;
+	/**
+	 * Protocol de communication.
+	 */
 	private Protocol protocol;
 
 	/**
@@ -39,7 +46,7 @@ public class ThreadListenerUDP extends Thread
 			while (this.running)
 			{
 				String message = protocol.readMessage();
-				if(message!=null)
+				if (message != null)
 				{
 					this.clientServer.treatIncomeUDP(message);
 				}
@@ -56,6 +63,7 @@ public class ThreadListenerUDP extends Thread
 	{
 		try
 		{
+			//On s'auto envoie un message pour stopper le thread
 			protocol.sendMessage("", InetAddress.getByName("localhost"), this.protocol.getLocalPort());
 		} catch (UnknownHostException e)
 		{

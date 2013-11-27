@@ -15,24 +15,52 @@ import java.net.SocketException;
  */
 public class ProtocolUDP extends Protocol
 {
-	private final int localPort;
-	public DatagramSocket socket;
-	//public DatagramSocket socketReceive;
-	public DatagramPacket writer;
-	public DatagramPacket reader;
+	/**
+	 * Socket de communication UDP.
+	 * 
+	 * @see DatagramSocket
+	 */
+	private DatagramSocket socket;
+	/**
+	 * {@link DatagramPacket} permettant l'envoie de paquet.
+	 */
+	private DatagramPacket writer;
+	/**
+	 * {@link DatagramPacket} permettant la reception de paquet.
+	 */
+	private DatagramPacket reader;
+	/**
+	 * Buffer servant a la reception des paquets.
+	 */
 	private static byte bufferReader[];
+	/**
+	 * Taille du buffer.
+	 * A determiner pourquoi.
+	 */
+	// Pourquoi 60000 ? Limite théorique = 65535, limite en IPv4 = 65507
 	private final static int sizeBufferReader = 60000;
+	/**
+	 * Dernier port avec lequel le protocol a communiquer
+	 * (Port ouvert du dernier client avec lequel il a comuniquer)
+	 */
 	private int lastPort;
+	/**
+	 * Derniere adresse avec laquelle le protocol a communiquer
+	 * (Adresse Ip du dernier client avec lequel il a comuniquer)
+	 */
 	private InetAddress lastAdress;
 
+	/**
+	 * Constructeur par defaut du protocol UDP
+	 * @param localPort
+	 */
 	public ProtocolUDP(int localPort)
 	{
 		super(localPort);
-		this.localPort=localPort;
 		try
-		{	
+		{
 			this.socket = new DatagramSocket(localPort);
-			//this.socketReceive = new DatagramSocket(localPort);
+			// this.socketReceive = new DatagramSocket(localPort);
 			byte[] buffer = ("").getBytes();
 			bufferReader = new byte[sizeBufferReader];
 			this.writer = new DatagramPacket(buffer, 0);
@@ -69,7 +97,7 @@ public class ProtocolUDP extends Protocol
 		{
 			buffer = message.getBytes("UTF-8");
 			int length = buffer.length;
-			this.writer = new DatagramPacket(buffer, length, this.socket.getInetAddress(), this.localPort);
+			this.writer = new DatagramPacket(buffer, length, this.socket.getInetAddress(), this.getLocalPort());
 			this.socket.send(writer);
 		} catch (IOException e)
 		{
@@ -84,7 +112,7 @@ public class ProtocolUDP extends Protocol
 			bufferReader = new byte[sizeBufferReader];
 			DatagramPacket data = new DatagramPacket(bufferReader, sizeBufferReader);
 			socket.receive(data);
-			System.out.println(data.getPort() +" "+data.getAddress());
+			System.out.println(data.getPort() + " " + data.getAddress());
 			this.lastPort = data.getPort();
 			this.lastAdress = data.getAddress();
 			return new String(data.getData(), 0, data.getLength());
@@ -98,7 +126,7 @@ public class ProtocolUDP extends Protocol
 	public void close()
 	{
 		this.socket.close();
-		//this.socketReceive.close();
+		// this.socketReceive.close();
 	}
 
 	public DatagramPacket getWriter()

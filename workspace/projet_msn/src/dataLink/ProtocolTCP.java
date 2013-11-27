@@ -11,17 +11,35 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 /**
- * @author Mickael
- * 
+ * @author Mickael Methode permettant de representer le protocol TCP pour la
+ *         communication TCP.
+ * @see Protocol.
  */
 public class ProtocolTCP extends Protocol
 {
+	/**
+	 * Socket de communication.
+	 * 
+	 * @see Socket
+	 */
 	public Socket socket;
+	/**
+	 * {@link PrintWriter} permettant d'envoyer des messages.
+	 */
 	public PrintWriter writer;
+	/**
+	 * {@link BufferedReader} permettant de receptionner des messages.
+	 */
 	public BufferedReader reader;
 
+	/**
+	 * Constructeur par defaut du protocol par defaut.
+	 * 
+	 * @param socket
+	 */
 	public ProtocolTCP(Socket socket)
 	{
 		super(socket.getLocalPort());
@@ -38,12 +56,22 @@ public class ProtocolTCP extends Protocol
 
 	public void sendMessage(String message, InetAddress adress, int port)
 	{
-		this.writer.println(message);
+		try
+		{
+			Socket socket = new Socket(adress.getCanonicalHostName(), port);
+			PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
+			writer.println(message);
+			socket.close();
+		} catch (IOException e)
+		{
+			System.err.println("Erreur d'envoie de message protocolTCP, message:" + e.getMessage());
+		}
+
 	}
 
 	public void sendMessage(String message)
 	{
-		this.sendMessage(message, null, 0);
+		this.writer.println(message);
 	}
 
 	public String readMessage()

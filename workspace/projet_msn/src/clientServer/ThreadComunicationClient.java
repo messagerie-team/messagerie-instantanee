@@ -10,26 +10,62 @@ import dataLink.Protocol;
 import dataLink.ProtocolTCP;
 
 /**
- * Thread de comunication avec un client. Il permet de gerer les demandes
- * client. Connection, Deconnection, demande de lien etc...
+ * Thread de comunication d'un client vers un serveur. Il permet de gerer les
+ * demandes client. Connection, Deconnection, demande de lien etc...
  * 
  * @author raphael
  * 
  */
 public class ThreadComunicationClient extends Thread
 {
+	/**
+	 * Client a qui appartient le thread.
+	 * 
+	 * @see Client
+	 */
 	private Client client;
+	/**
+	 * Socket de communication.
+	 * 
+	 * @see Socket
+	 */
 	private Socket socket;
+	/**
+	 * Protocol permettant de communiquer.
+	 * 
+	 * @see Protocol
+	 */
 	private Protocol protocol;
+	/**
+	 * Parametre permettant d'areter le thread.
+	 */
 	private boolean running;
+	/**
+	 * Adresse ip du serveur.
+	 * 
+	 * @see Server
+	 */
 	private String ipServer;
 
+	/**
+	 * Constructeur par defaut de thread de communication.
+	 * 
+	 * @param client
+	 * @param ipServer
+	 */
 	public ThreadComunicationClient(Client client, String ipServer)
 	{
 		this.client = client;
 		this.ipServer = ipServer;
 	}
 
+	/**
+	 * Constructeur de thread de communication. Pas encore utilise.
+	 * 
+	 * @param client
+	 * @param socket
+	 * @param ipServer
+	 */
 	public ThreadComunicationClient(Client client, Socket socket, String ipServer)
 	{
 		this.client = client;
@@ -49,7 +85,6 @@ public class ThreadComunicationClient extends Thread
 		} catch (Exception e)
 		{
 			System.err.println("Erreur du ThreadComunicationClient,Connexion, message: " + e.getMessage());
-			e.printStackTrace();
 		}
 		try
 		{
@@ -72,6 +107,11 @@ public class ThreadComunicationClient extends Thread
 		}
 	}
 
+	/**
+	 * Methode permettant de traiter la reception d'un message.
+	 * 
+	 * @param message
+	 */
 	private void messageTraitement(String message)
 	{
 		System.out.println("Début du traitement du message : " + message);
@@ -99,6 +139,13 @@ public class ThreadComunicationClient extends Thread
 		}
 	}
 
+	/**
+	 * Methode permettant de traiter les request d'un serveur.
+	 * 
+	 * @see Server
+	 * @param message
+	 * @param token
+	 */
 	private void messageTraitementRequest(String message, StringTokenizer token)
 	{
 		switch (message)
@@ -118,6 +165,13 @@ public class ThreadComunicationClient extends Thread
 		}
 	}
 
+	/**
+	 * Message permettant de traiter les reply d'un serveur.
+	 * 
+	 * @see Server
+	 * @param message
+	 * @param token
+	 */
 	private void messageTraitementReply(String message, StringTokenizer token)
 	{
 		switch (message)
@@ -140,6 +194,11 @@ public class ThreadComunicationClient extends Thread
 		}
 	}
 
+	/**
+	 * Methode permettant traiter le procesus de desenregistrement
+	 * 
+	 * @param token
+	 */
 	public void unregisterClient(StringTokenizer token)
 	{
 		if (token.hasMoreTokens())
@@ -162,6 +221,11 @@ public class ThreadComunicationClient extends Thread
 		}
 	}
 
+	/**
+	 * Methode permettant de gerer le procesus d'enregistrement.
+	 * 
+	 * @param token
+	 */
 	public void registerClient(StringTokenizer token)
 	{
 		if (token.hasMoreTokens())
@@ -203,6 +267,12 @@ public class ThreadComunicationClient extends Thread
 		}
 	}
 
+	/**
+	 * Methode permettant de gerer le procesus de demande de list Client au
+	 * serveur.
+	 * 
+	 * @param token
+	 */
 	public void askListClient(StringTokenizer token)
 	{
 		if (token.hasMoreTokens())
@@ -217,6 +287,12 @@ public class ThreadComunicationClient extends Thread
 		}
 	}
 
+	/**
+	 * Methode permettant de gerer le procesus de demande d'information de
+	 * connexion client.
+	 * 
+	 * @param token
+	 */
 	public void getClientConnection(StringTokenizer token)
 	{
 		if (token.hasMoreTokens())
@@ -230,41 +306,44 @@ public class ThreadComunicationClient extends Thread
 				{
 					client = new ClientServerData(elements[0], elements[1], InetAddress.getByName(elements[2]), Integer.parseInt(elements[3]));
 
-					// this.client.startDialogToClient(client);
 					boolean add = this.client.getClients().add(client);
 					System.out.println("Ajout du client recu");
-					if(add)
+					if (add)
 					{
 						protocol.sendMessage("reply:clientConnection:DONE");
 						this.stopThread();
-					}else
+					} else
 					{
 						protocol.sendMessage("reply:clientConnection:ERROR");
 						this.stopThread();
 					}
 				} catch (NumberFormatException | UnknownHostException e)
 				{
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}else
+			} else
 			{
-				if(elements[0].equals("ERROR"))
+				if (elements[0].equals("ERROR"))
 				{
 					this.stopThread();
 				}
 			}
-		} else
-		{
-
 		}
 	}
 
+	/**
+	 * Methode permettant d'envoyer une demande d'information client au serveur.
+	 * 
+	 * @param clientId
+	 */
 	public void getClientConnection(String clientId)
 	{
 		this.protocol.sendMessage("request:clientConnection:" + clientId);
 	}
 
+	/**
+	 * Methode permettant de stopper le thread
+	 */
 	public void stopThread()
 	{
 		this.running = false;

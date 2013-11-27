@@ -10,18 +10,70 @@ import java.util.Vector;
 import dataLink.Protocol;
 import dataLink.ProtocolUDP;
 
+/**
+ * 
+ * @author raphael
+ * @category Class permetant de representer un client. Extends de la class
+ *           AbstractClientServer.
+ * @see AbstractClientServer
+ */
 public class Client extends AbstractClientServer
 {
+	/**
+	 * Identifiant unique du client, fournit par le serveur.
+	 */
 	private String id;
+	/**
+	 * Nom du client
+	 */
 	private String name;
+	/**
+	 * Liste des clients connu par leurs identifiants public. Key : cle public
+	 * client, value : nom client
+	 */
 	private HashMap<String, String> clientList;
+	/**
+	 * Liste des dialogs que le client a.
+	 * 
+	 * @see ClientDialog
+	 */
 	private Vector<ClientDialog> dialogs;
-	private ThreadComunicationClient threadComunicationClient;
+	/**
+	 * Numero du port d'ecoute UDP du client
+	 */
 	private int listeningUDPPort;
+	/**
+	 * Thread d'ecoute du port UDP
+	 * 
+	 * @see ThreadListenerUDP
+	 */
 	private ThreadListenerUDP threadListenerUDP;
+	/**
+	 * Protocol de communication du client.
+	 * 
+	 * @see Protocol
+	 */
 	private Protocol protocol;
+	/**
+	 * Adresse IP du serveur.
+	 * 
+	 * @see Server
+	 */
 	private String ipServer;
+	/**
+	 * Thread de communication client. Il permet de comuniquer avec le serveur
+	 * 
+	 * @see Server
+	 */
+	private ThreadComunicationClient threadComunicationClient;
 
+	/**
+	 * Constructeur par defaut du Client.
+	 * 
+	 * @param name
+	 * @param listeningUDPPort
+	 * @param ipServer
+	 */
 	public Client(String name, int listeningUDPPort, String ipServer)
 	{
 		super();
@@ -36,6 +88,11 @@ public class Client extends AbstractClientServer
 		this.threadListenerUDP.start();
 	}
 
+	/**
+	 * Methode permetant au client de s'enregister auprès du serveur.
+	 * 
+	 * @see Server
+	 */
 	public void registerToServer()
 	{
 		try
@@ -53,21 +110,32 @@ public class Client extends AbstractClientServer
 					{
 						try
 						{
-							Thread.sleep(1000);
-							protocol.sendMessage("alive:" + id, InetAddress.getByName(ipServer), 30971);
+							while (id == null || id == "")
+							{
+								Thread.sleep(200);
+							}
+							while (id != "")
+							{
+								protocol.sendMessage("alive:" + id, InetAddress.getByName(ipServer), 30971);
+							}
 						} catch (InterruptedException | UnknownHostException e)
 						{
-							e.printStackTrace();
+							System.err.println("Erreur du thread client d'envoie du message alive, message:" + e.getMessage());
 						}
 					}
 				}
 			}).start();
 		} catch (InterruptedException e)
 		{
-			e.printStackTrace();
+			System.err.println("Erreur d'enregistrement du client au serveur, message : " + e.getMessage());
 		}
 	}
 
+	/**
+	 * Methode permettant de se deconecter du serveur.
+	 * 
+	 * @see Server
+	 */
 	public void unregisterToServer()
 	{
 		try
@@ -77,10 +145,15 @@ public class Client extends AbstractClientServer
 			this.threadComunicationClient.unregisterClient(new StringTokenizer(""));
 		} catch (InterruptedException e)
 		{
-			e.printStackTrace();
+			System.err.println("Erreur de desenregistrement du client au serveur, message : " + e.getMessage());
 		}
 	}
 
+	/**
+	 * Methode permetant de demander la liste des clients connecte au serveur.
+	 * 
+	 * @see Server
+	 */
 	public void askListToServer()
 	{
 		try
@@ -90,15 +163,23 @@ public class Client extends AbstractClientServer
 			this.threadComunicationClient.askListClient(new StringTokenizer(""));
 		} catch (InterruptedException e)
 		{
-			e.printStackTrace();
+			System.err.println("Erreur de demande de liste du client au serveur, message : " + e.getMessage());
 		}
 
 	}
 
+	/**
+	 * Methode permettant de demander les informations d'un client au serveur,
+	 * afin de pouvoir ensuite demarer un dialog avec. Le parametre correspond a
+	 * la cle public du client.
+	 * 
+	 * @param clientId
+	 */
 	public void askClientConnectionToServer(String clientId)
 	{
 		try
 		{
+			// On recherche si on a deja demarer un dialogue avec le client.
 			boolean alreadyDone = false;
 			for (ClientDialog dialog : this.dialogs)
 			{
@@ -107,32 +188,46 @@ public class Client extends AbstractClientServer
 					alreadyDone = true;
 				}
 			}
+			// Si aucun dialog n'a ete demarer
 			if (!alreadyDone)
 			{
 				this.launchThread();
 				Thread.sleep(500);
+				// On demande les informations du client
 				this.threadComunicationClient.getClientConnection(clientId);
 				int cpt = 0;
 				int sizeClients = this.getClients().size();
-				System.out.println("taille : " + sizeClients);
-				while (cpt < 50 && this.getClients().size() == sizeClients)
+				// On attent de les recevoir
+				while (cpt < 500 && this.getClients().size() == sizeClients)
 				{
-					Thread.sleep(1000);
+					Thread.sleep(200);
+					cpt++;
 				}
-				System.out.println("taille1 : " + sizeClients);
-				this.startDialogToClient(this.getClients().lastElement());
+				// Si on les a bien reçu on demare une conversation
+				if (this.getClients().size() != sizeClients)
+				{
+					this.startDialogToClient(this.getClients().lastElement());
+				}
 			}
 		} catch (InterruptedException e)
 		{
-			e.printStackTrace();
+			System.err.println("Erreur de demande d'information client du client au serveur, message : " + e.getMessage());
 		}
 	}
 
+	/**
+	 * Methode permettant de demarer un dialogue avec un client. Le parametre
+	 * est une representation d'un client.
+	 * 
+	 * @see ClientServerData
+	 * @see ClientDialog
+	 * @param client
+	 */
 	public void startDialogToClient(ClientServerData client)
 	{
 		try
 		{
-			System.out.println("Début de dialogue");
+			// On verifie si il existe deja un dialog avec le client
 			boolean alreadyDone = false;
 			for (ClientDialog dialog : this.dialogs)
 			{
@@ -141,22 +236,35 @@ public class Client extends AbstractClientServer
 					alreadyDone = true;
 				}
 			}
+			// Si ce n'est pas le cas
 			if (!alreadyDone)
 			{
+				// On cree un dialogue
 				ClientDialog dialog = new ClientDialog(this, this.protocol);
+				// On y ajoute le client avec qui l'on discute
 				dialog.addClient(client);
+				// On recupere l'id du dialogue generee
 				String idDialog = dialog.getIdDialog();
+				// On envoie les informations du dialog au client avec qui l'on
+				// souhaite discuter
 				protocol.sendMessage("dialog:newDialog:" + idDialog, client.getIp(), client.getPort());
 				protocol.sendMessage("dialog:newDialog:clients:" + idDialog + ":" + this.id, client.getIp(), client.getPort());
+				// On ajoute le dialogue a la liste des dialogue du client
 				this.dialogs.add(dialog);
 			}
 		} catch (NumberFormatException e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("Erreur de demarage d'un dialogue client, message : " + e.getMessage());
 		}
 	}
 
+	/**
+	 * Methode permettant d'envoyer un message sur un dialogue.
+	 * 
+	 * @param message
+	 * @param idDialog
+	 * @return true si le message est partie, false sinon
+	 */
 	public boolean sendMessageToClient(String message, String idDialog)
 	{
 		ClientDialog dialog = null;
@@ -175,6 +283,9 @@ public class Client extends AbstractClientServer
 		return false;
 	}
 
+	/**
+	 * Methode permettant de demarer le thread de communication avec le serveur.
+	 */
 	public void launchThread()
 	{
 		if (this.threadComunicationClient.isInterrupted())
@@ -184,6 +295,187 @@ public class Client extends AbstractClientServer
 		{
 			this.threadComunicationClient = new ThreadComunicationClient(this, this.ipServer);
 			this.threadComunicationClient.start();
+		}
+	}
+
+	/**
+	 * Methode permettant de mettre a jour la liste des clients connu. La liste
+	 * est envoye par le serveur. Elle est de la forme
+	 * "ClePublic-NomCLient,ClePublic-NomClient...."
+	 * 
+	 * @param list
+	 */
+	public void addClientList(String list)
+	{
+		StringTokenizer token = new StringTokenizer(list, ",");
+		this.clientList = new HashMap<String, String>();
+		while (token.hasMoreTokens())
+		{
+			String element = token.nextToken();
+			String elements[] = element.split("-");
+			if (elements.length > 1 && !elements[0].equals(this.id))
+			{
+				this.clientList.put(elements[0], elements[1]);
+			}
+		}
+		System.out.println(this.clientList);
+	}
+
+	@Override
+	public void treatIncomeTCP(Object object)
+	{
+		// Pour le moment pas d'income TCP a géré vue que aucune machine ne se
+		// connecte a un client en TCP
+	}
+
+	@Override
+	public void treatIncomeUDP(String message)
+	{
+		System.out.println(message);
+		StringTokenizer token = new StringTokenizer(message, ":");
+		String firstToken = token.nextToken();
+		switch (firstToken)
+		{
+		case "dialog":
+			this.treatIncomeDialog(token);
+			break;
+		case "listClient":
+			this.treatIncomeList(token);
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	/**
+	 * Methode permettant de traiter la reception d'un liste client et de la
+	 * rediriger vers la bonne methode en faisant le bon traitement de donnees.
+	 * 
+	 * @param token
+	 */
+	public void treatIncomeList(StringTokenizer token)
+	{
+		if (token.hasMoreTokens())
+		{
+			String nextToken = token.nextToken();
+			this.addClientList(nextToken);
+		}
+	}
+
+	/**
+	 * Methode permettant de traiter la reception de message concernant les
+	 * dialogues et de rediriger vers la bonne methode en faisant le bon
+	 * traitement de donnees.
+	 * 
+	 * @param token
+	 */
+	public void treatIncomeDialog(StringTokenizer token)
+	{
+		if (token.hasMoreTokens())
+		{
+			String nextToken = token.nextToken();
+			switch (nextToken)
+			{
+			// Creation d'un nouveau dialogue
+			case "newDialog":
+				if (token.hasMoreTokens())
+				{
+					// On récupère l'id de conversation
+					String idDialog = token.nextToken();
+					// SI c'est bien un id de conversation, alors on crée la
+					// conversation
+					if (idDialog.length() > 20)
+					{
+						// On crée le dialog
+						this.dialogs.add(new ClientDialog(idDialog, this, this.protocol));
+					}
+					// Si il s'agit d'ajouter des clients à la conversation
+					else if (idDialog.equals("clients"))
+					{
+						System.out.println("je recois un message pour ajouter les clients");
+						if (token.hasMoreTokens())
+						{
+							String realIdDialog = token.nextToken();
+							if (token.hasMoreTokens())
+							{
+								System.out.println("je recherche le dialog " + realIdDialog);
+								ClientDialog dialog = null;
+								for (ClientDialog dialogL : this.dialogs)
+								{
+									System.out.println(dialogL.getIdDialog());
+									if (dialogL.getIdDialog().trim().equals(realIdDialog.trim()))
+									{
+										System.out.println("affectation du dialog");
+										dialog = dialogL;
+									}
+								}
+								System.out.println("le dialog est :" + dialog.getIdDialog());
+								if (dialog != null)
+								{
+									// String[] clients =
+									// token.nextToken().split(",");
+									String clientsT = token.nextToken();
+									String[] clients = clientsT.split(",");
+									for (String client : clients)
+									{
+										System.out.println("client: " + client);
+										boolean estAjoute = false;
+										for (ClientServerData clientSe : this.getClients())
+										{
+											if (clientSe.getId().equals(client))
+											{
+												dialog.addClient(clientSe);
+												estAjoute = true;
+											}
+										}
+										if (!estAjoute)
+										{
+											ClientServerData newClient = new ClientServerData(client, this.clientList.get(client), ((ProtocolUDP) protocol).getLastAdress(), ((ProtocolUDP) protocol).getLastPort());
+											System.out.println(newClient);
+											this.getClients().add(newClient);
+											dialog.addClient(newClient);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				break;
+			// Si il s'agit d'un message reçu
+			case "message":
+				if (token.hasMoreTokens())
+				{
+					String idDialog = token.nextToken();
+					// SI c'est bien un id de conversation, alors on redirige le message vers la conversation
+					if (idDialog.length() > 20 && token.hasMoreTokens())
+					{
+						for (ClientDialog dialog : this.dialogs)
+						{
+							if (dialog.getIdDialog().equals(idDialog))
+							{
+								// On récupère le message
+								String message = token.nextToken();
+								while (token.hasMoreTokens())
+								{
+									message += ":" + token.nextToken();
+								}
+								// On indique qu'on a reçu un message
+								dialog.receiveMessage(message);
+							}
+						}
+					}
+				}
+				break;
+
+			default:
+
+				break;
+			}
+		} else
+		{
+
 		}
 	}
 
@@ -215,22 +507,6 @@ public class Client extends AbstractClientServer
 	public void setClientList(HashMap<String, String> clientList)
 	{
 		this.clientList = clientList;
-	}
-
-	public void addClientList(String list)
-	{
-		StringTokenizer token = new StringTokenizer(list, ",");
-		this.clientList = new HashMap<String, String>();
-		while (token.hasMoreTokens())
-		{
-			String element = token.nextToken();
-			String elements[] = element.split("-");
-			if (elements.length > 1 && !elements[0].equals(this.id))
-			{
-				this.clientList.put(elements[0], elements[1]);
-			}
-		}
-		System.out.println(this.clientList);
 	}
 
 	public int getListeningUDPPort()
@@ -271,162 +547,6 @@ public class Client extends AbstractClientServer
 	public void setThreadListenerUDP(ThreadListenerUDP threadListenerUDP)
 	{
 		this.threadListenerUDP = threadListenerUDP;
-	}
-
-	@Override
-	public void treatIncomeTCP(Object object)
-	{
-		// TODO Auto-generated method stub
-		// Pour le moment pas d'income TCP a géré vue que aucune machine ne se
-		// connecte a un client en TCP
-	}
-
-	@Override
-	public void treatIncomeUDP(String message)
-	{
-		System.out.println(message);
-		StringTokenizer token = new StringTokenizer(message, ":");
-		String firstToken = token.nextToken();
-		switch (firstToken)
-		{
-		case "dialog":
-			this.treatIncomeDialog(token);
-			break;
-		case "listClient":
-			this.treatIncomeList(token);
-			break;
-
-		default:
-			break;
-		}
-	}
-
-	public void treatIncomeList(StringTokenizer token)
-	{
-		if (token.hasMoreTokens())
-		{
-			String nextToken = token.nextToken();
-			this.addClientList(nextToken);
-		}
-	}
-
-	public void treatIncomeDialog(StringTokenizer token)
-	{
-		if (token.hasMoreTokens())
-		{
-			String nextToken = token.nextToken();
-			switch (nextToken)
-			{
-			case "newDialog":
-				// Dans le cas d'une demande de dialogue d'un autre client
-				if (token.hasMoreTokens())
-				{
-					// On récupère l'id de conversation
-					String idDialog = token.nextToken();
-					// SI c'est bien un id de conversation, alors on crée la
-					// conversation
-					if (idDialog.length() > 20)
-					{
-						// On crée le dialog
-						this.dialogs.add(new ClientDialog(idDialog, this, this.protocol));
-					}
-
-					else if (idDialog.equals("clients"))
-					{
-						System.out.println("je recois un message pour ajouter les clients");
-						if (token.hasMoreTokens())
-						{
-							String realIdDialog = token.nextToken();
-							if (token.hasMoreTokens())
-							{
-								System.out.println("je recherche le dialog " + realIdDialog);
-								ClientDialog dialog = null;
-								for (ClientDialog dialogL : this.dialogs)
-								{
-									System.out.println(dialogL.getIdDialog());
-									if (dialogL.getIdDialog().trim().equals(realIdDialog.trim()))
-									{
-										System.out.println("affectation du dialog");
-										dialog = dialogL;
-									}
-								}
-								System.out.println("le dialog est :" + dialog.getIdDialog());
-								if (dialog != null)
-								{
-									// String[] clients =
-									// token.nextToken().split(",");
-									String clientsT = token.nextToken();
-									String[] clients = new String[1];
-									clients[0] = clientsT;
-									for (String client : clients)
-									{
-										System.out.println("client: " + client);
-										boolean estAjoute = false;
-										for (ClientServerData clientSe : this.getClients())
-										{
-											if (clientSe.getId().equals(client))
-											{
-												dialog.addClient(clientSe);
-												estAjoute = true;
-											}
-										}
-										if (!estAjoute)
-										{
-											ClientServerData newClient = new ClientServerData(client, this.clientList.get(client), ((ProtocolUDP) protocol).getLastAdress(), ((ProtocolUDP) protocol).getLastPort());
-											System.out.println(newClient);
-											this.getClients().add(newClient);
-											dialog.addClient(newClient);
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-				/*
-				 * // Dans le cas d'une génération de dialog de notre part
-				 * 
-				 * else { ClientDialog dialog = new
-				 * ClientDialog(this.listeningUDPPort);
-				 * this.dialogs.add(dialog);
-				 * dialog.sendMessage("dialog:newDialog:" +
-				 * dialog.getIdDialog()); } break;
-				 */
-				break;
-			case "message":
-				if (token.hasMoreTokens())
-				{
-					String idDialog = token.nextToken();
-					// SI c'est bien un id de conversation, alors on crée la
-					// conversation
-					if (idDialog.length() > 20 && token.hasMoreTokens())
-					{
-						for (ClientDialog dialog : this.dialogs)
-						{
-							if (dialog.getIdDialog().equals(idDialog))
-							{
-								// On récupère le message
-								String message = token.nextToken();
-								while (token.hasMoreTokens())
-								{
-									message += ":" + token.nextToken();
-								}
-								// On indique qu'on a reçu un message
-								dialog.receiveMessage(message);
-							}
-						}
-					}
-				}
-				break;
-
-			default:
-
-				break;
-			}
-		} else
-		{
-
-		}
 	}
 
 	public static void main(String[] args)

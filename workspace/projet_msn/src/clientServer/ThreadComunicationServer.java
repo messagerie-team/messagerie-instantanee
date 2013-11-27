@@ -9,20 +9,47 @@ import dataLink.Protocol;
 import dataLink.ProtocolTCP;
 
 /**
- * Thread de comunication avec un client. Il permet de gerer les demandes
- * client. Connection, Deconnection, demande de lien etc...
+ * Thread de comunication d'un serveur vers un client. Il permet de gerer les
+ * demandes client. Connection, Deconnection, demande de lien etc...
  * 
  * @author raphael
  * 
  */
 public class ThreadComunicationServer extends Thread
 {
+	/**
+	 * Serveur a qui appartient le thread de communication.
+	 * 
+	 * @see Server
+	 */
 	private Server server;
+	/**
+	 * Socket de communication.
+	 * 
+	 * @see Socket
+	 */
 	private Socket socket;
+	/**
+	 * Protocol de communication.
+	 * 
+	 * @see Protocol
+	 */
 	private Protocol protocol;
+	/**
+	 * Parametre permettant d'areter le thread.
+	 */
 	private boolean running;
+	/**
+	 * Variable temportaire utile au traitement des requetes.
+	 */
 	private String tempVar;
 
+	/**
+	 * Constructeur par defaut du Thread.
+	 * 
+	 * @param server
+	 * @param socket
+	 */
 	public ThreadComunicationServer(Server server, Socket socket)
 	{
 		this.server = server;
@@ -51,10 +78,14 @@ public class ThreadComunicationServer extends Thread
 		} catch (IOException | InterruptedException e)
 		{
 			System.err.println("Erreur du ThreadComunicationServer, message: " + e.getMessage());
-			// e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Methode permettant de traiter la reception d'un message.
+	 * 
+	 * @param message
+	 */
 	private void messageTraitement(String message)
 	{
 		System.out.println("Début du traitement du message : " + message);
@@ -82,6 +113,13 @@ public class ThreadComunicationServer extends Thread
 		}
 	}
 
+	/**
+	 * Methode permettant de traiter les request d'un serveur.
+	 * 
+	 * @see Server
+	 * @param message
+	 * @param token
+	 */
 	private void messageTraitementRequest(String message, StringTokenizer token)
 	{
 		switch (message)
@@ -103,6 +141,13 @@ public class ThreadComunicationServer extends Thread
 		}
 	}
 
+	/**
+	 * Message permettant de traiter les reply d'un serveur.
+	 * 
+	 * @see Server
+	 * @param message
+	 * @param token
+	 */
 	private void messageTraitementReply(String message, StringTokenizer token)
 	{
 		switch (message)
@@ -125,6 +170,11 @@ public class ThreadComunicationServer extends Thread
 		}
 	}
 
+	/**
+	 * Methode permettant traiter le procesus de desenregistrement
+	 * 
+	 * @param token
+	 */
 	private void unregisterClient(StringTokenizer token)
 	{
 		if (token.hasMoreTokens())
@@ -136,6 +186,11 @@ public class ThreadComunicationServer extends Thread
 		}
 	}
 
+	/**
+	 * Methode permettant de gerer le procesus d'enregistrement.
+	 * 
+	 * @param token
+	 */
 	private void registerClient(StringTokenizer token)
 	{
 		// Si on a un element de plus dans le token, alors il s'agit d'un reply
@@ -194,6 +249,12 @@ public class ThreadComunicationServer extends Thread
 		}
 	}
 
+	/**
+	 * Methode permettant de gerer le procesus de demande de list Client au
+	 * serveur.
+	 * 
+	 * @param token
+	 */
 	public void askListClient(StringTokenizer token)
 	{
 		if (token.hasMoreTokens())
@@ -205,6 +266,12 @@ public class ThreadComunicationServer extends Thread
 		}
 	}
 
+	/**
+	 * Methode permettant de gerer le procesus de demande d'information de
+	 * connexion client.
+	 * 
+	 * @param token
+	 */
 	public void getClientConnection(StringTokenizer token)
 	{
 		if (token.hasMoreTokens())
@@ -229,7 +296,7 @@ public class ThreadComunicationServer extends Thread
 				} else if (nextToken.equals("ERROR"))
 				{
 					this.stopThread();
-				}else
+				} else
 				{
 					this.protocol.sendMessage("reply:clientConnection:ERROR");
 					this.stopThread();
@@ -242,6 +309,9 @@ public class ThreadComunicationServer extends Thread
 		}
 	}
 
+	/**
+	 * Methode permettant de stopper le thread
+	 */
 	public void stopThread()
 	{
 		this.running = false;

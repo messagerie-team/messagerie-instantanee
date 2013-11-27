@@ -5,32 +5,61 @@ import java.net.InetAddress;
 import java.security.SecureRandom;
 
 /**
- * Class permettant de stocker les informations client. Comme son nom, son IP,
- * son port ouvert etc... Elle represente les informations que stock le serveur
- * pour un client.
+ * Class permettant de stocker les informations client pour la class
+ * {@link AbstractClientServer}. Comme son nom, son IP, son port ouvert etc...
+ * Elle represente les informations que stock le serveur pour un client.
  * 
  * @author raphael
  * 
  */
 public class ClientServerData
 {
+	/**
+	 * Cle public unique d'un client.
+	 */
 	private String id;
+	/**
+	 * Nom d'un client.
+	 */
 	private String name;
+	/**
+	 * Adresse ip du client.
+	 */
 	private InetAddress ip;
+	/**
+	 * Port d'ecoute du client.
+	 */
 	private int port;
 
-	public ClientServerData(String id, String name, InetAddress ip, int port)
+	/**
+	 * Contructeur par defaut de ClientServerData. Ce constructeur genere une
+	 * cle public unique qui sera propre au client.
+	 * 
+	 * @param name
+	 * @param ip
+	 * @param port
+	 */
+	public ClientServerData(String name, InetAddress ip, int port)
 	{
-		this.id = id;
+		SecureRandom random = new SecureRandom();
+		this.id = new BigInteger(130, random).toString(32);
 		this.name = name;
 		this.ip = ip;
 		this.port = port;
 	}
 
-	public ClientServerData(String name, InetAddress ip, int port)
+	/**
+	 * Constructeur de ClientServerData. Il permet de construire entièrement une
+	 * donnee client.
+	 * 
+	 * @param id
+	 * @param name
+	 * @param ip
+	 * @param port
+	 */
+	public ClientServerData(String id, String name, InetAddress ip, int port)
 	{
-		SecureRandom random = new SecureRandom();
-		this.id = new BigInteger(130, random).toString(32);
+		this.id = id;
 		this.name = name;
 		this.ip = ip;
 		this.port = port;

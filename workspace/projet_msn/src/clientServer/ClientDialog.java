@@ -5,25 +5,53 @@ import java.security.SecureRandom;
 import java.util.Vector;
 import dataLink.Protocol;
 
+/**
+ * 
+ * @author raphael
+ * @category Class permetant de representer un dialogue entre clients.
+ */
 public class ClientDialog
 {
+	/**
+	 * Client a qui appartient le dialogue
+	 * 
+	 * @see Client
+	 */
 	private Client client;
+	/**
+	 * Identifiant du dialogue. Cle permettant d'identifier le dialogue de façon
+	 * unique.
+	 */
 	private String idDialog;
+	/**
+	 * Liste des clients avec qui le client proprietaire dialogue
+	 * 
+	 * @see ClientServerData
+	 */
 	private Vector<ClientServerData> clients;
+	/**
+	 * Protocol permettant au dialogue de communiquer.
+	 * 
+	 * @see Protocol
+	 */
 	private Protocol protocol;
+	/**
+	 * Ensemble des messages echanges
+	 */
 	private String dialogue;
+	/**
+	 * Dernier message echange
+	 */
 	private String lastMessage;
 
-	public ClientDialog(String idDialog, Client client, Protocol protocol)
-	{
-		this.client = client;
-		this.idDialog = idDialog;
-		this.clients = new Vector<ClientServerData>();
-		this.protocol = protocol;
-		this.dialogue = "";
-		this.lastMessage = "";
-	}
-
+	/**
+	 * Constructeur permetant de creer un dialogue. Cette methode est utilise
+	 * par le client lors de la creation d'un dialogue de sa part. Une cle
+	 * unique est genere par constructeur pour identifier le dialogue.
+	 * 
+	 * @param client
+	 * @param protocol
+	 */
 	public ClientDialog(Client client, Protocol protocol)
 	{
 		this.client = client;
@@ -34,12 +62,42 @@ public class ClientDialog
 		this.dialogue = "";
 	}
 
+	/**
+	 * Constructeur permettant de creer un dialogue. Cette methode est utilise
+	 * par le client lorsqu'il reçoit une notification de dialogue par un autre
+	 * client. Le premier parametre correspond a la cle unique du dialogue qui a
+	 * du etre reçu.
+	 * 
+	 * @param idDialog
+	 * @param client
+	 * @param protocol
+	 */
+	public ClientDialog(String idDialog, Client client, Protocol protocol)
+	{
+		this.client = client;
+		this.idDialog = idDialog;
+		this.clients = new Vector<ClientServerData>();
+		this.protocol = protocol;
+		this.dialogue = "";
+		this.lastMessage = "";
+	}
+
+	/**
+	 * Methode permettant d'ajouter un message au dialogue
+	 * 
+	 * @param message
+	 */
 	public void addMessage(String message)
 	{
 		this.dialogue += "\n" + message;
 		this.lastMessage = message;
 	}
 
+	/**
+	 * Methode permettant d'envoyer un message à tout les clients du dialogue.
+	 * 
+	 * @param message
+	 */
 	public void sendMessage(String message)
 	{
 		for (ClientServerData client : this.clients)
@@ -49,6 +107,12 @@ public class ClientDialog
 		this.addMessage("moi>" + message);
 	}
 
+	/**
+	 * Methode permettant de gerer la reception d'un message
+	 * 
+	 * @param message
+	 * @return le message reçu
+	 */
 	public String receiveMessage(String message)
 	{
 		System.out.println(this.idDialog + "->" + message);
@@ -56,11 +120,23 @@ public class ClientDialog
 		return message;
 	}
 
+	/**
+	 * Methode permettant d'ajouter un client au dialogue
+	 * 
+	 * @param client
+	 * @return true si le client est bien ajoute, false sinon.
+	 */
 	public boolean addClient(ClientServerData client)
 	{
 		return this.clients.add(client);
 	}
 
+	/**
+	 * Methode permettant de supprimer un client du dialogue.
+	 * 
+	 * @param client
+	 * @return
+	 */
 	public boolean removeClient(ClientServerData client)
 	{
 		return this.clients.remove(client);

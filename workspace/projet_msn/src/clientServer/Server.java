@@ -14,27 +14,50 @@ import dataLink.ProtocolUDP;
 
 /**
  * @author Mickael
- * 
+ * @category Class permetant de representer un serveur. Extends de la class
+ *           AbstractClientServer.
+ * @see AbstractClientServer
  */
 public class Server extends AbstractClientServer
 {
-	// Liste des clients que connait le serveur
-
-	// Thread d'ecoute du serveur
-	private ThreadListenerTCP threadListener;
+	/**
+	 * Protocol permettant au serveur de communiquer via le threadListernerUDP.
+	 * 
+	 * @see Protocol
+	 */
+	private Protocol protocol;
+	/**
+	 * Thread TCP permettant au serveur de recevoir les connexions TCP.
+	 * 
+	 * @see ThreadListenerTCP
+	 */
+	private ThreadListenerTCP threadListenerTCP;
+	/**
+	 * Thread UDP permettant au serveur de revevoir des paquets UDP.
+	 * 
+	 * @see ThreadListenerUDP
+	 */
 	private ThreadListenerUDP threadListenerUDP;
-	Protocol protocol;
+	/**
+	 * Liste des TTL clients permettant de gerer la deconexion si un client ne
+	 * donne plus signe de vie.
+	 */
 	private HashMap<String, Integer> clientTTL;
+	/**
+	 * Parametre permetant de savoir si le serveur est en train de tourner.
+	 */
+	private boolean running;
 
 	/**
 	 * Construct Server() Constructeur le la class Server. Initialise les
-	 * variables server,clients et threadListener. En ouvrant sur le port 30972
+	 * variables server,clients et threadListener. En ouvrant sur le port TCP
+	 * 30970 et le port UDP 30971.
 	 */
 	public Server()
 	{
 		super();
 		this.protocol = new ProtocolUDP(30971);
-		this.threadListener = new ThreadListenerTCP(this, 30970);
+		this.threadListenerTCP = new ThreadListenerTCP(this, 30970);
 		this.threadListenerUDP = new ThreadListenerUDP(this, this.protocol);
 		this.clientTTL = new HashMap<String, Integer>();
 	}
@@ -43,13 +66,13 @@ public class Server extends AbstractClientServer
 	 * Construct Server(int port) Constructeur de la class Server. Initialise
 	 * les variables server,clients et threadListener.
 	 * 
-	 * @param int numero de port
+	 * @param int numero de port TCP, le port UDP sera a +1
 	 */
 	public Server(int port)
 	{
 		super();
 		this.protocol = new ProtocolUDP(port + 1);
-		this.threadListener = new ThreadListenerTCP(this, port);
+		this.threadListenerTCP = new ThreadListenerTCP(this, port);
 		this.threadListenerUDP = new ThreadListenerUDP(this, this.protocol);
 		this.clientTTL = new HashMap<String, Integer>();
 	}
@@ -59,22 +82,23 @@ public class Server extends AbstractClientServer
 	 */
 	public void launch()
 	{
-		this.threadListener.start();
+		this.running = true;
+		this.threadListenerTCP.start();
 		this.threadListenerUDP.start();
+		// Thread de mise à jour des TTL Clients
 		new Thread(new Runnable()
 		{
 			@Override
 			public void run()
 			{
-				while (true)
+				while (running)
 				{
 					try
 					{
 						Thread.sleep(1000);
 					} catch (InterruptedException e)
 					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+
 					}
 					Set<String> keys = clientTTL.keySet();
 					for (String key : keys)
@@ -97,7 +121,8 @@ public class Server extends AbstractClientServer
 	 */
 	public void stopServer()
 	{
-		this.threadListener.stopThread();
+		this.running = false;
+		this.threadListenerTCP.stopThread();
 		this.threadListenerUDP.stopThread();
 	}
 
@@ -218,6 +243,14 @@ public class Server extends AbstractClientServer
 		return erase;
 	}
 
+	/**
+	 * Methode permettant de recuperer la liste des clients que connait le
+	 * serveur. Cette methode est utiliser pour renvoyer une liste de clients
+	 * aux clients.
+	 * 
+	 * @return chaine client sous la forme
+	 *         "ClePublic-NomCLient,ClePublic-NomClient...."
+	 */
 	public String getListClient()
 	{
 		String ret = "";
@@ -230,12 +263,24 @@ public class Server extends AbstractClientServer
 		return ret;
 	}
 
+	/**
+	 * Methode permetant d'envoyer une liste de clients à un client.
+	 * 
+	 * @param client
+	 */
 	public void sendListClient(ClientServerData client)
 	{
 		String listClient = this.getListClient();
 		protocol.sendMessage("listClient:" + listClient, client.getIp(), client.getPort());
 	}
 
+	/**
+	 * Methode permettant de recuperer les informations d'un client.
+	 * 
+	 * @param id
+	 * @return chaine sous la forme
+	 *         "ClePublic,NomClient,IpClient,PortEcouteClient"
+	 */
 	public String getClient(String id)
 	{
 		for (ClientServerData client : this.getClients())
@@ -250,12 +295,12 @@ public class Server extends AbstractClientServer
 
 	public ThreadListenerTCP getThreadListener()
 	{
-		return threadListener;
+		return threadListenerTCP;
 	}
 
 	public void setThreadListener(ThreadListenerTCP threadListener)
 	{
-		this.threadListener = threadListener;
+		this.threadListenerTCP = threadListener;
 	}
 
 	@Override
