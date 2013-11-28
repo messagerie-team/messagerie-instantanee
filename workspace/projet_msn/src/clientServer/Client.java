@@ -116,6 +116,7 @@ public class Client extends AbstractClientServer
 							}
 							while (id != "")
 							{
+								Thread.sleep(1000);
 								protocol.sendMessage("alive:" + id, InetAddress.getByName(ipServer), 30971);
 							}
 						} catch (InterruptedException | UnknownHostException e)

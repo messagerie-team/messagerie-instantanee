@@ -166,6 +166,7 @@ public class ThreadComunicationServer extends Thread
 			break;
 
 		default:
+			this.stopThread();
 			break;
 		}
 	}
@@ -182,6 +183,10 @@ public class ThreadComunicationServer extends Thread
 			String id = token.nextToken();
 			this.server.removeClient(id);
 			this.protocol.sendMessage("reply:unregister:DONE");
+			this.stopThread();
+		} else
+		{
+			this.protocol.sendMessage("reply:unregister:ERROR");
 			this.stopThread();
 		}
 	}
@@ -225,6 +230,7 @@ public class ThreadComunicationServer extends Thread
 					this.stopThread();
 					break;
 				default:
+					this.stopThread();
 					break;
 				}
 			}
