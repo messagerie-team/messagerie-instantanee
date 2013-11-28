@@ -43,6 +43,10 @@ public class ClientDialog
 	 * Dernier message echange
 	 */
 	private String lastMessage;
+	/**
+	 * Attribut permettant de savoir si la conversation est encore active.
+	 */
+	private boolean inUse;
 
 	/**
 	 * Constructeur permetant de creer un dialogue. Cette methode est utilise
@@ -60,6 +64,7 @@ public class ClientDialog
 		this.clients = new Vector<ClientServerData>();
 		this.protocol = protocol;
 		this.dialogue = "";
+		this.inUse = true;
 	}
 
 	/**
@@ -80,6 +85,7 @@ public class ClientDialog
 		this.protocol = protocol;
 		this.dialogue = "";
 		this.lastMessage = "";
+		this.inUse = true;
 	}
 
 	/**
@@ -100,6 +106,7 @@ public class ClientDialog
 	 */
 	public void sendMessage(String message)
 	{
+		this.inUse = true;
 		for (ClientServerData client : this.clients)
 		{
 			this.protocol.sendMessage("dialog:message:" + this.idDialog + ":" + this.client.getName() + ">" + message, client.getIp(), client.getPort());
@@ -116,6 +123,7 @@ public class ClientDialog
 	public String receiveMessage(String message)
 	{
 		System.out.println(this.idDialog + "->" + message);
+		this.inUse = true;
 		this.addMessage(message);
 		return message;
 	}
@@ -190,5 +198,15 @@ public class ClientDialog
 	public void setLastMessage(String lastMessage)
 	{
 		this.lastMessage = lastMessage;
+	}
+
+	public boolean isInUse()
+	{
+		return inUse;
+	}
+
+	public void setInUse(boolean inUse)
+	{
+		this.inUse = inUse;
 	}
 }

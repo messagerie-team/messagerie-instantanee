@@ -285,6 +285,31 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
+	 * Methode permettant de desactiver un dialog.
+	 * 
+	 * @see ClientDialog
+	 * @param idDialog
+	 * @return true si réussit, false sinon.
+	 */
+	public boolean hideDialog(String idDialog)
+	{
+		ClientDialog dialog = null;
+		for (ClientDialog dial : this.dialogs)
+		{
+			if (dial.getIdDialog().equals(idDialog))
+			{
+				dialog = dial;
+			}
+		}
+		if (dialog != null)
+		{
+			dialog.setInUse(false);
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Methode permettant de demarer le thread de communication avec le serveur.
 	 */
 	public void launchThread()
@@ -449,7 +474,8 @@ public class Client extends AbstractClientServer
 				if (token.hasMoreTokens())
 				{
 					String idDialog = token.nextToken();
-					// SI c'est bien un id de conversation, alors on redirige le message vers la conversation
+					// SI c'est bien un id de conversation, alors on redirige le
+					// message vers la conversation
 					if (idDialog.length() > 20 && token.hasMoreTokens())
 					{
 						for (ClientDialog dialog : this.dialogs)

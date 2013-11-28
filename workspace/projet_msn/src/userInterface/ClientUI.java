@@ -173,6 +173,7 @@ public class ClientUI extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+				hideDialog();
 			}
 		});
 
@@ -193,17 +194,28 @@ public class ClientUI extends JFrame
 				{
 					if (!temp.equals(client.getDialogs()))
 					{
-						System.out.println("changement");
 						temp = new Vector<ClientDialog>(client.getDialogs());
 						refreshList();
+					} else
+					{
+						int cptInUse = 0;
+						for (int i = 0; i < client.getDialogs().size(); i++)
+						{
+							if (client.getDialogs().get(i).isInUse())
+							{
+								cptInUse++;
+							}
+						}
+						if (cptInUse > list.getModel().getSize())
+						{
+							refreshList();
+						}
 					}
 					try
 					{
 						Thread.sleep(200);
 					} catch (InterruptedException e)
 					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
 					}
 				}
 
@@ -239,8 +251,7 @@ public class ClientUI extends JFrame
 						Thread.sleep(20);
 					} catch (InterruptedException e)
 					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+
 					}
 				}
 
@@ -255,19 +266,22 @@ public class ClientUI extends JFrame
 
 		for (ClientDialog dialog : dialogList)
 		{
-			String idDialog = dialog.getIdDialog();
-			Vector<ClientServerData> clients = dialog.getClients();
-			String clientstring = "";
-			for (ClientServerData clientServerData : clients)
+			if (dialog.isInUse())
 			{
-				clientstring += clientServerData.getName() + " ";
+				String idDialog = dialog.getIdDialog();
+				Vector<ClientServerData> clients = dialog.getClients();
+				String clientstring = "";
+				for (ClientServerData clientServerData : clients)
+				{
+					clientstring += clientServerData.getName() + " ";
+				}
+				ClientListData clientListData = new ClientListData(idDialog, clientstring);
+				simpleClientList.add(clientListData);
 			}
-			ClientListData clientListData = new ClientListData(idDialog, clientstring);
-			simpleClientList.add(clientListData);
 		}
 		System.out.println("nouvelle list" + simpleClientList);
 		list.setListData(simpleClientList);
-		list.setSelectedIndices(new int[] { list.getModel().getSize()-1 });
+		list.setSelectedIndices(new int[] { list.getModel().getSize() - 1 });
 	}
 
 	public void sendMessage()
@@ -284,6 +298,18 @@ public class ClientUI extends JFrame
 			}
 			client.sendMessageToClient(message, dialog.getKey());
 			textAreaSaisie.setText("");
+		}
+	}
+
+	public void hideDialog()
+	{
+		if (list.getSelectedValue() != null)
+		{
+			ClientListData dialog = list.getSelectedValue();
+			client.hideDialog(dialog.getKey());
+			textAreaSaisie.setText("");
+			textAreaDialog.setText("");
+			this.refreshList();
 		}
 	}
 
