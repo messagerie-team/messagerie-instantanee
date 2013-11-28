@@ -34,14 +34,32 @@ public class ClientListData extends JComponent implements Entry<String, String>
 	@Override
 	public String setValue(String value)
 	{
-		this.value=value;
+		this.value = value;
 		return this.value;
 	}
-	
+
 	@Override
 	public String toString()
 	{
 		return this.value;
 	}
 
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (!(obj instanceof ClientListData))
+		{
+			return false;
+		} else if (obj == this)
+		{
+			return true;
+		} else if (!this.key.equals(((ClientListData) obj).key))
+		{
+			return false;
+		} else if (!this.value.equals(((ClientListData) obj).value))
+		{
+			return false;
+		}
+		return true;
+	}
 }

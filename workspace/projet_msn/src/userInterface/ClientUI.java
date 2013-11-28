@@ -263,7 +263,9 @@ public class ClientUI extends JFrame
 	{
 		dialogList = client.getDialogs();
 		simpleClientList = new Vector<ClientListData>();
-
+		ClientListData sauvDialog = list.getSelectedValue();
+		int indiceClient = -1;
+		int cpt = 0;
 		for (ClientDialog dialog : dialogList)
 		{
 			if (dialog.isInUse())
@@ -277,13 +279,21 @@ public class ClientUI extends JFrame
 				}
 				ClientListData clientListData = new ClientListData(idDialog, clientstring);
 				simpleClientList.add(clientListData);
+				if (sauvDialog != null && sauvDialog.equals(clientListData))
+				{
+					indiceClient = cpt;
+				}
+				cpt++;
 			}
 		}
 		System.out.println("nouvelle list" + simpleClientList);
 		list.setListData(simpleClientList);
-		if (textAreaSaisie.getText().trim() != "")
+		if (textAreaSaisie.getText().trim().equals(""))
 		{
 			list.setSelectedIndices(new int[] { list.getModel().getSize() - 1 });
+		} else if (sauvDialog != null)
+		{
+			list.setSelectedIndices(new int[] { indiceClient });
 		}
 	}
 
