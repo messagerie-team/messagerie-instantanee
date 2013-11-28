@@ -6,8 +6,8 @@ package clientServer;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.Vector;
 
 import dataLink.Protocol;
 import dataLink.ProtocolUDP;
@@ -42,7 +42,7 @@ public class Server extends AbstractClientServer
 	 * Liste des TTL clients permettant de gerer la deconexion si un client ne
 	 * donne plus signe de vie.
 	 */
-	private HashMap<String, Integer> clientTTL;
+	private HashMap<ClientServerData, Integer> clientTTL;
 	/**
 	 * Parametre permetant de savoir si le serveur est en train de tourner.
 	 */
@@ -59,7 +59,7 @@ public class Server extends AbstractClientServer
 		this.protocol = new ProtocolUDP(30971);
 		this.threadListenerTCP = new ThreadListenerTCP(this, 30970);
 		this.threadListenerUDP = new ThreadListenerUDP(this, this.protocol);
-		this.clientTTL = new HashMap<String, Integer>();
+		this.clientTTL = new HashMap<ClientServerData, Integer>();
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class Server extends AbstractClientServer
 		this.protocol = new ProtocolUDP(port + 1);
 		this.threadListenerTCP = new ThreadListenerTCP(this, port);
 		this.threadListenerUDP = new ThreadListenerUDP(this, this.protocol);
-		this.clientTTL = new HashMap<String, Integer>();
+		this.clientTTL = new HashMap<ClientServerData, Integer>();
 	}
 
 	/**
@@ -100,16 +100,20 @@ public class Server extends AbstractClientServer
 					{
 
 					}
-					Set<String> keys = clientTTL.keySet();
-					for (String key : keys)
+					// Set<String> keys = clientTTL.keySet();
+					Vector<ClientServerData> copyClients = new Vector<ClientServerData>(getClients());
+					for (ClientServerData client : copyClients)
 					{
-						int ttl = clientTTL.get(key);
-						clientTTL.put(key, ttl - 1);
+						int ttl = clientTTL.get(client);
+						System.out.println(client.getId() + " ttl:" + ttl);
+						clientTTL.put(client, ttl - 1);
 						if ((ttl - 1) < 0)
 						{
-							removeClient(key);
+							if (removeClient(client))
+							{
+								clientTTL.remove(client);
+							}
 						}
-
 					}
 				}
 			}
@@ -137,7 +141,8 @@ public class Server extends AbstractClientServer
 	 */
 	public String addClient(String name, Socket client, int listeningUDPPort)
 	{
-		if (this.getClients().add(new ClientServerData(name, client.getInetAddress(), listeningUDPPort)))
+		ClientServerData newClient = new ClientServerData(name, client.getInetAddress(), listeningUDPPort);
+		if (this.getClients().add(newClient))
 		{
 			new Thread(new Runnable()
 			{
@@ -147,7 +152,7 @@ public class Server extends AbstractClientServer
 				{
 					try
 					{
-						Thread.sleep(3500);
+						Thread.sleep(3000);
 					} catch (InterruptedException e)
 					{
 						// TODO Auto-generated catch block
@@ -159,8 +164,8 @@ public class Server extends AbstractClientServer
 					}
 				}
 			}).start();
-			this.clientTTL.put(this.getClients().lastElement().getId(), 10);
-			return this.getClients().lastElement().getId();
+			this.clientTTL.put(newClient, 10);
+			return newClient.getId();
 		} else
 		{
 			return null;
@@ -177,7 +182,7 @@ public class Server extends AbstractClientServer
 	public boolean removeClient(ClientServerData client)
 	{
 		boolean ret = this.getClients().remove(client);
-		this.clientTTL.remove(client.getId());
+		// this.clientTTL.remove(client.getId());
 		for (ClientServerData clientServerData : this.getClients())
 		{
 			this.sendListClient(clientServerData);
@@ -195,7 +200,6 @@ public class Server extends AbstractClientServer
 	public boolean removeClient(String id)
 	{
 		boolean erase = false;
-		this.clientTTL.remove(id);
 		ClientServerData eraseClient = null;
 		for (ClientServerData client : this.getClients())
 		{
@@ -231,7 +235,6 @@ public class Server extends AbstractClientServer
 		{
 			if (client.getIp().equals(ip))
 			{
-				this.clientTTL.remove(client.getId());
 				this.getClients().remove(client);
 				erase = true;
 			}
@@ -328,9 +331,20 @@ public class Server extends AbstractClientServer
 			if (token.hasMoreElements())
 			{
 				String key = token.nextToken();
-				if (key.length() > 20)
+				ClientServerData client = null;
+				for (ClientServerData clientD : this.getClients())
 				{
-					clientTTL.put(key, 10);
+					if (key.trim().equals(clientD.getId().trim()))
+					{
+						client = clientD;
+					}
+				}
+				if (client != null)
+				{
+					if (key.length() > 20)
+					{
+						clientTTL.put(client, 10);
+					}
 				}
 			}
 			break;

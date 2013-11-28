@@ -44,17 +44,17 @@ public class ClientDialogTest
 		initTest();
 		//ajout du premier message
 		clientDialogueTest.addMessage("test junit");
-		//test si le dernier message est egale a celui qui est inserré 
+		//test si le dernier message est egale a celui qui est inserrï¿½ 
 		assertEquals("test junit", clientDialogueTest.getLastMessage());
 		//test si le dialogue message est egale au message la premiere fois
 		assertEquals("\ntest junit", clientDialogueTest.getDialogue());
 		//ajout du second message
 		clientDialogueTest.addMessage("test junit2");
-		//test si le dernier message est egale a celui qui est inserré 
+		//test si le dernier message est egale a celui qui est inserrï¿½ 
 		assertEquals("test junit2", clientDialogueTest.getLastMessage());
 		//test si le dialogue message n'est egale au message puisuqu'il contient tous les messages
-		assertNotEquals("\ntest junit2", clientDialogueTest.getDialogue());
-		//test si le dialogue est égale a l'ensemble des messages ajoutés
+		//assertNotEquals("\ntest junit2", clientDialogueTest.getDialogue());
+		//test si le dialogue est ï¿½gale a l'ensemble des messages ajoutï¿½s
 		assertEquals("\ntest junit\ntest junit2", clientDialogueTest.getDialogue());
 	}
 	
@@ -64,17 +64,17 @@ public class ClientDialogTest
 		initTest();
 		//ajout du premier message
 		clientDialogueTest.sendMessage("test junit");
-		//test si le dernier message est egale a celui qui est inserré 
+		//test si le dernier message est egale a celui qui est inserrï¿½ 
 		assertEquals("moi>test junit", clientDialogueTest.getLastMessage());
 		//test si le dialogue message est egale au message la premiere fois
 		assertEquals("\nmoi>test junit", clientDialogueTest.getDialogue());
 		//ajout du second message
 		clientDialogueTest.sendMessage("test junit2");
-		//test si le dernier message est egale a celui qui est inserré 
+		//test si le dernier message est egale a celui qui est inserrï¿½ 
 		assertEquals("moi>test junit2", clientDialogueTest.getLastMessage());
 		//test si le dialogue message n'est egale au message puisuqu'il contient tous les messages
-		assertNotEquals("\nmoi>test junit2", clientDialogueTest.getDialogue());
-		//test si le dialogue est égale a l'ensemble des messages ajoutés
+		//assertNotEquals("\nmoi>test junit2", clientDialogueTest.getDialogue());
+		//test si le dialogue est ï¿½gale a l'ensemble des messages ajoutï¿½s
 		assertEquals("\nmoi>test junit\nmoi>test junit2", clientDialogueTest.getDialogue());
 	}
 
@@ -84,17 +84,17 @@ public class ClientDialogTest
 		initTest();
 		//ajout du premier message
 		clientDialogueTest.receiveMessage("test junit");
-		//test si le dernier message est egale a celui qui est inserré 
+		//test si le dernier message est egale a celui qui est inserrï¿½ 
 		assertEquals("test junit", clientDialogueTest.getLastMessage());
 		//test si le dialogue message est egale au message la premiere fois
 		assertEquals("\ntest junit", clientDialogueTest.getDialogue());
 		//ajout du second message
 		clientDialogueTest.receiveMessage("test junit2");
-		//test si le dernier message est egale a celui qui est inserré 
+		//test si le dernier message est egale a celui qui est inserrï¿½ 
 		assertEquals("test junit2", clientDialogueTest.getLastMessage());
 		//test si le dialogue message n'est egale au message puisuqu'il contient tous les messages
-		assertNotEquals("\ntest junit2", clientDialogueTest.getDialogue());
-		//test si le dialogue est égale a l'ensemble des messages ajoutés
+		//assertNotEquals("\ntest junit2", clientDialogueTest.getDialogue());
+		//test si le dialogue est ï¿½gale a l'ensemble des messages ajoutï¿½s
 		assertEquals("\ntest junit\ntest junit2", clientDialogueTest.getDialogue());
 	}
 
@@ -109,7 +109,7 @@ public class ClientDialogTest
 		assertNotNull(clientDialogueTest.getClients());
 		//ajout d'un client
 		clientDialogueTest.addClient(clientDataTest);
-		//test si la liste (ou plutot vector de merde) possède un element
+		//test si la liste (ou plutot vector de merde) possï¿½de un element
 		assertEquals(clientDialogueTest.getClients().size(),1);
 	}
 
@@ -124,13 +124,13 @@ public class ClientDialogTest
 		assertNotNull(clientDialogueTest.getClients());
 		//ajout d'un client
 		clientDialogueTest.addClient(clientDataTest);
-		//test si la liste (ou plutot vector de merde) possède un element
+		//test si la liste (ou plutot vector de merde) possï¿½de un element
 		assertEquals(clientDialogueTest.getClients().size(),1);
-		//on supprime un élément existant
+		//on supprime un ï¿½lï¿½ment existant
 		clientDialogueTest.removeClient(clientDataTest);
 		//test si la liste (ou plutot vector de merde) est vide
 		assertEquals(clientDialogueTest.getClients().size(),0);
-		//on ressuprime un élément pour vérifier si ça ne plante pas
+		//on ressuprime un ï¿½lï¿½ment pour vï¿½rifier si ï¿½a ne plante pas
 		clientDialogueTest.removeClient(clientDataTest);
 		//test si la liste (ou plutot vector de merde) est vide
 		assertEquals(clientDialogueTest.getClients().size(),0);

@@ -187,6 +187,9 @@ public class Client extends AbstractClientServer
 				if (dialog.getClients().size() == 1 && dialog.getClients().firstElement().getId().equals(clientId))
 				{
 					alreadyDone = true;
+					//Si la conversation existe et que on souhaite en démarer une c'est quel est simplement caché
+					//alors on la remet en fonction
+					dialog.setInUse(true);
 				}
 			}
 			// Si aucun dialog n'a ete demarer

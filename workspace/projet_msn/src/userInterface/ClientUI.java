@@ -281,7 +281,10 @@ public class ClientUI extends JFrame
 		}
 		System.out.println("nouvelle list" + simpleClientList);
 		list.setListData(simpleClientList);
-		list.setSelectedIndices(new int[] { list.getModel().getSize() - 1 });
+		if (textAreaSaisie.getText().trim() != "")
+		{
+			list.setSelectedIndices(new int[] { list.getModel().getSize() - 1 });
+		}
 	}
 
 	public void sendMessage()
