@@ -136,7 +136,19 @@ public class ClientDialog
 	 */
 	public boolean addClient(ClientServerData client)
 	{
-		return this.clients.add(client);
+		boolean alreadyInDialog = false;
+		for (ClientServerData clientL : this.clients)
+		{
+			if (client.equals(clientL))
+			{
+				alreadyInDialog = true;
+			}
+		}
+		if (!alreadyInDialog && !this.client.equals(client))
+		{
+			return this.clients.add(client);
+		}
+		return false;
 	}
 
 	/**

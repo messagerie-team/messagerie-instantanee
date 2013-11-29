@@ -187,8 +187,9 @@ public class Client extends AbstractClientServer
 				if (dialog.getClients().size() == 1 && dialog.getClients().firstElement().getId().equals(clientId))
 				{
 					alreadyDone = true;
-					//Si la conversation existe et que on souhaite en démarer une c'est quel est simplement caché
-					//alors on la remet en fonction
+					// Si la conversation existe et que on souhaite en démarer
+					// une c'est quel est simplement caché
+					// alors on la remet en fonction
 					dialog.setInUse(true);
 				}
 			}
@@ -259,6 +260,65 @@ public class Client extends AbstractClientServer
 		} catch (NumberFormatException e)
 		{
 			System.err.println("Erreur de demarage d'un dialogue client, message : " + e.getMessage());
+		}
+	}
+
+	public void addClientToDialog(String clientId, ClientDialog dialog)
+	{
+		System.out.println("Ajout d'un client a un dialog");
+		try
+		{
+			boolean alreadyKnow = false;
+			ClientServerData clientAdd = null;
+			System.out.println("On recherche le client");
+			for (ClientServerData client : this.getClients())
+			{
+				if (client.getId().equals(clientId))
+				{
+					alreadyKnow = true;
+					clientAdd = client;
+				}
+			}
+			if (!alreadyKnow)
+			{
+				System.out.println("On ne le connais pas, donc on le recherche au serveur");
+				this.launchThread();
+				Thread.sleep(500);
+				// On demande les informations du client
+				this.threadComunicationClient.getClientConnection(clientId);
+				int cpt = 0;
+				int sizeClients = this.getClients().size();
+				// On attent de les recevoir
+				while (cpt < 500 && this.getClients().size() == sizeClients)
+				{
+					Thread.sleep(200);
+					cpt++;
+				}
+				clientAdd = this.getClients().lastElement();
+			}
+			
+			if (clientAdd != null)
+			{
+				System.out.println("On envoie les messages de dialog au nouveau client");
+				protocol.sendMessage("dialog:newDialog:" + dialog.getIdDialog(), clientAdd.getIp(), clientAdd.getPort());
+				protocol.sendMessage("dialog:newDialog:clients:" + dialog.getIdDialog() + ":" + this.id, clientAdd.getIp(), clientAdd.getPort());
+
+				String listClient = this.id;
+				for (ClientServerData client : dialog.getClients())
+				{
+					listClient += "," + client.getId();
+					protocol.sendMessage("dialog:clients:" + dialog.getIdDialog() + ":" + clientAdd.getId(), client.getIp(), client.getPort());
+					protocol.sendMessage("dialog:clients:" + dialog.getIdDialog() + ":" + client.getId(), clientAdd.getIp(), clientAdd.getPort());
+				}
+				dialog.addClient(clientAdd);
+				// protocol.sendMessage("dialog:newDialog:clients:" +
+				// dialog.getIdDialog() + ":" + listClient, clientAdd.getIp(),
+				// clientAdd.getPort());
+			}
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -465,6 +525,87 @@ public class Client extends AbstractClientServer
 											this.getClients().add(newClient);
 											dialog.addClient(newClient);
 										}
+									}
+								}
+							}
+						}
+					}
+				}
+				break;
+			case "clients":
+				System.out.println("je recois un message pour ajouter les clients");
+				if (token.hasMoreTokens())
+				{
+					String realIdDialog = token.nextToken();
+					if (token.hasMoreTokens())
+					{
+						System.out.println("je recherche le dialog " + realIdDialog);
+						ClientDialog dialog = null;
+						for (ClientDialog dialogL : this.dialogs)
+						{
+							System.out.println(dialogL.getIdDialog());
+							if (dialogL.getIdDialog().trim().equals(realIdDialog.trim()))
+							{
+								System.out.println("affectation du dialog");
+								dialog = dialogL;
+							}
+						}
+						System.out.println("le dialog est :" + dialog.getIdDialog());
+						if (dialog != null)
+						{
+							// String[] clients =
+							// token.nextToken().split(",");
+							String clientsT = token.nextToken();
+							String[] clients = clientsT.split(",");
+							for (String client : clients)
+							{
+								System.out.println("client: " + client);
+								boolean estAjoute = false;
+								for (ClientServerData clientSe : this.getClients())
+								{
+									if (clientSe.getId().equals(client))
+									{
+										dialog.addClient(clientSe);
+										estAjoute = true;
+									}
+								}
+								if (!estAjoute)
+								{
+									// ClientServerData newClient = new
+									// ClientServerData(client,
+									// this.clientList.get(client),
+									// ((ProtocolUDP) protocol).getLastAdress(),
+									// ((ProtocolUDP) protocol).getLastPort());
+									// System.out.println(newClient);
+									// this.getClients().add(newClient);
+									// dialog.addClient(newClient);
+									try
+									{
+										this.launchThread();
+
+										Thread.sleep(500);
+
+										// On demande les informations du client
+										this.threadComunicationClient.getClientConnection(client);
+										int cpt = 0;
+										int sizeClients = this.getClients().size();
+										// On attent de les recevoir
+										while (cpt < 500 && this.getClients().size() == sizeClients)
+										{
+											Thread.sleep(200);
+											cpt++;
+										}
+										// Si on les a bien reçu on demare une
+										// conversation
+										if (this.getClients().size() != sizeClients)
+										{
+											dialog.addClient(this.getClients().lastElement());
+											// this.startDialogToClient(this.getClients().lastElement());
+										}
+									} catch (InterruptedException e)
+									{
+										// TODO Auto-generated catch block
+										e.printStackTrace();
 									}
 								}
 							}

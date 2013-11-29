@@ -96,24 +96,22 @@ public class Server extends AbstractClientServer
 					try
 					{
 						Thread.sleep(1000);
+						Vector<ClientServerData> copyClients = new Vector<ClientServerData>(getClients());
+						for (ClientServerData client : copyClients)
+						{
+							int ttl = clientTTL.get(client);
+							clientTTL.put(client, ttl - 1);
+							if ((ttl - 1) < 0)
+							{
+								if (removeClient(client))
+								{
+									clientTTL.remove(client);
+								}
+							}
+						}
 					} catch (InterruptedException e)
 					{
 
-					}
-					// Set<String> keys = clientTTL.keySet();
-					Vector<ClientServerData> copyClients = new Vector<ClientServerData>(getClients());
-					for (ClientServerData client : copyClients)
-					{
-						int ttl = clientTTL.get(client);
-						System.out.println(client.getId() + " ttl:" + ttl);
-						clientTTL.put(client, ttl - 1);
-						if ((ttl - 1) < 0)
-						{
-							if (removeClient(client))
-							{
-								clientTTL.remove(client);
-							}
-						}
 					}
 				}
 			}
@@ -322,7 +320,7 @@ public class Server extends AbstractClientServer
 	@Override
 	public void treatIncomeUDP(String message)
 	{
-		System.out.println(message);
+		//System.out.println(message);
 		StringTokenizer token = new StringTokenizer(message, ":");
 		String firstToken = token.nextToken();
 		switch (firstToken)

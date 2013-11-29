@@ -208,12 +208,12 @@ public class ThreadComunicationServer extends Thread
 				{
 				case "name":
 					// On informe le client qu'on a bien reçu son nom
-					this.protocol.sendMessage("reply:register:name:OK");
+					//this.protocol.sendMessage("reply:register:name:OK");
 					this.tempVar = token.nextToken();
 					this.protocol.sendMessage("request:register:port");
 					break;
 				case "port":
-					this.protocol.sendMessage("reply:register:port:OK");
+					//this.protocol.sendMessage("reply:register:port:OK");
 					String stringPort = token.nextToken();
 					int port = Integer.parseInt(stringPort);
 					String id = this.server.addClient(this.tempVar, this.socket, port);
@@ -222,6 +222,9 @@ public class ThreadComunicationServer extends Thread
 						this.protocol.sendMessage("reply:register:id:" + id);
 						// System.out.println(this.server.getClients());
 						// this.stopThread();
+					}else
+					{
+						this.protocol.sendMessage("reply:register:ERROR");
 					}
 					break;
 				case "id":
@@ -242,14 +245,12 @@ public class ThreadComunicationServer extends Thread
 			try
 			{
 				PrintWriter out = new PrintWriter(this.socket.getOutputStream());
-				out.println("test");
+				//out.println("test");
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			// On envoie un message pour dire que on a bien recu son message
-			this.protocol.sendMessage("reply:register:OK");
 			// On envoie un autre pour demander son nom
 			this.protocol.sendMessage("request:register:name");
 		}

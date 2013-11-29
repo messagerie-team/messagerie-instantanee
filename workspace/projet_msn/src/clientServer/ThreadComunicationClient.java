@@ -252,8 +252,6 @@ public class ThreadComunicationClient extends Thread
 					this.protocol.sendMessage("reply:register:id:OK");
 				}
 				break;
-			case "OK":
-				break;
 			case "DONE":
 				this.stopThread();
 				break;

@@ -79,22 +79,11 @@ public class ClientUI extends JFrame
 		panelList.setLayout(new BorderLayout(0, 0));
 
 		simpleClientList = new Vector<ClientListData>();
-		simpleClientList.add(new ClientListData("ee", "test"));
 		list = new JList<ClientListData>(simpleClientList);
 		list.setPreferredSize(new Dimension(100, 100));
 		list.setMinimumSize(new Dimension(100, 100));
 		panelList.add(list, BorderLayout.CENTER);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-		/*
-		 * list.setModel(new AbstractListModel<String>() { private static final
-		 * long serialVersionUID = 1L; String[] values = new String[] { "Micka",
-		 * "Thibault  ", "Dorian", "Raph" };
-		 * 
-		 * public int getSize() { return values.length; }
-		 * 
-		 * public String getElementAt(int index) { return values[index]; } });
-		 */
 
 		Component hsRightList = Box.createHorizontalStrut(20);
 		hsRightList.setPreferredSize(new Dimension(5, 0));
@@ -165,6 +154,37 @@ public class ClientUI extends JFrame
 		vbBouton.add(panelVideBtn);
 		vbBouton.add(btnEnvoyer);
 
+		JButton btnAjout = new JButton("Ajouter");
+		btnAjout.setPreferredSize(new Dimension(90, 23));
+		btnAjout.setMaximumSize(new Dimension(90, 23));
+		btnAjout.setMinimumSize(new Dimension(90, 23));
+		btnAjout.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				// hideDialog();
+				if (list.getSelectedValue() != null)
+				{
+					ClientListData dialogListElement = list.getSelectedValue();
+					String idDialog = dialogListElement.getKey();
+					Vector<ClientDialog> listDialog = client.getDialogs();
+					ClientDialog dialog = null;
+					for (ClientDialog clientDialog : listDialog)
+					{
+						if (clientDialog.getIdDialog().equals(idDialog))
+						{
+							dialog = clientDialog;
+						}
+					}
+					if (dialog != null)
+					{
+						AddClientUI addClient = new AddClientUI(client, dialog);
+					}
+				}
+				// AddClientUI addClient = new AddClientUI(client, dialog);
+			}
+		});
+
 		JButton btnFermer = new JButton("Fermer");
 		btnFermer.setPreferredSize(new Dimension(90, 23));
 		btnFermer.setMaximumSize(new Dimension(90, 23));
@@ -180,9 +200,12 @@ public class ClientUI extends JFrame
 		Component vsBtn = Box.createVerticalStrut(5);
 		vsBtn.setMinimumSize(new Dimension(0, 5));
 		vsBtn.setPreferredSize(new Dimension(0, 5));
+
+		vbBouton.add(vsBtn);
+		vbBouton.add(btnAjout);
 		vbBouton.add(vsBtn);
 		vbBouton.add(btnFermer);
-
+		// Thread de mise a jour de la liste de conversation
 		new Thread(new Runnable()
 		{
 
@@ -206,10 +229,19 @@ public class ClientUI extends JFrame
 								cptInUse++;
 							}
 						}
-						if (cptInUse > list.getModel().getSize())
+						boolean needRefresh = false;
+						for (int i = 0; i < client.getDialogs().size(); i++)
+						{
+							if (client.getDialogs().get(i).getClients().size() != temp.get(i).getClients().size())
+							{
+								needRefresh = true;
+							}
+						}
+						if (cptInUse > list.getModel().getSize() || needRefresh)
 						{
 							refreshList();
 						}
+
 					}
 					try
 					{
@@ -221,7 +253,7 @@ public class ClientUI extends JFrame
 
 			}
 		}).start();
-
+		// Thread de mise a jour de la conversation
 		new Thread(new Runnable()
 		{
 

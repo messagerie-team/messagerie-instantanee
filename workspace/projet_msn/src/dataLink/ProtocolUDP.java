@@ -86,7 +86,6 @@ public class ProtocolUDP extends Protocol
 		} catch (IOException e)
 		{
 			System.err.println("Erreur d'envoie du message de ProtocolUDP, message:" + e.getMessage());
-			e.printStackTrace();
 		}
 	}
 
@@ -112,7 +111,6 @@ public class ProtocolUDP extends Protocol
 			bufferReader = new byte[sizeBufferReader];
 			DatagramPacket data = new DatagramPacket(bufferReader, sizeBufferReader);
 			socket.receive(data);
-			System.out.println(data.getPort() + " " + data.getAddress());
 			this.lastPort = data.getPort();
 			this.lastAdress = data.getAddress();
 			return new String(data.getData(), 0, data.getLength());

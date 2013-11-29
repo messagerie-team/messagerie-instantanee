@@ -54,8 +54,6 @@ public class ClientServerUI
 				{
 					ClientServerUI window = new ClientServerUI();
 					window.getMainFrame().setVisible(true);
-					// window.dialogFrame = new ClientUI();
-					// window.dialogFrame.setVisible(true);
 				} catch (Exception e)
 				{
 					e.printStackTrace();
@@ -113,7 +111,7 @@ public class ClientServerUI
 		clientList = client.getClientList();
 		keyClientList = clientList.keySet();
 		SimpleClientList = new Vector<ClientListData>();
-
+		
 		for (String key : keyClientList)
 		{
 			ClientListData clientListData = new ClientListData(key, clientList.get(key));
