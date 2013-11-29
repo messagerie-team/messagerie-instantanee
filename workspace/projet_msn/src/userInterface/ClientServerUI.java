@@ -67,13 +67,13 @@ public class ClientServerUI
 	 */
 	public ClientServerUI()
 	{
-		client = new Client("client1", 3003, "localhost");
+		client = new Client("client1", 3002, "localhost");
 		clientList = client.getClientList();
 		keyClientList = clientList.keySet();
 		listenerMenu = new ClientServerListener();
 		listenerList = new ListClientListener();
-		dialogFrame = new ClientUI(client);
-		dialogFrame.setVisible(true);
+		dialogFrame = new DialogUI(client);
+		dialogFrame.setVisible(false);
 		initialize();
 
 		new Thread(new Runnable()
@@ -107,22 +107,34 @@ public class ClientServerUI
 	public static void refreshClient()
 	{
 		// connectionPanel.removeAll();
-		connectionPanel.setVisible(false);
-		clientList = client.getClientList();
-		keyClientList = clientList.keySet();
-		SimpleClientList = new Vector<ClientListData>();
-		
-		for (String key : keyClientList)
+		if (!client.getId().equals(""))
 		{
-			ClientListData clientListData = new ClientListData(key, clientList.get(key));
-			SimpleClientList.add(clientListData);
+			mainFrame.setTitle("msn-" + client.getName());
+			dialogFrame.setTitle("Dialog-" + client.getName());
+			if (!dialogFrame.isVisible())
+			{
+				dialogFrame.setVisible(true);
+			}
+			connectionPanel.setVisible(false);
+			clientList = client.getClientList();
+			keyClientList = clientList.keySet();
+			SimpleClientList = new Vector<ClientListData>();
+
+			for (String key : keyClientList)
+			{
+				ClientListData clientListData = new ClientListData(key, clientList.get(key));
+				SimpleClientList.add(clientListData);
+			}
+			System.out.println("nouvelle list" + SimpleClientList);
+			// listTest = new JList<ClientListData>(SimpleClientList);
+			listTest.setListData(SimpleClientList);
+			getMainFrame().getContentPane().add(listTest, BorderLayout.CENTER);
+			listTest.setVisible(true);
+			// System.out.println(list);
+		} else
+		{
+			dialogFrame.setVisible(false);
 		}
-		System.out.println("nouvelle list" + SimpleClientList);
-		// listTest = new JList<ClientListData>(SimpleClientList);
-		listTest.setListData(SimpleClientList);
-		getMainFrame().getContentPane().add(listTest, BorderLayout.CENTER);
-		listTest.setVisible(true);
-		// System.out.println(list);
 	}
 
 	/**

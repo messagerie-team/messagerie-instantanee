@@ -2,13 +2,14 @@ package userInterface;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Vector;
 
 public class ClientServerListener implements ActionListener
 {
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		// TODO Auto-generated method stub
 		System.out.println("action:" + e.getActionCommand());
 		switch (e.getActionCommand())
 		{
@@ -16,34 +17,50 @@ public class ClientServerListener implements ActionListener
 
 			break;
 		case "Rafraichir":
-			ClientServerUI.client.askListToServer();
-			try
+			if (!ClientServerUI.client.getId().equals(""))
 			{
-				Thread.sleep(1000);
-			} catch (InterruptedException e1)
-			{
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				HashMap<String, String> list = new HashMap<>(ClientServerUI.client.getClientList());
+				ClientServerUI.client.askListToServer();
+				int ttl = 0;
+				while (list.equals(ClientServerUI.client.getClientList()) && ttl < 7)
+				{
+					try
+					{
+						Thread.sleep(200);
+						ttl++;
+					} catch (InterruptedException e1)
+					{
+					}
+				}
+				System.out.println(ClientServerUI.client.getClientList());
+				System.out.println(ClientServerUI.clientList);
+
+				ClientServerUI.refreshClient();
 			}
-			System.out.println(ClientServerUI.client.getClientList());
-			System.out.println(ClientServerUI.clientList);
-			ClientServerUI.refreshClient();
 			break;
 		case "Se connecter":
 			ClientServerUI.client.setName(ClientServerUI.pseudoField.getText());
 			ClientServerUI.client.registerToServer();
 			try
 			{
-				Thread.sleep(3000);
-				ClientServerUI.refreshClient();
+				int cpt = 0;
+				while ((ClientServerUI.client.getId() == null || ClientServerUI.client.getId().equals("")) && cpt < 500)
+				{
+					Thread.sleep(200);
+					cpt++;
+				}
+				if (cpt != 500)
+				{
+					ClientServerUI.refreshClient();
+				}
 			} catch (InterruptedException e1)
 			{
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+
 			}
 			break;
 		case "Se déconnecter":
 			ClientServerUI.client.unregisterToServer();
+			ClientServerUI.listTest.setVisible(false);
 			ClientServerUI.connectionPanel.setVisible(true);
 			break;
 
