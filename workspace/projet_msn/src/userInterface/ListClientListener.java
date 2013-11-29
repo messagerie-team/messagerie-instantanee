@@ -11,8 +11,11 @@ public class ListClientListener implements MouseListener
 		if (e.getClickCount() == 2)
 		{
 			System.out.println("dbclick");
-			ClientListData clientList = ClientServerUI.listTest.getSelectedValue();
-			ClientServerUI.client.askClientConnectionToServer(clientList.getKey());
+			ClientListData clientList = ClientServerUI.jClientList.getSelectedValue();
+			if (clientList != null)
+			{
+				ClientServerUI.client.askClientConnectionToServer(clientList.getKey());
+			}
 		}
 	}
 

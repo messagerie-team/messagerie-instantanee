@@ -3,7 +3,6 @@ package userInterface;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
-import java.util.Vector;
 
 public class ClientServerListener implements ActionListener
 {
@@ -60,7 +59,7 @@ public class ClientServerListener implements ActionListener
 			break;
 		case "Se déconnecter":
 			ClientServerUI.client.unregisterToServer();
-			ClientServerUI.listTest.setVisible(false);
+			ClientServerUI.jClientList.setVisible(false);
 			ClientServerUI.connectionPanel.setVisible(true);
 			break;
 

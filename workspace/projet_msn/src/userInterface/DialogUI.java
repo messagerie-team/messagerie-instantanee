@@ -1,31 +1,28 @@
 package userInterface;
 
 import java.awt.BorderLayout;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JList;
-
-import java.awt.event.ActionListener;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Vector;
 
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.EmptyBorder;
 
 import clientServer.Client;
 import clientServer.ClientDialog;
 import clientServer.ClientServerData;
-
-import java.awt.Dimension;
-import java.awt.Component;
-import java.util.Vector;
 
 public class DialogUI extends JFrame
 {
@@ -34,95 +31,72 @@ public class DialogUI extends JFrame
 	private Client client;
 
 	private Vector<ClientDialog> dialogList;
-	private Vector<ClientListData> SimpleDialogtList;
+	private Vector<ClientListData> simpleDialogtList;
 	private JList<ClientListData> jDialogList;
 	private JTextArea textAreaDialog;
 	private JTextArea textAreaSaisie;
-
-	/**
-	 * Launch the application.
-	 */
-	/*
-	 * public static void main(String[] args) { EventQueue.invokeLater(new
-	 * Runnable() { public void run() { try { ClientUI frame = new ClientUI(new
-	 * Client("", 3000, "")); frame.setVisible(true); } catch (Exception e) {
-	 * e.printStackTrace(); } } }); }
-	 */
 
 	/**
 	 * Create the frame.
 	 */
 	public DialogUI(Client clientServer)
 	{
-		client = clientServer;
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 600, 400);
-		setMinimumSize(new Dimension(300, 350));
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(new BorderLayout(0, 0));
+		this.client = clientServer;
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setBounds(100, 100, 600, 400);
+		this.setMinimumSize(new Dimension(300, 350));
+		this.contentPane = new JPanel();
+		this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		this.contentPane.setLayout(new BorderLayout(0, 0));
 
-		Box vbGlobale = Box.createVerticalBox();
-		contentPane.add(vbGlobale, BorderLayout.CENTER);
+		Box containerGlobal = Box.createVerticalBox();
 
-		JPanel panelHaut = new JPanel();
-		panelHaut.setPreferredSize(new Dimension(10, 2500));
-		vbGlobale.add(panelHaut);
-		panelHaut.setLayout(new BorderLayout(0, 0));
+		JPanel topPanel = new JPanel();
+		topPanel.setPreferredSize(new Dimension(10, 2500));
+		topPanel.setLayout(new BorderLayout(0, 0));
 
-		Box hbHaut = Box.createHorizontalBox();
-		panelHaut.add(hbHaut, BorderLayout.CENTER);
+		Box topBox = Box.createHorizontalBox();
 
-		JPanel panelList = new JPanel();
-		panelList.setMinimumSize(new Dimension(300, 200));
-		panelList.setMaximumSize(new Dimension(300, 1000));
-		hbHaut.add(panelList);
-		panelList.setLayout(new BorderLayout(0, 0));
+		JPanel panelListDialog = new JPanel();
+		panelListDialog.setMinimumSize(new Dimension(300, 200));
+		panelListDialog.setMaximumSize(new Dimension(300, 1000));
+		panelListDialog.setLayout(new BorderLayout(0, 0));
 
-		SimpleDialogtList = new Vector<ClientListData>();
-		jDialogList = new JList<ClientListData>(SimpleDialogtList);
-		jDialogList.setPreferredSize(new Dimension(100, 100));
-		jDialogList.setMinimumSize(new Dimension(100, 100));
-		panelList.add(jDialogList, BorderLayout.CENTER);
-		jDialogList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-		Component hsRightList = Box.createHorizontalStrut(20);
-		hsRightList.setPreferredSize(new Dimension(5, 0));
-		hbHaut.add(hsRightList);
+		this.simpleDialogtList = new Vector<ClientListData>();
+		this.jDialogList = new JList<ClientListData>(this.simpleDialogtList);
+		this.jDialogList.setPreferredSize(new Dimension(100, 100));
+		this.jDialogList.setMinimumSize(new Dimension(100, 100));
+		this.jDialogList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-		textAreaDialog = new JTextArea();
-		textAreaDialog.setLineWrap(true);
-		textAreaDialog.setWrapStyleWord(true);
-		textAreaDialog.setEditable(false);
-		JScrollPane areaDialog = new JScrollPane(textAreaDialog, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		Component topSpaceBorderVertical = Box.createHorizontalStrut(20);
+		topSpaceBorderVertical.setPreferredSize(new Dimension(5, 0));
 
-		hbHaut.add(areaDialog);
+		this.textAreaDialog = new JTextArea();
+		this.textAreaDialog.setLineWrap(true);
+		this.textAreaDialog.setWrapStyleWord(true);
+		this.textAreaDialog.setEditable(false);
+		JScrollPane areaDialog = new JScrollPane(this.textAreaDialog, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-		Component vsPanHautPanBas = Box.createVerticalStrut(5);
-		vbGlobale.add(vsPanHautPanBas);
 
-		JPanel panelBas = new JPanel();
-		vbGlobale.add(panelBas);
-		panelBas.setLayout(new BorderLayout(0, 0));
+		Component spaceBorderHorizontal = Box.createVerticalStrut(5);
 
-		Box hbBas = Box.createHorizontalBox();
-		panelBas.add(hbBas, BorderLayout.CENTER);
+		JPanel bottomPanel = new JPanel();
+		bottomPanel.setLayout(new BorderLayout(5, 0));
 
-		textAreaSaisie = new JTextArea();
-		textAreaSaisie.setLineWrap(true);
-		textAreaSaisie.setWrapStyleWord(true);
-		JScrollPane areaSaisie = new JScrollPane(textAreaSaisie, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		Box bottomBox = Box.createHorizontalBox();
 
-		hbBas.add(areaSaisie);
-		textAreaSaisie.addKeyListener(new KeyListener()
+		this.textAreaSaisie = new JTextArea();
+		this.textAreaSaisie.setLineWrap(true);
+		this.textAreaSaisie.setWrapStyleWord(true);
+		JScrollPane areaSaisie = new JScrollPane(this.textAreaSaisie, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+		this.textAreaSaisie.addKeyListener(new KeyListener()
 		{
 
 			@Override
 			public void keyTyped(KeyEvent e)
 			{
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
@@ -137,22 +111,20 @@ public class DialogUI extends JFrame
 			@Override
 			public void keyPressed(KeyEvent e)
 			{
-				// TODO Auto-generated method stub
 			}
 		});
 
-		Component hsRightSaisie = Box.createHorizontalStrut(20);
-		hsRightSaisie.setPreferredSize(new Dimension(5, 0));
-		hbBas.add(hsRightSaisie);
+		Component bottomSpaceBorderVertical = Box.createHorizontalStrut(20);
+		bottomSpaceBorderVertical.setPreferredSize(new Dimension(5, 0));
+		
 
-		Box vbBouton = Box.createVerticalBox();
-		hbBas.add(vbBouton);
+		Box groupButton = Box.createVerticalBox();
 
-		JButton btnEnvoyer = new JButton("Envoyer");
-		btnEnvoyer.setPreferredSize(new Dimension(90, 23));
-		btnEnvoyer.setMaximumSize(new Dimension(90, 23));
-		btnEnvoyer.setMinimumSize(new Dimension(90, 23));
-		btnEnvoyer.addActionListener(new ActionListener()
+		JButton buttonSend = new JButton("Envoyer");
+		buttonSend.setPreferredSize(new Dimension(90, 23));
+		buttonSend.setMaximumSize(new Dimension(90, 23));
+		buttonSend.setMinimumSize(new Dimension(90, 23));
+		buttonSend.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
@@ -160,11 +132,11 @@ public class DialogUI extends JFrame
 			}
 		});
 
-		JButton btnAjout = new JButton("Ajouter");
-		btnAjout.setPreferredSize(new Dimension(90, 23));
-		btnAjout.setMaximumSize(new Dimension(90, 23));
-		btnAjout.setMinimumSize(new Dimension(90, 23));
-		btnAjout.addActionListener(new ActionListener()
+		JButton buttonAddClient = new JButton("Ajouter");
+		buttonAddClient.setPreferredSize(new Dimension(90, 23));
+		buttonAddClient.setMaximumSize(new Dimension(90, 23));
+		buttonAddClient.setMinimumSize(new Dimension(90, 23));
+		buttonAddClient.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
@@ -185,16 +157,17 @@ public class DialogUI extends JFrame
 					if (dialog != null)
 					{
 						AddClientUI addClient = new AddClientUI(client, dialog);
+						addClient.toString();
 					}
 				}
 			}
 		});
 
-		JButton btnFermer = new JButton("Fermer");
-		btnFermer.setPreferredSize(new Dimension(90, 23));
-		btnFermer.setMaximumSize(new Dimension(90, 23));
-		btnFermer.setMinimumSize(new Dimension(90, 23));
-		btnFermer.addActionListener(new ActionListener()
+		JButton buttonCloseDialog = new JButton("Fermer");
+		buttonCloseDialog.setPreferredSize(new Dimension(90, 23));
+		buttonCloseDialog.setMaximumSize(new Dimension(90, 23));
+		buttonCloseDialog.setMinimumSize(new Dimension(90, 23));
+		buttonCloseDialog.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
@@ -202,12 +175,36 @@ public class DialogUI extends JFrame
 			}
 		});
 
-		vbBouton.add(btnEnvoyer);
-		vbBouton.add(btnAjout);
-		vbBouton.add(btnFermer);
-		btnEnvoyer.setBorder(new EmptyBorder(5, 5, 5, 5));
-		btnAjout.setBorder(new EmptyBorder(5, 5, 5, 5));
-		btnFermer.setBorder(new EmptyBorder(5, 5, 5, 5));
+		groupButton.setBorder(new EmptyBorder(20, 5, 5, 5));
+		groupButton.add(buttonSend);
+		groupButton.add(buttonAddClient);
+		groupButton.add(buttonCloseDialog);
+		buttonSend.setBorder(new EmptyBorder(5, 5, 5, 5));
+		buttonAddClient.setBorder(new EmptyBorder(5, 5, 5, 5));
+		buttonCloseDialog.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
+		
+		
+		
+		panelListDialog.add(this.jDialogList, BorderLayout.CENTER);
+		
+		topBox.add(panelListDialog);
+		topBox.add(topSpaceBorderVertical);
+		topBox.add(areaDialog);
+		
+		bottomBox.add(areaSaisie);
+		bottomBox.add(bottomSpaceBorderVertical);
+		bottomBox.add(groupButton);
+		
+		topPanel.add(topBox, BorderLayout.CENTER);
+		bottomPanel.add(bottomBox, BorderLayout.CENTER);
+		
+		containerGlobal.add(topPanel);
+		containerGlobal.add(spaceBorderHorizontal);
+		containerGlobal.add(bottomPanel);
+		
+		this.contentPane.add(containerGlobal, BorderLayout.CENTER);
+		this.setContentPane(this.contentPane);
 
 		// Thread de mise a jour de la liste de conversation
 		new Thread(new Runnable()
@@ -297,12 +294,12 @@ public class DialogUI extends JFrame
 
 	public void refreshList()
 	{
-		dialogList = client.getDialogs();
-		SimpleDialogtList = new Vector<ClientListData>();
-		ClientListData sauvDialog = jDialogList.getSelectedValue();
+		this.dialogList = this.client.getDialogs();
+		this.simpleDialogtList = new Vector<ClientListData>();
+		ClientListData sauvDialog = this.jDialogList.getSelectedValue();
 		int indiceClient = -1;
 		int cpt = 0;
-		for (ClientDialog dialog : dialogList)
+		for (ClientDialog dialog : this.dialogList)
 		{
 			if (dialog.isInUse())
 			{
@@ -314,7 +311,7 @@ public class DialogUI extends JFrame
 					clientstring += clientServerData.getName() + " ";
 				}
 				ClientListData clientListData = new ClientListData(idDialog, clientstring);
-				SimpleDialogtList.add(clientListData);
+				this.simpleDialogtList.add(clientListData);
 				if (sauvDialog != null && sauvDialog.equals(clientListData))
 				{
 					indiceClient = cpt;
@@ -322,49 +319,49 @@ public class DialogUI extends JFrame
 				cpt++;
 			}
 		}
-		System.out.println("nouvelle list" + SimpleDialogtList);
-		jDialogList.setListData(SimpleDialogtList);
-		if (textAreaSaisie.getText().trim().equals(""))
+		System.out.println("nouvelle list" + this.simpleDialogtList);
+		this.jDialogList.setListData(this.simpleDialogtList);
+		if (this.textAreaSaisie.getText().trim().equals(""))
 		{
-			jDialogList.setSelectedIndices(new int[] { jDialogList.getModel().getSize() - 1 });
+			this.jDialogList.setSelectedIndices(new int[] { this.jDialogList.getModel().getSize() - 1 });
 		} else if (sauvDialog != null)
 		{
-			jDialogList.setSelectedIndices(new int[] { indiceClient });
+			this.jDialogList.setSelectedIndices(new int[] { indiceClient });
 		}
-		if (jDialogList.getSelectedValue() != null)
+		if (this.jDialogList.getSelectedValue() != null)
 		{
-			this.setTitle("Dialog-" + client.getName() + ":" + jDialogList.getSelectedValue());
+			this.setTitle("Dialog-" + this.client.getName() + ":" + this.jDialogList.getSelectedValue());
 		} else
 		{
-			this.setTitle("Dialog-" + client.getName());
+			this.setTitle("Dialog-" + this.client.getName());
 		}
 	}
 
 	public void sendMessage()
 	{
-		if (jDialogList.getSelectedValue() != null)
+		if (this.jDialogList.getSelectedValue() != null)
 		{
-			ClientListData dialog = jDialogList.getSelectedValue();
-			String message = textAreaSaisie.getText();
+			ClientListData dialog = this.jDialogList.getSelectedValue();
+			String message = this.textAreaSaisie.getText();
 			String[] messagesSplit = message.split("[\r\n]");
 			message = "";
 			for (String messageSplit : messagesSplit)
 			{
 				message += messageSplit + " ";
 			}
-			client.sendMessageToClient(message, dialog.getKey());
-			textAreaSaisie.setText("");
+			this.client.sendMessageToClient(message, dialog.getKey());
+			this.textAreaSaisie.setText("");
 		}
 	}
 
 	public void hideDialog()
 	{
-		if (jDialogList.getSelectedValue() != null)
+		if (this.jDialogList.getSelectedValue() != null)
 		{
-			ClientListData dialog = jDialogList.getSelectedValue();
-			client.hideDialog(dialog.getKey());
-			textAreaSaisie.setText("");
-			textAreaDialog.setText("");
+			ClientListData dialog = this.jDialogList.getSelectedValue();
+			this.client.hideDialog(dialog.getKey());
+			this.textAreaSaisie.setText("");
+			this.textAreaDialog.setText("");
 			this.refreshList();
 		}
 	}
