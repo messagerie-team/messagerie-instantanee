@@ -250,6 +250,10 @@ public class ThreadComunicationClient extends Thread
 				{
 					this.client.setId(token.nextToken());
 					this.protocol.sendMessage("reply:register:id:OK");
+				} else
+				{
+					this.protocol.sendMessage("reply:register:id:ERROR");
+					this.stopThread();
 				}
 				break;
 			case "DONE":

@@ -88,8 +88,8 @@ public class ThreadComunicationServer extends Thread
 	 */
 	private void messageTraitement(String message)
 	{
-		System.out.println("Début du traitement du message : " + message);
 		StringTokenizer token = new StringTokenizer(message, ":");
+		System.out.println("Début du traitement du message : " + message);
 		String firstToken = token.nextToken();
 		if (token.hasMoreTokens())
 		{
@@ -208,21 +208,35 @@ public class ThreadComunicationServer extends Thread
 				{
 				case "name":
 					// On informe le client qu'on a bien reçu son nom
-					//this.protocol.sendMessage("reply:register:name:OK");
+					// this.protocol.sendMessage("reply:register:name:OK");
 					this.tempVar = token.nextToken();
-					this.protocol.sendMessage("request:register:port");
+					if (!this.tempVar.trim().equals(""))
+					{
+						this.protocol.sendMessage("request:register:port");
+					} else
+					{
+						this.protocol.sendMessage("reply:register:ERROR");
+						this.stopThread();
+					}
 					break;
 				case "port":
-					//this.protocol.sendMessage("reply:register:port:OK");
-					String stringPort = token.nextToken();
-					int port = Integer.parseInt(stringPort);
-					String id = this.server.addClient(this.tempVar, this.socket, port);
-					if (id != null)
+					// this.protocol.sendMessage("reply:register:port:OK");
+					if (token.hasMoreTokens())
 					{
-						this.protocol.sendMessage("reply:register:id:" + id);
-						// System.out.println(this.server.getClients());
-						// this.stopThread();
-					}else
+						String stringPort = token.nextToken();
+						int port = Integer.parseInt(stringPort);
+						String id = this.server.addClient(this.tempVar, this.socket, port);
+						if (id != null)
+						{
+							this.protocol.sendMessage("reply:register:id:" + id);
+							// System.out.println(this.server.getClients());
+							// this.stopThread();
+						} else
+						{
+							this.protocol.sendMessage("reply:register:ERROR");
+							this.stopThread();
+						}
+					} else
 					{
 						this.protocol.sendMessage("reply:register:ERROR");
 					}
@@ -236,21 +250,16 @@ public class ThreadComunicationServer extends Thread
 					this.stopThread();
 					break;
 				}
+			} else
+			{
+				this.protocol.sendMessage("reply:register:ERROR");
+				this.stopThread();
 			}
 		}
 		// Sinon c'est qu'il s'agit d'un request
 		else
 		{
 			System.out.println("Demande d'enregistrement");
-			try
-			{
-				PrintWriter out = new PrintWriter(this.socket.getOutputStream());
-				//out.println("test");
-			} catch (IOException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			// On envoie un autre pour demander son nom
 			this.protocol.sendMessage("request:register:name");
 		}

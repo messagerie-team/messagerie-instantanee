@@ -43,12 +43,12 @@ public class ClientServerListener implements ActionListener
 			try
 			{
 				int cpt = 0;
-				while ((ClientServerUI.client.getId() == null || ClientServerUI.client.getId().equals("")) && cpt < 500)
+				while ((ClientServerUI.client.getId() == null || ClientServerUI.client.getId().equals("")) && cpt < 50)
 				{
 					Thread.sleep(200);
 					cpt++;
 				}
-				if (cpt != 500)
+				if (cpt < 50)
 				{
 					ClientServerUI.refreshClient();
 				}
