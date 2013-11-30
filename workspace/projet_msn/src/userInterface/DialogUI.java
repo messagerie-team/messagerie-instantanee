@@ -62,7 +62,6 @@ public class DialogUI extends JFrame
 		panelListDialog.setMaximumSize(new Dimension(300, 1000));
 		panelListDialog.setLayout(new BorderLayout(0, 0));
 
-
 		this.simpleDialogtList = new Vector<ClientListData>();
 		this.jDialogList = new JList<ClientListData>(this.simpleDialogtList);
 		this.jDialogList.setPreferredSize(new Dimension(100, 100));
@@ -77,7 +76,6 @@ public class DialogUI extends JFrame
 		this.textAreaDialog.setWrapStyleWord(true);
 		this.textAreaDialog.setEditable(false);
 		JScrollPane areaDialog = new JScrollPane(this.textAreaDialog, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
 
 		Component spaceBorderHorizontal = Box.createVerticalStrut(5);
 
@@ -116,7 +114,6 @@ public class DialogUI extends JFrame
 
 		Component bottomSpaceBorderVertical = Box.createHorizontalStrut(20);
 		bottomSpaceBorderVertical.setPreferredSize(new Dimension(5, 0));
-		
 
 		Box groupButton = Box.createVerticalBox();
 
@@ -182,27 +179,24 @@ public class DialogUI extends JFrame
 		buttonSend.setBorder(new EmptyBorder(5, 5, 5, 5));
 		buttonAddClient.setBorder(new EmptyBorder(5, 5, 5, 5));
 		buttonCloseDialog.setBorder(new EmptyBorder(5, 5, 5, 5));
-		
-		
-		
-		
+
 		panelListDialog.add(this.jDialogList, BorderLayout.CENTER);
-		
+
 		topBox.add(panelListDialog);
 		topBox.add(topSpaceBorderVertical);
 		topBox.add(areaDialog);
-		
+
 		bottomBox.add(areaSaisie);
 		bottomBox.add(bottomSpaceBorderVertical);
 		bottomBox.add(groupButton);
-		
+
 		topPanel.add(topBox, BorderLayout.CENTER);
 		bottomPanel.add(bottomBox, BorderLayout.CENTER);
-		
+
 		containerGlobal.add(topPanel);
 		containerGlobal.add(spaceBorderHorizontal);
 		containerGlobal.add(bottomPanel);
-		
+
 		this.contentPane.add(containerGlobal, BorderLayout.CENTER);
 		this.setContentPane(this.contentPane);
 
@@ -230,19 +224,30 @@ public class DialogUI extends JFrame
 								cptInUse++;
 							}
 						}
-						boolean needRefresh = false;
+						int nbClientToDial = 0;
 						for (int i = 0; i < client.getDialogs().size(); i++)
 						{
-							if (client.getDialogs().get(i).getClients().size() != temp.get(i).getClients().size())
+							if (client.getDialogs().get(i).isInUse())
 							{
-								needRefresh = true;
+								nbClientToDial += client.getDialogs().get(i).getClients().size();
 							}
 						}
-						if (cptInUse > jDialogList.getModel().getSize() || needRefresh)
+						if (cptInUse > jDialogList.getModel().getSize())
 						{
 							refreshList();
+						} else
+						{
+							int nbClientToDialInList = 0;
+							for (int j = 0; j < jDialogList.getModel().getSize(); j++)
+							{
+								nbClientToDialInList += jDialogList.getModel().getElementAt(j).getValue().split(",").length;
+							}
+							if (nbClientToDial != nbClientToDialInList)
+							{
+								System.out.println(nbClientToDial + " - " + nbClientToDialInList);
+								refreshList();
+							}
 						}
-
 					}
 					try
 					{
@@ -306,9 +311,9 @@ public class DialogUI extends JFrame
 				String idDialog = dialog.getIdDialog();
 				Vector<ClientServerData> clients = dialog.getClients();
 				String clientstring = "";
-				for (ClientServerData clientServerData : clients)
+				for (int i = 0; i < clients.size(); i++)
 				{
-					clientstring += clientServerData.getName() + " ";
+					clientstring += ((i == 0) ? "" : ", ") + clients.get(i).getName();
 				}
 				ClientListData clientListData = new ClientListData(idDialog, clientstring);
 				this.simpleDialogtList.add(clientListData);
