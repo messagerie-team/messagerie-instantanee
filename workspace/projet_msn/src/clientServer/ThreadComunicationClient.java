@@ -10,10 +10,11 @@ import dataLink.Protocol;
 import dataLink.ProtocolTCP;
 
 /**
- * Thread de comunication d'un client vers un serveur. Il permet de gerer les
- * demandes client. Connection, Deconnection, demande de lien etc...
  * 
- * @author raphael
+ * Méthode pour suprimer un client
+ * 
+ * Thread de comunication d'un client vers un serveur. Il permet de gérer les
+ * demandes client. Connection, Deconnection, demande de lien etc...
  * 
  */
 public class ThreadComunicationClient extends Thread
@@ -37,7 +38,7 @@ public class ThreadComunicationClient extends Thread
 	 */
 	private Protocol protocol;
 	/**
-	 * Parametre permettant d'areter le thread.
+	 * Parametre permettant d'arrêter le thread.
 	 */
 	private boolean running;
 	/**
@@ -48,7 +49,7 @@ public class ThreadComunicationClient extends Thread
 	private String ipServer;
 
 	/**
-	 * Constructeur par defaut de thread de communication.
+	 * Constructeur par défaut de thread de communication.
 	 * 
 	 * @param client
 	 * @param ipServer
@@ -60,7 +61,7 @@ public class ThreadComunicationClient extends Thread
 	}
 
 	/**
-	 * Constructeur de thread de communication. Pas encore utilise.
+	 * Constructeur de thread de communication. Pas encore utilisé.
 	 * 
 	 * @param client
 	 * @param socket
@@ -108,7 +109,7 @@ public class ThreadComunicationClient extends Thread
 	}
 
 	/**
-	 * Methode permettant de traiter la reception d'un message.
+	 * Méthode permettant de traiter la réception d'un message.
 	 * 
 	 * @param message
 	 */
@@ -140,7 +141,7 @@ public class ThreadComunicationClient extends Thread
 	}
 
 	/**
-	 * Methode permettant de traiter les request d'un serveur.
+	 * Méthode permettant de traiter les demandes d'un serveur.
 	 * 
 	 * @see Server
 	 * @param message
@@ -166,7 +167,7 @@ public class ThreadComunicationClient extends Thread
 	}
 
 	/**
-	 * Message permettant de traiter les reply d'un serveur.
+	 * Message permettant de traiter les réponses d'un serveur.
 	 * 
 	 * @see Server
 	 * @param message
@@ -195,7 +196,7 @@ public class ThreadComunicationClient extends Thread
 	}
 
 	/**
-	 * Methode permettant traiter le procesus de desenregistrement
+	 * Méthode permettant traiter le processus de desenregistrement
 	 * 
 	 * @param token
 	 */
@@ -222,7 +223,7 @@ public class ThreadComunicationClient extends Thread
 	}
 
 	/**
-	 * Methode permettant de gerer le procesus d'enregistrement.
+	 * Méthode permettant de gérer le processus d'enregistrement.
 	 * 
 	 * @param token
 	 */
@@ -270,7 +271,7 @@ public class ThreadComunicationClient extends Thread
 	}
 
 	/**
-	 * Methode permettant de gerer le procesus de demande de list Client au
+	 * Méthode permettant de gerer le processus de demande de list Client au
 	 * serveur.
 	 * 
 	 * @param token
@@ -290,7 +291,7 @@ public class ThreadComunicationClient extends Thread
 	}
 
 	/**
-	 * Methode permettant de gerer le procesus de demande d'information de
+	 * Méthode permettant de gérer le procedsus de demande d'information de
 	 * connexion client.
 	 * 
 	 * @param token
@@ -334,7 +335,7 @@ public class ThreadComunicationClient extends Thread
 	}
 
 	/**
-	 * Methode permettant d'envoyer une demande d'information client au serveur.
+	 * Méthode permettant d'envoyer une demande d'information client au serveur.
 	 * 
 	 * @param clientId
 	 */
@@ -344,7 +345,7 @@ public class ThreadComunicationClient extends Thread
 	}
 
 	/**
-	 * Methode permettant de stopper le thread
+	 * Méthode permettant d'arrêter le thread
 	 */
 	public void stopThread()
 	{
