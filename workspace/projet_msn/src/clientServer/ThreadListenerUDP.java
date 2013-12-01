@@ -32,7 +32,9 @@ public class ThreadListenerUDP extends Thread
 	 * Constructeur de la classe ThreadListenerUDP. Il recoit le port d'écoute
 	 * en paramètre.
 	 * 
-	 * @param port
+	 * @param clientServer
+	 * 
+	 * @param protocol
 	 */
 	public ThreadListenerUDP(AbstractClientServer clientServer, Protocol protocol)
 	{

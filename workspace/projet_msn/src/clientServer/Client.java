@@ -13,7 +13,7 @@ import dataLink.ProtocolUDP;
 /**
  * 
  * @author Dorian, Mickaël, Raphaël, Thibault
- * @category Classe permetant de représenter un client. Extends de la classe
+ * Classe permetant de représenter un client. Extends de la classe
  *           AbstractClientServer.
  * @see AbstractClientServer
  */

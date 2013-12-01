@@ -13,7 +13,7 @@ import java.net.Socket;
  * @author Dorian, Mickaël, Raphaël, Thibaultl
  * 
  * Permet de représenter le protocol TCP pour la communication TCP.
- * @see Protocol.
+ * @see Protocol
  */
 public class ProtocolTCP extends Protocol
 {

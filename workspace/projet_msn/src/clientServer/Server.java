@@ -14,7 +14,7 @@ import dataLink.ProtocolUDP;
 
 /**
  * @author Dorian, Mickaël, Raphaël, Thibaultl
- * @category Classe permettant de représenter un serveur. Extends de la classe
+ * Classe permettant de représenter un serveur. Extends de la classe
  *           AbstractClientServer.
  * @see AbstractClientServer
  */
@@ -66,7 +66,8 @@ public class Server extends AbstractClientServer
 	 * Construct Server(int port) Constructeur de la class Server. Initialise
 	 * les variables server,clients et threadListener.
 	 * 
-	 * @param int numero de port TCP, le port UDP sera a +1
+	 * @param port 
+	 * 			numéro de port TCP, le port UDP sera à +1
 	 */
 	public Server(int port)
 	{
@@ -191,7 +192,7 @@ public class Server extends AbstractClientServer
 	/**
 	 * Méthode pour suprimer un client
 	 * 
-	 * @param name
+	 * @param id
 	 *            Nom du client
 	 * @return true si réussit, false sinon
 	 */

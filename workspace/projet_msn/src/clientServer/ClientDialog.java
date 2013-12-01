@@ -8,7 +8,7 @@ import dataLink.Protocol;
 /**
  * 
  * @author Dorian, Mickaël, Raphaël, Thibault
- * @category Classe permettant de représenter un dialogue entre clients.
+ * Classe permettant de représenter un dialogue entre clients.
  */
 public class ClientDialog
 {
@@ -155,7 +155,7 @@ public class ClientDialog
 	 * Méthode permettant de supprimer un client du dialogue.
 	 * 
 	 * @param client
-	 * @return
+	 * @return la liste des clients à jour
 	 */
 	public boolean removeClient(ClientServerData client)
 	{

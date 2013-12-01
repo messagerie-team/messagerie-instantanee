@@ -5,7 +5,7 @@ import java.util.Vector;
 /**
  * 
  * @author Dorian, Mickaël, Raphaël, Thibaultl
- * @category Classe abstraite permettant de representer un client ou un serveur
+ * Classe abstraite permettant de representer un client ou un serveur
  *           suivant son instance.
  */
 public abstract class AbstractClientServer
