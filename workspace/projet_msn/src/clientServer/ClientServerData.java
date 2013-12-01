@@ -5,7 +5,7 @@ import java.net.InetAddress;
 import java.security.SecureRandom;
 
 /**
- * @author Dorian, Thibault, Raphaël
+ * @author Dorian, Mickaël, Raphaël, Thibault
  * 
  * Classe permettant de stocker les informations client pour la classe
  * {@link AbstractClientServer}. Comme son nom, son IP, son port ouvert etc...

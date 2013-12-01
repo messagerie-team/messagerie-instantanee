@@ -12,7 +12,11 @@ import clientServer.Client;
 import clientServer.ClientDialog;
 import clientServer.ClientServerData;
 import dataLink.ProtocolTCP;
-
+/**
+ * 
+ * @author Dorian, Mickaël, Raphaël, Thibault
+ * 
+ */
 public class ClientDialogTest 
 {
 	private Client clientTest;

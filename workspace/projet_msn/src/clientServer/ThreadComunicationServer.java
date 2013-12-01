@@ -10,7 +10,7 @@ import dataLink.ProtocolTCP;
 
 /**
  * 
- * @author Dorian, Thibault, Raphaël
+ * @author Dorian, Mickaël, Raphaël, Thibault
  * 
  * Thread de comunication d'un serveur vers un client. Il permet de gérer les
  * demandes client. Connection, Déconnection, demande de lien etc...

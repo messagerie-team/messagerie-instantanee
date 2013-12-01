@@ -14,7 +14,11 @@ import javax.swing.JList;
 import clientServer.Client;
 import clientServer.ClientDialog;
 import clientServer.ClientServerData;
-
+/**
+ * 
+ * @author Dorian, Mickaël, Raphaël, Thibault
+ * 
+ */
 public class AddClientUI
 {
 	private static JFrame mainFrame;
@@ -27,7 +31,7 @@ public class AddClientUI
 	public static JList<ClientListData> listTest;
 
 	/**
-	 * Create the application.
+	 * Création de la fenêtre principale.
 	 */
 	public AddClientUI(Client clientRef, ClientDialog dialogRef)
 	{

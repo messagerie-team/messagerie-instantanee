@@ -6,7 +6,7 @@ import java.net.Socket;
 
 /**
  * 
- * @author Dorian, Thibault, Raphaël
+ * @author Dorian, Mickaël, Raphaël, Thibault
  * 
  * Thread d'écoute du serveur. Permet de recevoir les connections des clients.
  * Si un client se connecte, un nouveau thread est lancé pour communiquer avec.

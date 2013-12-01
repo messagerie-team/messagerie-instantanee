@@ -4,7 +4,7 @@ import java.net.InetAddress;
 
 /**
  * 
- * @author Dorian, Thibault, Raphaël
+ * @author Dorian, Mickaël, Raphaël, Thibault
  * @category Classe abstraite permettant de représenter un protocol de
  *           communication.
  */

@@ -4,11 +4,14 @@ import java.util.Map.Entry;
 
 import javax.swing.JComponent;
 
+/**
+ * 
+ * @author Dorian, Mickaël, Raphaël, Thibault
+ * 
+ */
 public class ClientListData extends JComponent implements Entry<String, String>
 {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 7871773513120449008L;
 	private final String key;
 	private String value;

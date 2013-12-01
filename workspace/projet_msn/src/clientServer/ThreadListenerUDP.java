@@ -7,7 +7,7 @@ import dataLink.Protocol;
 
 /**
  * 
- * @author Dorian, Thibault, Raphaël
+ * @author Dorian, Mickaël, Raphaël, Thibault
  *
  */
 

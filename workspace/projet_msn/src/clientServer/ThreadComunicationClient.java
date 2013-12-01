@@ -10,6 +10,7 @@ import dataLink.Protocol;
 import dataLink.ProtocolTCP;
 
 /**
+ * @author Dorian, Mickaël, Raphaël, Thibault
  * 
  * Méthode pour suprimer un client
  * 

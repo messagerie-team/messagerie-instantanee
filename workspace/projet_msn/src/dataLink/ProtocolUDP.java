@@ -8,7 +8,7 @@ import java.net.SocketException;
 
 /**
  * 
- * @author Dorian, Thibault, Raphaël
+ * @author Dorian, Mickaël, Raphaël, Thibault
  * 
  */
 public class ProtocolUDP extends Protocol

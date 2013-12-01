@@ -3,7 +3,11 @@ package userInterface;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
-
+/**
+ * 
+ * @author Dorian, Mickaël, Raphaël, Thibault
+ * 
+ */
 public class ClientServerListener implements ActionListener
 {
 	@Override
@@ -15,7 +19,7 @@ public class ClientServerListener implements ActionListener
 		case "Profil":
 
 			break;
-		case "Rafraichir":
+		case "Rafraîchir":
 			if (!ClientServerUI.client.getId().equals(""))
 			{
 				HashMap<String, String> list = new HashMap<>(ClientServerUI.client.getClientList());

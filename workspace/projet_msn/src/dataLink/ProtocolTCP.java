@@ -10,7 +10,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 
 /**
- * @author Dorian, Thibault, Raphaël
+ * @author Dorian, Mickaël, Raphaël, Thibaultl
  * 
  * Permet de représenter le protocol TCP pour la communication TCP.
  * @see Protocol.

@@ -20,7 +20,11 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import clientServer.Client;
-
+/**
+ * 
+ * @author Dorian, Mickaël, Raphaël, Thibault
+ * 
+ */
 public class ClientServerUI
 {
 
@@ -40,7 +44,7 @@ public class ClientServerUI
 	protected static JTextField pseudoField;
 
 	/**
-	 * Launch the application.
+	 * Lancement de l'application.
 	 */
 	public static void main(String[] args)
 	{
@@ -62,7 +66,7 @@ public class ClientServerUI
 	}
 
 	/**
-	 * Create the application.
+	 * Création de l'application.
 	 */
 	public ClientServerUI()
 	{
@@ -130,7 +134,7 @@ public class ClientServerUI
 	}
 
 	/**
-	 * Initialize the contents of the frame.
+	 * Initialise le éléments de la fenêtre principale
 	 */
 	private void initialize()
 	{

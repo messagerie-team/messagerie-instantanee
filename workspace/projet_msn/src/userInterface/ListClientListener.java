@@ -2,7 +2,11 @@ package userInterface;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
+/**
+ * 
+ * @author Dorian, Mickaël, Raphaël, Thibault
+ * 
+ */
 public class ListClientListener implements MouseListener
 {
 	@Override
