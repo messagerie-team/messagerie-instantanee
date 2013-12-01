@@ -1,6 +1,3 @@
-/**
- * 
- */
 package dataLink;
 
 import java.io.IOException;
@@ -10,7 +7,8 @@ import java.net.InetAddress;
 import java.net.SocketException;
 
 /**
- * @author Mickael
+ * 
+ * @author Dorian, Thibault, Raphaël
  * 
  */
 public class ProtocolUDP extends Protocol
@@ -30,28 +28,28 @@ public class ProtocolUDP extends Protocol
 	 */
 	private DatagramPacket reader;
 	/**
-	 * Buffer servant a la reception des paquets.
+	 * Buffer servant à la reception des paquets.
 	 */
 	private static byte bufferReader[];
 	/**
 	 * Taille du buffer.
-	 * A determiner pourquoi.
+	 * A déterminer pourquoi.
 	 */
 	// Pourquoi 60000 ? Limite théorique = 65535, limite en IPv4 = 65507
 	private final static int sizeBufferReader = 60000;
 	/**
-	 * Dernier port avec lequel le protocol a communiquer
-	 * (Port ouvert du dernier client avec lequel il a comuniquer)
+	 * Dernier port avec lequel le protocol a communiqué
+	 * (Port ouvert du dernier client avec lequel il a comuniqué)
 	 */
 	private int lastPort;
 	/**
-	 * Derniere adresse avec laquelle le protocol a communiquer
-	 * (Adresse Ip du dernier client avec lequel il a comuniquer)
+	 * Dernière adresse avec laquelle le protocol a communiqué
+	 * (Adresse Ip du dernier client avec lequel il a comuniqué)
 	 */
 	private InetAddress lastAdress;
 
 	/**
-	 * Constructeur par defaut du protocol UDP
+	 * Constructeur par défaut du protocol UDP
 	 * @param localPort
 	 */
 	public ProtocolUDP(int localPort)

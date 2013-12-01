@@ -1,6 +1,3 @@
-/**
- * 
- */
 package dataLink;
 
 import java.io.BufferedReader;
@@ -11,11 +8,11 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 /**
- * @author Mickael Methode permettant de representer le protocol TCP pour la
- *         communication TCP.
+ * @author Dorian, Thibault, Raphaël
+ * 
+ * Permet de représenter le protocol TCP pour la communication TCP.
  * @see Protocol.
  */
 public class ProtocolTCP extends Protocol
@@ -31,12 +28,12 @@ public class ProtocolTCP extends Protocol
 	 */
 	public PrintWriter writer;
 	/**
-	 * {@link BufferedReader} permettant de receptionner des messages.
+	 * {@link BufferedReader} permettant de réceptionner des messages.
 	 */
 	public BufferedReader reader;
 
 	/**
-	 * Constructeur par defaut du protocol par defaut.
+	 * Constructeur par défaut du protocol par défaut.
 	 * 
 	 * @param socket
 	 */

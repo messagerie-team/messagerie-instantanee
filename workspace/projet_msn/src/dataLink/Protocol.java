@@ -4,8 +4,8 @@ import java.net.InetAddress;
 
 /**
  * 
- * @author raphael
- * @category Class abstraite permettant de representer un protocol de
+ * @author Dorian, Thibault, Raphaël
+ * @category Classe abstraite permettant de représenter un protocol de
  *           communication.
  */
 public abstract class Protocol
@@ -16,7 +16,7 @@ public abstract class Protocol
 	private int localPort;
 
 	/**
-	 * Constructeur par defaut du Protocol.
+	 * Constructeur par défaut du Protocol.
 	 * 
 	 * @param localPort
 	 */
@@ -26,7 +26,7 @@ public abstract class Protocol
 	}
 
 	/**
-	 * Methode permettant d'envoyer un message a une adresse sur un port.
+	 * Méthode permettant d'envoyer un message à une adresse sur un port.
 	 * 
 	 * @param message
 	 * @param adress
@@ -35,7 +35,7 @@ public abstract class Protocol
 	public abstract void sendMessage(String message, InetAddress adress, int port);
 
 	/**
-	 * Methode permettant d'envoyer un message à l'adresse par defaut du
+	 * Méthode permettant d'envoyer un message à l'adresse par defaut du
 	 * protocol.
 	 * 
 	 * @param message
@@ -43,14 +43,14 @@ public abstract class Protocol
 	public abstract void sendMessage(String message);
 
 	/**
-	 * Methode permettant de receptionner un message.
+	 * Méthode permettant de réceptionner un message.
 	 * 
 	 * @return Chaine receptionne
 	 */
 	public abstract String readMessage();
 
 	/**
-	 * Methode permettant de gerer la fermeture du protocol.
+	 * Méthode permettant de gérer la fermeture du protocol.
 	 */
 	public abstract void close();
 
