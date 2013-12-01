@@ -4,21 +4,21 @@ import java.util.Vector;
 
 /**
  * 
- * @author raphael
- * @category Class abstraite permettant de representer un client ou un serveur
+ * @author Dorian, Thibault, Raphael
+ * @category Classe abstraite permettant de representer un client ou un serveur
  *           suivant son instance.
  */
 public abstract class AbstractClientServer
 {
 	/**
-	 * Liste des clients que connait la class.
+	 * Liste des clients que connait la classe.
 	 * 
 	 * @see ClientServerData
 	 */
 	private Vector<ClientServerData> clients;
 
 	/**
-	 * Constructeur par defaut. Initialise la list des clients.
+	 * Constructeur par défaut. Initialise la liste des clients.
 	 */
 	public AbstractClientServer()
 	{
@@ -26,8 +26,8 @@ public abstract class AbstractClientServer
 	}
 
 	/**
-	 * Constructeur de la class, la liste des clients est initialisé par la
-	 * liste fournit en parametre. La liste n'est pas clonée.
+	 * Constructeur de la classe, la liste des clients est initialisées par la
+	 * liste fourni en parametre. La liste n'est pas clonée.
 	 * 
 	 * @param clients
 	 * @see ClientServerData
@@ -48,14 +48,14 @@ public abstract class AbstractClientServer
 	}
 
 	/**
-	 * Methode permettant de traiter les elements reçu en TCP
+	 * Méthode permettant de traiter les éléments reçu en TCP
 	 * 
 	 * @param object
 	 */
 	public abstract void treatIncomeTCP(Object object);
 
 	/**
-	 * Methode permettant de traiter les elements reçu en UDP
+	 * Méthode permettant de traiter les éléments reçu en UDP
 	 * 
 	 * @param message
 	 */

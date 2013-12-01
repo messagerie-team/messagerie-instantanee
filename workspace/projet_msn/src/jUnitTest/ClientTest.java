@@ -20,9 +20,9 @@ public class ClientTest
 	public void testTreatIncomeUDP()
 	{
 		Client Ctest = new Client("TestUnitaire",3009,"localhost");
-		//test avec un message bien formé
+		//test avec un message bien formÃ©
 		Ctest.treatIncomeUDP("dialog:ALLLOOOO");
-		//test avec message mal formé
+		//test avec message mal formÃ©
 		Ctest.treatIncomeUDP("toto");
 	}
 
