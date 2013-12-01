@@ -5,6 +5,12 @@ import java.net.UnknownHostException;
 
 import dataLink.Protocol;
 
+/**
+ * 
+ * @author Dorian, Thibault, Raphaël
+ *
+ */
+
 public class ThreadListenerUDP extends Thread
 {
 	/**
@@ -14,7 +20,7 @@ public class ThreadListenerUDP extends Thread
 	 */
 	private AbstractClientServer clientServer;
 	/**
-	 * Parametre permettant de stopper le Thread.
+	 * Paramètre permettant d'arrêter le Thread.
 	 */
 	private boolean running;
 	/**
@@ -35,7 +41,7 @@ public class ThreadListenerUDP extends Thread
 	}
 
 	/**
-	 * Ce thread récéptionne les messages et les affiches dans la console.
+	 * Ce thread récéptionne les messages et les affiche dans la console.
 	 */
 	public void run()
 	{
