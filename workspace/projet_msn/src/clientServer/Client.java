@@ -12,15 +12,15 @@ import dataLink.ProtocolUDP;
 
 /**
  * 
- * @author raphael
- * @category Class permetant de representer un client. Extends de la class
+ * @author Dorian, Thibault, Raphaël
+ * @category Classe permetant de représenter un client. Extends de la classe
  *           AbstractClientServer.
  * @see AbstractClientServer
  */
 public class Client extends AbstractClientServer
 {
 	/**
-	 * Identifiant unique du client, fournit par le serveur.
+	 * Identifiant unique du client, fourni par le serveur.
 	 */
 	private String id;
 	/**
@@ -28,7 +28,7 @@ public class Client extends AbstractClientServer
 	 */
 	private String name;
 	/**
-	 * Liste des clients connu par leurs identifiants public. Key : cle public
+	 * Liste des clients connue par leurs identifiants public. Key : clé publique
 	 * client, value : nom client
 	 */
 	private HashMap<String, String> clientList;
@@ -39,11 +39,11 @@ public class Client extends AbstractClientServer
 	 */
 	private Vector<ClientDialog> dialogs;
 	/**
-	 * Numero du port d'ecoute UDP du client
+	 * Numéro du port d'écoute UDP du client
 	 */
 	private int listeningUDPPort;
 	/**
-	 * Thread d'ecoute du port UDP
+	 * Thread d'écoute du port UDP
 	 * 
 	 * @see ThreadListenerUDP
 	 */
@@ -68,7 +68,7 @@ public class Client extends AbstractClientServer
 	private ThreadComunicationClient threadComunicationClient;
 
 	/**
-	 * Constructeur par defaut du Client.
+	 * Constructeur par défaut du Client.
 	 * 
 	 * @param name
 	 * @param listeningUDPPort
@@ -89,7 +89,7 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Methode permetant au client de s'enregister auprès du serveur.
+	 * Methode permettant au client de s'enregister auprès du serveur.
 	 * 
 	 * @see Server
 	 */
@@ -133,7 +133,7 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Methode permettant de se deconecter du serveur.
+	 * Méthode permettant de se deconecter du serveur.
 	 * 
 	 * @see Server
 	 */
@@ -151,7 +151,7 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Methode permetant de demander la liste des clients connecte au serveur.
+	 * Méthode permettant de demander la liste des clients connectés au serveur.
 	 * 
 	 * @see Server
 	 */
@@ -170,9 +170,9 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Methode permettant de demander les informations d'un client au serveur,
-	 * afin de pouvoir ensuite demarer un dialog avec. Le parametre correspond a
-	 * la cle public du client.
+	 * Méthode permettant de demander les informations d'un client au serveur,
+	 * afin de pouvoir ensuite demarrer un dialog avec. Le paramètre correspond à
+	 * la clé public du client.
 	 * 
 	 * @param clientId
 	 */
@@ -180,20 +180,20 @@ public class Client extends AbstractClientServer
 	{
 		try
 		{
-			// On recherche si on a deja demarer un dialogue avec le client.
+			// On recherche si on a déjà démarré un dialogue avec le client.
 			boolean alreadyDone = false;
 			for (ClientDialog dialog : this.dialogs)
 			{
 				if (dialog.getClients().size() == 1 && dialog.getClients().firstElement().getId().equals(clientId))
 				{
 					alreadyDone = true;
-					// Si la conversation existe et que on souhaite en démarer
-					// une c'est quel est simplement caché
+					// Si la conversation existe et que on souhaite en démarrer
+					// une c'est quelle est simplement cachée
 					// alors on la remet en fonction
 					dialog.setInUse(true);
 				}
 			}
-			// Si aucun dialog n'a ete demarer
+			// Si aucun dialog n'a été demarrer
 			if (!alreadyDone)
 			{
 				this.launchThread();
@@ -202,13 +202,13 @@ public class Client extends AbstractClientServer
 				this.threadComunicationClient.getClientConnection(clientId);
 				int cpt = 0;
 				int sizeClients = this.getClients().size();
-				// On attent de les recevoir
+				// On attend de les recevoir
 				while (cpt < 500 && this.getClients().size() == sizeClients)
 				{
 					Thread.sleep(200);
 					cpt++;
 				}
-				// Si on les a bien reçu on demare une conversation
+				// Si on les a bien reçu on démarre une conversation
 				if (this.getClients().size() != sizeClients)
 				{
 					this.startDialogToClient(this.getClients().lastElement());
@@ -221,8 +221,8 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Methode permettant de demarer un dialogue avec un client. Le parametre
-	 * est une representation d'un client.
+	 * Méthode permettant de démarrer un dialogue avec un client. Le paramètre
+	 * est une représentation d'un client.
 	 * 
 	 * @see ClientServerData
 	 * @see ClientDialog
@@ -232,7 +232,7 @@ public class Client extends AbstractClientServer
 	{
 		try
 		{
-			// On verifie si il existe deja un dialog avec le client
+			// On verifie si il existe déjà un dialog avec le client
 			boolean alreadyDone = false;
 			for (ClientDialog dialog : this.dialogs)
 			{
@@ -244,17 +244,17 @@ public class Client extends AbstractClientServer
 			// Si ce n'est pas le cas
 			if (!alreadyDone)
 			{
-				// On cree un dialogue
+				// On crée un dialogue
 				ClientDialog dialog = new ClientDialog(this, this.protocol);
 				// On y ajoute le client avec qui l'on discute
 				dialog.addClient(client);
-				// On recupere l'id du dialogue generee
+				// On recupère l'id du dialogue généré
 				String idDialog = dialog.getIdDialog();
 				// On envoie les informations du dialog au client avec qui l'on
 				// souhaite discuter
 				protocol.sendMessage("dialog:newDialog:" + idDialog, client.getIp(), client.getPort());
 				protocol.sendMessage("dialog:newDialog:clients:" + idDialog + ":" + this.id, client.getIp(), client.getPort());
-				// On ajoute le dialogue a la liste des dialogue du client
+				// On ajoute le dialogue à la liste des dialogue du client
 				this.dialogs.add(dialog);
 			}
 		} catch (NumberFormatException e)
@@ -323,11 +323,11 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Methode permettant d'envoyer un message sur un dialogue.
+	 * Méthode permettant d'envoyer un message sur un dialogue.
 	 * 
 	 * @param message
 	 * @param idDialog
-	 * @return true si le message est partie, false sinon
+	 * @return true si le message est parti, false sinon
 	 */
 	public boolean sendMessageToClient(String message, String idDialog)
 	{
@@ -348,11 +348,11 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Methode permettant de desactiver un dialog.
+	 * Méthode permettant de désactiver un dialog.
 	 * 
 	 * @see ClientDialog
 	 * @param idDialog
-	 * @return true si réussit, false sinon.
+	 * @return true si réussi, false sinon.
 	 */
 	public boolean hideDialog(String idDialog)
 	{
@@ -373,7 +373,7 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Methode permettant de demarer le thread de communication avec le serveur.
+	 * Méthode permettant de demarer le thread de communication avec le serveur.
 	 */
 	public void launchThread()
 	{
@@ -388,8 +388,8 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Methode permettant de mettre a jour la liste des clients connu. La liste
-	 * est envoye par le serveur. Elle est de la forme
+	 * Méthode permettant de mettre à jour la liste des clients connu. La liste
+	 * est envoyée par le serveur. Elle est de la forme
 	 * "ClePublic-NomCLient,ClePublic-NomClient...."
 	 * 
 	 * @param list
@@ -413,8 +413,8 @@ public class Client extends AbstractClientServer
 	@Override
 	public void treatIncomeTCP(Object object)
 	{
-		// Pour le moment pas d'income TCP a géré vue que aucune machine ne se
-		// connecte a un client en TCP
+		// Pour le moment pas d'income TCP a géré vue qu'aucune machine ne se
+		// connecte à un client en TCP
 	}
 
 	@Override
@@ -438,8 +438,8 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Methode permettant de traiter la reception d'un liste client et de la
-	 * rediriger vers la bonne methode en faisant le bon traitement de donnees.
+	 * Méthode permettant de traiter la reception d'un liste client et de la
+	 * rediriger vers la bonne méthode avec le bon traitement de données.
 	 * 
 	 * @param token
 	 */
@@ -453,8 +453,8 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Methode permettant de traiter la reception de message concernant les
-	 * dialogues et de rediriger vers la bonne methode en faisant le bon
+	 * Méthode permettant de traiter la reception de message concernant les
+	 * dialogues et de rediriger vers la bonne methode avec le bon
 	 * traitement de donnees.
 	 * 
 	 * @param token
@@ -466,13 +466,13 @@ public class Client extends AbstractClientServer
 			String nextToken = token.nextToken();
 			switch (nextToken)
 			{
-			// Creation d'un nouveau dialogue
+			// Création d'un nouveau dialogue
 			case "newDialog":
 				if (token.hasMoreTokens())
 				{
 					// On récupère l'id de conversation
 					String idDialog = token.nextToken();
-					// SI c'est bien un id de conversation, alors on crée la
+					// Si c'est bien un id de conversation, alors on crée la
 					// conversation
 					if (idDialog.length() > 20)
 					{
@@ -595,7 +595,7 @@ public class Client extends AbstractClientServer
 											Thread.sleep(200);
 											cpt++;
 										}
-										// Si on les a bien reçu on demare une
+										// Si on les a bien reçu on démarre une
 										// conversation
 										if (this.getClients().size() != sizeClients)
 										{
@@ -618,7 +618,7 @@ public class Client extends AbstractClientServer
 				if (token.hasMoreTokens())
 				{
 					String idDialog = token.nextToken();
-					// SI c'est bien un id de conversation, alors on redirige le
+					// Si c'est bien un id de conversation, alors on redirige le
 					// message vers la conversation
 					if (idDialog.length() > 20 && token.hasMoreTokens())
 					{

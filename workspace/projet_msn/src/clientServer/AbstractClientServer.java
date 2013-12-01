@@ -4,7 +4,7 @@ import java.util.Vector;
 
 /**
  * 
- * @author Dorian, Thibault, Raphael
+ * @author Dorian, Thibault, Raphaël
  * @category Classe abstraite permettant de representer un client ou un serveur
  *           suivant son instance.
  */
