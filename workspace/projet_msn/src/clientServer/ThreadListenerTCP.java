@@ -5,13 +5,14 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * Thread d'ecoute du serveur. Permet de recevoir les connections des clients.
- * Si un clients se connecte, un nouveau thread est lancé pour communiquer avec.
- * Sinon cela voudrais dire que le serveur est bloquer tant que le client n'a
- * pas fini ce qu'il voulais faire. Du coup cela permet au serveur de dialoguer
- * avec plusieur client en mème temps.
  * 
- * @author raphael
+ * @author Dorian, Thibault, Raphaël
+ * 
+ * Thread d'écoute du serveur. Permet de recevoir les connections des clients.
+ * Si un client se connecte, un nouveau thread est lancé pour communiquer avec.
+ * Sinon cela voudrait dire que le serveur est bloqué tant que le client n'a
+ * pas fini ce qu'il voulait faire. Du coup cela permet au serveur de dialoguer
+ * avec plusieurs clients en même temps.
  * 
  */
 public class ThreadListenerTCP extends Thread
@@ -27,7 +28,7 @@ public class ThreadListenerTCP extends Thread
 	 */
 	private ServerSocket socket;
 	/**
-	 *  Parametre permettant de stopper le Thread.
+	 *  Paramètre permettant d'arrêter le Thread.
 	 */
 	private boolean running;
 
@@ -64,7 +65,7 @@ public class ThreadListenerTCP extends Thread
 				// On attend une connection client
 				Socket socketClient = this.socket.accept();
 				// Si on a une connection avec un client
-				// On lance un thread de discution avec le client
+				// On lance un thread de discutions avec le client
 				this.clientServer.treatIncomeTCP(socketClient);
 				// ThreadComunicationServer threadClientCom = new
 				// ThreadComunicationServer(this.server, socketClient);
@@ -79,7 +80,7 @@ public class ThreadListenerTCP extends Thread
 	}
 
 	/**
-	 * Method stopThread(). Methode permettant de stopper le thread proprement
+	 * Méthode permettant d'arrêter le thread proprement
 	 */
 	public void stopThread()
 	{
