@@ -13,8 +13,8 @@ import dataLink.Protocol;
 import dataLink.ProtocolUDP;
 
 /**
- * @author Mickael
- * @category Class permetant de representer un serveur. Extends de la class
+ * @author Dorian, Thibault, Raphaël
+ * @category Classe permettant de représenter un serveur. Extends de la classe
  *           AbstractClientServer.
  * @see AbstractClientServer
  */
@@ -44,7 +44,7 @@ public class Server extends AbstractClientServer
 	 */
 	private HashMap<ClientServerData, Integer> clientTTL;
 	/**
-	 * Parametre permetant de savoir si le serveur est en train de tourner.
+	 * Paramètre permettant de savoir si le serveur est en train de tourner.
 	 */
 	private boolean running;
 
@@ -119,7 +119,7 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
-	 * Method stopServer() Méthode permettant de stopper le serveur.
+	 * Méthode permettant de stopper le serveur.
 	 */
 	public void stopServer()
 	{
@@ -129,13 +129,13 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
-	 * Method addClient
+	 * Méthode pour ajouté un client
 	 * 
 	 * @param name
 	 *            Nom du client
 	 * @param client
 	 *            Socket du client
-	 * @return true si client ajouté, false sinon.
+	 * @return true si client est ajouté, false sinon.
 	 */
 	public String addClient(String name, Socket client, int listeningUDPPort)
 	{
@@ -171,7 +171,7 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
-	 * Method removeClient
+	 * Méthode pour suprimer un client
 	 * 
 	 * @param client
 	 *            {@link ClientServerData}
@@ -189,7 +189,7 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
-	 * Method removeClient
+	 * Méthode pour suprimer un client
 	 * 
 	 * @param name
 	 *            Nom du client
@@ -220,7 +220,7 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
-	 * Method removeClient
+	 * Méthode pour suprimer un client
 	 * 
 	 * @param ip
 	 *            Ip du client {@link InetAddress}
@@ -245,11 +245,11 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
-	 * Methode permettant de recuperer la liste des clients que connait le
-	 * serveur. Cette methode est utiliser pour renvoyer une liste de clients
+	 * Méthode permettant de recupérer la liste des clients que connaissent le
+	 * serveur. Cette méthode est utiliséé pour renvoyer une liste de clients
 	 * aux clients.
 	 * 
-	 * @return chaine client sous la forme
+	 * @return chaîne client sous la forme
 	 *         "ClePublic-NomCLient,ClePublic-NomClient...."
 	 */
 	public String getListClient()
@@ -265,7 +265,7 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
-	 * Methode permetant d'envoyer une liste de clients à un client.
+	 * Méthode permettant d'envoyer une liste de clients à un client.
 	 * 
 	 * @param client
 	 */
@@ -276,7 +276,7 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
-	 * Methode permettant de recuperer les informations d'un client.
+	 * Méthode permettant de recupérer les informations d'un client.
 	 * 
 	 * @param id
 	 * @return chaine sous la forme
