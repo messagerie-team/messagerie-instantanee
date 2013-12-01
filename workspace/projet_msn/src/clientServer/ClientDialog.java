@@ -7,8 +7,8 @@ import dataLink.Protocol;
 
 /**
  * 
- * @author raphael
- * @category Class permetant de representer un dialogue entre clients.
+ * @author Dorian, Thibault, Raphaël
+ * @category Classe permettant de représenter un dialogue entre clients.
  */
 public class ClientDialog
 {
@@ -19,12 +19,12 @@ public class ClientDialog
 	 */
 	private Client client;
 	/**
-	 * Identifiant du dialogue. Cle permettant d'identifier le dialogue de façon
+	 * Identifiant du dialogue. Clé permettant d'identifier le dialogue de façon
 	 * unique.
 	 */
 	private String idDialog;
 	/**
-	 * Liste des clients avec qui le client proprietaire dialogue
+	 * Liste des clients avec qui le client propriétaire dialogue
 	 * 
 	 * @see ClientServerData
 	 */
@@ -36,11 +36,11 @@ public class ClientDialog
 	 */
 	private Protocol protocol;
 	/**
-	 * Ensemble des messages echanges
+	 * Ensemble des messages échangés
 	 */
 	private String dialogue;
 	/**
-	 * Dernier message echange
+	 * Dernier message échangé
 	 */
 	private String lastMessage;
 	/**
@@ -49,9 +49,9 @@ public class ClientDialog
 	private boolean inUse;
 
 	/**
-	 * Constructeur permetant de creer un dialogue. Cette methode est utilise
-	 * par le client lors de la creation d'un dialogue de sa part. Une cle
-	 * unique est genere par constructeur pour identifier le dialogue.
+	 * Constructeur permettant de créer un dialogue. Cette méthode est utilisée
+	 * par le client lors de la création d'un dialogue de sa part. Une clé
+	 * unique est générée par constructeur pour identifier le dialogue.
 	 * 
 	 * @param client
 	 * @param protocol
@@ -68,10 +68,10 @@ public class ClientDialog
 	}
 
 	/**
-	 * Constructeur permettant de creer un dialogue. Cette methode est utilise
+	 * Constructeur permettant de créer un dialogue. Cette méthode est utilisée
 	 * par le client lorsqu'il reçoit une notification de dialogue par un autre
-	 * client. Le premier parametre correspond a la cle unique du dialogue qui a
-	 * du etre reçu.
+	 * client. Le premier paramètre correspond à la clé unique du dialogue qui a
+	 * du être reçu.
 	 * 
 	 * @param idDialog
 	 * @param client
@@ -89,7 +89,7 @@ public class ClientDialog
 	}
 
 	/**
-	 * Methode permettant d'ajouter un message au dialogue
+	 * Méthode permettant d'ajouter un message au dialogue
 	 * 
 	 * @param message
 	 */
@@ -100,7 +100,7 @@ public class ClientDialog
 	}
 
 	/**
-	 * Methode permettant d'envoyer un message à tout les clients du dialogue.
+	 * Méthode permettant d'envoyer un message à tous les clients du dialogue.
 	 * 
 	 * @param message
 	 */
@@ -115,7 +115,7 @@ public class ClientDialog
 	}
 
 	/**
-	 * Methode permettant de gerer la reception d'un message
+	 * Méthode permettant de gérer la réception d'un message
 	 * 
 	 * @param message
 	 * @return le message reçu
@@ -129,7 +129,7 @@ public class ClientDialog
 	}
 
 	/**
-	 * Methode permettant d'ajouter un client au dialogue
+	 * Méthode permettant d'ajouter un client au dialogue
 	 * 
 	 * @param client
 	 * @return true si le client est bien ajoute, false sinon.
@@ -152,7 +152,7 @@ public class ClientDialog
 	}
 
 	/**
-	 * Methode permettant de supprimer un client du dialogue.
+	 * Méthode permettant de supprimer un client du dialogue.
 	 * 
 	 * @param client
 	 * @return
