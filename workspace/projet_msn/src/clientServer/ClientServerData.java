@@ -5,17 +5,17 @@ import java.net.InetAddress;
 import java.security.SecureRandom;
 
 /**
- * Class permettant de stocker les informations client pour la class
- * {@link AbstractClientServer}. Comme son nom, son IP, son port ouvert etc...
- * Elle represente les informations que stock le serveur pour un client.
+ * @author Dorian, Thibault, Raphaël
  * 
- * @author raphael
+ * Classe permettant de stocker les informations client pour la classe
+ * {@link AbstractClientServer}. Comme son nom, son IP, son port ouvert etc...
+ * Elle représente les informations que stock le serveur pour un client.
  * 
  */
 public class ClientServerData
 {
 	/**
-	 * Cle public unique d'un client.
+	 * Clé publique unique d'un client.
 	 */
 	private String id;
 	/**
@@ -27,13 +27,13 @@ public class ClientServerData
 	 */
 	private InetAddress ip;
 	/**
-	 * Port d'ecoute du client.
+	 * Port d'écoute du client.
 	 */
 	private int port;
 
 	/**
-	 * Contructeur par defaut de ClientServerData. Ce constructeur genere une
-	 * cle public unique qui sera propre au client.
+	 * Contructeur par défaut de ClientServerData. Ce constructeur génère une
+	 * clé publique unique qui sera propre au client.
 	 * 
 	 * @param name
 	 * @param ip
@@ -50,7 +50,7 @@ public class ClientServerData
 
 	/**
 	 * Constructeur de ClientServerData. Il permet de construire entièrement une
-	 * donnee client.
+	 * donnée client.
 	 * 
 	 * @param id
 	 * @param name
