@@ -9,16 +9,17 @@ import dataLink.Protocol;
 import dataLink.ProtocolTCP;
 
 /**
- * Thread de comunication d'un serveur vers un client. Il permet de gerer les
- * demandes client. Connection, Deconnection, demande de lien etc...
  * 
- * @author raphael
+ * @author Dorian, Thibault, Raphaël
+ * 
+ * Thread de comunication d'un serveur vers un client. Il permet de gérer les
+ * demandes client. Connection, Déconnection, demande de lien etc...
  * 
  */
 public class ThreadComunicationServer extends Thread
 {
 	/**
-	 * Serveur a qui appartient le thread de communication.
+	 * Serveur à qui appartient le thread de communication.
 	 * 
 	 * @see Server
 	 */
@@ -36,16 +37,16 @@ public class ThreadComunicationServer extends Thread
 	 */
 	private Protocol protocol;
 	/**
-	 * Parametre permettant d'areter le thread.
+	 * Paramètre permettant d'arrêter le thread.
 	 */
 	private boolean running;
 	/**
-	 * Variable temportaire utile au traitement des requetes.
+	 * Variable temporaire utile au traitement des requêtes.
 	 */
 	private String tempVar;
 
 	/**
-	 * Constructeur par defaut du Thread.
+	 * Constructeur par défaut du Thread.
 	 * 
 	 * @param server
 	 * @param socket
@@ -82,7 +83,7 @@ public class ThreadComunicationServer extends Thread
 	}
 
 	/**
-	 * Methode permettant de traiter la reception d'un message.
+	 * Méthode permettant de traiter la réception d'un message.
 	 * 
 	 * @param message
 	 */
@@ -114,7 +115,7 @@ public class ThreadComunicationServer extends Thread
 	}
 
 	/**
-	 * Methode permettant de traiter les request d'un serveur.
+	 * Méthode permettant de traiter les demandes d'un serveur.
 	 * 
 	 * @see Server
 	 * @param message
@@ -142,7 +143,7 @@ public class ThreadComunicationServer extends Thread
 	}
 
 	/**
-	 * Message permettant de traiter les reply d'un serveur.
+	 * Message permettant de traiter les réponses d'un serveur.
 	 * 
 	 * @see Server
 	 * @param message
@@ -172,7 +173,7 @@ public class ThreadComunicationServer extends Thread
 	}
 
 	/**
-	 * Methode permettant traiter le procesus de desenregistrement
+	 * Méthode permettant traiter le processus de desenregistrement
 	 * 
 	 * @param token
 	 */
@@ -192,13 +193,13 @@ public class ThreadComunicationServer extends Thread
 	}
 
 	/**
-	 * Methode permettant de gerer le procesus d'enregistrement.
+	 * Méthode permettant de gérer le processus d'enregistrement.
 	 * 
 	 * @param token
 	 */
 	private void registerClient(StringTokenizer token)
 	{
-		// Si on a un element de plus dans le token, alors il s'agit d'un reply
+		// Si on a un élément de plus dans le token, alors il s'agit d'un reply
 		if (token.hasMoreTokens())
 		{
 			String nextToken = token.nextToken();
@@ -256,7 +257,7 @@ public class ThreadComunicationServer extends Thread
 				this.stopThread();
 			}
 		}
-		// Sinon c'est qu'il s'agit d'un request
+		// Sinon c'est qu'il s'agit d'une request
 		else
 		{
 			System.out.println("Demande d'enregistrement");
@@ -266,7 +267,7 @@ public class ThreadComunicationServer extends Thread
 	}
 
 	/**
-	 * Methode permettant de gerer le procesus de demande de list Client au
+	 * Méthode permettant de gérer le processus de demande de list Client au
 	 * serveur.
 	 * 
 	 * @param token
@@ -283,8 +284,8 @@ public class ThreadComunicationServer extends Thread
 	}
 
 	/**
-	 * Methode permettant de gerer le procesus de demande d'information de
-	 * connexion client.
+	 * Méthode permettant de gérer le processus de demande d'information de
+	 * connection client.
 	 * 
 	 * @param token
 	 */
@@ -326,7 +327,7 @@ public class ThreadComunicationServer extends Thread
 	}
 
 	/**
-	 * Methode permettant de stopper le thread
+	 * Méthode permettant d'arrêter le thread
 	 */
 	public void stopThread()
 	{
