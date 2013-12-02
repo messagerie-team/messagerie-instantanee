@@ -14,9 +14,8 @@ import java.net.SocketException;
 public class ProtocolUDP extends Protocol
 {
 	/**
-	 * Socket de communication UDP.
 	 * 
-	 * @see DatagramSocket
+	 * {@link DatagramSocket} Socket de communication UDP.
 	 */
 	private DatagramSocket socket;
 	/**
@@ -33,9 +32,8 @@ public class ProtocolUDP extends Protocol
 	private static byte bufferReader[];
 	/**
 	 * Taille du buffer.
-	 * A déterminer pourquoi.
+	 * Pourquoi 60000 ? Limite théorique = 65535, limite en IPv4 = 65507
 	 */
-	// Pourquoi 60000 ? Limite théorique = 65535, limite en IPv4 = 65507
 	private final static int sizeBufferReader = 60000;
 	/**
 	 * Dernier port avec lequel le protocol a communiqué
@@ -50,7 +48,7 @@ public class ProtocolUDP extends Protocol
 
 	/**
 	 * Constructeur par défaut du protocol UDP
-	 * @param localPort
+	 * @param localPort portlocal UDP
 	 */
 	public ProtocolUDP(int localPort)
 	{
@@ -71,7 +69,14 @@ public class ProtocolUDP extends Protocol
 			//e.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * Méthode permettant d'envoyer un message via une adresse IP et un port
+	 * 
+	 * @param message message que l'on va envoyer
+	 * @param adress adresse IP ou l'on va envoyé le message
+	 * @param port port UDP ou l'on va envoyé le message
+	 */
 	public void sendMessage(String message, InetAddress adress, int port)
 	{
 		byte buffer[];
@@ -87,6 +92,11 @@ public class ProtocolUDP extends Protocol
 		}
 	}
 
+	/**
+	 * Méthode permettant d'envoyer un message via une adresse IP et un port
+	 * 
+	 * @param message message que l'on va envoyer
+	 */
 	public void sendMessage(String message)
 	{
 		byte buffer[];
@@ -102,6 +112,11 @@ public class ProtocolUDP extends Protocol
 		}
 	}
 
+	/**
+	 * Méthode permettant de lire un message
+	 * 
+	 * @return une string du message lu
+	 */
 	public String readMessage()
 	{
 		try
@@ -119,47 +134,95 @@ public class ProtocolUDP extends Protocol
 		return "";
 	}
 
+	/**
+	 * Méthode permettant de fermer le protocol
+	 * 
+	 */
 	public void close()
 	{
 		this.socket.close();
 		// this.socketReceive.close();
 	}
 
+	/**
+	 * Getter du writer du protocol UDP, qui nous sert de writer
+	 * 
+	 * @return le writer du protocol {@link DatagramPacket}
+	 */
 	public DatagramPacket getWriter()
 	{
 		return writer;
 	}
 
+	/**
+	 * Setter qui fixe le writer du protocol UDP
+	 * 
+	 * @param writer
+	 *            objet DatagramPacket {@link DatagramPacket}
+	 */
 	public void setWriter(DatagramPacket writer)
 	{
 		this.writer = writer;
 	}
 
+	/**
+	 * Getter du DatagramPacket du protocol UDP, qui nous sert de reader
+	 * 
+	 * @return le DatagramPacket du protocol UDP{@link DatagramPacket}
+	 */
 	public DatagramPacket getReader()
 	{
 		return reader;
 	}
 
+	/**
+	 * Setter qui fixe le DatagramPacket du protocol UDP, qui nous sert de reader
+	 * 
+	 * @param reader
+	 *            objet DatagramPacket de java {@link DatagramPacket}
+	 */
 	public void setReader(DatagramPacket reader)
 	{
 		this.reader = reader;
 	}
 
+	/**
+	 * Getter du dernier port utilisé
+	 * 
+	 * @return le dernier port utilisé
+	 */
 	public int getLastPort()
 	{
 		return lastPort;
 	}
 
+	/**
+	 * Setter qui fixe le dernier port utilisé
+	 * 
+	 * @param lastPortavoir dernier port utilisé
+	 *           
+	 */
 	public void setLastPort(int lastPort)
 	{
 		this.lastPort = lastPort;
 	}
 
+	/**
+	 * Getter de la dernière adresse utilisée
+	 * 
+	 * @return la dernière adresse utilisée
+	 */
 	public InetAddress getLastAdress()
 	{
 		return lastAdress;
 	}
 
+	/**
+	 * Setter qui fixe la dernière adresse utilisée
+	 * 
+	 * @param lastPortavoir dernière adresse utilisée
+	 *           
+	 */
 	public void setLastAdress(InetAddress lastAdress)
 	{
 		this.lastAdress = lastAdress;

@@ -54,7 +54,7 @@ public class ProtocolTCP extends Protocol
 	 * 
 	 * @param message message que l'on va envoyer
 	 * @param adress adresse IP ou l'on va envoyé le message
-	 * @param port port TCp ou l'on va envoyé le message
+	 * @param port port TCP ou l'on va envoyé le message
 	 */
 	public void sendMessage(String message, InetAddress adress, int port)
 	{
@@ -116,7 +116,7 @@ public class ProtocolTCP extends Protocol
 	}
 
 	/**
-	 * Getter du writer du protocol
+	 * Getter du writer du protocol TCP
 	 * 
 	 * @return le writer du protocol {@link PrintWriter}
 	 */
@@ -126,7 +126,7 @@ public class ProtocolTCP extends Protocol
 	}
 
 	/**
-	 * Setter qui fixe le writer du protocol
+	 * Setter qui fixe le writer du protocol TCP
 	 * 
 	 * @param writer
 	 *            objet PrintWriter {@link PrintWriter}
@@ -137,9 +137,9 @@ public class ProtocolTCP extends Protocol
 	}
 
 	/**
-	 * Getter du BufferedReader du protocol
+	 * Getter du BufferedReader du protocol TCP
 	 * 
-	 * @return le BufferedReader du protocol {@link BufferedReader}
+	 * @return le BufferedReader du protocol TCP{@link BufferedReader}
 	 */
 	public BufferedReader getReader()
 	{
@@ -147,7 +147,7 @@ public class ProtocolTCP extends Protocol
 	}
 
 	/**
-	 * Setter qui fixe le BufferedReader du protocol
+	 * Setter qui fixe le BufferedReader du protocol TCP
 	 * 
 	 * @param reader
 	 *            objet BufferedReader de java {@link BufferedReader}
