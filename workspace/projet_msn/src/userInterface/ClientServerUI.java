@@ -25,7 +25,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import clientServer.Client;
 
