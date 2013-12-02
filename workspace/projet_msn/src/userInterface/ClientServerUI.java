@@ -4,7 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.event.WindowEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.Set;
 import java.util.Vector;
 
@@ -15,11 +22,13 @@ import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import clientServer.Client;
+
 /**
  * 
  * @author Dorian, Mickaël, Raphaël, Thibault
@@ -27,7 +36,6 @@ import clientServer.Client;
  */
 public class ClientServerUI
 {
-
 	private static JFrame mainFrame;
 	private static JFrame dialogFrame;
 	protected static Client client;
@@ -42,6 +50,8 @@ public class ClientServerUI
 	private JMenuBar menuBar;
 	protected static JPanel connectionPanel;
 	protected static JTextField pseudoField;
+
+	private Properties properties;
 
 	/**
 	 * Lancement de l'application.
@@ -70,7 +80,33 @@ public class ClientServerUI
 	 */
 	public ClientServerUI()
 	{
-		client = new Client("client1", 3003, "localhost");
+		properties = new Properties();
+		try
+		{
+			FileInputStream file = new FileInputStream("configuration.property");
+			properties.loadFromXML(file);
+			file.close();
+		} catch (IOException e2)
+		{
+			properties.put("ipServer", "localhost");
+			properties.put("TCPServer", "30970");
+			properties.put("alias", "client");
+			properties.put("UDPClient", "3000");
+			try
+			{
+				FileOutputStream file = new FileOutputStream("configuration.property");
+				properties.storeToXML(file, "");
+				file.close();
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		String alias = properties.getProperty("alias");
+		int udpPort = Integer.parseInt(properties.getProperty("UDPClient"));
+		String ipServer = properties.getProperty("ipServer");
+
+		client = new Client(alias, udpPort, ipServer);
 		clientList = client.getClientList();
 		keyClientList = clientList.keySet();
 		listenerMenu = new ClientServerListener();
@@ -154,8 +190,31 @@ public class ClientServerUI
 		getMainFrame().setResizable(false);
 		getMainFrame().setVisible(true);
 		getMainFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getMainFrame().addWindowListener(new java.awt.event.WindowAdapter()
+		{
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent)
+			{
+				if (JOptionPane.showConfirmDialog(getMainFrame(), "Etes vous sur de vouloir quitter?", "Fermeture", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
+				{
+					properties.setProperty("alias", client.getName());
+					properties.setProperty("ipServer", client.getIpServer());
+					//properties.setProperty("TCPServer", client.getIpServer());
+					properties.setProperty("UDPClient", client.getListeningUDPPort()+"");
+					
+					try
+					{
+						properties.storeToXML(new FileOutputStream("configuration.property"), "");
+					} catch (IOException e)
+					{
+						e.printStackTrace();
+					}
+					System.exit(0);
+				}
+			}
+		});
 	}
-
+	
 	private void constructMenu()
 	{
 		menuBar = new JMenuBar();
@@ -192,26 +251,26 @@ public class ClientServerUI
 
 	private void constructConnectionPanel()
 	{
-		//Panel principal
+		// Panel principal
 		connectionPanel = new JPanel();
 		connectionPanel.setLayout(new BorderLayout(0, 0));
-		//Box principal
+		// Box principal
 		Box principalBox = Box.createVerticalBox();
 		principalBox.setBorder(new EmptyBorder(90, 0, 0, 0));
 
-		//Construction du pseudo
-		pseudoField = new JTextField("Raphael");
+		// Construction du pseudo
+		pseudoField = new JTextField(properties.getProperty("alias"));
 		pseudoField.setMinimumSize(new Dimension(110, 20));
 		pseudoField.setMaximumSize(new Dimension(135, 25));
 
-		//Construction du bouton de connexion
+		// Construction du bouton de connexion
 		JButton connectionButton = new JButton("Se connecter");
 		connectionButton.setMinimumSize(new Dimension(110, 20));
 		connectionButton.setMaximumSize(new Dimension(135, 25));
 		connectionButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		connectionButton.addActionListener(listenerMenu);
-		
-		//Ajout des elements
+
+		// Ajout des elements
 		principalBox.add(pseudoField);
 		principalBox.add(connectionButton);
 		connectionPanel.add(principalBox, BorderLayout.CENTER);
