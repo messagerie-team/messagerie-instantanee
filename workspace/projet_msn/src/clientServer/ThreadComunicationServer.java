@@ -11,8 +11,9 @@ import dataLink.ProtocolTCP;
  * 
  * @author Dorian, Mickaël, Raphaël, Thibault
  * 
- * Thread de comunication d'un serveur vers un client. Il permet de gérer les
- * demandes client. Connection, Déconnection, demande de lien etc...
+ *         Thread de comunication d'un serveur vers un client. Il permet de
+ *         gérer les demandes client. Connection, Déconnection, demande de lien
+ *         etc...
  * 
  */
 public class ThreadComunicationServer extends Thread
@@ -212,10 +213,31 @@ public class ThreadComunicationServer extends Thread
 					this.tempVar = token.nextToken();
 					if (!this.tempVar.trim().equals(""))
 					{
-						this.protocol.sendMessage("request:register:port");
+						this.protocol.sendMessage("request:register:password");
 					} else
 					{
 						this.protocol.sendMessage("reply:register:ERROR");
+						this.stopThread();
+					}
+					break;
+				case "password":
+					// On informe le client qu'on a bien reçu son nom
+					// this.protocol.sendMessage("reply:register:name:OK");
+					String password = token.nextToken();
+
+					if (!password.trim().equals(""))
+					{
+						if (this.server.verifyIDAndPassword(tempVar, password))
+						{
+							this.protocol.sendMessage("request:register:port");
+						} else
+						{
+							this.server.registerClientInBase(tempVar, password);
+							this.protocol.sendMessage("reply:register:ERROR");
+						}
+					} else
+					{
+						//this.protocol.sendMessage("reply:register:ERROR");
 						this.stopThread();
 					}
 					break;

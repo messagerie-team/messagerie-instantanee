@@ -28,6 +28,10 @@ public class Client extends AbstractClientServer
 	 */
 	private String name;
 	/**
+	 * Mot de passe du client
+	 */
+	private String password;
+	/**
 	 * Liste des clients connue par leurs identifiants public. Key : clé
 	 * publique client, value : nom client
 	 */
@@ -89,6 +93,7 @@ public class Client extends AbstractClientServer
 	{
 		super();
 		this.name = name;
+		this.password = "";
 		this.id = "";
 		this.listeningUDPPort = listeningUDPPort;
 		this.protocol = new ProtocolUDP(listeningUDPPort);
@@ -120,6 +125,7 @@ public class Client extends AbstractClientServer
 	{
 		super();
 		this.name = name;
+		this.password = "";
 		this.id = "";
 		this.listeningUDPPort = listeningUDPPort;
 		this.protocol = new ProtocolUDP(listeningUDPPort);
@@ -738,7 +744,7 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Setter qui fixe le client
+	 * Setter qui fixe le nom du client
 	 * 
 	 * @param name
 	 *            nom du client
@@ -746,6 +752,27 @@ public class Client extends AbstractClientServer
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+
+	/**
+	 * Getter du mot de passe du client
+	 * 
+	 * @return password le tmo de passe du client
+	 */
+	public String getPassword()
+	{
+		return password;
+	}
+
+	/**
+	 * Setter qui fixe le mto de passe du client
+	 * 
+	 * @param password
+	 *            mot de passe du client
+	 */
+	public void setPassword(String password)
+	{
+		this.password = password;
 	}
 
 	/**

@@ -241,6 +241,12 @@ public class ThreadComunicationClient extends Thread
 					this.protocol.sendMessage("reply:register:name:" + this.client.getName());
 				}
 				break;
+			case "password":
+				if (!token.hasMoreTokens())
+				{
+					this.protocol.sendMessage("reply:register:password:" + this.client.getPassword());
+				}
+				break;
 			case "port":
 				if (!token.hasMoreTokens())
 				{

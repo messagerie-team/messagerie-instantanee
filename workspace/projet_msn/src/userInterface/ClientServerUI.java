@@ -15,14 +15,17 @@ import java.util.Vector;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import clientServer.Client;
 
@@ -47,6 +50,7 @@ public class ClientServerUI
 	private JMenuBar menuBar;
 	protected static JPanel connectionPanel;
 	protected static JTextField pseudoField;
+	protected static JPasswordField passwordField;
 
 	private Properties properties;
 
@@ -260,13 +264,29 @@ public class ClientServerUI
 		connectionPanel.setLayout(new BorderLayout(0, 0));
 		// Box principal
 		Box principalBox = Box.createVerticalBox();
-		principalBox.setBorder(new EmptyBorder(90, 0, 0, 0));
+		principalBox.setBorder(new EmptyBorder(50, 0, 0, 0));
 
+		
+		JLabel pseudoLabel = new JLabel("Identifiant : ");
+		pseudoLabel.setMinimumSize(new Dimension(110, 20));
+		pseudoLabel.setMaximumSize(new Dimension(135, 25));
+		pseudoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		// Construction du pseudo
 		pseudoField = new JTextField(properties.getProperty("alias"));
 		pseudoField.setMinimumSize(new Dimension(110, 20));
 		pseudoField.setMaximumSize(new Dimension(135, 25));
+		pseudoField.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+		
+		JLabel passwordLabel = new JLabel("Mot de passe : ");
+		passwordLabel.setMinimumSize(new Dimension(110, 20));
+		passwordLabel.setMaximumSize(new Dimension(135, 25));
+		passwordLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		passwordField = new JPasswordField();
+		passwordField.setMinimumSize(new Dimension(110, 20));
+		passwordField.setMaximumSize(new Dimension(135, 25));
+		passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
 		// Construction du bouton de connexion
 		JButton connectionButton = new JButton("Se connecter");
 		connectionButton.setMinimumSize(new Dimension(110, 20));
@@ -275,7 +295,10 @@ public class ClientServerUI
 		connectionButton.addActionListener(listenerMenu);
 
 		// Ajout des elements
+		principalBox.add(pseudoLabel);
 		principalBox.add(pseudoField);
+		principalBox.add(passwordLabel);
+		principalBox.add(passwordField);
 		principalBox.add(connectionButton);
 		connectionPanel.add(principalBox, BorderLayout.CENTER);
 	}
@@ -288,5 +311,15 @@ public class ClientServerUI
 	public static void setMainFrame(JFrame frame)
 	{
 		ClientServerUI.mainFrame = frame;
+	}
+
+	public static JFrame getDialogFrame()
+	{
+		return dialogFrame;
+	}
+
+	public static void setDialogFrame(JFrame dialogFrame)
+	{
+		ClientServerUI.dialogFrame = dialogFrame;
 	}
 }
