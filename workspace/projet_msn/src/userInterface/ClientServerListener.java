@@ -22,7 +22,7 @@ public class ClientServerListener implements ActionListener
 		case "Profil":
 			JOptionPane.showMessageDialog(ClientServerUI.getMainFrame(), "Option non implémenté.");
 			break;
-		case "Rafraîchir":
+		case "Rafraichir":
 			if (!ClientServerUI.client.getId().equals(""))
 			{
 				HashMap<String, String> list = new HashMap<>(ClientServerUI.client.getClientList());
@@ -46,6 +46,13 @@ public class ClientServerListener implements ActionListener
 			break;
 		case "Se connecter":
 			ClientServerUI.client.setName(ClientServerUI.pseudoField.getText());
+			char[] charPassword = ClientServerUI.passwordField.getPassword();
+			String password = "";
+			for (int i = 0; i < charPassword.length; i++)
+			{
+				password+=charPassword[i];
+			}
+			ClientServerUI.client.setPassword(password);
 			ClientServerUI.client.registerToServer();
 			try
 			{
@@ -77,7 +84,7 @@ public class ClientServerListener implements ActionListener
 				{
 					ClientServerUI.client.setIpServer(ipServer);
 				}
-			}else
+			} else
 			{
 				JOptionPane.showMessageDialog(ClientServerUI.getMainFrame(), "Impossible de modifier l'adresse du serveur en étant connecté.");
 			}
@@ -90,7 +97,7 @@ public class ClientServerListener implements ActionListener
 				{
 					ClientServerUI.client.setUdpServerPort(Integer.parseInt(udpServerPort));
 				}
-			}else
+			} else
 			{
 				JOptionPane.showMessageDialog(ClientServerUI.getMainFrame(), "Impossible de modifier le port UDP serveur en étant connecté.");
 			}
@@ -103,7 +110,7 @@ public class ClientServerListener implements ActionListener
 				{
 					ClientServerUI.client.setTcpServerPort(Integer.parseInt(tcpServerPort));
 				}
-			}else
+			} else
 			{
 				JOptionPane.showMessageDialog(ClientServerUI.getMainFrame(), "Impossible de modifier le port TCP serveur en étant connecté.");
 			}
@@ -116,7 +123,7 @@ public class ClientServerListener implements ActionListener
 				{
 					ClientServerUI.client.setListeningUDPPort(Integer.parseInt(port));
 				}
-			}else
+			} else
 			{
 				JOptionPane.showMessageDialog(ClientServerUI.getMainFrame(), "Impossible de modifier le port UDP en étant connecté.");
 			}

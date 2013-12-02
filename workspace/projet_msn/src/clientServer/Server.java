@@ -3,19 +3,43 @@
  */
 package clientServer;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.ObjectInputStream.GetField;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
 import dataLink.Protocol;
 import dataLink.ProtocolUDP;
 
 /**
+<<<<<<< HEAD
  * Classe permettant de représenter un serveur. Extends de la classe
  *           AbstractClientServer.
  * @author Dorian, Mickaël, Raphaël, Thibaultl
+=======
+ * @author Dorian, Mickaël, Raphaël, Thibaultl Classe permettant de représenter
+ *         un serveur. Extends de la classe AbstractClientServer.
+>>>>>>> 3adb5c1273fbc5438e00f235a034d63657e5a9a3
  * @see AbstractClientServer
  */
 public class Server extends AbstractClientServer
@@ -66,8 +90,13 @@ public class Server extends AbstractClientServer
 	 * Construct Server(int port) Constructeur de la classe Server. Initialise
 	 * les variables server,clients et threadListener.
 	 * 
+<<<<<<< HEAD
 	 * @param portPLus1024?
 	 * 			numéro de port TCP, le port UDP sera à +1
+=======
+	 * @param port
+	 *            numéro de port TCP, le port UDP sera à +1
+>>>>>>> 3adb5c1273fbc5438e00f235a034d63657e5a9a3
 	 */
 	public Server(int port)
 	{
@@ -130,7 +159,101 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Méthode pour ajouté un client au serveur
+=======
+	 * Methode permettant de verifier les identifiants de connection d'un client
+	 * 
+	 * @param id
+	 *            identifiant du client
+	 * @param password
+	 *            mot de passe du client
+	 * @return true si l'ensemble est bon, sinon false
+	 */
+	protected boolean verifyIDAndPassword(String id, String password)
+	{
+		boolean ret = false;
+		try
+		{
+			File fXmlFile = new File("server.xml");
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder;
+			dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(fXmlFile);
+			doc.getDocumentElement().normalize();
+			NodeList clientsList = doc.getElementsByTagName("clients");
+			Node clients = clientsList.item(0);
+			for (int temp = 0; temp < clients.getChildNodes().getLength(); temp++)
+			{
+				Node clientNode = clients.getChildNodes().item(temp);
+				System.out.println("\nCurrent Element :" + clientNode.getNodeName());
+				if (clientNode.getNodeType() == Node.ELEMENT_NODE)
+				{
+					Element client = (Element) clientNode;
+					String idClient = client.getElementsByTagName("name").item(0).getTextContent();
+					String passwordClient = client.getElementsByTagName("password").item(0).getTextContent();
+					if (id.equals(idClient) && password.equals(passwordClient))
+					{
+						ret = true;
+					}
+
+				}
+			}
+		} catch (ParserConfigurationException | SAXException | IOException e)
+		{
+			System.out.println("Erreur de vérifiaction id/mdp, message : " + e.getMessage());
+			e.printStackTrace();
+		}
+		return ret;
+	}
+
+	/**
+	 * Methode permettant d'ajouter des identifiant/motDePasse dans la base du
+	 * server
+	 * 
+	 * @param id
+	 *            identifiant du client
+	 * @param password
+	 *            mot de passe du client
+	 */
+	protected void registerClientInBase(String id, String password)
+	{
+		try
+		{
+			File fXmlFile = new File("server.xml");
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder;
+			dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(fXmlFile);
+
+			Element clientElement = doc.createElement("client");
+			Element nameClient = doc.createElement("name");
+			nameClient.setTextContent(id);
+			clientElement.appendChild(nameClient);
+
+			Element passwordClient = doc.createElement("password");
+			passwordClient.setTextContent(password);
+			clientElement.appendChild(passwordClient);
+
+			doc.getFirstChild().appendChild(clientElement);
+
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			DOMSource source = new DOMSource(doc);
+			StreamResult result = new StreamResult(fXmlFile);
+
+			transformer.transform(source, result);
+
+		} catch (ParserConfigurationException | SAXException | IOException | TransformerException e)
+		{
+			System.out.println("Erreur de vérifiaction id/mdp, message : " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Méthode pour ajouté un client
+>>>>>>> 3adb5c1273fbc5438e00f235a034d63657e5a9a3
 	 * 
 	 * @param nameAvoir
 	 *            Nom du client
@@ -344,7 +467,7 @@ public class Server extends AbstractClientServer
 	@Override
 	public void treatIncomeUDP(String message)
 	{
-		//System.out.println(message);
+		// System.out.println(message);
 		StringTokenizer token = new StringTokenizer(message, ":");
 		String firstToken = token.nextToken();
 		switch (firstToken)

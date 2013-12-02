@@ -7,12 +7,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Vector;
 
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -45,7 +48,15 @@ public class DialogUI extends JFrame
 	public DialogUI(Client clientServer)
 	{
 		this.client = clientServer;
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		/*this.addWindowListener(new java.awt.event.WindowAdapter()
+		{
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent)
+			{
+				setVisible(false);
+			}
+		});*/
 		this.setBounds(100, 100, 600, 400);
 		this.setMinimumSize(new Dimension(300, 350));
 		this.contentPane = new JPanel();
@@ -60,17 +71,21 @@ public class DialogUI extends JFrame
 
 		Box topBox = Box.createHorizontalBox();
 
-		JPanel panelListDialog = new JPanel();
-		panelListDialog.setMinimumSize(new Dimension(300, 200));
-		panelListDialog.setMaximumSize(new Dimension(300, 1000));
-		panelListDialog.setLayout(new BorderLayout(0, 0));
+		//JPanel panelListDialog = new JPanel();
+		//panelListDialog.setMinimumSize(new Dimension(300, 200));
+		//panelListDialog.setMaximumSize(new Dimension(300, 1000));
+		//panelListDialog.setLayout(new BorderLayout(0, 0));
 
 		this.simpleDialogtList = new Vector<ClientListData>();
 		this.jDialogList = new JList<ClientListData>(this.simpleDialogtList);
-		this.jDialogList.setPreferredSize(new Dimension(100, 100));
-		this.jDialogList.setMinimumSize(new Dimension(100, 100));
+		this.jDialogList.setPreferredSize(new Dimension(110, 250));
+		this.jDialogList.setMinimumSize(new Dimension(110, 250));
+		this.jDialogList.setMaximumSize(new Dimension(1000, 3000));
 		this.jDialogList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
+		JScrollPane dialogList = new JScrollPane(this.jDialogList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		dialogList.setMinimumSize(new Dimension(120, 260));
+		dialogList.setMaximumSize(new Dimension(120, 3000));
+		
 		Component topSpaceBorderVertical = Box.createHorizontalStrut(20);
 		topSpaceBorderVertical.setPreferredSize(new Dimension(5, 0));
 
@@ -183,9 +198,9 @@ public class DialogUI extends JFrame
 		buttonAddClient.setBorder(new EmptyBorder(5, 5, 5, 5));
 		buttonCloseDialog.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		panelListDialog.add(this.jDialogList, BorderLayout.CENTER);
-
-		topBox.add(panelListDialog);
+		//panelListDialog.add(this.jDialogList, BorderLayout.CENTER);
+		dialogList.setPreferredSize(new Dimension(120, 280));
+		topBox.add(dialogList);
 		topBox.add(topSpaceBorderVertical);
 		topBox.add(areaDialog);
 

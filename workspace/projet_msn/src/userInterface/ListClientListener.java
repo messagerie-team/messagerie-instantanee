@@ -19,6 +19,7 @@ public class ListClientListener implements MouseListener
 			if (clientList != null)
 			{
 				ClientServerUI.client.askClientConnectionToServer(clientList.getKey());
+				ClientServerUI.getDialogFrame().setVisible(true);
 			}
 		}
 	}
