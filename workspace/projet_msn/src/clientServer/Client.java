@@ -303,10 +303,10 @@ public class Client extends AbstractClientServer
 				protocol.sendMessage("dialog:newDialog:" + dialog.getIdDialog(), clientAdd.getIp(), clientAdd.getPort());
 				protocol.sendMessage("dialog:newDialog:clients:" + dialog.getIdDialog() + ":" + this.id, clientAdd.getIp(), clientAdd.getPort());
 
-				String listClient = this.id;
+				//String listClient = this.id;
 				for (ClientServerData client : dialog.getClients())
 				{
-					listClient += "," + client.getId();
+					//listClient += "," + client.getId();
 					protocol.sendMessage("dialog:clients:" + dialog.getIdDialog() + ":" + clientAdd.getId(), client.getIp(), client.getPort());
 					protocol.sendMessage("dialog:clients:" + dialog.getIdDialog() + ":" + client.getId(), clientAdd.getIp(), clientAdd.getPort());
 				}
