@@ -54,7 +54,7 @@ public class ThreadListenerUDP extends Thread
 			while (this.running)
 			{
 				String message = protocol.readMessage();
-				if (message != null)
+				if (message != null && !message.equals(""))
 				{
 					this.clientServer.treatIncomeUDP(message);
 				}

@@ -140,10 +140,10 @@ public class Server extends AbstractClientServer
 	 */
 	public void stopServer()
 	{
+		System.out.println("Fermeture du serveur");
 		this.running = false;
-		//this.threadListenerTCP.stopThread();
-		//this.threadListenerUDP.stopThread();
-		System.exit(0);
+		this.threadListenerTCP.stopThread();
+		this.threadListenerUDP.stopThread();
 	}
 
 	/**
@@ -503,6 +503,7 @@ public class Server extends AbstractClientServer
 			{
 			case "EXIT":
 				server.stopServer();
+				running=false;
 				break;
 			default:
 				break;

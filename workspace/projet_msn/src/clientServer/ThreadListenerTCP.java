@@ -1,10 +1,8 @@
 package clientServer;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 /**
  * 
@@ -60,7 +58,7 @@ public class ThreadListenerTCP extends Thread
 	{
 		try
 		{
-			System.out.println("Lancement du Thread d'ecoute");
+			System.out.println("Lancement du Thread d'ecoute TCP");
 			this.running = true;
 			while (running)
 			{
@@ -77,7 +75,10 @@ public class ThreadListenerTCP extends Thread
 			this.socket.close();
 		} catch (Exception e)
 		{
-			System.err.println("Erreur du ThreadListenerTCP, message: " + e.getMessage());
+			if (running)
+			{
+				System.err.println("Erreur du ThreadListenerTCP, message: " + e.getMessage());
+			}
 		}
 	}
 
@@ -86,7 +87,14 @@ public class ThreadListenerTCP extends Thread
 	 */
 	public void stopThread()
 	{
-		Thread.interrupted();
+		try
+		{
+			this.socket.close();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.running = false;
 	}
 
