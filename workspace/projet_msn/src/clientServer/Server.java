@@ -13,9 +13,9 @@ import dataLink.Protocol;
 import dataLink.ProtocolUDP;
 
 /**
- * @author Dorian, Mickaël, Raphaël, Thibaultl
  * Classe permettant de représenter un serveur. Extends de la classe
  *           AbstractClientServer.
+ * @author Dorian, Mickaël, Raphaël, Thibaultl
  * @see AbstractClientServer
  */
 public class Server extends AbstractClientServer
@@ -33,13 +33,13 @@ public class Server extends AbstractClientServer
 	 */
 	private ThreadListenerTCP threadListenerTCP;
 	/**
-	 * Thread UDP permettant au serveur de revevoir des paquets UDP.
+	 * Thread UDP permettant au serveur de recevoir des paquets UDP.
 	 * 
 	 * @see ThreadListenerUDP
 	 */
 	private ThreadListenerUDP threadListenerUDP;
 	/**
-	 * Liste des TTL clients permettant de gerer la deconexion si un client ne
+	 * Liste des TTL clients permettant de gérer la déconnection si un client ne
 	 * donne plus signe de vie.
 	 */
 	private HashMap<ClientServerData, Integer> clientTTL;
@@ -63,10 +63,10 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
-	 * Construct Server(int port) Constructeur de la class Server. Initialise
+	 * Construct Server(int port) Constructeur de la classe Server. Initialise
 	 * les variables server,clients et threadListener.
 	 * 
-	 * @param port 
+	 * @param portPLus1024?
 	 * 			numéro de port TCP, le port UDP sera à +1
 	 */
 	public Server(int port)
@@ -130,13 +130,15 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
-	 * Méthode pour ajouté un client
+	 * Méthode pour ajouté un client au serveur
 	 * 
-	 * @param name
+	 * @param nameAvoir
 	 *            Nom du client
 	 * @param client
 	 *            Socket du client
-	 * @return true si client est ajouté, false sinon.
+	 * @param listeningUDPPort
+	 * 			  port UDP sur lequel le client écoute
+	 * @return une string?.
 	 */
 	public String addClient(String name, Socket client, int listeningUDPPort)
 	{
@@ -172,7 +174,7 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
-	 * Méthode pour suprimer un client
+	 * Méthode pour supprimer un client via ses données enregistrées dans ClientServerData
 	 * 
 	 * @param client
 	 *            {@link ClientServerData}
@@ -190,10 +192,10 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
-	 * Méthode pour suprimer un client
+	 * Méthode pour supprimer un client à partir de son ID
 	 * 
 	 * @param id
-	 *            Nom du client
+	 *            Clé publique du client
 	 * @return true si réussit, false sinon
 	 */
 	public boolean removeClient(String id)
@@ -221,7 +223,7 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
-	 * Méthode pour suprimer un client
+	 * Méthode pour supprimer un client via son adresse IP
 	 * 
 	 * @param ip
 	 *            Ip du client {@link InetAddress}
@@ -247,7 +249,7 @@ public class Server extends AbstractClientServer
 
 	/**
 	 * Méthode permettant de recupérer la liste des clients que connaissent le
-	 * serveur. Cette méthode est utiliséé pour renvoyer une liste de clients
+	 * serveur. Cette méthode est utilisée pour renvoyer une liste de clients
 	 * aux clients.
 	 * 
 	 * @return chaîne client sous la forme
@@ -268,7 +270,7 @@ public class Server extends AbstractClientServer
 	/**
 	 * Méthode permettant d'envoyer une liste de clients à un client.
 	 * 
-	 * @param client
+	 * @param clientavoir
 	 */
 	public void sendListClient(ClientServerData client)
 	{
@@ -279,7 +281,7 @@ public class Server extends AbstractClientServer
 	/**
 	 * Méthode permettant de recupérer les informations d'un client.
 	 * 
-	 * @param id
+	 * @param id clé publique du client
 	 * @return chaine sous la forme
 	 *         "ClePublic,NomClient,IpClient,PortEcouteClient"
 	 */
@@ -295,16 +297,32 @@ public class Server extends AbstractClientServer
 		return null;
 	}
 
+	/**
+	 * Getter du thread d'écoute TCP
+	 * 
+	 * @return le thread d'écoute TPC
+	 */
 	public ThreadListenerTCP getThreadListener()
 	{
 		return threadListenerTCP;
 	}
 
+	/**
+	 * Setter qui fixe le thread d'écoute TPC
+	 * 
+	 * @param threadListener
+	 *            le thread d'écoute TPC
+	 */
 	public void setThreadListener(ThreadListenerTCP threadListener)
 	{
 		this.threadListenerTCP = threadListener;
 	}
-
+	
+	/**
+	 * Méthode permettant de traiter les éléments reçu en TCP
+	 * @param object paquet reçu en TCP
+	 * {@link AbstractClientServer}
+	 */
 	@Override
 	public void treatIncomeTCP(Object object)
 	{
@@ -318,6 +336,11 @@ public class Server extends AbstractClientServer
 		}
 	}
 
+	/**
+	 * Méthode permettant de traiter les éléments reçu en UDP
+	 * @param message paquet reçu en UDP
+	 * {@link AbstractClientServer}
+	 */
 	@Override
 	public void treatIncomeUDP(String message)
 	{
@@ -353,6 +376,9 @@ public class Server extends AbstractClientServer
 		}
 	}
 
+	/**
+	 * Main du programme permet de lancerle serveur
+	 */
 	public static void main(String[] args)
 	{
 		Server server = new Server();
