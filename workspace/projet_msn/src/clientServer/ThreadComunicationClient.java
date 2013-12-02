@@ -82,7 +82,7 @@ public class ThreadComunicationClient extends Thread
 		try
 		{
 			System.out.println(this.ipServer);
-			this.socket = new Socket(this.ipServer, 30970);
+			this.socket = new Socket(this.ipServer, this.client.getTcpServerPort());
 			this.protocol = new ProtocolTCP(socket);
 		} catch (Exception e)
 		{

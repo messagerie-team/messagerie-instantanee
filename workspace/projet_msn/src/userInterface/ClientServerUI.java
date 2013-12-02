@@ -90,6 +90,7 @@ public class ClientServerUI
 		{
 			properties.put("ipServer", "localhost");
 			properties.put("TCPServer", "30970");
+			properties.put("UDPServer", "30971");
 			properties.put("alias", "client");
 			properties.put("UDPClient", "3000");
 			try
@@ -105,8 +106,10 @@ public class ClientServerUI
 		String alias = properties.getProperty("alias");
 		int udpPort = Integer.parseInt(properties.getProperty("UDPClient"));
 		String ipServer = properties.getProperty("ipServer");
+		int udpServerPort = Integer.parseInt(properties.getProperty("UDPServer"));
+		int tcpServerPort = Integer.parseInt(properties.getProperty("TCPServer"));
 
-		client = new Client(alias, udpPort, ipServer);
+		client = new Client(alias, udpPort, ipServer, udpServerPort, tcpServerPort);
 		clientList = client.getClientList();
 		keyClientList = clientList.keySet();
 		listenerMenu = new ClientServerListener();
@@ -199,9 +202,10 @@ public class ClientServerUI
 				{
 					properties.setProperty("alias", client.getName());
 					properties.setProperty("ipServer", client.getIpServer());
-					//properties.setProperty("TCPServer", client.getIpServer());
-					properties.setProperty("UDPClient", client.getListeningUDPPort()+"");
-					
+					properties.setProperty("TCPServer", client.getTcpServerPort() + "");
+					properties.setProperty("UDPServer", client.getUdpServerPort() + "");
+					properties.setProperty("UDPClient", client.getListeningUDPPort() + "");
+
 					try
 					{
 						properties.storeToXML(new FileOutputStream("configuration.property"), "");
@@ -214,7 +218,7 @@ public class ClientServerUI
 			}
 		});
 	}
-	
+
 	private void constructMenu()
 	{
 		menuBar = new JMenuBar();
@@ -234,16 +238,19 @@ public class ClientServerUI
 
 		JMenuItem adressServer = new JMenuItem("Adresse serveur");
 		adressServer.addActionListener(listenerMenu);
-		JMenuItem serverPort = new JMenuItem("Port serveur");
-		serverPort.addActionListener(listenerMenu);
+		JMenuItem serverUDPPort = new JMenuItem("Port UDP serveur");
+		serverUDPPort.addActionListener(listenerMenu);
+		JMenuItem serverTCPPort = new JMenuItem("Port TCP serveur");
+		serverTCPPort.addActionListener(listenerMenu);
 		JMenuItem UDPPort = new JMenuItem("Port UDP");
 		UDPPort.addActionListener(listenerMenu);
-		JMenuItem TCPPort = new JMenuItem("Port TCP");
-		TCPPort.addActionListener(listenerMenu);
+		//JMenuItem TCPPort = new JMenuItem("Port TCP");
+		//TCPPort.addActionListener(listenerMenu);
 		menuConfiguration.add(adressServer);
-		menuConfiguration.add(serverPort);
+		menuConfiguration.add(serverUDPPort);
+		menuConfiguration.add(serverTCPPort);
 		menuConfiguration.add(UDPPort);
-		menuConfiguration.add(TCPPort);
+		//menuConfiguration.add(TCPPort);
 
 		menuBar.add(menuPrincipal);
 		menuBar.add(menuConfiguration);

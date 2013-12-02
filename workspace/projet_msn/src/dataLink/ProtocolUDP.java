@@ -68,7 +68,7 @@ public class ProtocolUDP extends Protocol
 		} catch (SocketException e)
 		{
 			System.err.println("Erreur d'initialisation de ProtocolUDP, message: " + e.getMessage());
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 

@@ -3,6 +3,8 @@ package userInterface;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+
+import javax.swing.JOptionPane;
 /**
  * 
  * @author Dorian, Mickaël, Raphaël, Thibault
@@ -65,6 +67,22 @@ public class ClientServerListener implements ActionListener
 			ClientServerUI.client.unregisterToServer();
 			ClientServerUI.jClientList.setVisible(false);
 			ClientServerUI.connectionPanel.setVisible(true);
+			break;
+		case "Adresse serveur":
+			String ipServer = JOptionPane.showInputDialog(ClientServerUI.getMainFrame(), "IP serveur", ClientServerUI.client.getIpServer());
+			ClientServerUI.client.setIpServer(ipServer);
+			break;
+		case "Port UDP serveur":
+			String udpServerPort = JOptionPane.showInputDialog(ClientServerUI.getMainFrame(), "Port UDP serveur", ClientServerUI.client.getUdpServerPort());
+			ClientServerUI.client.setUdpServerPort(Integer.parseInt(udpServerPort));
+			break;
+		case "Port TCP serveur":
+			String tcpServerPort = JOptionPane.showInputDialog(ClientServerUI.getMainFrame(), "Port UDP serveur", ClientServerUI.client.getTcpServerPort());
+			ClientServerUI.client.setTcpServerPort(Integer.parseInt(tcpServerPort));
+			break;
+		case "Port UDP":
+			String port = JOptionPane.showInputDialog(ClientServerUI.getMainFrame(), "Port UDP", ClientServerUI.client.getListeningUDPPort());
+			ClientServerUI.client.setListeningUDPPort(Integer.parseInt(port));
 			break;
 
 		default:
