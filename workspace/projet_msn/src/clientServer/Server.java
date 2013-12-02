@@ -29,8 +29,9 @@ import dataLink.Protocol;
 import dataLink.ProtocolUDP;
 
 /**
- * @author Dorian, Mickaël, Raphaël, Thibaultl Classe permettant de représenter
- *         un serveur. Extends de la classe AbstractClientServer.
+ * Classe permettant de représenter un serveur. Extends de la classe
+ *           AbstractClientServer.
+ * @author Dorian, Mickaël, Raphaël, Thibaultl
  * @see AbstractClientServer
  */
 public class Server extends AbstractClientServer
@@ -77,13 +78,13 @@ public class Server extends AbstractClientServer
                 this.clientTTL = new HashMap<ClientServerData, Integer>();
         }
 
-        /**
-         * Construct Server(int port) Constructeur de la class Server. Initialise
-         * les variables server,clients et threadListener.
-         * 
-         * @param port
-         *            numéro de port TCP, le port UDP sera à +1
-         */
+    	/**
+    	 * Construct Server(int port) Constructeur de la classe Server. Initialise
+    	 * les variables server,clients et threadListener.
+    	 * 
+    	 * @param portPLus1024?
+    	 * 			numéro de port TCP, le port UDP sera à +1
+    	 */
         public Server(int port)
         {
                 super();
@@ -191,8 +192,8 @@ public class Server extends AbstractClientServer
         }
 
         /**
-         * Methode permettant d'ajouter des identifiant/motDePasse dans la base du
-         * server
+         * Methode permettant d'ajouter des identifiants/motDePasse dans la base du
+         * serveur
          * 
          * @param id
          *            identifiant du client
@@ -234,15 +235,17 @@ public class Server extends AbstractClientServer
                 }
         }
 
-        /**
-         * Méthode pour ajouté un client
-         * 
-         * @param name
-         *            Nom du client
-         * @param client
-         *            Socket du client
-         * @return true si client est ajouté, false sinon.
-         */
+    	/**
+    	 * Méthode pour ajouté un client
+    	 * 
+    	 * @param nameAvoir
+    	 *            Nom du client
+    	 * @param client
+    	 *            Socket du client
+    	 * @param listeningUDPPort
+    	 * 			  port UDP sur lequel le client écoute
+    	 * @return une string?.
+    	 */
         public String addClient(String name, Socket client, int listeningUDPPort)
         {
                 ClientServerData newClient = new ClientServerData(name, client.getInetAddress(), listeningUDPPort);
@@ -276,13 +279,13 @@ public class Server extends AbstractClientServer
                 }
         }
 
-        /**
-         * Méthode pour suprimer un client
-         * 
-         * @param client
-         *            {@link ClientServerData}
-         * @return true si réussit, false sinon
-         */
+    	/**
+    	 * Méthode pour supprimer un client via ses données enregistrées dans ClientServerData
+    	 * 
+    	 * @param client
+    	 *            {@link ClientServerData}
+    	 * @return true si réussit, false sinon
+    	 */
         public boolean removeClient(ClientServerData client)
         {
                 boolean ret = this.getClients().remove(client);
@@ -294,13 +297,13 @@ public class Server extends AbstractClientServer
                 return ret;
         }
 
-        /**
-         * Méthode pour suprimer un client
-         * 
-         * @param id
-         *            Nom du client
-         * @return true si réussit, false sinon
-         */
+    	/**
+    	 * Méthode pour supprimer un client à partir de son ID
+    	 * 
+    	 * @param id
+    	 *            Clé publique du client
+    	 * @return true si réussit, false sinon
+    	 */
         public boolean removeClient(String id)
         {
                 boolean erase = false;
@@ -325,13 +328,13 @@ public class Server extends AbstractClientServer
                 return false;
         }
 
-        /**
-         * Méthode pour suprimer un client
-         * 
-         * @param ip
-         *            Ip du client {@link InetAddress}
-         * @return true si reussit, false sinon
-         */
+    	/**
+    	 * Méthode pour supprimer un client via son adresse IP
+    	 * 
+    	 * @param ip
+    	 *            Ip du client {@link InetAddress}
+    	 * @return true si reussit, false sinon
+    	 */
         public boolean removeClient(InetAddress ip)
         {
                 boolean erase = false;
@@ -350,14 +353,14 @@ public class Server extends AbstractClientServer
                 return erase;
         }
 
-        /**
-         * Méthode permettant de recupérer la liste des clients que connaissent le
-         * serveur. Cette méthode est utiliséé pour renvoyer une liste de clients
-         * aux clients.
-         * 
-         * @return chaîne client sous la forme
-         *         "ClePublic-NomCLient,ClePublic-NomClient...."
-         */
+    	/**
+    	 * Getter permettant de recupérer la liste des clients que connaissent le
+    	 * serveur. Cette méthode est utilisée pour renvoyer une liste de clients
+    	 * aux clients.
+    	 * 
+    	 * @return chaîne client sous la forme
+    	 *         "ClePublic-NomCLient,ClePublic-NomClient...."
+    	 */
         public String getListClient()
         {
                 String ret = "";
@@ -370,24 +373,24 @@ public class Server extends AbstractClientServer
                 return ret;
         }
 
-        /**
-         * Méthode permettant d'envoyer une liste de clients à un client.
-         * 
-         * @param client
-         */
+    	/**
+    	 * Méthode permettant d'envoyer une liste de clients à un client.
+    	 * 
+    	 * @param clientavoir
+    	 */
         public void sendListClient(ClientServerData client)
         {
                 String listClient = this.getListClient();
                 protocol.sendMessage("listClient:" + listClient, client.getIp(), client.getPort());
         }
 
-        /**
-         * Méthode permettant de recupérer les informations d'un client.
-         * 
-         * @param id
-         * @return chaine sous la forme
-         *         "ClePublic,NomClient,IpClient,PortEcouteClient"
-         */
+    	/**
+    	 * Méthode permettant de recupérer les informations d'un client.
+    	 * 
+    	 * @param id clé publique du client
+    	 * @return chaine sous la forme
+    	 *         "ClePublic,NomClient,IpClient,PortEcouteClient"
+    	 */
         public String getClient(String id)
         {
                 for (ClientServerData client : this.getClients())
@@ -400,16 +403,32 @@ public class Server extends AbstractClientServer
                 return null;
         }
 
+    	/**
+    	 * Getter du thread d'écoute TCP
+    	 * 
+    	 * @return le thread d'écoute TPC
+    	 */
         public ThreadListenerTCP getThreadListener()
         {
                 return threadListenerTCP;
         }
 
+    	/**
+    	 * Setter qui fixe le thread d'écoute TPC
+    	 * 
+    	 * @param threadListener
+    	 *            le thread d'écoute TPC
+    	 */
         public void setThreadListener(ThreadListenerTCP threadListener)
         {
                 this.threadListenerTCP = threadListener;
         }
-
+        
+    	/**
+    	 * Méthode permettant de traiter les éléments reçu en TCP
+    	 * @param object paquet reçu en TCP
+    	 * {@link AbstractClientServer}
+    	 */
         @Override
         public void treatIncomeTCP(Object object)
         {
@@ -423,6 +442,11 @@ public class Server extends AbstractClientServer
                 }
         }
 
+    	/**
+    	 * Méthode permettant de traiter les éléments reçu en UDP
+    	 * @param message paquet reçu en UDP
+    	 * {@link AbstractClientServer}
+    	 */
         @Override
         public void treatIncomeUDP(String message)
         {
@@ -458,6 +482,9 @@ public class Server extends AbstractClientServer
                 }
         }
 
+    	/**
+    	 * Main du programme permet de lancerle serveur
+    	 */
         public static void main(String[] args)
         {
                 Server server = new Server();
