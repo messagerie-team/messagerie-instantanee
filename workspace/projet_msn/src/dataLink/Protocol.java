@@ -3,10 +3,10 @@ package dataLink;
 import java.net.InetAddress;
 
 /**
- * 
- * @author Dorian, Mickaël, Raphaël, Thibault
  * Classe abstraite permettant de représenter un protocol de
  *           communication.
+ *           
+ * @author Dorian, Mickaël, Raphaël, Thibault
  */
 public abstract class Protocol
 {
@@ -28,9 +28,9 @@ public abstract class Protocol
 	/**
 	 * Méthode permettant d'envoyer un message à une adresse sur un port.
 	 * 
-	 * @param message
-	 * @param adress
-	 * @param port
+	 * @param message message que l'on souhaite envoyer
+	 * @param adress adresse de destination
+	 * @param port port de destination
 	 */
 	public abstract void sendMessage(String message, InetAddress adress, int port);
 
@@ -38,14 +38,14 @@ public abstract class Protocol
 	 * Méthode permettant d'envoyer un message à l'adresse par defaut du
 	 * protocol.
 	 * 
-	 * @param message
+	 * @param message message que l'on souhaite envoyer
 	 */
 	public abstract void sendMessage(String message);
 
 	/**
 	 * Méthode permettant de réceptionner un message.
 	 * 
-	 * @return Chaine receptionne
+	 * @return Chaine réceptionnée
 	 */
 	public abstract String readMessage();
 
@@ -54,11 +54,22 @@ public abstract class Protocol
 	 */
 	public abstract void close();
 
+	/**
+	 * Getter du port local
+	 * 
+	 * @return localPort Port local
+	 */
 	public int getLocalPort()
 	{
 		return localPort;
 	}
 
+	/**
+	 * Setter qui fixe le port local
+	 * 
+	 * @param localPortavoir port local
+	 *           
+	 */
 	public void setLocalPort(int localPort)
 	{
 		this.localPort = localPort;
