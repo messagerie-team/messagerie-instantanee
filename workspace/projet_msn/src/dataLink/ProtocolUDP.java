@@ -7,6 +7,7 @@ import java.net.InetAddress;
 import java.net.SocketException;
 
 /**
+ * Permet de représenter le protocol UDP pour la communication UDP.
  * 
  * @author Dorian, Mickaël, Raphaël, Thibault
  * 
