@@ -822,7 +822,7 @@ public class Client extends AbstractClientServer
 	/**
 	 * Setter qui fixe l'IP du serveur
 	 * 
-	 * @param String adresse IP du serveur
+	 * @param ipServer adresse IP du serveur
 	 */
 	public void setIpServer(String ipServer)
 	{
