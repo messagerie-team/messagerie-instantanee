@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 
 import javax.swing.JOptionPane;
+
 /**
  * 
  * @author Dorian, Mickaël, Raphaël, Thibault
@@ -69,20 +70,44 @@ public class ClientServerListener implements ActionListener
 			ClientServerUI.connectionPanel.setVisible(true);
 			break;
 		case "Adresse serveur":
-			String ipServer = JOptionPane.showInputDialog(ClientServerUI.getMainFrame(), "IP serveur", ClientServerUI.client.getIpServer());
-			ClientServerUI.client.setIpServer(ipServer);
+			if (ClientServerUI.client.getId().equals(""))
+			{
+				String ipServer = JOptionPane.showInputDialog(ClientServerUI.getMainFrame(), "IP serveur", ClientServerUI.client.getIpServer());
+				if (ipServer != null)
+				{
+					ClientServerUI.client.setIpServer(ipServer);
+				}
+			}
 			break;
 		case "Port UDP serveur":
-			String udpServerPort = JOptionPane.showInputDialog(ClientServerUI.getMainFrame(), "Port UDP serveur", ClientServerUI.client.getUdpServerPort());
-			ClientServerUI.client.setUdpServerPort(Integer.parseInt(udpServerPort));
+			if (ClientServerUI.client.getId().equals(""))
+			{
+				String udpServerPort = JOptionPane.showInputDialog(ClientServerUI.getMainFrame(), "Port UDP serveur", ClientServerUI.client.getUdpServerPort());
+				if (udpServerPort != null)
+				{
+					ClientServerUI.client.setUdpServerPort(Integer.parseInt(udpServerPort));
+				}
+			}
 			break;
 		case "Port TCP serveur":
-			String tcpServerPort = JOptionPane.showInputDialog(ClientServerUI.getMainFrame(), "Port UDP serveur", ClientServerUI.client.getTcpServerPort());
-			ClientServerUI.client.setTcpServerPort(Integer.parseInt(tcpServerPort));
+			if (ClientServerUI.client.getId().equals(""))
+			{
+				String tcpServerPort = JOptionPane.showInputDialog(ClientServerUI.getMainFrame(), "Port UDP serveur", ClientServerUI.client.getTcpServerPort());
+				if (tcpServerPort != null)
+				{
+					ClientServerUI.client.setTcpServerPort(Integer.parseInt(tcpServerPort));
+				}
+			}
 			break;
 		case "Port UDP":
-			String port = JOptionPane.showInputDialog(ClientServerUI.getMainFrame(), "Port UDP", ClientServerUI.client.getListeningUDPPort());
-			ClientServerUI.client.setListeningUDPPort(Integer.parseInt(port));
+			if (ClientServerUI.client.getId().equals(""))
+			{
+				String port = JOptionPane.showInputDialog(ClientServerUI.getMainFrame(), "Port UDP", ClientServerUI.client.getListeningUDPPort());
+				if (port != null)
+				{
+					ClientServerUI.client.setListeningUDPPort(Integer.parseInt(port));
+				}
+			}
 			break;
 
 		default:

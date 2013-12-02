@@ -89,6 +89,7 @@ public class Client extends AbstractClientServer
 	{
 		super();
 		this.name = name;
+		this.id = "";
 		this.listeningUDPPort = listeningUDPPort;
 		this.protocol = new ProtocolUDP(listeningUDPPort);
 		this.clientList = new HashMap<String, String>();
@@ -119,6 +120,7 @@ public class Client extends AbstractClientServer
 	{
 		super();
 		this.name = name;
+		this.id = "";
 		this.listeningUDPPort = listeningUDPPort;
 		this.protocol = new ProtocolUDP(listeningUDPPort);
 		this.clientList = new HashMap<String, String>();
