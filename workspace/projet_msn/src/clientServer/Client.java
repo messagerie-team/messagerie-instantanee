@@ -807,6 +807,27 @@ public class Client extends AbstractClientServer
 	{
 		this.threadListenerUDP = threadListenerUDP;
 	}
+	
+	
+	/**
+	 * Getter de l'IP du serveur
+	 * 
+	 * @return String adresse IP du serveur
+	 */
+	public String getIpServer()
+	{
+		return ipServer;
+	}
+
+	/**
+	 * Setter qui fixe l'IP du serveur
+	 * 
+	 * @param String adresse IP du serveur
+	 */
+	public void setIpServer(String ipServer)
+	{
+		this.ipServer = ipServer;
+	}
 
 	/**
 	 * Méthode permettant lancer une instance de client en ligne de commande
