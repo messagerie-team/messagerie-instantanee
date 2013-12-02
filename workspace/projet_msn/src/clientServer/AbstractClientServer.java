@@ -3,10 +3,9 @@ package clientServer;
 import java.util.Vector;
 
 /**
- * 
- * @author Dorian, Mickaël, Raphaël, Thibault <br/>
  * Classe abstraite permettant de représenter un client ou un serveur
  *           suivant son instance.
+ * @author Dorian, Mickaël, Raphaël, Thibault
  */
 public abstract class AbstractClientServer
 {

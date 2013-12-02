@@ -11,10 +11,9 @@ import dataLink.Protocol;
 import dataLink.ProtocolUDP;
 
 /**
- * 
- * @author Dorian, Mickaël, Raphaël, Thibault <br/>
  * Classe permetant de représenter un client. Extends de la classe
  *           AbstractClientServer.
+ * @author Dorian, Mickaël, Raphaël, Thibault <br/>
  * @see AbstractClientServer
  */
 public class Client extends AbstractClientServer
@@ -70,9 +69,9 @@ public class Client extends AbstractClientServer
 	/**
 	 * Constructeur par défaut du Client.
 	 * 
-	 * @param name
-	 * @param listeningUDPPort
-	 * @param ipServer
+	 * @param name nom du client
+	 * @param listeningUDPPort port d'écoute UDP
+	 * @param ipServer ip du server
 	 */
 	public Client(String name, int listeningUDPPort, String ipServer)
 	{
@@ -133,7 +132,7 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Méthode permettant de se deconecter du serveur.
+	 * Méthode permettant de se déconnecter du serveur.
 	 * 
 	 * @see Server
 	 */
@@ -171,10 +170,10 @@ public class Client extends AbstractClientServer
 
 	/**
 	 * Méthode permettant de demander les informations d'un client au serveur,
-	 * afin de pouvoir ensuite demarrer un dialog avec. Le paramètre correspond à
+	 * afin de pouvoir ensuite démarrer un dialog avec. Le paramètre correspond à
 	 * la clé public du client.
 	 * 
-	 * @param clientId
+	 * @param clientId clé publique du client
 	 */
 	public void askClientConnectionToServer(String clientId)
 	{
@@ -226,7 +225,7 @@ public class Client extends AbstractClientServer
 	 * 
 	 * @see ClientServerData
 	 * @see ClientDialog
-	 * @param client
+	 * @param client client avec lequel on souhaite discuter
 	 */
 	public void startDialogToClient(ClientServerData client)
 	{
@@ -262,7 +261,13 @@ public class Client extends AbstractClientServer
 			System.err.println("Erreur de demarage d'un dialogue client, message : " + e.getMessage());
 		}
 	}
-
+	/**
+	 * Méthode permettant d'ajouter un client à un dialogue. Sauf si il fait déjà parti du dialiogue
+	 * 
+	 * @see ClientDialog
+	 * @param clientId client avec lequel on souhaite discuter
+	 * @param dialog
+	 */
 	public void addClientToDialog(String clientId, ClientDialog dialog)
 	{
 		System.out.println("Ajout d'un client a un dialog");
@@ -325,8 +330,8 @@ public class Client extends AbstractClientServer
 	/**
 	 * Méthode permettant d'envoyer un message sur un dialogue.
 	 * 
-	 * @param message
-	 * @param idDialog
+	 * @param message message que l'on souhaite envoyer
+	 * @param idDialog id du dialogue avec lequel on souhaite envoyer le message
 	 * @return true si le message est parti, false sinon
 	 */
 	public boolean sendMessageToClient(String message, String idDialog)
@@ -373,7 +378,7 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Méthode permettant de demarer le thread de communication avec le serveur.
+	 * Méthode permettant de démarrer le thread de communication avec le serveur.
 	 */
 	public void launchThread()
 	{
@@ -392,7 +397,7 @@ public class Client extends AbstractClientServer
 	 * est envoyée par le serveur. Elle est de la forme
 	 * "ClePublic-NomCLient,ClePublic-NomClient...."
 	 * 
-	 * @param list
+	 * @param list liste envoyée par le serveur
 	 */
 	public void addClientList(String list)
 	{
@@ -410,6 +415,12 @@ public class Client extends AbstractClientServer
 		System.out.println(this.clientList);
 	}
 
+
+	/**
+	 * Méthode permettant de traiter les éléments reçu en TCP
+	 * 
+	 * @param object paquet reçu en TCP
+	 */
 	@Override
 	public void treatIncomeTCP(Object object)
 	{
@@ -417,6 +428,11 @@ public class Client extends AbstractClientServer
 		// connecte à un client en TCP
 	}
 
+	/**
+	 * Méthode permettant de traiter les éléments reçu en UDP
+	 * 
+	 * @param message paquet reçu en UDP
+	 */
 	@Override
 	public void treatIncomeUDP(String message)
 	{
@@ -438,10 +454,11 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Méthode permettant de traiter la reception d'un liste client et de la
+	 * Méthode permettant de traiter la réception d'une liste client et de la
 	 * rediriger vers la bonne méthode avec le bon traitement de données.
 	 * 
-	 * @param token
+	 * @param token message tokenérizé
+	 * {@link #treatIncomeUDP(String)}
 	 */
 	public void treatIncomeList(StringTokenizer token)
 	{
@@ -453,11 +470,12 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Méthode permettant de traiter la reception de message concernant les
+	 * Méthode permettant de traiter la réception de message concernant les
 	 * dialogues et de rediriger vers la bonne methode avec le bon
 	 * traitement de donnees.
 	 * 
-	 * @param token
+	 * @param token message tokenérizé
+	 * {@link #treatIncomeUDP(String)}
 	 */
 	public void treatIncomeDialog(StringTokenizer token)
 	{
@@ -649,77 +667,153 @@ public class Client extends AbstractClientServer
 
 		}
 	}
-
+	
+	/**
+	 * Getter du nom du client
+	 * 
+	 * @return name le nom du client
+	 */
 	public String getName()
 	{
 		return name;
 	}
-
+	
+	/**
+	 * Setter qui fixe le client
+	 * 
+	 * @param name nom du client
+	 */
 	public void setName(String name)
 	{
 		this.name = name;
 	}
 
+	/**
+	 * Getter de la clé du client
+	 * 
+	 * @return id la clé du client
+	 */
 	public String getId()
 	{
 		return id;
 	}
 
+	/**
+	 * Setter qui fixe la clé du client
+	 * 
+	 * @param id la clé du client
+	 */
 	public void setId(String id)
 	{
 		this.id = id;
 	}
 
+	/**
+	 * Getter de la liste de client
+	 * 
+	 * @return clientList liste de client envoyée par le serveur
+	 */
 	public HashMap<String, String> getClientList()
 	{
 		return clientList;
 	}
 
+	/**
+	 * Setter qui fixe la liste de client
+	 * 
+	 * @param clientList liste de client que l'on voit en connecté
+	 */
 	public void setClientList(HashMap<String, String> clientList)
 	{
 		this.clientList = clientList;
 	}
 
+	/**
+	 * Getter du port UDP d'écoute
+	 * 
+	 * @return listeningUDPPort port UDP
+	 */
 	public int getListeningUDPPort()
 	{
 		return listeningUDPPort;
 	}
 
+	/**
+	 * Setter qui fixe le port d'écoute UDP
+	 * 
+	 * @param listeningUDPPort port UDP
+	 */
 	public void setListeningUDPPort(int listeningUDPPort)
 	{
 		this.listeningUDPPort = listeningUDPPort;
 	}
 
+	/**
+	 * Getter de la liste de dialogues
+	 * 
+	 * @return dialogs liste de dialogues
+	 */
 	public Vector<ClientDialog> getDialogs()
 	{
 		return dialogs;
 	}
 
+	/**
+	 * Setter qui fixe la liste de dialogue
+	 * 
+	 * @param dialogs liste de dialogues
+	 */
 	public void setDialogs(Vector<ClientDialog> dialogs)
 	{
 		this.dialogs = dialogs;
 	}
 
+	/**
+	 * Getter du thread de communication entre le client et le serveur
+	 * 
+	 * @return threadComunicationClient thread communication CLient/Serveur
+	 */
 	public ThreadComunicationClient getThreadComunicationClient()
 	{
 		return threadComunicationClient;
 	}
 
+	/**
+	 * Setter qui fixe le thread de communication entre le client et le serveur
+	 * 
+	 * @param threadComunicationClient thread communication CLient/Serveur
+	 */
 	public void setThreadComunicationClient(ThreadComunicationClient threadComunicationClient)
 	{
 		this.threadComunicationClient = threadComunicationClient;
 	}
 
+	/**
+	 * Getter du thread d'écoute UDP 
+	 * 
+	 * @return threadListenerUDP thread d'écoute UDP
+	 */
 	public ThreadListenerUDP getThreadListenerUDP()
 	{
 		return threadListenerUDP;
 	}
 
+	/**
+	 * Setter qui fixe le thread d'écoute UDP
+	 * 
+	 * @param threadListenerUDP thread d'écoute UDP
+	 */
 	public void setThreadListenerUDP(ThreadListenerUDP threadListenerUDP)
 	{
 		this.threadListenerUDP = threadListenerUDP;
 	}
 
+	/**
+	 * Méthode permettant lancer une instance de client en ligne de commande
+	 * 
+	 * @param args aucun paramètre n'est requis
+	 */
+	@Deprecated
 	public static void main(String[] args)
 	{
 		Scanner sc = new Scanner(System.in);
