@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><clients>
+	<client>
+		<name>Raphael</name>
+		<password>test</password>
+	</client>
+	<client>
+		<name>Thib</name>
+		<password>test</password>
+	</client>
+	<client>
+		<name>Dorian</name>
+		<password>test</password>
+	</client>
+	<client>
+		<name>Micka</name>
+		<password>test</password>
+	</client>
+</clients>
