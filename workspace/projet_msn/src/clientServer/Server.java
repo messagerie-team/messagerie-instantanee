@@ -509,5 +509,6 @@ public class Server extends AbstractClientServer
 				break;
 			}
 		}
+		sc.close();
 	}
 }
