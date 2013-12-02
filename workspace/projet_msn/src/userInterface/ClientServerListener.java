@@ -20,7 +20,7 @@ public class ClientServerListener implements ActionListener
 		switch (e.getActionCommand())
 		{
 		case "Profil":
-
+			JOptionPane.showMessageDialog(ClientServerUI.getMainFrame(), "Option non implémenté.");
 			break;
 		case "Rafraîchir":
 			if (!ClientServerUI.client.getId().equals(""))
@@ -77,6 +77,9 @@ public class ClientServerListener implements ActionListener
 				{
 					ClientServerUI.client.setIpServer(ipServer);
 				}
+			}else
+			{
+				JOptionPane.showMessageDialog(ClientServerUI.getMainFrame(), "Impossible de modifier l'adresse du serveur en étant connecté.");
 			}
 			break;
 		case "Port UDP serveur":
@@ -87,16 +90,22 @@ public class ClientServerListener implements ActionListener
 				{
 					ClientServerUI.client.setUdpServerPort(Integer.parseInt(udpServerPort));
 				}
+			}else
+			{
+				JOptionPane.showMessageDialog(ClientServerUI.getMainFrame(), "Impossible de modifier le port UDP serveur en étant connecté.");
 			}
 			break;
 		case "Port TCP serveur":
 			if (ClientServerUI.client.getId().equals(""))
 			{
-				String tcpServerPort = JOptionPane.showInputDialog(ClientServerUI.getMainFrame(), "Port UDP serveur", ClientServerUI.client.getTcpServerPort());
+				String tcpServerPort = JOptionPane.showInputDialog(ClientServerUI.getMainFrame(), "Port TCP serveur", ClientServerUI.client.getTcpServerPort());
 				if (tcpServerPort != null)
 				{
 					ClientServerUI.client.setTcpServerPort(Integer.parseInt(tcpServerPort));
 				}
+			}else
+			{
+				JOptionPane.showMessageDialog(ClientServerUI.getMainFrame(), "Impossible de modifier le port TCP serveur en étant connecté.");
 			}
 			break;
 		case "Port UDP":
@@ -107,6 +116,9 @@ public class ClientServerListener implements ActionListener
 				{
 					ClientServerUI.client.setListeningUDPPort(Integer.parseInt(port));
 				}
+			}else
+			{
+				JOptionPane.showMessageDialog(ClientServerUI.getMainFrame(), "Impossible de modifier le port UDP en étant connecté.");
 			}
 			break;
 
