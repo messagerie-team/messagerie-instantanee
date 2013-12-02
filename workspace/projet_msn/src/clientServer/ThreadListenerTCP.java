@@ -1,18 +1,20 @@
 package clientServer;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 /**
  * 
  * @author Dorian, Mickaël, Raphaël, Thibault
  * 
- * Thread d'écoute du serveur. Permet de recevoir les connections des clients.
- * Si un client se connecte, un nouveau thread est lancé pour communiquer avec.
- * Sinon cela voudrait dire que le serveur est bloqué tant que le client n'a
- * pas fini ce qu'il voulait faire. Du coup cela permet au serveur de dialoguer
- * avec plusieurs clients en même temps.
+ *         Thread d'écoute du serveur. Permet de recevoir les connections des
+ *         clients. Si un client se connecte, un nouveau thread est lancé pour
+ *         communiquer avec. Sinon cela voudrait dire que le serveur est bloqué
+ *         tant que le client n'a pas fini ce qu'il voulait faire. Du coup cela
+ *         permet au serveur de dialoguer avec plusieurs clients en même temps.
  * 
  */
 public class ThreadListenerTCP extends Thread
@@ -28,7 +30,7 @@ public class ThreadListenerTCP extends Thread
 	 */
 	private ServerSocket socket;
 	/**
-	 *  Paramètre permettant d'arrêter le Thread.
+	 * Paramètre permettant d'arrêter le Thread.
 	 */
 	private boolean running;
 
@@ -84,6 +86,7 @@ public class ThreadListenerTCP extends Thread
 	 */
 	public void stopThread()
 	{
+		Thread.interrupted();
 		this.running = false;
 	}
 
