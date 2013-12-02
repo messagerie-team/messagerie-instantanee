@@ -6,9 +6,8 @@ import java.util.Vector;
 import dataLink.Protocol;
 
 /**
- * 
- * @author Dorian, Mickaël, Raphaël, Thibault
  * Classe permettant de représenter un dialogue entre clients.
+ * @author Dorian, Mickaël, Raphaël, Thibault
  */
 public class ClientDialog
 {
@@ -53,8 +52,8 @@ public class ClientDialog
 	 * par le client lors de la création d'un dialogue de sa part. Une clé
 	 * unique est générée par constructeur pour identifier le dialogue.
 	 * 
-	 * @param client
-	 * @param protocol
+	 * @param client client auquel on souhaite rajouter un dialogue
+	 * @param protocol protocol utilisé pour ce dialogue
 	 */
 	public ClientDialog(Client client, Protocol protocol)
 	{
@@ -73,9 +72,9 @@ public class ClientDialog
 	 * client. Le premier paramètre correspond à la clé unique du dialogue qui a
 	 * du être reçu.
 	 * 
-	 * @param idDialog
-	 * @param client
-	 * @param protocol
+	 * @param idDialog clé unique du dialogue
+	 * @param client client auquel est rataché le dialogue
+	 * @param protocol protocol utilisé pour ce dialogue
 	 */
 	public ClientDialog(String idDialog, Client client, Protocol protocol)
 	{
@@ -91,7 +90,7 @@ public class ClientDialog
 	/**
 	 * Méthode permettant d'ajouter un message au dialogue
 	 * 
-	 * @param message
+	 * @param message rajoute un message sur la fenêtre du dialogue
 	 */
 	public void addMessage(String message)
 	{
@@ -102,7 +101,8 @@ public class ClientDialog
 	/**
 	 * Méthode permettant d'envoyer un message à tous les clients du dialogue.
 	 * 
-	 * @param message
+	 * @param message message que l'on souhaite envoyé à l'autre client
+	 * {@link #addMessage(String)}
 	 */
 	public void sendMessage(String message)
 	{
@@ -117,12 +117,14 @@ public class ClientDialog
 	/**
 	 * Méthode permettant de gérer la réception d'un message
 	 * 
-	 * @param message
-	 * @return le message reçu
+	 * @param message message reçu 
+	 * @return message message reçu traité
+	 * {@link #addMessage(String)}
 	 */
 	public String receiveMessage(String message)
 	{
 		System.out.println(this.idDialog + "->" + message);
+		//remettre le dialogue en actif
 		this.inUse = true;
 		this.addMessage(message);
 		return message;
@@ -131,8 +133,8 @@ public class ClientDialog
 	/**
 	 * Méthode permettant d'ajouter un client au dialogue
 	 * 
-	 * @param client
-	 * @return true si le client est bien ajoute, false sinon.
+	 * @param client client que l'on souhaite ajouter au dialogue
+	 * @return true si le client est bien ajouté, false sinon.
 	 */
 	public boolean addClient(ClientServerData client)
 	{
@@ -154,69 +156,129 @@ public class ClientDialog
 	/**
 	 * Méthode permettant de supprimer un client du dialogue.
 	 * 
-	 * @param client
+	 * @param client à supprimer
 	 * @return la liste des clients à jour
 	 */
 	public boolean removeClient(ClientServerData client)
 	{
 		return this.clients.remove(client);
 	}
-
+	
+	/**
+	 * Getter de la clé unique du dialogue
+	 * 
+	 * @return idDialog la clé unique du dialogue
+	 */
 	public String getIdDialog()
 	{
 		return idDialog;
 	}
 
+	/**
+	 * Setter qui fixe la clé unique du dialogue
+	 * 
+	 * @param idDialog la clé unique du dialogue
+	 */
 	public void setIdDialog(String idDialog)
 	{
 		this.idDialog = idDialog;
 	}
 
+	/**
+	 * Getter de la liste des clients qui le client voit
+	 * 
+	 * @return clients la liste des clients qui le client voit
+	 */
 	public Vector<ClientServerData> getClients()
 	{
 		return clients;
 	}
 
+	/**
+	 * Setter qui fixe la liste des clients qui le client voit
+	 * 
+	 * @param clients la liste des clients que l'on veut ajouter
+	 */
 	public void setClients(Vector<ClientServerData> clients)
 	{
 		this.clients = clients;
 	}
 
+	/**
+	 * Getter du protocole utilisé
+	 * 
+	 * @return le protocole utilisé
+	 */
 	public Protocol getProtocol()
 	{
 		return protocol;
 	}
 
+	/**
+	 * Setter qui fixe le protocole utilisé
+	 * 
+	 * @param protocol le protocole utilisé
+	 */
 	public void setProtocol(Protocol protocol)
 	{
 		this.protocol = protocol;
 	}
 
+	/**
+	 * Getter du dialogue, c'est à dire l'ensemble de la conversation entre n clients
+	 * 
+	 * @return le dialogue
+	 */
 	public String getDialogue()
 	{
 		return dialogue;
 	}
 
+	/**
+	 * Setter qui fixe le dialogue, c'est à dire l'ensemble de la conversation entre n clients
+	 * 
+	 * @param dialogue conversation complète entre n clients
+	 */
 	public void setDialogue(String dialogue)
 	{
 		this.dialogue = dialogue;
 	}
 
+	/**
+	 * Getter du dernier message d'un dialogue
+	 * 
+	 * @return lastMessage le dernier message
+	 */
 	public String getLastMessage()
 	{
 		return lastMessage;
 	}
 
+	/**
+	 * Setter qui fixe le dernier message d'un dialogue
+	 * 
+	 * @param lastMessage message que l'on veut ajouter à la conversation
+	 */
 	public void setLastMessage(String lastMessage)
 	{
 		this.lastMessage = lastMessage;
 	}
 
+	/**
+	 * Getter pour savoir si la conversation est active ou non
+	 * 
+	 * @return inUse true si la conversation est active, false sinon
+	 */
 	public boolean isInUse()
 	{
 		return inUse;
 	}
 
+	/**
+	 * Setter qui fixe l'état de la conversation
+	 * 
+	 * @param inUse état de la conversation
+	 */
 	public void setInUse(boolean inUse)
 	{
 		this.inUse = inUse;
