@@ -901,12 +901,8 @@ public class Client extends AbstractClientServer
 	/**
 	 * Setter qui fixe l'IP du serveur
 	 * 
-<<<<<<< HEAD
 	 * @param ipServer
 	 *            adresse IP du serveur
-=======
-	 * @param ipServer adresse IP du serveur
->>>>>>> 99e846f9bf49e123c6abb45b95d9016b5de86d92
 	 */
 	public void setIpServer(String ipServer)
 	{
