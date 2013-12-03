@@ -7,8 +7,8 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.ArrayList;
 
-import dataLink.Protocol;
-import dataLink.ProtocolUDP;
+import network.Protocol;
+import network.ProtocolUDP;
 
 /**
  * Classe permetant de représenter un client. Extends de la classe

@@ -9,10 +9,9 @@ import java.net.UnknownHostException;
 import model.Client;
 import model.ClientDialog;
 import model.ClientServerData;
+import network.ProtocolTCP;
 
 import org.junit.Test;
-
-import dataLink.ProtocolTCP;
 /**
  * 
  * @author Dorian, Mickaël, Raphaël, Thibault
