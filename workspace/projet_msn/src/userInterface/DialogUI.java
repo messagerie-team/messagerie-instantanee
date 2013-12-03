@@ -91,7 +91,7 @@ public class DialogUI extends JFrame
 		this.textAreaDialog.setWrapStyleWord(true);
 		this.textAreaDialog.setEditable(false);
 		JScrollPane areaDialog = new JScrollPane(this.textAreaDialog, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
+		areaDialog.setAutoscrolls(true);
 		Component spaceBorderHorizontal = Box.createVerticalStrut(5);
 
 		JPanel bottomPanel = new JPanel();

@@ -171,7 +171,6 @@ public class Server extends AbstractClientServer
 			for (int temp = 0; temp < clients.getChildNodes().getLength(); temp++)
 			{
 				Node clientNode = clients.getChildNodes().item(temp);
-				System.out.println("\nCurrent Element :" + clientNode.getNodeName());
 				if (clientNode.getNodeType() == Node.ELEMENT_NODE)
 				{
 					Element client = (Element) clientNode;
@@ -186,8 +185,8 @@ public class Server extends AbstractClientServer
 			}
 		} catch (ParserConfigurationException | SAXException | IOException e)
 		{
-			System.out.println("Erreur de vérifiaction id/mdp, message : " + e.getMessage());
-			e.printStackTrace();
+			System.err.println("Erreur de vérifiaction id/mdp, message : " + e.getMessage());
+			//e.printStackTrace();
 		}
 		return ret;
 	}
@@ -231,8 +230,8 @@ public class Server extends AbstractClientServer
 
 		} catch (ParserConfigurationException | SAXException | IOException | TransformerException e)
 		{
-			System.out.println("Erreur de vérifiaction id/mdp, message : " + e.getMessage());
-			e.printStackTrace();
+			System.err.println("Erreur de vérifiaction id/mdp, message : " + e.getMessage());
+			//e.printStackTrace();
 		}
 	}
 
@@ -263,8 +262,7 @@ public class Server extends AbstractClientServer
 						Thread.sleep(3000);
 					} catch (InterruptedException e)
 					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						//e.printStackTrace();
 					}
 					for (ClientServerData clientServerData : getClients())
 					{
