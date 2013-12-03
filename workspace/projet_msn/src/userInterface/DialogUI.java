@@ -20,9 +20,9 @@ import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
-import clientServer.Client;
-import clientServer.ClientDialog;
-import clientServer.ClientServerData;
+import model.Client;
+import model.ClientDialog;
+import model.ClientServerData;
 
 /**
  * 

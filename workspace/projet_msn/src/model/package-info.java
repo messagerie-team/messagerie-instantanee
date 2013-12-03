@@ -3,4 +3,4 @@
  * Les entités Client / Serveur.
  * Les différents threads de communications / écoutes
  */
-package clientServer;
+package model;

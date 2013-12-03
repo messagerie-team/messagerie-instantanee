@@ -6,11 +6,12 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import model.Client;
+import model.ClientDialog;
+import model.ClientServerData;
+
 import org.junit.Test;
 
-import clientServer.Client;
-import clientServer.ClientDialog;
-import clientServer.ClientServerData;
 import dataLink.ProtocolTCP;
 /**
  * 

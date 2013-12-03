@@ -11,9 +11,9 @@ import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.JList;
 
-import clientServer.Client;
-import clientServer.ClientDialog;
-import clientServer.ClientServerData;
+import model.Client;
+import model.ClientDialog;
+import model.ClientServerData;
 /**
  * 
  * @author Dorian, Mickaël, Raphaël, Thibault
