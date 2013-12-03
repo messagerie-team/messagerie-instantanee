@@ -47,7 +47,6 @@ public class AddClientUI
 			@Override
 			public void run()
 			{
-				// TODO Auto-generated method stub
 				HashMap<String, String> listTemp = new HashMap<>(client.getClientList());
 				while (true)
 				{
@@ -61,8 +60,7 @@ public class AddClientUI
 						Thread.sleep(500);
 					} catch (InterruptedException e)
 					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						//e.printStackTrace();
 					}
 				}
 			}
@@ -107,28 +105,24 @@ public class AddClientUI
 			@Override
 			public void mouseReleased(MouseEvent e)
 			{
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e)
 			{
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e)
 			{
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e)
 			{
-				// TODO Auto-generated method stub
 
 			}
 
