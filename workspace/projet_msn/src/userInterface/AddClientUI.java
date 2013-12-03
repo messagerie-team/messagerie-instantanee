@@ -28,7 +28,7 @@ public class AddClientUI
 	public static HashMap<String, String> clientList;
 	private static Set<String> keyClientList;
 	private static Vector<JListData> SimpleClientList;
-	public static JList<JListData> listTest;
+	public static JList<JListData> displayList;
 
 	/**
 	 * Création de la fenêtre principale.
@@ -86,9 +86,9 @@ public class AddClientUI
 			SimpleClientList.add(clientListData);
 		}
 		System.out.println("nouvelle list" + SimpleClientList);
-		listTest.setListData(SimpleClientList);
-		getMainFrame().getContentPane().add(listTest, BorderLayout.CENTER);
-		listTest.setVisible(true);
+		displayList.setListData(SimpleClientList);
+		getMainFrame().getContentPane().add(displayList, BorderLayout.CENTER);
+		displayList.setVisible(true);
 	}
 
 	/**
@@ -98,10 +98,10 @@ public class AddClientUI
 	{
 		setMainFrame(new JFrame("Ajout"));
 
-		listTest = new JList<JListData>();
-		listTest.setListData(new Vector<JListData>());
-		listTest.updateUI();
-		listTest.addMouseListener(new MouseListener()
+		displayList = new JList<JListData>();
+		displayList.setListData(new Vector<JListData>());
+		displayList.updateUI();
+		displayList.addMouseListener(new MouseListener()
 		{
 
 			@Override
@@ -138,7 +138,7 @@ public class AddClientUI
 				if (e.getClickCount() == 2)
 				{
 					System.out.println("dbclick");
-					JListData clientList = AddClientUI.listTest.getSelectedValue();
+					JListData clientList = AddClientUI.displayList.getSelectedValue();
 					if (clientList != null)
 					{
 						ClientServerUI.client.addClientToDialog(clientList.getKey(), dialog);
