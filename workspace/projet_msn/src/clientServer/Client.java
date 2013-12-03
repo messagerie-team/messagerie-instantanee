@@ -5,7 +5,7 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import dataLink.Protocol;
 import dataLink.ProtocolUDP;
@@ -41,7 +41,7 @@ public class Client extends AbstractClientServer
 	 * 
 	 * @see ClientDialog
 	 */
-	private Vector<ClientDialog> dialogs;
+	private ArrayList<ClientDialog> dialogs;
 	/**
 	 * Numéro du port d'écoute UDP du client
 	 */
@@ -98,7 +98,7 @@ public class Client extends AbstractClientServer
 		this.listeningUDPPort = listeningUDPPort;
 		this.protocol = new ProtocolUDP(listeningUDPPort);
 		this.clientList = new HashMap<String, String>();
-		this.dialogs = new Vector<ClientDialog>();
+		this.dialogs = new ArrayList<ClientDialog>();
 		this.ipServer = ipServer;
 		this.udpServerPort = 30971;
 		this.tcpServerPort = 30970;
@@ -130,7 +130,7 @@ public class Client extends AbstractClientServer
 		this.listeningUDPPort = listeningUDPPort;
 		this.protocol = new ProtocolUDP(listeningUDPPort);
 		this.clientList = new HashMap<String, String>();
-		this.dialogs = new Vector<ClientDialog>();
+		this.dialogs = new ArrayList<ClientDialog>();
 		this.ipServer = ipServer;
 		this.udpServerPort = udpServerPort;
 		this.tcpServerPort = tcpServerPort;
@@ -236,7 +236,7 @@ public class Client extends AbstractClientServer
 			boolean alreadyDone = false;
 			for (ClientDialog dialog : this.dialogs)
 			{
-				if (dialog.getClients().size() == 1 && dialog.getClients().firstElement().getId().equals(clientId))
+				if (dialog.getClients().size() == 1 && dialog.getClients().get(0).getId().equals(clientId))
 				{
 					alreadyDone = true;
 					// Si la conversation existe et que on souhaite en démarrer
@@ -263,7 +263,7 @@ public class Client extends AbstractClientServer
 				// Si on les a bien reçu on démarre une conversation
 				if (this.getClients().size() != sizeClients)
 				{
-					this.startDialogToClient(this.getClients().lastElement());
+					this.startDialogToClient(this.getClients().get(this.getClients().size() - 1));
 				}
 			}
 		} catch (InterruptedException e)
@@ -289,7 +289,7 @@ public class Client extends AbstractClientServer
 			boolean alreadyDone = false;
 			for (ClientDialog dialog : this.dialogs)
 			{
-				if (dialog.getClients().size() == 1 && dialog.getClients().firstElement().getId().equals(client.getId()))
+				if (dialog.getClients().size() == 1 && dialog.getClients().get(0).getId().equals(client.getId()))
 				{
 					alreadyDone = true;
 				}
@@ -356,7 +356,7 @@ public class Client extends AbstractClientServer
 					Thread.sleep(200);
 					cpt++;
 				}
-				clientAdd = this.getClients().lastElement();
+				clientAdd = this.getClients().get(this.getClients().size() - 1);
 			}
 
 			if (clientAdd != null)
@@ -379,8 +379,8 @@ public class Client extends AbstractClientServer
 			}
 		} catch (InterruptedException e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("Erreur d'ajout d'un client, message : " + e.getMessage());
+			// e.printStackTrace();
 		}
 	}
 
@@ -682,13 +682,12 @@ public class Client extends AbstractClientServer
 										// conversation
 										if (this.getClients().size() != sizeClients)
 										{
-											dialog.addClient(this.getClients().lastElement());
+											dialog.addClient(this.getClients().get(this.getClients().size()-1));
 											// this.startDialogToClient(this.getClients().lastElement());
 										}
 									} catch (InterruptedException e)
 									{
-										// TODO Auto-generated catch block
-										e.printStackTrace();
+										System.err.println("Erreur d'ajout d'un client a une conversation, message : "+e.getMessage());
 									}
 								}
 							}
@@ -859,7 +858,7 @@ public class Client extends AbstractClientServer
 	 * 
 	 * @return dialogs liste de dialogues
 	 */
-	public Vector<ClientDialog> getDialogs()
+	public ArrayList<ClientDialog> getDialogs()
 	{
 		return dialogs;
 	}
@@ -870,7 +869,7 @@ public class Client extends AbstractClientServer
 	 * @param dialogs
 	 *            liste de dialogues
 	 */
-	public void setDialogs(Vector<ClientDialog> dialogs)
+	public void setDialogs(ArrayList<ClientDialog> dialogs)
 	{
 		this.dialogs = dialogs;
 	}
@@ -1028,7 +1027,7 @@ public class Client extends AbstractClientServer
 				sc.reset();
 				System.out.println("Message:");
 				String mes = sc.nextLine();
-				client.sendMessageToClient(mes, client.dialogs.firstElement().getIdDialog());
+				client.sendMessageToClient(mes, client.dialogs.get(0).getIdDialog());
 				break;
 			case "refrech":
 				break;

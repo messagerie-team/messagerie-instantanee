@@ -2,7 +2,7 @@ package clientServer;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.Vector;
+import java.util.ArrayList;
 import dataLink.Protocol;
 
 /**
@@ -27,7 +27,7 @@ public class ClientDialog
 	 * 
 	 * @see ClientServerData
 	 */
-	private Vector<ClientServerData> clients;
+	private ArrayList<ClientServerData> clients;
 	/**
 	 * Protocol permettant au dialogue de communiquer.
 	 * 
@@ -60,7 +60,7 @@ public class ClientDialog
 		this.client = client;
 		SecureRandom random = new SecureRandom();
 		this.idDialog = new BigInteger(130, random).toString(32);
-		this.clients = new Vector<ClientServerData>();
+		this.clients = new ArrayList<ClientServerData>();
 		this.protocol = protocol;
 		this.dialogue = "";
 		this.inUse = true;
@@ -80,7 +80,7 @@ public class ClientDialog
 	{
 		this.client = client;
 		this.idDialog = idDialog;
-		this.clients = new Vector<ClientServerData>();
+		this.clients = new ArrayList<ClientServerData>();
 		this.protocol = protocol;
 		this.dialogue = "";
 		this.lastMessage = "";
@@ -189,7 +189,7 @@ public class ClientDialog
 	 * 
 	 * @return clients la liste des clients qui le client voit
 	 */
-	public Vector<ClientServerData> getClients()
+	public ArrayList<ClientServerData> getClients()
 	{
 		return clients;
 	}
@@ -199,7 +199,7 @@ public class ClientDialog
 	 * 
 	 * @param clients la liste des clients que l'on veut ajouter
 	 */
-	public void setClients(Vector<ClientServerData> clients)
+	public void setClients(ArrayList<ClientServerData> clients)
 	{
 		this.clients = clients;
 	}

@@ -1,6 +1,6 @@
 package clientServer;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * Classe abstraite permettant de représenter un client ou un serveur
@@ -14,14 +14,14 @@ public abstract class AbstractClientServer
 	 * 
 	 * @see ClientServerData
 	 */
-	private Vector<ClientServerData> clients;
+	private ArrayList<ClientServerData> clients;
 
 	/**
 	 * Constructeur par défaut. Initialise la liste des clients.
 	 */
 	public AbstractClientServer()
 	{
-		this.clients = new Vector<ClientServerData>();
+		this.clients = new ArrayList<ClientServerData>();
 	}
 
 	/**
@@ -31,7 +31,7 @@ public abstract class AbstractClientServer
 	 * @param clients liste des clients
 	 * @see ClientServerData
 	 */
-	public AbstractClientServer(Vector<ClientServerData> clients)
+	public AbstractClientServer(ArrayList<ClientServerData> clients)
 	{
 		this.clients = clients;
 	}
@@ -39,9 +39,9 @@ public abstract class AbstractClientServer
 	/**
 	 * Getter qui retourne la liste de Client
 	 * 
-	 * @return Vector liste des clients connue des sous classes
+	 * @return ArrayList liste des clients connue des sous classes
 	 */
-	public Vector<ClientServerData> getClients()
+	public ArrayList<ClientServerData> getClients()
 	{
 		return clients;
 	}
@@ -50,7 +50,7 @@ public abstract class AbstractClientServer
 	 * 
 	 * @param clients liste de client
 	 */
-	public void setClients(Vector<ClientServerData> clients)
+	public void setClients(ArrayList<ClientServerData> clients)
 	{
 		this.clients = clients;
 	}

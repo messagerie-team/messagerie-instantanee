@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.Box;
@@ -22,6 +23,7 @@ import javax.swing.border.EmptyBorder;
 import clientServer.Client;
 import clientServer.ClientDialog;
 import clientServer.ClientServerData;
+
 /**
  * 
  * @author Dorian, Mickaël, Raphaël, Thibault
@@ -46,14 +48,12 @@ public class DialogUI extends JFrame
 	{
 		this.client = clientServer;
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		/*this.addWindowListener(new java.awt.event.WindowAdapter()
-		{
-			@Override
-			public void windowClosing(java.awt.event.WindowEvent windowEvent)
-			{
-				setVisible(false);
-			}
-		});*/
+		/*
+		 * this.addWindowListener(new java.awt.event.WindowAdapter() {
+		 * 
+		 * @Override public void windowClosing(java.awt.event.WindowEvent
+		 * windowEvent) { setVisible(false); } });
+		 */
 		this.setBounds(100, 100, 600, 400);
 		this.setMinimumSize(new Dimension(300, 350));
 		this.contentPane = new JPanel();
@@ -68,10 +68,10 @@ public class DialogUI extends JFrame
 
 		Box topBox = Box.createHorizontalBox();
 
-		//JPanel panelListDialog = new JPanel();
-		//panelListDialog.setMinimumSize(new Dimension(300, 200));
-		//panelListDialog.setMaximumSize(new Dimension(300, 1000));
-		//panelListDialog.setLayout(new BorderLayout(0, 0));
+		// JPanel panelListDialog = new JPanel();
+		// panelListDialog.setMinimumSize(new Dimension(300, 200));
+		// panelListDialog.setMaximumSize(new Dimension(300, 1000));
+		// panelListDialog.setLayout(new BorderLayout(0, 0));
 
 		this.simpleDialogtList = new Vector<JListData>();
 		this.jDialogList = new JList<JListData>(this.simpleDialogtList);
@@ -82,7 +82,7 @@ public class DialogUI extends JFrame
 		JScrollPane dialogList = new JScrollPane(this.jDialogList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		dialogList.setMinimumSize(new Dimension(120, 260));
 		dialogList.setMaximumSize(new Dimension(120, 3000));
-		
+
 		Component topSpaceBorderVertical = Box.createHorizontalStrut(20);
 		topSpaceBorderVertical.setPreferredSize(new Dimension(5, 0));
 
@@ -157,7 +157,7 @@ public class DialogUI extends JFrame
 				{
 					JListData dialogListElement = jDialogList.getSelectedValue();
 					String idDialog = dialogListElement.getKey();
-					Vector<ClientDialog> listDialog = client.getDialogs();
+					ArrayList<ClientDialog> listDialog = client.getDialogs();
 					ClientDialog dialog = null;
 					for (ClientDialog clientDialog : listDialog)
 					{
@@ -195,7 +195,7 @@ public class DialogUI extends JFrame
 		buttonAddClient.setBorder(new EmptyBorder(5, 5, 5, 5));
 		buttonCloseDialog.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		//panelListDialog.add(this.jDialogList, BorderLayout.CENTER);
+		// panelListDialog.add(this.jDialogList, BorderLayout.CENTER);
 		dialogList.setPreferredSize(new Dimension(120, 280));
 		topBox.add(dialogList);
 		topBox.add(topSpaceBorderVertical);
@@ -222,12 +222,12 @@ public class DialogUI extends JFrame
 			@Override
 			public void run()
 			{
-				Vector<ClientDialog> temp = new Vector<ClientDialog>(client.getDialogs());
+				ArrayList<ClientDialog> temp = new ArrayList<ClientDialog>(client.getDialogs());
 				while (true)
 				{
 					if (!temp.equals(client.getDialogs()))
 					{
-						temp = new Vector<ClientDialog>(client.getDialogs());
+						temp = new ArrayList<ClientDialog>(client.getDialogs());
 						refreshList();
 					} else
 					{
@@ -287,7 +287,7 @@ public class DialogUI extends JFrame
 					{
 						JListData dialog = jDialogList.getSelectedValue();
 						String idDialog = dialog.getKey();
-						Vector<ClientDialog> listDialog = client.getDialogs();
+						ArrayList<ClientDialog> listDialog = client.getDialogs();
 						String textDialog = "";
 						for (ClientDialog clientDialog : listDialog)
 						{
@@ -314,7 +314,7 @@ public class DialogUI extends JFrame
 
 	public void refreshList()
 	{
-		this.dialogList = this.client.getDialogs();
+		this.dialogList = new Vector<ClientDialog>(this.client.getDialogs());
 		this.simpleDialogtList = new Vector<JListData>();
 		JListData sauvDialog = this.jDialogList.getSelectedValue();
 		int indiceClient = -1;
@@ -324,7 +324,7 @@ public class DialogUI extends JFrame
 			if (dialog.isInUse())
 			{
 				String idDialog = dialog.getIdDialog();
-				Vector<ClientServerData> clients = dialog.getClients();
+				ArrayList<ClientServerData> clients = dialog.getClients();
 				String clientstring = "";
 				for (int i = 0; i < clients.size(); i++)
 				{

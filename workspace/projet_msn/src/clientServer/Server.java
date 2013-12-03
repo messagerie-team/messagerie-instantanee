@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -113,7 +113,7 @@ public class Server extends AbstractClientServer
                                         try
                                         {
                                                 Thread.sleep(1000);
-                                                Vector<ClientServerData> copyClients = new Vector<ClientServerData>(getClients());
+                                                ArrayList<ClientServerData> copyClients = new ArrayList<ClientServerData>(getClients());
                                                 for (ClientServerData client : copyClients)
                                                 {
                                                         int ttl = clientTTL.get(client);
