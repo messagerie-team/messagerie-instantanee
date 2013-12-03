@@ -67,7 +67,7 @@ public abstract class Protocol
 	/**
 	 * Setter qui fixe le port local
 	 * 
-	 * @param localPortavoir port local
+	 * @param localPort port de communication
 	 *           
 	 */
 	public void setLocalPort(int localPort)

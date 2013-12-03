@@ -200,7 +200,7 @@ public class ProtocolUDP extends Protocol
 	/**
 	 * Setter qui fixe le dernier port utilisé
 	 * 
-	 * @param lastPortavoir dernier port utilisé
+	 * @param lastPort dernier port par lequel on a reçu un message
 	 *           
 	 */
 	public void setLastPort(int lastPort)
@@ -221,7 +221,7 @@ public class ProtocolUDP extends Protocol
 	/**
 	 * Setter qui fixe la dernière adresse utilisée
 	 * 
-	 * @param lastPortavoir dernière adresse utilisée
+	 * @param lastAdress dernière adresse utilisée pour l'envoie de message
 	 *           
 	 */
 	public void setLastAdress(InetAddress lastAdress)
