@@ -41,7 +41,7 @@ public class ClientServerUI
 
 	protected static HashMap<String, String> clientList;
 	private static Set<String> keyClientList;
-	private static Vector<JListData> SimpleClientList;
+	private static Vector<JListData> simpleClientList;
 	protected static JList<JListData> jClientList;
 
 	private ClientServerListener listenerMenu;
@@ -156,14 +156,14 @@ public class ClientServerUI
 			connectionPanel.setVisible(false);
 			clientList = client.getClientList();
 			keyClientList = clientList.keySet();
-			SimpleClientList = new Vector<JListData>();
+			simpleClientList = new Vector<JListData>();
 
 			for (String key : keyClientList)
 			{
 				JListData clientListData = new JListData(key, clientList.get(key));
-				SimpleClientList.add(clientListData);
+				simpleClientList.add(clientListData);
 			}
-			jClientList.setListData(SimpleClientList);
+			jClientList.setListData(simpleClientList);
 			getMainFrame().getContentPane().add(jClientList, BorderLayout.CENTER);
 			jClientList.setVisible(true);
 		} else
