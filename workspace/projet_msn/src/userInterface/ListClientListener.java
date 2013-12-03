@@ -14,7 +14,6 @@ public class ListClientListener implements MouseListener
 	{
 		if (e.getClickCount() == 2)
 		{
-			System.out.println("dbclick");
 			JListData clientList = ClientServerUI.jClientList.getSelectedValue();
 			if (clientList != null)
 			{
@@ -27,28 +26,24 @@ public class ListClientListener implements MouseListener
 	@Override
 	public void mouseEntered(MouseEvent arg0)
 	{
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0)
 	{
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mousePressed(MouseEvent arg0)
 	{
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0)
 	{
-		// TODO Auto-generated method stub
 
 	}
 
