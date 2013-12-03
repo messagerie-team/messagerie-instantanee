@@ -173,7 +173,8 @@ public class ThreadComunicationServer extends Thread
 
 	/**
 	 * Méthode permettant traiter le processus de desenregistrement
-	 * {@link #messageTraitementReply(String, StringTokenizer) #messageTraitementRequest(String, StringTokenizer)}
+	 * {@link #messageTraitementReply(String, StringTokenizer)}
+	 * {@link #messageTraitementRequest(String, StringTokenizer)}
 	 * @param token
 	 */
 	private void unregisterClient(StringTokenizer token)
@@ -193,7 +194,8 @@ public class ThreadComunicationServer extends Thread
 
 	/**
 	 * Méthode permettant de gérer le processus d'enregistrement.
-	 * {@link #messageTraitementReply(String, StringTokenizer) #messageTraitementRequest(String, StringTokenizer)}
+	 * {@link #messageTraitementReply(String, StringTokenizer)}
+	 * {@link #messageTraitementRequest(String, StringTokenizer)}
 	 * @param token
 	 */
 	private void registerClient(StringTokenizer token)
@@ -286,7 +288,8 @@ public class ThreadComunicationServer extends Thread
 	/**
 	 * Méthode permettant de gérer le processus de demande de list Client au
 	 * serveur.
-	 * {@link #messageTraitementReply(String, StringTokenizer) #messageTraitementRequest(String, StringTokenizer)}
+	 * {@link #messageTraitementReply(String, StringTokenizer)}
+	 * {@link #messageTraitementRequest(String, StringTokenizer)}
 	 * @param token
 	 */
 	public void askListClient(StringTokenizer token)
@@ -303,7 +306,8 @@ public class ThreadComunicationServer extends Thread
 	/**
 	 * Méthode permettant de gérer le processus de demande d'information de
 	 * connection client.
-	 * {@link #messageTraitementReply(String, StringTokenizer) #messageTraitementRequest(String, StringTokenizer)}
+	 * {@link #messageTraitementReply(String, StringTokenizer)}
+	 * {@link #messageTraitementRequest(String, StringTokenizer)}
 	 * @param token
 	 */
 	public void getClientConnection(StringTokenizer token)
