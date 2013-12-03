@@ -504,6 +504,14 @@ public class Server extends AbstractClientServer
 				server.stopServer();
 				running = false;
 				break;
+			case "ADD LOGIN":
+				System.out.println("login :");
+				String login = sc.nextLine();
+				System.out.println("Password :");
+				String pass = sc.nextLine();
+				server.registerClientInBase(login, pass);
+				System.out.println("OK");
+				break;
 			default:
 				break;
 			}
