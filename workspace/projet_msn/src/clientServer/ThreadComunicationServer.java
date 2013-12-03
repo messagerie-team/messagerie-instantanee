@@ -8,12 +8,11 @@ import dataLink.Protocol;
 import dataLink.ProtocolTCP;
 
 /**
- * 
- * @author Dorian, Mickaël, Raphaël, Thibault
- * 
  *         Thread de comunication d'un serveur vers un client. Il permet de
  *         gérer les demandes client. Connection, Déconnection, demande de lien
  *         etc...
+ *         
+ *         @author Dorian, Mickaël, Raphaël, Thibault
  * 
  */
 public class ThreadComunicationServer extends Thread
@@ -116,7 +115,7 @@ public class ThreadComunicationServer extends Thread
 
 	/**
 	 * Méthode permettant de traiter les demandes d'un serveur.
-	 * 
+	 * {@link #messageTraitement(String)}
 	 * @see Server
 	 * @param message
 	 * @param token
@@ -144,7 +143,7 @@ public class ThreadComunicationServer extends Thread
 
 	/**
 	 * Message permettant de traiter les réponses d'un serveur.
-	 * 
+	 * {@link #messageTraitement(String)}
 	 * @see Server
 	 * @param message
 	 * @param token
@@ -174,7 +173,7 @@ public class ThreadComunicationServer extends Thread
 
 	/**
 	 * Méthode permettant traiter le processus de desenregistrement
-	 * 
+	 * {@link #messageTraitementReply(String, StringTokenizer) #messageTraitementRequest(String, StringTokenizer)}
 	 * @param token
 	 */
 	private void unregisterClient(StringTokenizer token)
@@ -194,7 +193,7 @@ public class ThreadComunicationServer extends Thread
 
 	/**
 	 * Méthode permettant de gérer le processus d'enregistrement.
-	 * 
+	 * {@link #messageTraitementReply(String, StringTokenizer) #messageTraitementRequest(String, StringTokenizer)}
 	 * @param token
 	 */
 	private void registerClient(StringTokenizer token)
@@ -290,7 +289,7 @@ public class ThreadComunicationServer extends Thread
 	/**
 	 * Méthode permettant de gérer le processus de demande de list Client au
 	 * serveur.
-	 * 
+	 * {@link #messageTraitementReply(String, StringTokenizer) #messageTraitementRequest(String, StringTokenizer)}
 	 * @param token
 	 */
 	public void askListClient(StringTokenizer token)
@@ -307,7 +306,7 @@ public class ThreadComunicationServer extends Thread
 	/**
 	 * Méthode permettant de gérer le processus de demande d'information de
 	 * connection client.
-	 * 
+	 * {@link #messageTraitementReply(String, StringTokenizer) #messageTraitementRequest(String, StringTokenizer)}
 	 * @param token
 	 */
 	public void getClientConnection(StringTokenizer token)
@@ -355,31 +354,64 @@ public class ThreadComunicationServer extends Thread
 		this.running = false;
 	}
 
+	/**
+	 * Getter du socket du thread
+	 * 
+	 * @return le socket utilisé
+	 */
 	public Socket getSocket()
 	{
 		return socket;
 	}
 
+	/**
+	 * Setter qui fixe le socket du thread
+	 * 
+	 * @param socket
+	 *            le socket que l'on souhaite utilisé pour le thread
+	 */
 	public void setSocket(Socket socket)
 	{
 		this.socket = socket;
 	}
 
+	/**
+	 * Getter du protocol du thread
+	 * 
+	 * @return le protocol utilisé
+	 */
 	public Protocol getProtocol()
 	{
 		return protocol;
 	}
 
+	/**
+	 * Setter qui fixe le protocol du thread
+	 * 
+	 * @param protocol
+	 *            protocol que l'on souhaite utiliser
+	 */
 	public void setProtocol(Protocol protocol)
 	{
 		this.protocol = protocol;
 	}
 
+	/**
+	 * Getter pour savoir si le thread est en route ou non
+	 * 
+	 * @return l'état du thread, vrai pour en marche, faux sinon
+	 */
 	public boolean isRunning()
 	{
 		return running;
 	}
 
+	/**
+	 * Setter qui fixe si le thread est en exécution ou non
+	 * 
+	 * @param running
+	 *            vrai pour le mettre en route faux sinon
+	 */
 	public void setRunning(boolean running)
 	{
 		this.running = running;
