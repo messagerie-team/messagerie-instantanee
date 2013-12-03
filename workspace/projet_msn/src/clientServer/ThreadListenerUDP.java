@@ -6,7 +6,8 @@ import java.net.UnknownHostException;
 import dataLink.Protocol;
 
 /**
- * 
+ * 		   Thread d'écoute UDP du serveur. Permet de recevoir les messages des
+ *         clients et les listes du serveur.
  * @author Dorian, Mickaël, Raphaël, Thibault
  *
  */
@@ -67,6 +68,9 @@ public class ThreadListenerUDP extends Thread
 		}
 	}
 
+	/**
+	 * Méthode permettant d'arrêter le thread proprement
+	 */
 	public void stopThread()
 	{
 		try
