@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /** 
- *         Thread d'écoute du serveur. Permet de recevoir les connections des
+ *         Thread d'écoute TCP du serveur. Permet de recevoir les connections des
  *         clients. Si un client se connecte, un nouveau thread est lancé pour
  *         communiquer avec. Sinon cela voudrait dire que le serveur est bloqué
  *         tant que le client n'a pas fini ce qu'il voulait faire. Du coup cela
