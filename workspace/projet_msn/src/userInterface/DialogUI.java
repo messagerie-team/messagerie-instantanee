@@ -34,8 +34,8 @@ public class DialogUI extends JFrame
 	private Client client;
 
 	private Vector<ClientDialog> dialogList;
-	private Vector<ClientListData> simpleDialogtList;
-	private JList<ClientListData> jDialogList;
+	private Vector<JListData> simpleDialogtList;
+	private JList<JListData> jDialogList;
 	private JTextArea textAreaDialog;
 	private JTextArea textAreaSaisie;
 
@@ -73,8 +73,8 @@ public class DialogUI extends JFrame
 		//panelListDialog.setMaximumSize(new Dimension(300, 1000));
 		//panelListDialog.setLayout(new BorderLayout(0, 0));
 
-		this.simpleDialogtList = new Vector<ClientListData>();
-		this.jDialogList = new JList<ClientListData>(this.simpleDialogtList);
+		this.simpleDialogtList = new Vector<JListData>();
+		this.jDialogList = new JList<JListData>(this.simpleDialogtList);
 		this.jDialogList.setPreferredSize(new Dimension(110, 250));
 		this.jDialogList.setMinimumSize(new Dimension(110, 250));
 		this.jDialogList.setMaximumSize(new Dimension(1000, 3000));
@@ -155,7 +155,7 @@ public class DialogUI extends JFrame
 				// hideDialog();
 				if (jDialogList.getSelectedValue() != null)
 				{
-					ClientListData dialogListElement = jDialogList.getSelectedValue();
+					JListData dialogListElement = jDialogList.getSelectedValue();
 					String idDialog = dialogListElement.getKey();
 					Vector<ClientDialog> listDialog = client.getDialogs();
 					ClientDialog dialog = null;
@@ -285,7 +285,7 @@ public class DialogUI extends JFrame
 				{
 					if (!jDialogList.isSelectionEmpty())
 					{
-						ClientListData dialog = jDialogList.getSelectedValue();
+						JListData dialog = jDialogList.getSelectedValue();
 						String idDialog = dialog.getKey();
 						Vector<ClientDialog> listDialog = client.getDialogs();
 						String textDialog = "";
@@ -315,8 +315,8 @@ public class DialogUI extends JFrame
 	public void refreshList()
 	{
 		this.dialogList = this.client.getDialogs();
-		this.simpleDialogtList = new Vector<ClientListData>();
-		ClientListData sauvDialog = this.jDialogList.getSelectedValue();
+		this.simpleDialogtList = new Vector<JListData>();
+		JListData sauvDialog = this.jDialogList.getSelectedValue();
 		int indiceClient = -1;
 		int cpt = 0;
 		for (ClientDialog dialog : this.dialogList)
@@ -330,7 +330,7 @@ public class DialogUI extends JFrame
 				{
 					clientstring += ((i == 0) ? "" : ", ") + clients.get(i).getName();
 				}
-				ClientListData clientListData = new ClientListData(idDialog, clientstring);
+				JListData clientListData = new JListData(idDialog, clientstring);
 				this.simpleDialogtList.add(clientListData);
 				if (sauvDialog != null && sauvDialog.equals(clientListData))
 				{
@@ -361,7 +361,7 @@ public class DialogUI extends JFrame
 	{
 		if (this.jDialogList.getSelectedValue() != null)
 		{
-			ClientListData dialog = this.jDialogList.getSelectedValue();
+			JListData dialog = this.jDialogList.getSelectedValue();
 			String message = this.textAreaSaisie.getText();
 			String[] messagesSplit = message.split("[\r\n]");
 			message = "";
@@ -378,7 +378,7 @@ public class DialogUI extends JFrame
 	{
 		if (this.jDialogList.getSelectedValue() != null)
 		{
-			ClientListData dialog = this.jDialogList.getSelectedValue();
+			JListData dialog = this.jDialogList.getSelectedValue();
 			this.client.hideDialog(dialog.getKey());
 			this.textAreaSaisie.setText("");
 			this.textAreaDialog.setText("");

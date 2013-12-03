@@ -27,8 +27,8 @@ public class AddClientUI
 
 	public static HashMap<String, String> clientList;
 	private static Set<String> keyClientList;
-	private static Vector<ClientListData> SimpleClientList;
-	public static JList<ClientListData> listTest;
+	private static Vector<JListData> SimpleClientList;
+	public static JList<JListData> listTest;
 
 	/**
 	 * Création de la fenêtre principale.
@@ -73,7 +73,7 @@ public class AddClientUI
 	{
 		clientList = client.getClientList();
 		keyClientList = clientList.keySet();
-		SimpleClientList = new Vector<ClientListData>();
+		SimpleClientList = new Vector<JListData>();
 
 		for (ClientServerData client : dialog.getClients())
 		{
@@ -82,7 +82,7 @@ public class AddClientUI
 
 		for (String key : keyClientList)
 		{
-			ClientListData clientListData = new ClientListData(key, clientList.get(key));
+			JListData clientListData = new JListData(key, clientList.get(key));
 			SimpleClientList.add(clientListData);
 		}
 		System.out.println("nouvelle list" + SimpleClientList);
@@ -98,8 +98,8 @@ public class AddClientUI
 	{
 		setMainFrame(new JFrame("Ajout"));
 
-		listTest = new JList<ClientListData>();
-		listTest.setListData(new Vector<ClientListData>());
+		listTest = new JList<JListData>();
+		listTest.setListData(new Vector<JListData>());
 		listTest.updateUI();
 		listTest.addMouseListener(new MouseListener()
 		{
@@ -138,7 +138,7 @@ public class AddClientUI
 				if (e.getClickCount() == 2)
 				{
 					System.out.println("dbclick");
-					ClientListData clientList = AddClientUI.listTest.getSelectedValue();
+					JListData clientList = AddClientUI.listTest.getSelectedValue();
 					if (clientList != null)
 					{
 						ClientServerUI.client.addClientToDialog(clientList.getKey(), dialog);

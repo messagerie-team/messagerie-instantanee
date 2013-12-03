@@ -9,14 +9,14 @@ import javax.swing.JComponent;
  * @author Dorian, Mickaël, Raphaël, Thibault
  * 
  */
-public class ClientListData extends JComponent implements Entry<String, String>
+public class JListData extends JComponent implements Entry<String, String>
 {
 
 	private static final long serialVersionUID = 7871773513120449008L;
 	private final String key;
 	private String value;
 
-	public ClientListData(String key, String value)
+	public JListData(String key, String value)
 	{
 		this.key = key;
 		this.value = value;
@@ -50,16 +50,16 @@ public class ClientListData extends JComponent implements Entry<String, String>
 	@Override
 	public boolean equals(Object obj)
 	{
-		if (!(obj instanceof ClientListData))
+		if (!(obj instanceof JListData))
 		{
 			return false;
 		} else if (obj == this)
 		{
 			return true;
-		} else if (!this.key.equals(((ClientListData) obj).key))
+		} else if (!this.key.equals(((JListData) obj).key))
 		{
 			return false;
-		} else if (!this.value.equals(((ClientListData) obj).value))
+		} else if (!this.value.equals(((JListData) obj).value))
 		{
 			return false;
 		}

@@ -41,8 +41,8 @@ public class ClientServerUI
 
 	protected static HashMap<String, String> clientList;
 	private static Set<String> keyClientList;
-	private static Vector<ClientListData> SimpleClientList;
-	protected static JList<ClientListData> jClientList;
+	private static Vector<JListData> SimpleClientList;
+	protected static JList<JListData> jClientList;
 
 	private ClientServerListener listenerMenu;
 	private ListClientListener listenerList;
@@ -156,11 +156,11 @@ public class ClientServerUI
 			connectionPanel.setVisible(false);
 			clientList = client.getClientList();
 			keyClientList = clientList.keySet();
-			SimpleClientList = new Vector<ClientListData>();
+			SimpleClientList = new Vector<JListData>();
 
 			for (String key : keyClientList)
 			{
-				ClientListData clientListData = new ClientListData(key, clientList.get(key));
+				JListData clientListData = new JListData(key, clientList.get(key));
 				SimpleClientList.add(clientListData);
 			}
 			jClientList.setListData(SimpleClientList);
@@ -183,8 +183,8 @@ public class ClientServerUI
 
 		getMainFrame().getContentPane().add(menuBar, BorderLayout.NORTH);
 		getMainFrame().getContentPane().add(connectionPanel, BorderLayout.CENTER);
-		jClientList = new JList<ClientListData>();
-		jClientList.setListData(new Vector<ClientListData>());
+		jClientList = new JList<JListData>();
+		jClientList.setListData(new Vector<JListData>());
 		jClientList.updateUI();
 		jClientList.addMouseListener(listenerList);
 
