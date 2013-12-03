@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -28,8 +29,9 @@ import dataLink.ProtocolUDP;
 
 /**
  * Classe permettant de représenter un serveur. Extends de la classe
- *           AbstractClientServer.
- * @author Dorian, Mickaël, Raphaël, Thibault
+ * AbstractClientServer.
+ * 
+ * @author Dorian, Mickaël, Raphaël, Thibaultl
  * @see AbstractClientServer
  */
 public class Server extends AbstractClientServer
@@ -76,13 +78,13 @@ public class Server extends AbstractClientServer
                 this.clientTTL = new HashMap<ClientServerData, Integer>();
         }
 
-    	/**
-    	 * Construct Server(int port) Constructeur de la classe Server. Initialise
-    	 * les variables server,clients et threadListener.
-    	 * 
-    	 * @param port
-    	 * 			numéro de port TCP, le port UDP sera à +1
-    	 */
+        /**
+         * Construct Server(int port) Constructeur de la classe Server. Initialise
+         * les variables server,clients et threadListener.
+         * 
+         * @param port
+         *            numéro de port TCP, le port UDP sera à +1
+         */
         public Server(int port)
         {
                 super();
@@ -138,6 +140,7 @@ public class Server extends AbstractClientServer
          */
         public void stopServer()
         {
+                System.out.println("Fermeture du serveur");
                 this.running = false;
                 this.threadListenerTCP.stopThread();
                 this.threadListenerUDP.stopThread();
@@ -233,17 +236,17 @@ public class Server extends AbstractClientServer
                 }
         }
 
-    	/**
-    	 * Méthode pour ajouté un client
-    	 * 
-    	 * @param name
-    	 *            Nom du client
-    	 * @param client
-    	 *            Socket du client
-    	 * @param listeningUDPPort
-    	 * 			  port UDP sur lequel le client écoute
-    	 * @return une string le clé publique du client ou null.
-    	 */
+        /**
+         * Méthode pour ajouté un client
+         * 
+         * @param name
+         *            Nom du client
+         * @param client
+         *            Socket du client
+         * @param listeningUDPPort
+         *            port UDP sur lequel le client écoute
+         * @return une string de la clé publique du client.
+         */
         public String addClient(String name, Socket client, int listeningUDPPort)
         {
                 ClientServerData newClient = new ClientServerData(name, client.getInetAddress(), listeningUDPPort);
@@ -277,13 +280,14 @@ public class Server extends AbstractClientServer
                 }
         }
 
-    	/**
-    	 * Méthode pour supprimer un client via ses données enregistrées dans ClientServerData
-    	 * 
-    	 * @param client
-    	 *            {@link ClientServerData}
-    	 * @return true si réussit, false sinon
-    	 */
+        /**
+         * Méthode pour supprimer un client via ses données enregistrées dans
+         * ClientServerData
+         * 
+         * @param client
+         *            {@link ClientServerData}
+         * @return true si réussit, false sinon
+         */
         public boolean removeClient(ClientServerData client)
         {
                 boolean ret = this.getClients().remove(client);
@@ -295,13 +299,13 @@ public class Server extends AbstractClientServer
                 return ret;
         }
 
-    	/**
-    	 * Méthode pour supprimer un client à partir de son ID
-    	 * 
-    	 * @param id
-    	 *            Clé publique du client
-    	 * @return true si réussit, false sinon
-    	 */
+        /**
+         * Méthode pour supprimer un client à partir de son ID
+         * 
+         * @param id
+         *            Clé publique du client
+         * @return true si réussit, false sinon
+         */
         public boolean removeClient(String id)
         {
                 boolean erase = false;
@@ -326,13 +330,13 @@ public class Server extends AbstractClientServer
                 return false;
         }
 
-    	/**
-    	 * Méthode pour supprimer un client via son adresse IP
-    	 * 
-    	 * @param ip
-    	 *            Ip du client {@link InetAddress}
-    	 * @return true si reussit, false sinon
-    	 */
+        /**
+         * Méthode pour supprimer un client via son adresse IP
+         * 
+         * @param ip
+         *            Ip du client {@link InetAddress}
+         * @return true si reussit, false sinon
+         */
         public boolean removeClient(InetAddress ip)
         {
                 boolean erase = false;
@@ -351,14 +355,14 @@ public class Server extends AbstractClientServer
                 return erase;
         }
 
-    	/**
-    	 * Getter permettant de recupérer la liste des clients que connaissent le
-    	 * serveur. Cette méthode est utilisée pour renvoyer une liste de clients
-    	 * aux clients.
-    	 * 
-    	 * @return chaîne client sous la forme
-    	 *         "ClePublic-NomCLient,ClePublic-NomClient...."
-    	 */
+        /**
+         * Getter permettant de recupérer la liste des clients que connaissent le
+         * serveur. Cette méthode est utilisée pour renvoyer une liste de clients
+         * aux clients.
+         * 
+         * @return chaîne client sous la forme
+         *         "ClePublic-NomCLient,ClePublic-NomClient...."
+         */
         public String getListClient()
         {
                 String ret = "";
@@ -371,24 +375,25 @@ public class Server extends AbstractClientServer
                 return ret;
         }
 
-    	/**
-    	 * Méthode permettant d'envoyer une liste de clients à un client.
-    	 * 
-    	 * @param client à qui on envoie la liste
-    	 */
+        /**
+         * Méthode permettant d'envoyer une liste de clients à un client.
+         * 
+         * @param client auqyel on envoie la liste
+         */
         public void sendListClient(ClientServerData client)
         {
                 String listClient = this.getListClient();
                 protocol.sendMessage("listClient:" + listClient, client.getIp(), client.getPort());
         }
 
-    	/**
-    	 * Méthode permettant de recupérer les informations d'un client.
-    	 * 
-    	 * @param id clé publique du client
-    	 * @return chaine sous la forme
-    	 *         "ClePublic,NomClient,IpClient,PortEcouteClient"
-    	 */
+        /**
+         * Méthode permettant de recupérer les informations d'un client.
+         * 
+         * @param id
+         *            clé publique du client
+         * @return chaine sous la forme
+         *         "ClePublic,NomClient,IpClient,PortEcouteClient"
+         */
         public String getClient(String id)
         {
                 for (ClientServerData client : this.getClients())
@@ -401,32 +406,33 @@ public class Server extends AbstractClientServer
                 return null;
         }
 
-    	/**
-    	 * Getter du thread d'écoute TCP
-    	 * 
-    	 * @return le thread d'écoute TPC
-    	 */
+        /**
+         * Getter du thread d'écoute TCP
+         * 
+         * @return le thread d'écoute TPC
+         */
         public ThreadListenerTCP getThreadListener()
         {
                 return threadListenerTCP;
         }
 
-    	/**
-    	 * Setter qui fixe le thread d'écoute TPC
-    	 * 
-    	 * @param threadListener
-    	 *            le thread d'écoute TPC
-    	 */
+        /**
+         * Setter qui fixe le thread d'écoute TPC
+         * 
+         * @param threadListener
+         *            le thread d'écoute TPC
+         */
         public void setThreadListener(ThreadListenerTCP threadListener)
         {
                 this.threadListenerTCP = threadListener;
         }
-        
-    	/**
-    	 * Méthode permettant de traiter les éléments reçu en TCP
-    	 * @param object paquet reçu en TCP
-    	 * {@link AbstractClientServer}
-    	 */
+
+        /**
+         * Méthode permettant de traiter les éléments reçu en TCP
+         * 
+         * @param object
+         *            paquet reçu en TCP {@link AbstractClientServer}
+         */
         @Override
         public void treatIncomeTCP(Object object)
         {
@@ -440,11 +446,12 @@ public class Server extends AbstractClientServer
                 }
         }
 
-    	/**
-    	 * Méthode permettant de traiter les éléments reçu en UDP
-    	 * @param message paquet reçu en UDP
-    	 * {@link AbstractClientServer}
-    	 */
+        /**
+         * Méthode permettant de traiter les éléments reçu en UDP
+         * 
+         * @param message
+         *            paquet reçu en UDP {@link AbstractClientServer}
+         */
         @Override
         public void treatIncomeUDP(String message)
         {
@@ -480,12 +487,28 @@ public class Server extends AbstractClientServer
                 }
         }
 
-    	/**
-    	 * Main du programme permet de lancerle serveur
-    	 */
+        /**
+         * Main du programme permet de lancerle serveur
+         */
         public static void main(String[] args)
         {
+                System.out.println("EXIT to quit");
                 Server server = new Server();
                 server.launch();
+                Scanner sc = new Scanner(System.in);
+                boolean running = true;
+                while (running)
+                {
+                        switch (sc.nextLine())
+                        {
+                        case "EXIT":
+                                server.stopServer();
+                                running=false;
+                                break;
+                        default:
+                                break;
+                        }
+                }
+                sc.close();
         }
 }

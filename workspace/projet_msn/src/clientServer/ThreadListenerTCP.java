@@ -8,11 +8,11 @@ import java.net.Socket;
  * 
  * @author Dorian, Mickaël, Raphaël, Thibault
  * 
- * Thread d'écoute du serveur. Permet de recevoir les connections des clients.
- * Si un client se connecte, un nouveau thread est lancé pour communiquer avec.
- * Sinon cela voudrait dire que le serveur est bloqué tant que le client n'a
- * pas fini ce qu'il voulait faire. Du coup cela permet au serveur de dialoguer
- * avec plusieurs clients en même temps.
+ *         Thread d'écoute du serveur. Permet de recevoir les connections des
+ *         clients. Si un client se connecte, un nouveau thread est lancé pour
+ *         communiquer avec. Sinon cela voudrait dire que le serveur est bloqué
+ *         tant que le client n'a pas fini ce qu'il voulait faire. Du coup cela
+ *         permet au serveur de dialoguer avec plusieurs clients en même temps.
  * 
  */
 public class ThreadListenerTCP extends Thread
@@ -28,7 +28,7 @@ public class ThreadListenerTCP extends Thread
 	 */
 	private ServerSocket socket;
 	/**
-	 *  Paramètre permettant d'arrêter le Thread.
+	 * Paramètre permettant d'arrêter le Thread.
 	 */
 	private boolean running;
 
@@ -58,7 +58,7 @@ public class ThreadListenerTCP extends Thread
 	{
 		try
 		{
-			System.out.println("Lancement du Thread d'ecoute");
+			System.out.println("Lancement du Thread d'ecoute TCP");
 			this.running = true;
 			while (running)
 			{
@@ -75,7 +75,10 @@ public class ThreadListenerTCP extends Thread
 			this.socket.close();
 		} catch (Exception e)
 		{
-			System.err.println("Erreur du ThreadListenerTCP, message: " + e.getMessage());
+			if (running)
+			{
+				System.err.println("Erreur du ThreadListenerTCP, message: " + e.getMessage());
+			}
 		}
 	}
 
@@ -84,6 +87,14 @@ public class ThreadListenerTCP extends Thread
 	 */
 	public void stopThread()
 	{
+		try
+		{
+			this.socket.close();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.running = false;
 	}
 
