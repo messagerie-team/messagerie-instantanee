@@ -57,7 +57,6 @@ public class ProtocolUDP extends Protocol
 		try
 		{
 			this.socket = new DatagramSocket(localPort);
-			// this.socketReceive = new DatagramSocket(localPort);
 			byte[] buffer = ("").getBytes();
 			bufferReader = new byte[sizeBufferReader];
 			this.writer = new DatagramPacket(buffer, 0);
@@ -67,7 +66,6 @@ public class ProtocolUDP extends Protocol
 		} catch (SocketException e)
 		{
 			System.err.println("Erreur d'initialisation de ProtocolUDP, message: " + e.getMessage());
-			//e.printStackTrace();
 		}
 	}
 	
@@ -142,7 +140,6 @@ public class ProtocolUDP extends Protocol
 	public void close()
 	{
 		this.socket.close();
-		// this.socketReceive.close();
 	}
 
 	/**
