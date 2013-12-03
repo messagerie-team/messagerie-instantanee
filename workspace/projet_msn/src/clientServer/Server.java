@@ -82,8 +82,8 @@ public class Server extends AbstractClientServer
          * Construct Server(int port) Constructeur de la classe Server. Initialise
          * les variables server,clients et threadListener.
          * 
-         * @param port
-         *            numéro de port TCP, le port UDP sera à +1
+         * @param portPLus1024
+         *            ? numéro de port TCP, le port UDP sera à +1
          */
         public Server(int port)
         {
@@ -239,13 +239,13 @@ public class Server extends AbstractClientServer
         /**
          * Méthode pour ajouté un client
          * 
-         * @param name
+         * @param nameAvoir
          *            Nom du client
          * @param client
          *            Socket du client
          * @param listeningUDPPort
          *            port UDP sur lequel le client écoute
-         * @return une string de la clé publique du client.
+         * @return une string?.
          */
         public String addClient(String name, Socket client, int listeningUDPPort)
         {
@@ -378,7 +378,7 @@ public class Server extends AbstractClientServer
         /**
          * Méthode permettant d'envoyer une liste de clients à un client.
          * 
-         * @param client auqyel on envoie la liste
+         * @param clientavoir
          */
         public void sendListClient(ClientServerData client)
         {
