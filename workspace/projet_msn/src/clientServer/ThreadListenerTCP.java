@@ -67,9 +67,6 @@ public class ThreadListenerTCP extends Thread
 				// Si on a une connection avec un client
 				// On lance un thread de discutions avec le client
 				this.clientServer.treatIncomeTCP(socketClient);
-				// ThreadComunicationServer threadClientCom = new
-				// ThreadComunicationServer(this.server, socketClient);
-				// threadClientCom.start();
 			}
 			System.out.println("Arret du Thread d'ecoute");
 			this.socket.close();
@@ -92,8 +89,8 @@ public class ThreadListenerTCP extends Thread
 			this.socket.close();
 		} catch (IOException e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println("Erreur ThreadListenerTCP, erreur de fermerture du socket, message : " + e.getMessage());
+			// e.printStackTrace();
 		}
 		this.running = false;
 	}

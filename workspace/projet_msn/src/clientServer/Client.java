@@ -370,6 +370,7 @@ public class Client extends AbstractClientServer
 				{
 					listClient += "," + client.getId();
 					protocol.sendMessage("dialog:clients:" + dialog.getIdDialog() + ":" + clientAdd.getId(), client.getIp(), client.getPort());
+					//A garder, ancienne méthode de groupe, en cas d'erreur
 					// protocol.sendMessage("dialog:clients:" +
 					// dialog.getIdDialog() + ":" + client.getId(),
 					// clientAdd.getIp(), clientAdd.getPort());
@@ -654,14 +655,6 @@ public class Client extends AbstractClientServer
 								}
 								if (!estAjoute)
 								{
-									// ClientServerData newClient = new
-									// ClientServerData(client,
-									// this.clientList.get(client),
-									// ((ProtocolUDP) protocol).getLastAdress(),
-									// ((ProtocolUDP) protocol).getLastPort());
-									// System.out.println(newClient);
-									// this.getClients().add(newClient);
-									// dialog.addClient(newClient);
 									try
 									{
 										this.launchThread();
@@ -683,7 +676,6 @@ public class Client extends AbstractClientServer
 										if (this.getClients().size() != sizeClients)
 										{
 											dialog.addClient(this.getClients().get(this.getClients().size()-1));
-											// this.startDialogToClient(this.getClients().lastElement());
 										}
 									} catch (InterruptedException e)
 									{

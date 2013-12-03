@@ -241,7 +241,6 @@ public class ThreadComunicationServer extends Thread
 					}
 					break;
 				case "port":
-					// this.protocol.sendMessage("reply:register:port:OK");
 					if (token.hasMoreTokens())
 					{
 						String stringPort = token.nextToken();
@@ -250,8 +249,6 @@ public class ThreadComunicationServer extends Thread
 						if (id != null)
 						{
 							this.protocol.sendMessage("reply:register:id:" + id);
-							// System.out.println(this.server.getClients());
-							// this.stopThread();
 						} else
 						{
 							this.protocol.sendMessage("reply:register:ERROR");
