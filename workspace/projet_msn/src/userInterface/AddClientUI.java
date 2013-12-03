@@ -4,9 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
-import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -27,7 +27,7 @@ public class AddClientUI
 
 	public static HashMap<String, String> clientList;
 	private static Set<String> keyClientList;
-	private static Vector<JListData> simpleClientList;
+	private static ArrayList<JListData> simpleClientList;
 	public static JList<JListData> displayList;
 
 	/**
@@ -71,7 +71,7 @@ public class AddClientUI
 	{
 		clientList = client.getClientList();
 		keyClientList = clientList.keySet();
-		simpleClientList = new Vector<JListData>();
+		simpleClientList = new ArrayList<JListData>();
 
 		for (ClientServerData client : dialog.getClients())
 		{
@@ -84,7 +84,7 @@ public class AddClientUI
 			simpleClientList.add(clientListData);
 		}
 		System.out.println("nouvelle list" + simpleClientList);
-		displayList.setListData(simpleClientList);
+		displayList.setListData((JListData[])simpleClientList.toArray());
 		getMainFrame().getContentPane().add(displayList, BorderLayout.CENTER);
 		displayList.setVisible(true);
 	}
@@ -97,7 +97,7 @@ public class AddClientUI
 		setMainFrame(new JFrame("Ajout"));
 
 		displayList = new JList<JListData>();
-		displayList.setListData(new Vector<JListData>());
+		displayList.setListData(new JListData[0]);
 		displayList.updateUI();
 		displayList.addMouseListener(new MouseListener()
 		{

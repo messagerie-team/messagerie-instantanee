@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -35,8 +34,8 @@ public class DialogUI extends JFrame
 	private JPanel contentPane;
 	private Client client;
 
-	private Vector<ClientDialog> dialogList;
-	private Vector<JListData> simpleDialogtList;
+	private ArrayList<ClientDialog> dialogList;
+	private ArrayList<JListData> simpleDialogtList;
 	private JList<JListData> jDialogList;
 	private JTextArea textAreaDialog;
 	private JTextArea textAreaSaisie;
@@ -73,8 +72,8 @@ public class DialogUI extends JFrame
 		// panelListDialog.setMaximumSize(new Dimension(300, 1000));
 		// panelListDialog.setLayout(new BorderLayout(0, 0));
 
-		this.simpleDialogtList = new Vector<JListData>();
-		this.jDialogList = new JList<JListData>(this.simpleDialogtList);
+		this.simpleDialogtList = new ArrayList<JListData>();
+		this.jDialogList = new JList<JListData>((JListData[])this.simpleDialogtList.toArray());
 		this.jDialogList.setPreferredSize(new Dimension(110, 250));
 		this.jDialogList.setMinimumSize(new Dimension(110, 250));
 		this.jDialogList.setMaximumSize(new Dimension(1000, 3000));
@@ -314,8 +313,8 @@ public class DialogUI extends JFrame
 
 	public void refreshList()
 	{
-		this.dialogList = new Vector<ClientDialog>(this.client.getDialogs());
-		this.simpleDialogtList = new Vector<JListData>();
+		this.dialogList = new ArrayList<ClientDialog>(this.client.getDialogs());
+		this.simpleDialogtList = new ArrayList<JListData>();
 		JListData sauvDialog = this.jDialogList.getSelectedValue();
 		int indiceClient = -1;
 		int cpt = 0;
@@ -340,7 +339,7 @@ public class DialogUI extends JFrame
 			}
 		}
 		System.out.println("nouvelle list" + this.simpleDialogtList);
-		this.jDialogList.setListData(this.simpleDialogtList);
+		this.jDialogList.setListData((JListData[])this.simpleDialogtList.toArray());
 		if (this.textAreaSaisie.getText().trim().equals(""))
 		{
 			this.jDialogList.setSelectedIndices(new int[] { this.jDialogList.getModel().getSize() - 1 });

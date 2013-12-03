@@ -7,10 +7,10 @@ import java.awt.EventQueue;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.Set;
-import java.util.Vector;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -41,7 +41,7 @@ public class ClientServerUI
 
 	protected static HashMap<String, String> clientList;
 	private static Set<String> keyClientList;
-	private static Vector<JListData> simpleClientList;
+	private static ArrayList<JListData> simpleClientList;
 	protected static JList<JListData> jClientList;
 
 	private ClientServerListener listenerMenu;
@@ -156,14 +156,14 @@ public class ClientServerUI
 			connectionPanel.setVisible(false);
 			clientList = client.getClientList();
 			keyClientList = clientList.keySet();
-			simpleClientList = new Vector<JListData>();
+			simpleClientList = new ArrayList<JListData>();
 
 			for (String key : keyClientList)
 			{
 				JListData clientListData = new JListData(key, clientList.get(key));
 				simpleClientList.add(clientListData);
 			}
-			jClientList.setListData(simpleClientList);
+			jClientList.setListData((JListData[])simpleClientList.toArray());
 			getMainFrame().getContentPane().add(jClientList, BorderLayout.CENTER);
 			jClientList.setVisible(true);
 		} else
@@ -184,7 +184,7 @@ public class ClientServerUI
 		getMainFrame().getContentPane().add(menuBar, BorderLayout.NORTH);
 		getMainFrame().getContentPane().add(connectionPanel, BorderLayout.CENTER);
 		jClientList = new JList<JListData>();
-		jClientList.setListData(new Vector<JListData>());
+		jClientList.setListData(new JListData[0]);
 		jClientList.updateUI();
 		jClientList.addMouseListener(listenerList);
 
