@@ -31,7 +31,7 @@ import dataLink.ProtocolUDP;
  * Classe permettant de représenter un serveur. Extends de la classe
  * AbstractClientServer.
  * 
- * @author Dorian, Mickaël, Raphaël, Thibaultl
+ * @author Dorian, Mickaël, Raphaël, Thibault
  * @see AbstractClientServer
  */
 public class Server extends AbstractClientServer
