@@ -1,9 +1,9 @@
-package clientServer;
+package model;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import dataLink.Protocol;
+import network.Protocol;
 
 /**
  * 		   Thread d'écoute UDP du serveur. Permet de recevoir les messages des

@@ -1,11 +1,11 @@
-package clientServer;
+package model;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.util.StringTokenizer;
 
-import dataLink.Protocol;
-import dataLink.ProtocolTCP;
+import network.Protocol;
+import network.ProtocolTCP;
 
 /**
  *         Thread de comunication d'un serveur vers un client. Il permet de

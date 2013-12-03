@@ -1,9 +1,10 @@
-package clientServer;
+package model;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
-import dataLink.Protocol;
+
+import network.Protocol;
 
 /**
  * Classe permettant de représenter un dialogue entre clients.

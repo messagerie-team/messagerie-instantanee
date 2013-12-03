@@ -1,4 +1,4 @@
-package dataLink;
+package network;
 
 import java.net.InetAddress;
 

@@ -1,4 +1,4 @@
-package clientServer;
+package model;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -6,8 +6,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.StringTokenizer;
 
-import dataLink.Protocol;
-import dataLink.ProtocolTCP;
+import network.Protocol;
+import network.ProtocolTCP;
 
 /**
  * 
