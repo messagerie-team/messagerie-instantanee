@@ -27,7 +27,7 @@ public class AddClientUI
 
 	public static HashMap<String, String> clientList;
 	private static Set<String> keyClientList;
-	private static Vector<JListData> SimpleClientList;
+	private static Vector<JListData> simpleClientList;
 	public static JList<JListData> displayList;
 
 	/**
@@ -73,7 +73,7 @@ public class AddClientUI
 	{
 		clientList = client.getClientList();
 		keyClientList = clientList.keySet();
-		SimpleClientList = new Vector<JListData>();
+		simpleClientList = new Vector<JListData>();
 
 		for (ClientServerData client : dialog.getClients())
 		{
@@ -83,10 +83,10 @@ public class AddClientUI
 		for (String key : keyClientList)
 		{
 			JListData clientListData = new JListData(key, clientList.get(key));
-			SimpleClientList.add(clientListData);
+			simpleClientList.add(clientListData);
 		}
-		System.out.println("nouvelle list" + SimpleClientList);
-		displayList.setListData(SimpleClientList);
+		System.out.println("nouvelle list" + simpleClientList);
+		displayList.setListData(simpleClientList);
 		getMainFrame().getContentPane().add(displayList, BorderLayout.CENTER);
 		displayList.setVisible(true);
 	}
