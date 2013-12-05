@@ -192,7 +192,7 @@ public class ClientServerUI
 		getMainFrame().setMinimumSize(new Dimension(200, 300));
 		getMainFrame().setResizable(false);
 		getMainFrame().setVisible(true);
-		getMainFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getMainFrame().setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		getMainFrame().addWindowListener(new java.awt.event.WindowAdapter()
 		{
 			@Override
