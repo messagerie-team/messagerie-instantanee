@@ -12,6 +12,8 @@ import model.ClientServerData;
 import network.ProtocolTCP;
 import network.ProtocolUDP;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 /**
  * 
@@ -25,8 +27,8 @@ public class ClientDialogTest
 	private ClientServerData clientDataTest;
 	private ClientDialog clientDialogueTest;
 
-	
-	private void initTest()
+	@Before 
+	public void initTest()
 	{
 		try 
 		{
@@ -41,12 +43,23 @@ public class ClientDialogTest
 		clientDialogueTest = new ClientDialog(clientTest,clientTest.getProtocol());
 		clientDataTest = new ClientServerData("JUNIT_C1", inetTest, 3003);
 	}
+	
+	@After
+	public void endTest()
+	{
+		clientTest.getThreadComunicationClient().stopThread();
+		clientTest.getThreadListenerUDP().stopThread();
+		clientTest.getProtocol().close();
+		clientTest=null;
+		clientDialogueTest=null;
+		clientDataTest=null;
+	}
 
 
 	@Test
 	public void testAddMessage()
 	{
-		initTest();
+		//initTest();
 		//ajout du premier message
 		clientDialogueTest.addMessage("test junit");
 		//test si le dernier message est egale a celui qui est inserr� 
@@ -66,7 +79,7 @@ public class ClientDialogTest
 	@Test
 	public void testSendMessage() 
 	{
-		initTest();
+		//initTest();
 		//ajout du premier message
 		clientDialogueTest.sendMessage("test junit");
 		//test si le dernier message est egale a celui qui est inserr� 
@@ -86,7 +99,7 @@ public class ClientDialogTest
 	@Test
 	public void testReceiveMessage() 
 	{
-		initTest();
+		//initTest();
 		//ajout du premier message
 		clientDialogueTest.receiveMessage("test junit");
 		//test si le dernier message est egale a celui qui est inserr� 
@@ -107,7 +120,7 @@ public class ClientDialogTest
 	public void testAddClient()
 	{
 		//initialisation des variables utils pour les tests
-		initTest();
+		//initTest();
 		//test si la liste (ou plutot vector de merde) est vide
 		assertEquals(clientDialogueTest.getClients().size(),0);
 		//test si la liste (ou plutot vector de merde) n'est pas null
@@ -122,7 +135,7 @@ public class ClientDialogTest
 	public void testRemoveClient()
 	{
 		//initialisation des variables utils pour les tests
-		initTest();
+		//initTest();
 		//test si la liste (ou plutot vector de merde) est vide
 		assertEquals(clientDialogueTest.getClients().size(),0);
 		//test si la liste (ou plutot vector de merde) n'est pas null
