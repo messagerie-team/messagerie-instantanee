@@ -1,4 +1,4 @@
 /**
- * Le package dataLink contient l'ensemble des protocoles pour l'application
+ * Le package network contient l'ensemble des classes définissant les protocoles de l'application.
  */
 package network;

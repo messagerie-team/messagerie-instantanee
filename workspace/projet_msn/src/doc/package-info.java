@@ -1,4 +1,4 @@
 /**
- * Le package doc contient tous les documents que nous avons utilisé durant l'application.
+ * Le package doc contient tous les documents utilisés pour la réalisation de l'application.
  */
 package doc;

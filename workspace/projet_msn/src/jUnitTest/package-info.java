@@ -1,4 +1,4 @@
 /**
- * Le package jUnitTest contient les tests unitaire réalisé avec JUnit.
+ * Le package jUnitTest contient les tests unitaires réalisés avec JUnit.
  */
 package jUnitTest;
