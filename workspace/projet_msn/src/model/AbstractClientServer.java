@@ -3,8 +3,7 @@ package model;
 import java.util.ArrayList;
 
 /**
- * Classe abstraite permettant de représenter un client ou un serveur
- *           suivant son instance.
+ * Classe abstraite permettant de représenter un client ou un serveur.
  * @author Dorian, Mickaël, Raphaël, Thibault
  */
 public abstract class AbstractClientServer
@@ -25,8 +24,7 @@ public abstract class AbstractClientServer
 	}
 
 	/**
-	 * Constructeur, la liste des clients est initialisées par la
-	 * liste fourni en paramètre. La liste n'est pas clonée.
+	 * Constructeur avec un paramètre, la liste des clients.
 	 * 
 	 * @param clients liste des clients
 	 * @see ClientServerData
@@ -37,18 +35,18 @@ public abstract class AbstractClientServer
 	}
 
 	/**
-	 * Getter qui retourne la liste de Client
+	 * Getter qui retourne la liste des clients
 	 * 
-	 * @return ArrayList liste des clients connue des sous classes
+	 * @return ArrayList, Liste des clients connus des sous classes
 	 */
 	public ArrayList<ClientServerData> getClients()
 	{
 		return clients;
 	}
 	/**
-	 * Setter qui fixe la liste de clients
+	 * Setter qui fixe la liste des clients
 	 * 
-	 * @param clients liste de client
+	 * @param clients Liste des clients
 	 */
 	public void setClients(ArrayList<ClientServerData> clients)
 	{
@@ -56,16 +54,16 @@ public abstract class AbstractClientServer
 	}
 
 	/**
-	 * Méthode permettant de traiter les éléments reçu en TCP
+	 * Méthode permettant de traiter les éléments reçus en TCP
 	 * 
-	 * @param object paquet reçu en TCP
+	 * @param object Paquet reçus en TCP
 	 */
 	public abstract void treatIncomeTCP(Object object);
 
 	/**
-	 * Méthode permettant de traiter les éléments reçu en UDP
+	 * Méthode permettant de traiter les éléments reçus en UDP
 	 * 
-	 * @param message paquet reçu en UDP
+	 * @param message Paquet reçus en UDP
 	 */
 	public abstract void treatIncomeUDP(String message);
 }
