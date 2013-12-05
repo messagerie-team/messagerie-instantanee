@@ -3,14 +3,11 @@ package jUnitTest;
 import static org.junit.Assert.*;
 
 import java.net.InetAddress;
-import java.net.Socket;
 import java.net.UnknownHostException;
 
 import model.Client;
 import model.ClientDialog;
 import model.ClientServerData;
-import network.ProtocolTCP;
-import network.ProtocolUDP;
 
 import org.junit.After;
 import org.junit.Before;
@@ -59,7 +56,6 @@ public class ClientDialogTest
 	@Test
 	public void testAddMessage()
 	{
-		//initTest();
 		//ajout du premier message
 		clientDialogueTest.addMessage("test junit");
 		//test si le dernier message est egale a celui qui est inserr� 
@@ -79,7 +75,6 @@ public class ClientDialogTest
 	@Test
 	public void testSendMessage() 
 	{
-		//initTest();
 		//ajout du premier message
 		clientDialogueTest.sendMessage("test junit");
 		//test si le dernier message est egale a celui qui est inserr� 
@@ -99,7 +94,6 @@ public class ClientDialogTest
 	@Test
 	public void testReceiveMessage() 
 	{
-		//initTest();
 		//ajout du premier message
 		clientDialogueTest.receiveMessage("test junit");
 		//test si le dernier message est egale a celui qui est inserr� 
@@ -119,8 +113,6 @@ public class ClientDialogTest
 	@Test
 	public void testAddClient()
 	{
-		//initialisation des variables utils pour les tests
-		//initTest();
 		//test si la liste (ou plutot vector de merde) est vide
 		assertEquals(clientDialogueTest.getClients().size(),0);
 		//test si la liste (ou plutot vector de merde) n'est pas null
@@ -134,8 +126,6 @@ public class ClientDialogTest
 	@Test
 	public void testRemoveClient()
 	{
-		//initialisation des variables utils pour les tests
-		//initTest();
 		//test si la liste (ou plutot vector de merde) est vide
 		assertEquals(clientDialogueTest.getClients().size(),0);
 		//test si la liste (ou plutot vector de merde) n'est pas null
