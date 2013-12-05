@@ -10,6 +10,7 @@ import model.Client;
 import model.ClientDialog;
 import model.ClientServerData;
 import network.ProtocolTCP;
+import network.ProtocolUDP;
 
 import org.junit.Test;
 /**
@@ -36,9 +37,9 @@ public class ClientDialogTest
 			e.printStackTrace();
 		}
 
-		clientTest = new Client("TestUnitaire_C2",3009,"localhost");
-		clientDialogueTest = new ClientDialog(clientTest,new ProtocolTCP(new Socket()));
-		clientDataTest = new ClientServerData("JUNIT_C1", inetTest, 3009);
+		clientTest = new Client("TestUnitaire_C2",3001,"localhost");
+		clientDialogueTest = new ClientDialog(clientTest,clientTest.getProtocol());
+		clientDataTest = new ClientServerData("JUNIT_C1", inetTest, 3003);
 	}
 
 

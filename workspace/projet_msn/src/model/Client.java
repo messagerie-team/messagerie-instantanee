@@ -970,6 +970,27 @@ public class Client extends AbstractClientServer
 	{
 		this.tcpServerPort = tcpServerPort;
 	}
+	
+	/**
+	 * Getter du protocol du client
+	 * 
+	 * @return protocol du client
+	 */
+	public Protocol getProtocol()
+	{
+		return protocol;
+	}
+
+	/**
+	 * Setter qui fixe le protocol
+	 * 
+	 * @param protocol
+	 *            Protocol de communication
+	 */
+	public void setProtocol(Protocol protocol)
+	{
+		this.protocol = protocol;
+	}
 
 	/**
 	 * Méthode permettant lancer une instance de client en ligne de commande

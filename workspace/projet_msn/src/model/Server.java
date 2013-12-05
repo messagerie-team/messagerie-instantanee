@@ -171,7 +171,7 @@ public class Server extends AbstractClientServer
 			for (int temp = 0; temp < clients.getChildNodes().getLength(); temp++)
 			{
 				Node clientNode = clients.getChildNodes().item(temp);
-				System.out.println("\nCurrent Element :" + clientNode.getNodeName());
+				//System.out.println("\nCurrent Element :" + clientNode.getNodeName());
 				if (clientNode.getNodeType() == Node.ELEMENT_NODE)
 				{
 					Element client = (Element) clientNode;
