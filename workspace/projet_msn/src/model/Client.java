@@ -80,6 +80,11 @@ public class Client extends AbstractClientServer
 	private ThreadComunicationClient threadComunicationClient;
 
 	/**
+	 * 
+	 */
+	private String errorsMessages;
+	
+	/**
 	 * Constructeur d'un Client avec 3 paramètres le nom, le port udp et l'ip serveur.
 	 * 
 	 * @param name
@@ -92,6 +97,7 @@ public class Client extends AbstractClientServer
 	public Client(String name, int listeningUDPPort, String ipServer)
 	{
 		super();
+		this.errorsMessages = "";
 		this.name = name;
 		this.password = "";
 		this.id = "";
@@ -124,6 +130,7 @@ public class Client extends AbstractClientServer
 	public Client(String name, int listeningUDPPort, String ipServer, int udpServerPort, int tcpServerPort)
 	{
 		super();
+		this.errorsMessages = "";
 		this.name = name;
 		this.password = "";
 		this.id = "";
@@ -990,6 +997,26 @@ public class Client extends AbstractClientServer
 	public void setProtocol(Protocol protocol)
 	{
 		this.protocol = protocol;
+	}
+	
+	
+
+	/**
+	 * Getter des messages d'erreurs
+	 * 
+	 * @return the errorsMessages
+	 */
+	public String getErrorsMessages() {
+		return errorsMessages;
+	}
+
+	/**
+	 * Setter qui fixe le message d'erreur
+	 * 
+	 * @param errorsMessages the errorsMessages to set
+	 */
+	public void setErrorsMessages(String errorsMessages) {
+		this.errorsMessages = errorsMessages;
 	}
 
 	/**

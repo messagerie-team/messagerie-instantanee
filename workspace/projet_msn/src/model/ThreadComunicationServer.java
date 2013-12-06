@@ -217,7 +217,7 @@ public class ThreadComunicationServer extends Thread
 						this.protocol.sendMessage("request:register:password");
 					} else
 					{
-						this.protocol.sendMessage("reply:register:ERROR");
+						this.protocol.sendMessage("reply:register:ERROR:login_password");
 						this.stopThread();
 					}
 					break;
@@ -234,11 +234,12 @@ public class ThreadComunicationServer extends Thread
 						} else
 						{
 							//this.server.registerClientInBase(tempVar, password);
-							this.protocol.sendMessage("reply:register:ERROR");
+							this.protocol.sendMessage("reply:register:ERROR:login_password");
+							this.stopThread();
 						}
 					} else
 					{
-						//this.protocol.sendMessage("reply:register:ERROR");
+						this.protocol.sendMessage("reply:register:ERROR");
 						this.stopThread();
 					}
 					break;
@@ -259,6 +260,7 @@ public class ThreadComunicationServer extends Thread
 					} else
 					{
 						this.protocol.sendMessage("reply:register:ERROR");
+						this.stopThread();
 					}
 					break;
 				case "id":
