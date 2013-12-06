@@ -28,7 +28,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
- * Classe permettant de représenter un serveur. Extends de la classe
+ * Classe représentant un serveur. Hérite de la classe
  * AbstractClientServer.
  * 
  * @author Dorian, Mickaël, Raphaël, Thibault
@@ -65,8 +65,8 @@ public class Server extends AbstractClientServer
 	private boolean running;
 
 	/**
-	 * Construct Server() Constructeur le la class Server. Initialise les
-	 * variables server,clients et threadListener. En ouvrant sur le port TCP
+	 * Constructeur par défaut de la classe Server. Initialise les
+	 * variables server,clients et threadListener ouvrant le port TCP
 	 * 30970 et le port UDP 30971.
 	 */
 	public Server()
@@ -79,11 +79,11 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
-	 * Construct Server(int port) Constructeur de la classe Server. Initialise
+	 * Constructeur qui prend 1 paramètre. Initialise
 	 * les variables server,clients et threadListener.
 	 * 
 	 * @param port
-	 *            numéro de port TCP, le port UDP sera à +1
+	 *            numéro de port TCP, le port UDP est incrémenté de 1
 	 */
 	public Server(int port)
 	{
@@ -95,7 +95,7 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
-	 * Method launch() Méthode permettant de lancer le serveur.
+	 * Méthode permettant de lancer le serveur.
 	 */
 	public void launch()
 	{
@@ -147,13 +147,13 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
-	 * Methode permettant de verifier les identifiants de connection d'un client
+	 * Methode permettant de verifier les identifiants de connexion d'un client.
 	 * 
 	 * @param id
 	 *            identifiant du client
 	 * @param password
 	 *            mot de passe du client
-	 * @return true si l'ensemble est bon, sinon false
+	 * @return true si le couple log/mdp est correct, sinon false
 	 */
 	protected boolean verifyIDAndPassword(String id, String password)
 	{
@@ -237,7 +237,7 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
-	 * Méthode pour ajouté un client
+	 * Méthode pour ajouter un client
 	 * 
 	 * @param name
 	 *            Nom du client
@@ -280,12 +280,11 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
-	 * Méthode pour supprimer un client via ses données enregistrées dans
-	 * ClientServerData
+	 * Méthode pour supprimer un client via ses informations.
 	 * 
 	 * @param client
 	 *            {@link ClientServerData}
-	 * @return true si réussit, false sinon
+	 * @return true si réussi, false sinon
 	 */
 	public boolean removeClient(ClientServerData client)
 	{
@@ -298,11 +297,11 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
-	 * Méthode pour supprimer un client à partir de son ID
+	 * Méthode pour supprimer un client via son ID
 	 * 
 	 * @param id
 	 *            Clé publique du client
-	 * @return true si réussit, false sinon
+	 * @return true si réussi, false sinon
 	 */
 	public boolean removeClient(String id)
 	{
@@ -333,7 +332,7 @@ public class Server extends AbstractClientServer
 	 * 
 	 * @param ip
 	 *            Ip du client {@link InetAddress}
-	 * @return true si reussit, false sinon
+	 * @return true si reussi, false sinon
 	 */
 	public boolean removeClient(InetAddress ip)
 	{
@@ -354,11 +353,10 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
-	 * Getter permettant de recupérer la liste des clients que connaissent le
-	 * serveur. Cette méthode est utilisée pour renvoyer une liste de clients
-	 * aux clients.
+	 * Getter permettant de recupérer la liste des clients que connait le
+	 * serveur. Cette méthode est utilisée pour envoyer une liste actualisée des clients connectés.
 	 * 
-	 * @return chaîne client sous la forme
+	 * @return chaine, client sous la forme
 	 *         "ClePublic-NomCLient,ClePublic-NomClient...."
 	 */
 	public String getListClient()
@@ -374,7 +372,7 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
-	 * Méthode permettant d'envoyer une liste de clients à un client.
+	 * Méthode permettant d'envoyer la liste des clients connectés.
 	 * 
 	 * @param client
 	 *            auquel on envoie la liste
@@ -390,7 +388,7 @@ public class Server extends AbstractClientServer
 	 * 
 	 * @param id
 	 *            clé publique du client
-	 * @return chaine sous la forme
+	 * @return chaine, sous la forme
 	 *         "ClePublic,NomClient,IpClient,PortEcouteClient"
 	 */
 	public String getClient(String id)
@@ -416,10 +414,10 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
-	 * Setter qui fixe le thread d'écoute TPC
+	 * Setter qui fixe le thread d'écoute TCP
 	 * 
 	 * @param threadListener
-	 *            le thread d'écoute TPC
+	 *            le thread d'écoute TCP
 	 */
 	public void setThreadListener(ThreadListenerTCP threadListener)
 	{
@@ -487,7 +485,7 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
-	 * Main du programme permet de lancerle serveur
+	 * Main du programme permet de lancer le serveur
 	 */
 	public static void main(String[] args)
 	{
