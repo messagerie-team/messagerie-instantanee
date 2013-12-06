@@ -6,9 +6,8 @@ import java.security.SecureRandom;
 
 /**
  * 
- * Classe permettant de stocker les informations client pour la classe
- * {@link AbstractClientServer}. Comme son nom, son IP, son port ouvert etc...
- * Elle représente les informations que stock le serveur pour un client.
+ * Classe stockant les informations des clients.
+ * {@link AbstractClientServer}. Comme son nom, son IP, son port etc...
  * 
  * @author Dorian, Mickaël, Raphaël, Thibault
  */
@@ -32,8 +31,8 @@ public class ClientServerData
 	private int port;
 
 	/**
-	 * Contructeur par défaut de ClientServerData. Ce constructeur génère une
-	 * clé publique unique qui sera propre au client.
+	 * Contructeur qui prend 3 paramètres. Ce constructeur génère une
+	 * clé publique unique pour le client.
 	 * 
 	 * @param name nom du client
 	 * @param ip ip du client
@@ -49,8 +48,7 @@ public class ClientServerData
 	}
 
 	/**
-	 * Constructeur de ClientServerData. Il permet de construire entièrement une
-	 * donnée client.
+	 * Constructeur qui prend 4 paramètres de ClientServerData.
 	 * 
 	 * @param id clé publique du client
 	 * @param name nom du client
@@ -68,7 +66,7 @@ public class ClientServerData
 	/**
 	 * Getter du nom du client
 	 * 
-	 * @return name le nom du client
+	 * @return name, le nom du client
 	 */
 	public String getName()
 	{
@@ -88,7 +86,7 @@ public class ClientServerData
 	/**
 	 * Getter de l'adresse IP
 	 * 
-	 * @return l'ip du client
+	 * @return ip, l'ip du client
 	 */
 	public InetAddress getIp()
 	{
@@ -108,7 +106,7 @@ public class ClientServerData
 	/**
 	 * Getter du port d'écoute UDP du client
 	 * 
-	 * @return le port d'écoute UDP
+	 * @return port, le port d'écoute UDP
 	 */
 	public int getPort()
 	{
@@ -128,7 +126,7 @@ public class ClientServerData
 	/**
 	 * Getter de la clé publique du client
 	 * 
-	 * @return id la clé publique du client
+	 * @return id, la clé publique du client
 	 */
 	public String getId()
 	{
