@@ -11,7 +11,7 @@ import network.Protocol;
 import network.ProtocolUDP;
 
 /**
- * Classe permetant de représenter un client. Extends de la classe
+ * Classe représentant un client. Hérite de la classe
  * AbstractClientServer.
  * 
  * @author Dorian, Mickaël, Raphaël, Thibault <br/>
@@ -80,7 +80,7 @@ public class Client extends AbstractClientServer
 	private ThreadComunicationClient threadComunicationClient;
 
 	/**
-	 * Constructeur par défaut du Client.
+	 * Constructeur d'un Client avec 3 paramètres le nom, le port udp et l'ip serveur.
 	 * 
 	 * @param name
 	 *            nom du client
@@ -184,7 +184,7 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Méthode permettant de se déconnecter du serveur.
+	 * Méthode permettant au client de se déconnecter du serveur.
 	 * 
 	 * @see Server
 	 */
@@ -202,7 +202,7 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Méthode permettant de demander la liste des clients connectés au serveur.
+	 * Méthode permettant au client de demander la liste des clients connectés au serveur.
 	 * 
 	 * @see Server
 	 */
@@ -221,9 +221,8 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Méthode permettant de demander les informations d'un client au serveur,
-	 * afin de pouvoir ensuite démarrer un dialog avec. Le paramètre correspond
-	 * à la clé public du client.
+	 * Méthode permettant au client de demander au serveur les informations d'un autre client connecté,
+	 * afin de démarrer un dialogue.
 	 * 
 	 * @param clientId
 	 *            clé publique du client
@@ -273,8 +272,7 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Méthode permettant de démarrer un dialogue avec un client. Le paramètre
-	 * est une représentation d'un client.
+	 * Méthode permettant au client de démarrer un dialogue avec un autre client.
 	 * 
 	 * @see ClientServerData
 	 * @see ClientDialog
@@ -317,13 +315,14 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Méthode permettant d'ajouter un client à un dialogue. Sauf si il fait
-	 * déjà parti du dialiogue
+	 * Méthode permettant au client d'ajouter un autre client à un dialogue , sauf si il fait
+	 * déjà parti du dialogue.
 	 * 
 	 * @see ClientDialog
 	 * @param clientId
 	 *            client avec lequel on souhaite discuter
 	 * @param dialog
+	 * 			  dialogue auquel ajouter le client
 	 */
 	public void addClientToDialog(String clientId, ClientDialog dialog)
 	{
@@ -386,7 +385,7 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Méthode permettant d'envoyer un message sur un dialogue.
+	 * Méthode permettant au client d'envoyer un message dans un dialogue.
 	 * 
 	 * @param message
 	 *            message que l'on souhaite envoyer
@@ -413,10 +412,11 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Méthode permettant de désactiver un dialog.
+	 * Méthode permettant de désactiver un dialogue.
 	 * 
 	 * @see ClientDialog
 	 * @param idDialog
+	 * 			id du dialogue
 	 * @return true si réussi, false sinon.
 	 */
 	public boolean hideDialog(String idDialog)
@@ -454,12 +454,12 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Méthode permettant de mettre à jour la liste des clients connu. La liste
+	 * Méthode permettant de mettre à jour la liste des clients connus. La liste
 	 * est envoyée par le serveur. Elle est de la forme
 	 * "ClePublic-NomCLient,ClePublic-NomClient...."
 	 * 
 	 * @param list
-	 *            liste envoyée par le serveur
+	 *            liste des clients envoyée par le serveur
 	 */
 	public void addClientList(String list)
 	{
@@ -478,7 +478,7 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Méthode permettant de traiter les éléments reçu en TCP
+	 * Méthode permettant de traiter les éléments reçus en TCP
 	 * 
 	 * @param object
 	 *            paquet reçu en TCP
@@ -491,7 +491,7 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Méthode permettant de traiter les éléments reçu en UDP
+	 * Méthode permettant de traiter les éléments reçus en UDP
 	 * 
 	 * @param message
 	 *            paquet reçu en UDP
@@ -520,11 +520,11 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Méthode permettant de traiter la réception d'une liste client et de la
-	 * rediriger vers la bonne méthode avec le bon traitement de données.
+	 * Méthode permettant de traiter la réception d'une liste de clients et de la
+	 * rediriger vers la bonne méthode pour le bon traitement de données.
 	 * 
 	 * @param token
-	 *            message tokenérizé {@link #treatIncomeUDP(String)}
+	 *            message sous forme de tokens {@link #treatIncomeUDP(String)}
 	 */
 	public void treatIncomeList(StringTokenizer token)
 	{
@@ -538,10 +538,10 @@ public class Client extends AbstractClientServer
 	/**
 	 * Méthode permettant de traiter la réception de message concernant les
 	 * dialogues et de rediriger vers la bonne methode avec le bon traitement de
-	 * donnees.
+	 * données.
 	 * 
 	 * @param token
-	 *            message tokenérizé {@link #treatIncomeUDP(String)}
+	 *            message sous forme de tokens {@link #treatIncomeUDP(String)}
 	 */
 	public void treatIncomeDialog(StringTokenizer token)
 	{
@@ -727,7 +727,7 @@ public class Client extends AbstractClientServer
 	/**
 	 * Getter du nom du client
 	 * 
-	 * @return name le nom du client
+	 * @return name, le nom du client
 	 */
 	public String getName()
 	{
@@ -748,7 +748,7 @@ public class Client extends AbstractClientServer
 	/**
 	 * Getter du mot de passe du client
 	 * 
-	 * @return password le tmo de passe du client
+	 * @return password, le mot de passe du client
 	 */
 	public String getPassword()
 	{
@@ -756,7 +756,7 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Setter qui fixe le mto de passe du client
+	 * Setter qui fixe le mot de passe du client
 	 * 
 	 * @param password
 	 *            mot de passe du client
@@ -769,7 +769,7 @@ public class Client extends AbstractClientServer
 	/**
 	 * Getter de la clé du client
 	 * 
-	 * @return id la clé du client
+	 * @return id, la clé du client
 	 */
 	public String getId()
 	{
@@ -790,7 +790,7 @@ public class Client extends AbstractClientServer
 	/**
 	 * Getter de la liste de client
 	 * 
-	 * @return clientList liste de client envoyée par le serveur
+	 * @return clientList, liste de client envoyée par le serveur
 	 */
 	public HashMap<String, String> getClientList()
 	{
@@ -801,7 +801,7 @@ public class Client extends AbstractClientServer
 	 * Setter qui fixe la liste de client
 	 * 
 	 * @param clientList
-	 *            liste de client que l'on voit en connecté
+	 *            liste de clients connectés
 	 */
 	public void setClientList(HashMap<String, String> clientList)
 	{
@@ -811,7 +811,7 @@ public class Client extends AbstractClientServer
 	/**
 	 * Getter du port UDP d'écoute
 	 * 
-	 * @return listeningUDPPort port UDP
+	 * @return listeningUDPPort, port UDP
 	 */
 	public int getListeningUDPPort()
 	{
@@ -848,7 +848,7 @@ public class Client extends AbstractClientServer
 	/**
 	 * Getter de la liste de dialogues
 	 * 
-	 * @return dialogs liste de dialogues
+	 * @return dialogs, liste de dialogues
 	 */
 	public ArrayList<ClientDialog> getDialogs()
 	{
@@ -856,7 +856,7 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Setter qui fixe la liste de dialogue
+	 * Setter qui fixe la liste de dialogues
 	 * 
 	 * @param dialogs
 	 *            liste de dialogues
@@ -869,7 +869,7 @@ public class Client extends AbstractClientServer
 	/**
 	 * Getter du thread de communication entre le client et le serveur
 	 * 
-	 * @return threadComunicationClient thread communication CLient/Serveur
+	 * @return threadComunicationClient, thread communication CLient/Serveur
 	 */
 	public ThreadComunicationClient getThreadComunicationClient()
 	{
@@ -890,7 +890,7 @@ public class Client extends AbstractClientServer
 	/**
 	 * Getter du thread d'écoute UDP
 	 * 
-	 * @return threadListenerUDP thread d'écoute UDP
+	 * @return threadListenerUDP, thread d'écoute UDP
 	 */
 	public ThreadListenerUDP getThreadListenerUDP()
 	{
@@ -911,7 +911,7 @@ public class Client extends AbstractClientServer
 	/**
 	 * Getter de l'IP du serveur
 	 * 
-	 * @return String adresse IP du serveur
+	 * @return String, adresse IP du serveur
 	 */
 	public String getIpServer()
 	{
@@ -932,7 +932,7 @@ public class Client extends AbstractClientServer
 	/**
 	 * Getter du port UDP du serveur
 	 * 
-	 * @return int port UDP du serveur
+	 * @return int, port UDP du serveur
 	 */
 	public int getUdpServerPort()
 	{
@@ -953,7 +953,7 @@ public class Client extends AbstractClientServer
 	/**
 	 * Getter du port TCP du serveur
 	 * 
-	 * @return int Port TCP du serveur
+	 * @return int, Port TCP du serveur
 	 */
 	public int getTcpServerPort()
 	{
@@ -972,9 +972,9 @@ public class Client extends AbstractClientServer
 	}
 	
 	/**
-	 * Getter du protocol du client
+	 * Getter du protocole du client
 	 * 
-	 * @return protocol du client
+	 * @return protocol, du client
 	 */
 	public Protocol getProtocol()
 	{
@@ -982,10 +982,10 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Setter qui fixe le protocol
+	 * Setter qui fixe le protocole
 	 * 
 	 * @param protocol
-	 *            Protocol de communication
+	 *            Protocole de communication
 	 */
 	public void setProtocol(Protocol protocol)
 	{
