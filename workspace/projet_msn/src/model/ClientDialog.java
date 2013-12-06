@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import network.Protocol;
 
 /**
- * Classe permettant de représenter un dialogue entre clients.
+ * Classe représentant un dialogue entre clients.
  * @author Dorian, Mickaël, Raphaël, Thibault
  */
 public class ClientDialog
@@ -49,12 +49,12 @@ public class ClientDialog
 	private boolean inUse;
 
 	/**
-	 * Constructeur permettant de créer un dialogue. Cette méthode est utilisée
-	 * par le client lors de la création d'un dialogue de sa part. Une clé
-	 * unique est générée par constructeur pour identifier le dialogue.
+	 * Constructeur avec 2 paramètres créant un dialogue. Ce constructeur est appelé
+	 * par le client lors de la création d'un dialogue. Une clé
+	 * unique est générée par le constructeur pour identifier le dialogue.
 	 * 
-	 * @param client client auquel on souhaite rajouter un dialogue
-	 * @param protocol protocol utilisé pour ce dialogue
+	 * @param client client auquel on démarre un dialogue
+	 * @param protocol protocole utilisé pour ce dialogue
 	 */
 	public ClientDialog(Client client, Protocol protocol)
 	{
@@ -68,7 +68,7 @@ public class ClientDialog
 	}
 
 	/**
-	 * Constructeur permettant de créer un dialogue. Cette méthode est utilisée
+	 * Constructeur avec 2 paramètres créant un dialogue. Ce constructeur est appelé
 	 * par le client lorsqu'il reçoit une notification de dialogue par un autre
 	 * client. Le premier paramètre correspond à la clé unique du dialogue qui a
 	 * du être reçu.
@@ -119,7 +119,7 @@ public class ClientDialog
 	 * Méthode permettant de gérer la réception d'un message
 	 * 
 	 * @param message message reçu 
-	 * @return message message reçu traité
+	 * @return message, message reçu traité
 	 * {@link #addMessage(String)}
 	 */
 	public String receiveMessage(String message)
@@ -168,7 +168,7 @@ public class ClientDialog
 	/**
 	 * Getter de la clé unique du dialogue
 	 * 
-	 * @return idDialog la clé unique du dialogue
+	 * @return idDialog, la clé unique du dialogue
 	 */
 	public String getIdDialog()
 	{
@@ -188,7 +188,7 @@ public class ClientDialog
 	/**
 	 * Getter de la liste des clients qui le client voit
 	 * 
-	 * @return clients la liste des clients qui le client voit
+	 * @return clients, la liste des clients qui le client voit
 	 */
 	public ArrayList<ClientServerData> getClients()
 	{
@@ -228,7 +228,7 @@ public class ClientDialog
 	/**
 	 * Getter du dialogue, c'est à dire l'ensemble de la conversation entre n clients
 	 * 
-	 * @return le dialogue
+	 * @return dialogue, le dialogue
 	 */
 	public String getDialogue()
 	{
@@ -248,7 +248,7 @@ public class ClientDialog
 	/**
 	 * Getter du dernier message d'un dialogue
 	 * 
-	 * @return lastMessage le dernier message
+	 * @return lastMessage, le dernier message
 	 */
 	public String getLastMessage()
 	{
