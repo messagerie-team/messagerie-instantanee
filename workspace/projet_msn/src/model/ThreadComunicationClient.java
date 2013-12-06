@@ -104,7 +104,7 @@ public class ThreadComunicationClient extends Thread
 			}
 		} catch (Exception e)
 		{
-			this.client.setErrorsMessages("Impossible de se connecter au server");
+			this.client.setErrorsMessages("Impossible de se connecter au serveur");
 			System.err.println("Erreur du ThreadComunicationClient,Connexion, message: " + e.getMessage());
 		}
 	}
