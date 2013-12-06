@@ -11,8 +11,8 @@ import network.ProtocolTCP;
 
 /**
  * 
- * Thread de comunication d'un client vers un serveur. Il permet de gérer les
- * demandes client. Connection, Deconnection, demande de lien etc...
+ * Classe représentant le thread de comunication d'un client vers un serveur. Il permet de gérer les
+ * demandes client. Connexion, Deconnexion, demande de lien etc...
  * 
  * @author Dorian, Mickaël, Raphaël, Thibault
  */
@@ -48,30 +48,15 @@ public class ThreadComunicationClient extends Thread
 	private String ipServer;
 
 	/**
-	 * Constructeur par défaut de thread de communication.
+	 * Constructeur avec 2 paramètres de thread de communication.
 	 * 
-	 * @param client
-	 * @param ipServer
+	 * @param client thread rattaché au client
+	 * @param ipServer ip du serveur
 	 */
 	public ThreadComunicationClient(Client client, String ipServer)
 	{
 		this.client = client;
 		this.ipServer = ipServer;
-	}
-
-	/**
-	 * Constructeur de thread de communication. Pas encore utilisé.
-	 * 
-	 * @param client
-	 * @param socket
-	 * @param ipServer
-	 */
-	public ThreadComunicationClient(Client client, Socket socket, String ipServer)
-	{
-		this.client = client;
-		this.socket = socket;
-		this.ipServer = ipServer;
-		this.protocol = new ProtocolTCP(socket);
 	}
 
 	@Override
@@ -281,22 +266,7 @@ public class ThreadComunicationClient extends Thread
 					break;
 				case "ERROR":
 					this.stopThread();
-					if (token.hasMoreTokens())
-					{
-						String error = token.nextToken();
-						// Faire un traitement en fonction du type d'erreur re�u
-						if (("login_password").equals(error))
-						{
-							this.client.setErrorsMessages("Login/Password incorrect");
-						} else
-						{
-							this.client.setErrorsMessages("Erreur de connexion");
-						}
-					} else
-					{
-						// Message d'erreur par defaut
-						this.client.setErrorsMessages("Erreur de connexion");
-					}
+					this.client.setErrorsMessages("Erreur de connexion");
 					break;
 				default:
 					this.stopThread();
