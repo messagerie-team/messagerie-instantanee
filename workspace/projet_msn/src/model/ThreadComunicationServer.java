@@ -233,7 +233,7 @@ public class ThreadComunicationServer extends Thread
 							this.protocol.sendMessage("request:register:port");
 						} else
 						{
-							this.server.registerClientInBase(tempVar, password);
+							//this.server.registerClientInBase(tempVar, password);
 							this.protocol.sendMessage("reply:register:ERROR");
 						}
 					} else
