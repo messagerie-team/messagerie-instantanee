@@ -302,6 +302,11 @@ public class ClientServerUI
 		connectionPanel.add(principalBox, BorderLayout.CENTER);
 	}
 
+	public static void alert(String message)
+	{
+		JOptionPane.showMessageDialog(ClientServerUI.getMainFrame(), message);
+	}
+	
 	public static JFrame getMainFrame()
 	{
 		return mainFrame;
