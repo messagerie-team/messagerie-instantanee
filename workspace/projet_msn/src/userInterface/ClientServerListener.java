@@ -13,8 +13,8 @@ import javax.swing.JOptionPane;
  */
 public class ClientServerListener implements ActionListener
 {
-	public static final int TIMEOUT=50;
-	
+	public static final int TIMEOUT = 50;
+
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
@@ -52,14 +52,14 @@ public class ClientServerListener implements ActionListener
 			String password = "";
 			for (int i = 0; i < charPassword.length; i++)
 			{
-				password+=charPassword[i];
+				password += charPassword[i];
 			}
 			ClientServerUI.client.setPassword(password);
 			ClientServerUI.client.registerToServer();
 			try
 			{
 				int cpt = 0;
-				while ((ClientServerUI.client.getId() == null || ClientServerUI.client.getId().equals("")) && "".equals(ClientServerUI.client.getErrorsMessages()) && cpt<TIMEOUT)
+				while ((ClientServerUI.client.getId() == null || ClientServerUI.client.getId().equals("")) && "".equals(ClientServerUI.client.getErrorsMessages()) && cpt < TIMEOUT)
 				{
 					Thread.sleep(200);
 					cpt++;
@@ -68,15 +68,14 @@ public class ClientServerListener implements ActionListener
 				{
 					ClientServerUI.alert(ClientServerUI.client.getErrorsMessages());
 					ClientServerUI.client.setErrorsMessages("");
-				}
-				else if(cpt >= TIMEOUT)
+				} else if (cpt >= TIMEOUT)
 				{
-					ClientServerUI.alert("Temps de connexion dépassé");
+					ClientServerUI.alert("Temps de connexion dÃ©passÃ©");
 				} else
 				{
 					ClientServerUI.refreshClient();
 				}
-				
+
 			} catch (InterruptedException e1)
 			{
 
