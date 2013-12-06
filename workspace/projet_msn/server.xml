@@ -15,4 +15,4 @@
 		<name>Micka</name>
 		<password>test</password>
 	</client>
-</clients>
+<client><name>testmp</name><password>mpmpmp</password></client></clients>
