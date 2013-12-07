@@ -8,8 +8,8 @@ import network.Protocol;
 import network.ProtocolTCP;
 
 /**
- *         Thread de comunication d'un serveur vers un client. Il permet de
- *         gérer les demandes client. Connection, Déconnection, demande de lien
+ *         Classe représentant le threa de comunication d'un serveur vers un client. Il permet de
+ *         gérer les demandes client : connexion, déconnexion, demande de lien
  *         etc...
  *         
  *         @author Dorian, Mickaël, Raphaël, Thibault
@@ -45,10 +45,10 @@ public class ThreadComunicationServer extends Thread
 	private String tempVar;
 
 	/**
-	 * Constructeur par défaut du Thread.
+	 * Constructeur du Thread qui prend 2 paramètres .
 	 * 
-	 * @param server
-	 * @param socket
+	 * @param server Serveur de l'application
+	 * @param socket Socket du serveur
 	 */
 	public ThreadComunicationServer(Server server, Socket socket)
 	{
@@ -288,11 +288,11 @@ public class ThreadComunicationServer extends Thread
 	}
 
 	/**
-	 * Méthode permettant de gérer le processus de demande de list Client au
+	 * Méthode permettant de demander de la liste des clients au
 	 * serveur.
 	 * {@link #messageTraitementReply(String, StringTokenizer)}
 	 * {@link #messageTraitementRequest(String, StringTokenizer)}
-	 * @param token
+	 * @param token message sous forme de token
 	 */
 	public void askListClient(StringTokenizer token)
 	{
@@ -306,11 +306,11 @@ public class ThreadComunicationServer extends Thread
 	}
 
 	/**
-	 * Méthode permettant de gérer le processus de demande d'information de
-	 * connection client.
+	 * Méthode permettant de demander les informations de
+	 * connexion.
 	 * {@link #messageTraitementReply(String, StringTokenizer)}
 	 * {@link #messageTraitementRequest(String, StringTokenizer)}
-	 * @param token
+	 * @param token message sous forme de token
 	 */
 	public void getClientConnection(StringTokenizer token)
 	{
