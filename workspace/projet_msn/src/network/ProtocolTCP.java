@@ -10,7 +10,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 
 /** 
- * Permet de représenter le protocol TCP pour la communication TCP.
+ * Classe représentant le protocol TCP.
  * 
  * @author Dorian, Mickaël, Raphaël, Thibault
  * @see Protocol
@@ -32,7 +32,7 @@ public class ProtocolTCP extends Protocol
 	public BufferedReader reader;
 
 	/**
-	 * Constructeur par défaut du protocol par défaut.
+	 * Constructeur qui prend 1 paramètre.
 	 * 
 	 * @param socket socket TCP sur lequel on communique
 	 */
@@ -50,11 +50,11 @@ public class ProtocolTCP extends Protocol
 		}
 	}
 	/**
-	 * Méthode permettant d'envoyer un message via une adresse IP et un port
+	 * Méthode permettant d'envoyer un message en connaissant une adresse IP et un port
 	 * 
-	 * @param message message que l'on va envoyer
-	 * @param adress adresse IP ou l'on va envoyé le message
-	 * @param port port TCP ou l'on va envoyé le message
+	 * @param message message envoyé
+	 * @param adress adresse IP du destinataire
+	 * @param port port TCP du destinataire
 	 */
 	public void sendMessage(String message, InetAddress adress, int port)
 	{
@@ -72,9 +72,9 @@ public class ProtocolTCP extends Protocol
 	}
 
 	/**
-	 * Méthode permettant d'envoyer un message via une adresse IP et un port
+	 * Méthode permettant d'envoyer un message.
 	 * 
-	 * @param message message que l'on va envoyer
+	 * @param message message envoyé
 	 */
 	public void sendMessage(String message)
 	{
@@ -84,7 +84,7 @@ public class ProtocolTCP extends Protocol
 	/**
 	 * Méthode permettant de lire un message
 	 * 
-	 * @return une string du message lu
+	 * @return le message lu
 	 */
 	public String readMessage()
 	{
@@ -99,7 +99,7 @@ public class ProtocolTCP extends Protocol
 	}
 	
 	/**
-	 * Méthode permettant de fermer le protocol
+	 * Méthode permettant de fermer le protocole
 	 * 
 	 */
 	public void close()
@@ -116,7 +116,7 @@ public class ProtocolTCP extends Protocol
 	}
 
 	/**
-	 * Getter du writer du protocol TCP
+	 * Getter du PrintWriter du protocole TCP
 	 * 
 	 * @return le writer du protocol {@link PrintWriter}
 	 */

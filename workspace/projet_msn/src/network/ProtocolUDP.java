@@ -7,7 +7,7 @@ import java.net.InetAddress;
 import java.net.SocketException;
 
 /**
- * Permet de représenter le protocol UDP pour la communication UDP.
+ * Classe représentant le protocole UDP.
  * 
  * @author Dorian, Mickaël, Raphaël, Thibault
  * 
@@ -48,7 +48,7 @@ public class ProtocolUDP extends Protocol
 	private InetAddress lastAdress;
 
 	/**
-	 * Constructeur par défaut du protocol UDP
+	 * Constructeur qui prend un paramètre
 	 * @param localPort portlocal UDP
 	 */
 	public ProtocolUDP(int localPort)
@@ -70,11 +70,11 @@ public class ProtocolUDP extends Protocol
 	}
 	
 	/**
-	 * Méthode permettant d'envoyer un message via une adresse IP et un port
+	 * Méthode permettant d'envoyer un message en connaissant une adresse IP et un port
 	 * 
-	 * @param message message que l'on va envoyer
-	 * @param adress adresse IP ou l'on va envoyé le message
-	 * @param port port UDP ou l'on va envoyé le message
+	 * @param message message envoyé
+	 * @param adress adresse IP du destinataire
+	 * @param port port TCP du destinataire
 	 */
 	public void sendMessage(String message, InetAddress adress, int port)
 	{
@@ -92,9 +92,9 @@ public class ProtocolUDP extends Protocol
 	}
 
 	/**
-	 * Méthode permettant d'envoyer un message via une adresse IP et un port
+	 * Méthode permettant d'envoyer un message en connaissant une adresse IP et un port
 	 * 
-	 * @param message message que l'on va envoyer
+	 * @param message message envoyé
 	 */
 	public void sendMessage(String message)
 	{
@@ -114,7 +114,7 @@ public class ProtocolUDP extends Protocol
 	/**
 	 * Méthode permettant de lire un message
 	 * 
-	 * @return une string du message lu
+	 * @return le message lu
 	 */
 	public String readMessage()
 	{
@@ -134,7 +134,7 @@ public class ProtocolUDP extends Protocol
 	}
 
 	/**
-	 * Méthode permettant de fermer le protocol
+	 * Méthode permettant de fermer le protocole
 	 * 
 	 */
 	public void close()
@@ -143,7 +143,7 @@ public class ProtocolUDP extends Protocol
 	}
 
 	/**
-	 * Getter du writer du protocol UDP, qui nous sert de writer
+	 * Getter du DatagramPacket du protocole UDP, qui nous sert de writer
 	 * 
 	 * @return le writer du protocol {@link DatagramPacket}
 	 */
@@ -153,7 +153,7 @@ public class ProtocolUDP extends Protocol
 	}
 
 	/**
-	 * Setter qui fixe le writer du protocol UDP
+	 * Setter qui fixe le writer du protocole UDP
 	 * 
 	 * @param writer
 	 *            objet DatagramPacket {@link DatagramPacket}
@@ -164,9 +164,9 @@ public class ProtocolUDP extends Protocol
 	}
 
 	/**
-	 * Getter du DatagramPacket du protocol UDP, qui nous sert de reader
+	 * Getter du DatagramPacket du protocole UDP, qui nous sert de reader
 	 * 
-	 * @return le DatagramPacket du protocol UDP{@link DatagramPacket}
+	 * @return le DatagramPacket du protocole UDP{@link DatagramPacket}
 	 */
 	public DatagramPacket getReader()
 	{
@@ -174,7 +174,7 @@ public class ProtocolUDP extends Protocol
 	}
 
 	/**
-	 * Setter qui fixe le DatagramPacket du protocol UDP, qui nous sert de reader
+	 * Setter qui fixe le DatagramPacket du protocole UDP, qui nous sert de reader
 	 * 
 	 * @param reader
 	 *            objet DatagramPacket de java {@link DatagramPacket}

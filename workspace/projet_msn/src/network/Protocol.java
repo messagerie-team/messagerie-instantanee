@@ -3,7 +3,7 @@ package network;
 import java.net.InetAddress;
 
 /**
- * Classe abstraite permettant de représenter un protocol de
+ * Classe abstraite permettant de représenter un protocole de
  *           communication.
  *           
  * @author Dorian, Mickaël, Raphaël, Thibault
@@ -11,12 +11,12 @@ import java.net.InetAddress;
 public abstract class Protocol
 {
 	/**
-	 * Port de communication du protocol.
+	 * Port de communication du protocole.
 	 */
 	private int localPort;
 
 	/**
-	 * Constructeur par défaut du Protocol.
+	 * Constructeur qui prend un paramètre.
 	 * 
 	 * @param localPort
 	 */
@@ -26,7 +26,7 @@ public abstract class Protocol
 	}
 
 	/**
-	 * Méthode permettant d'envoyer un message à une adresse sur un port.
+	 * Méthode permettant d'envoyer un message à une adresse via un port.
 	 * 
 	 * @param message message que l'on souhaite envoyer
 	 * @param adress adresse de destination
@@ -36,7 +36,7 @@ public abstract class Protocol
 
 	/**
 	 * Méthode permettant d'envoyer un message à l'adresse par defaut du
-	 * protocol.
+	 * protocole.
 	 * 
 	 * @param message message que l'on souhaite envoyer
 	 */
@@ -50,14 +50,14 @@ public abstract class Protocol
 	public abstract String readMessage();
 
 	/**
-	 * Méthode permettant de gérer la fermeture du protocol.
+	 * Méthode permettant de fermer le protocole.
 	 */
 	public abstract void close();
 
 	/**
 	 * Getter du port local
 	 * 
-	 * @return localPort Port local
+	 * @return localPort, Port local
 	 */
 	public int getLocalPort()
 	{
