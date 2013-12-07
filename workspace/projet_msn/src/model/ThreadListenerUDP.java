@@ -6,8 +6,8 @@ import java.net.UnknownHostException;
 import network.Protocol;
 
 /**
- * 		   Thread d'écoute UDP du serveur. Permet de recevoir les messages des
- *         clients et les listes du serveur.
+ * 		   Classe représentant le thread d'écoute UDP du serveur qui permet de recevoir les messages des
+ *         clients et la liste des clients connectés.
  * @author Dorian, Mickaël, Raphaël, Thibault
  *
  */
@@ -30,12 +30,12 @@ public class ThreadListenerUDP extends Thread
 	private Protocol protocol;
 
 	/**
-	 * Constructeur de la classe ThreadListenerUDP. Il recoit le port d'écoute
-	 * en paramètre.
+	 * Constructeur de la classe ThreadListenerUDP qui prend 2 paramètres.
 	 * 
 	 * @param clientServer
-	 * 
+	 * 				Client ou Serveur 
 	 * @param protocol
+	 * 				Protocole utilisé.
 	 */
 	public ThreadListenerUDP(AbstractClientServer clientServer, Protocol protocol)
 	{

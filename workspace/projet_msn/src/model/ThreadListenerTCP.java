@@ -5,12 +5,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /** 
- *         Thread d'écoute TCP du serveur. Permet de recevoir les connections des
- *         clients. Si un client se connecte, un nouveau thread est lancé pour
- *         communiquer avec. Sinon cela voudrait dire que le serveur est bloqué
- *         tant que le client n'a pas fini ce qu'il voulait faire. Du coup cela
- *         permet au serveur de dialoguer avec plusieurs clients en même temps.
- *         
+ *         Classe représentant le thread d'écoute TCP du serveur qui permet de recevoir les connexions des
+ *  	   clients. Lorsque un client se connecte, un nouveau thread est lancé pour
+ *         communiquer.
  *         @author Dorian, Mickaël, Raphaël, Thibault
  * 
  */
@@ -32,7 +29,7 @@ public class ThreadListenerTCP extends Thread
 	private boolean running;
 
 	/**
-	 * Constructeur du ThreadListener TCP
+	 * Constructeur du ThreadListener TCP qui prend deux paramètres
 	 * 
 	 * @param server
 	 *            serveur lancant le thread
