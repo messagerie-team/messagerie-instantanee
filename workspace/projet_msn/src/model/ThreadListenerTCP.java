@@ -74,6 +74,9 @@ public class ThreadListenerTCP extends Thread
 			if (running)
 			{
 				System.err.println("Erreur du ThreadListenerTCP, message: " + e.getMessage());
+			}else
+			{
+				logger.info("Arret du Thread d'ecoute TCP");
 			}
 		}
 	}
@@ -89,7 +92,6 @@ public class ThreadListenerTCP extends Thread
 		} catch (IOException e)
 		{
 			System.err.println("Erreur ThreadListenerTCP, erreur de fermerture du socket, message : " + e.getMessage());
-			// e.printStackTrace();
 		}
 		this.running = false;
 	}

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -29,8 +30,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
- * Classe représentant un serveur. Hérite de la classe
- * AbstractClientServer.
+ * Classe représentant un serveur. Hérite de la classe AbstractClientServer.
  * 
  * @author Dorian, Mickaël, Raphaël, Thibault
  * @see AbstractClientServer
@@ -65,10 +65,11 @@ public class Server extends AbstractClientServer
 	 */
 	private boolean running;
 	private static Logger logger = Logger.getLogger(Server.class.toString());
+
 	/**
-	 * Constructeur par défaut de la classe Server. Initialise les
-	 * variables server,clients et threadListener ouvrant le port TCP
-	 * 30970 et le port UDP 30971.
+	 * Constructeur par défaut de la classe Server. Initialise les variables
+	 * server,clients et threadListener ouvrant le port TCP 30970 et le port UDP
+	 * 30971.
 	 */
 	public Server()
 	{
@@ -80,8 +81,8 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
-	 * Constructeur qui prend 1 paramètre. Initialise
-	 * les variables server,clients et threadListener.
+	 * Constructeur qui prend 1 paramètre. Initialise les variables
+	 * server,clients et threadListener.
 	 * 
 	 * @param port
 	 *            numéro de port TCP, le port UDP est incrémenté de 1
@@ -143,11 +144,11 @@ public class Server extends AbstractClientServer
 	 */
 	public void stopServer()
 	{
-		//System.out.println("Fermeture du serveur");
-		logger.info("Fermeture du serveur");
+		// System.out.println("Fermeture du serveur");
 		this.running = false;
 		this.threadListenerTCP.stopThread();
 		this.threadListenerUDP.stopThread();
+		logger.info("Fermeture du serveur");
 	}
 
 	/**
@@ -175,7 +176,8 @@ public class Server extends AbstractClientServer
 			for (int temp = 0; temp < clients.getChildNodes().getLength(); temp++)
 			{
 				Node clientNode = clients.getChildNodes().item(temp);
-				//System.out.println("\nCurrent Element :" + clientNode.getNodeName());
+				// System.out.println("\nCurrent Element :" +
+				// clientNode.getNodeName());
 				if (clientNode.getNodeType() == Node.ELEMENT_NODE)
 				{
 					Element client = (Element) clientNode;
@@ -190,8 +192,9 @@ public class Server extends AbstractClientServer
 			}
 		} catch (ParserConfigurationException | SAXException | IOException e)
 		{
-			System.out.println("Erreur de vérifiaction id/mdp, message : " + e.getMessage());
-			e.printStackTrace();
+			// System.out.println("Erreur de vérifiaction id/mdp, message : " +
+			// e.getMessage());
+			logger.severe("Erreur de vérifiaction id/mdp sur fichier");
 		}
 		return ret;
 	}
@@ -209,6 +212,7 @@ public class Server extends AbstractClientServer
 	{
 		try
 		{
+			logger.info("Ajout identifiant/mdp dans la base serveur : " + id + "/" + password);
 			File fXmlFile = new File("server.xml");
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder;
@@ -235,8 +239,9 @@ public class Server extends AbstractClientServer
 
 		} catch (ParserConfigurationException | SAXException | IOException | TransformerException e)
 		{
-			System.out.println("Erreur de vérifiaction id/mdp, message : " + e.getMessage());
-			e.printStackTrace();
+			// System.out.println("Erreur de vérifiaction id/mdp, message : " +
+			// e.getMessage());
+			logger.severe("Erreur d'enregistrement id/mdp sur fichier");
 		}
 	}
 
@@ -253,6 +258,7 @@ public class Server extends AbstractClientServer
 	 */
 	public String addClient(String name, Socket client, int listeningUDPPort)
 	{
+		logger.info("Ajout d'un client : " + name);
 		ClientServerData newClient = new ClientServerData(name, client.getInetAddress(), listeningUDPPort);
 		if (this.getClients().add(newClient))
 		{
@@ -267,7 +273,7 @@ public class Server extends AbstractClientServer
 						Thread.sleep(3000);
 					} catch (InterruptedException e)
 					{
-						//e.printStackTrace();
+						// e.printStackTrace();
 					}
 					for (ClientServerData clientServerData : getClients())
 					{
@@ -292,6 +298,7 @@ public class Server extends AbstractClientServer
 	 */
 	public boolean removeClient(ClientServerData client)
 	{
+		logger.info("Suppression d'un client : "+client.getName());
 		boolean ret = this.getClients().remove(client);
 		for (ClientServerData clientServerData : this.getClients())
 		{
@@ -309,6 +316,7 @@ public class Server extends AbstractClientServer
 	 */
 	public boolean removeClient(String id)
 	{
+		logger.info("Suppression d'un client(id) : "+id);
 		boolean erase = false;
 		ClientServerData eraseClient = null;
 		for (ClientServerData client : this.getClients())
@@ -340,6 +348,7 @@ public class Server extends AbstractClientServer
 	 */
 	public boolean removeClient(InetAddress ip)
 	{
+		logger.info("Suppression d'un/des clients (Ip) : "+ip);
 		boolean erase = false;
 		for (ClientServerData client : this.getClients())
 		{
@@ -358,13 +367,15 @@ public class Server extends AbstractClientServer
 
 	/**
 	 * Getter permettant de recupérer la liste des clients que connait le
-	 * serveur. Cette méthode est utilisée pour envoyer une liste actualisée des clients connectés.
+	 * serveur. Cette méthode est utilisée pour envoyer une liste actualisée des
+	 * clients connectés.
 	 * 
 	 * @return chaine, client sous la forme
 	 *         "ClePublic-NomCLient,ClePublic-NomClient...."
 	 */
 	public String getListClient()
 	{
+		logger.log(Level.FINER, "Construction de list Client");
 		String ret = "";
 		boolean firstOne = true;
 		for (ClientServerData client : this.getClients())
@@ -384,6 +395,7 @@ public class Server extends AbstractClientServer
 	public void sendListClient(ClientServerData client)
 	{
 		String listClient = this.getListClient();
+		logger.log(Level.FINE, "Envoie de liste client");
 		protocol.sendMessage("listClient:" + listClient, client.getIp(), client.getPort());
 	}
 
@@ -397,6 +409,7 @@ public class Server extends AbstractClientServer
 	 */
 	public String getClient(String id)
 	{
+		logger.log(Level.FINER, "Construction Information Client");
 		for (ClientServerData client : this.getClients())
 		{
 			if (client.getId().equals(id))
@@ -439,11 +452,13 @@ public class Server extends AbstractClientServer
 	{
 		if (object instanceof Socket)
 		{
+			logger.log(Level.FINE, "Traitement Income TCP");
 			ThreadComunicationServer threadClientCom = new ThreadComunicationServer(this, (Socket) object);
 			threadClientCom.start();
 		} else
 		{
-			System.err.println("Erreur serveur, treatIncome: mauvaise argument");
+			// System.err.println("Erreur serveur, treatIncome: mauvaise argument");
+			logger.severe("Erreur serveur, treatIncome: mauvaise argument");
 		}
 	}
 
@@ -456,7 +471,7 @@ public class Server extends AbstractClientServer
 	@Override
 	public void treatIncomeUDP(String message)
 	{
-		// System.out.println(message);
+		logger.log(Level.FINE, "Traitement Income UDP");
 		StringTokenizer token = new StringTokenizer(message, ":");
 		String firstToken = token.nextToken();
 		switch (firstToken)
@@ -494,6 +509,7 @@ public class Server extends AbstractClientServer
 	public static void main(String[] args)
 	{
 		System.out.println("EXIT to quit");
+		System.out.println("ADD LOGIN to Add log/mdp");
 		Server server = new Server();
 		server.launch();
 		Scanner sc = new Scanner(System.in);
