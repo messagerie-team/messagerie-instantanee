@@ -3,6 +3,7 @@ package model;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.logging.Logger;
 
 /** 
  *         Classe représentant le thread d'écoute TCP du serveur qui permet de recevoir les connexions des
@@ -27,7 +28,7 @@ public class ThreadListenerTCP extends Thread
 	 * Paramètre permettant d'arrêter le Thread.
 	 */
 	private boolean running;
-
+	private static Logger logger = Logger.getLogger(ThreadListenerTCP.class.toString());
 	/**
 	 * Constructeur du ThreadListener TCP qui prend deux paramètres
 	 * 
@@ -42,7 +43,7 @@ public class ThreadListenerTCP extends Thread
 		{
 			this.clientServer = server;
 			this.socket = new ServerSocket(port);
-			System.out.println(this.socket.getInetAddress());
+			//System.out.println(this.socket.getInetAddress());
 			this.running = false;
 		} catch (IOException e)
 		{
@@ -54,7 +55,8 @@ public class ThreadListenerTCP extends Thread
 	{
 		try
 		{
-			System.out.println("Lancement du Thread d'ecoute TCP");
+			logger.info("Lancementu Thread d'ecoute TCP");
+			//System.out.println("Lancement du Thread d'ecoute TCP");
 			this.running = true;
 			while (running)
 			{
@@ -64,7 +66,8 @@ public class ThreadListenerTCP extends Thread
 				// On lance un thread de discutions avec le client
 				this.clientServer.treatIncomeTCP(socketClient);
 			}
-			System.out.println("Arret du Thread d'ecoute");
+			logger.info("Arret du Thread d'ecoute TCP");
+			//System.out.println("Arret du Thread d'ecoute");
 			this.socket.close();
 		} catch (Exception e)
 		{

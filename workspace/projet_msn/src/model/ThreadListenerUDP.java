@@ -2,6 +2,7 @@ package model;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.logging.Logger;
 
 import network.Protocol;
 
@@ -28,7 +29,7 @@ public class ThreadListenerUDP extends Thread
 	 * Protocol de communication.
 	 */
 	private Protocol protocol;
-
+	private static Logger logger = Logger.getLogger(ThreadListenerUDP.class.toString());
 	/**
 	 * Constructeur de la classe ThreadListenerUDP qui prend 2 paramètres.
 	 * 
@@ -52,6 +53,7 @@ public class ThreadListenerUDP extends Thread
 
 		try
 		{
+			logger.info("Lancementu Thread d'ecoute UDP");
 			while (this.running)
 			{
 				String message = protocol.readMessage();
@@ -60,6 +62,7 @@ public class ThreadListenerUDP extends Thread
 					this.clientServer.treatIncomeUDP(message);
 				}
 			}
+			logger.info("Arret du Thread d'ecoute TCP");
 			this.protocol.close();
 		} catch (Exception e)
 		{

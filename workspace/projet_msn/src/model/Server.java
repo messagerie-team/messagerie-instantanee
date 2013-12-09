@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -63,7 +64,7 @@ public class Server extends AbstractClientServer
 	 * Paramètre permettant de savoir si le serveur est en train de tourner.
 	 */
 	private boolean running;
-
+	private static Logger logger = Logger.getLogger(Server.class.toString());
 	/**
 	 * Constructeur par défaut de la classe Server. Initialise les
 	 * variables server,clients et threadListener ouvrant le port TCP
@@ -99,6 +100,7 @@ public class Server extends AbstractClientServer
 	 */
 	public void launch()
 	{
+		logger.info("Lancement du serveur");
 		this.running = true;
 		this.threadListenerTCP.start();
 		this.threadListenerUDP.start();
@@ -108,6 +110,7 @@ public class Server extends AbstractClientServer
 			@Override
 			public void run()
 			{
+				logger.info("Lancement du thread TLL Client");
 				while (running)
 				{
 					try
@@ -140,7 +143,8 @@ public class Server extends AbstractClientServer
 	 */
 	public void stopServer()
 	{
-		System.out.println("Fermeture du serveur");
+		//System.out.println("Fermeture du serveur");
+		logger.info("Fermeture du serveur");
 		this.running = false;
 		this.threadListenerTCP.stopThread();
 		this.threadListenerUDP.stopThread();
