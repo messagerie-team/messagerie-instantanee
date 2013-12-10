@@ -5,14 +5,16 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.StringTokenizer;
+import java.util.logging.Logger;
 
 import network.Protocol;
 import network.ProtocolTCP;
 
 /**
  * 
- * Classe représentant le thread de comunication d'un client vers un serveur. Il permet de gérer les
- * demandes client. Connexion, Deconnexion, demande de lien etc...
+ * Classe représentant le thread de comunication d'un client vers un serveur. Il
+ * permet de gérer les demandes client. Connexion, Deconnexion, demande de lien
+ * etc...
  * 
  * @author Dorian, Mickaël, Raphaël, Thibault
  */
@@ -46,12 +48,15 @@ public class ThreadComunicationClient extends Thread
 	 * @see Server
 	 */
 	private String ipServer;
+	private static Logger logger = Logger.getLogger(ThreadComunicationServer.class.toString());
 
 	/**
 	 * Constructeur avec 2 paramètres de thread de communication.
 	 * 
-	 * @param client thread rattaché au client
-	 * @param ipServer ip du serveur
+	 * @param client
+	 *            thread rattaché au client
+	 * @param ipServer
+	 *            ip du serveur
 	 */
 	public ThreadComunicationClient(Client client, String ipServer)
 	{
@@ -64,13 +69,13 @@ public class ThreadComunicationClient extends Thread
 	{
 		try
 		{
-			System.out.println(this.ipServer);
+			logger.info("Connexion au server; IP : " + this.ipServer);
 			this.socket = new Socket(this.ipServer, this.client.getTcpServerPort());
 			this.protocol = new ProtocolTCP(socket);
 
 			try
 			{
-				System.out.println("Lancement du Thread de communication");
+				logger.info("Lancement du Thread de communication");
 				this.running = true;
 				while (running)
 				{
@@ -80,17 +85,17 @@ public class ThreadComunicationClient extends Thread
 					// On traite ensuite le message reçu.
 					this.messageTraitement(message);
 				}
-				System.out.println("Arret du Thread de communication");
+				logger.info("Arret du Thread de communication");
 				this.socket.close();
 				this.protocol.close();
 			} catch (IOException | InterruptedException e)
 			{
-				System.err.println("Erreur du ThreadComunicationClient, message: " + e.getMessage());
+				logger.severe("Erreur du ThreadComunicationClient, message: " + e.getMessage());
 			}
 		} catch (Exception e)
 		{
 			this.client.setErrorsMessages("Impossible de se connecter au serveur");
-			System.err.println("Erreur du ThreadComunicationClient,Connexion, message: " + e.getMessage());
+			logger.severe("Erreur du ThreadComunicationClient,Connexion, message: " + e.getMessage());
 		}
 	}
 
@@ -102,7 +107,7 @@ public class ThreadComunicationClient extends Thread
 	 */
 	private void messageTraitement(String message)
 	{
-		System.out.println("Début du traitement du message : " + message);
+		logger.info("Début du traitement du message : " + message);
 		StringTokenizer token = new StringTokenizer(message, ":");
 		String firstToken = token.nextToken();
 		if (token.hasMoreTokens())
@@ -316,7 +321,6 @@ public class ThreadComunicationClient extends Thread
 		{
 			if (token.hasMoreTokens())
 			{
-				// System.out.println(token.nextToken());
 				String[] elements = token.nextToken().split(",");
 				if (elements.length == 4)
 				{
@@ -326,13 +330,15 @@ public class ThreadComunicationClient extends Thread
 						client = new ClientServerData(elements[0], elements[1], InetAddress.getByName(elements[2]), Integer.parseInt(elements[3]));
 
 						boolean add = this.client.getClients().add(client);
-						System.out.println("Ajout du client recu");
+						
 						if (add)
 						{
+							logger.info("Ajout d'information d'un client");
 							protocol.sendMessage("reply:clientConnection:DONE");
 							this.stopThread();
 						} else
 						{
+							logger.info("Erreur d'information d'un client");
 							protocol.sendMessage("reply:clientConnection:ERROR");
 							this.stopThread();
 						}
