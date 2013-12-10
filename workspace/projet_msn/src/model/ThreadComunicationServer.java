@@ -3,6 +3,7 @@ package model;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.StringTokenizer;
+import java.util.logging.Logger;
 
 import network.Protocol;
 import network.ProtocolTCP;
@@ -43,6 +44,7 @@ public class ThreadComunicationServer extends Thread
 	 * Variable temporaire utile au traitement des requêtes.
 	 */
 	private String tempVar;
+	private static Logger logger = Logger.getLogger(ThreadComunicationServer.class.toString());
 
 	/**
 	 * Constructeur du Thread qui prend 2 paramètres .
@@ -62,7 +64,7 @@ public class ThreadComunicationServer extends Thread
 	{
 		try
 		{
-			System.out.println("Lancement du Thread de communication");
+			logger.info("Lancement du Thread de communication");
 			this.running = true;
 			while (running)
 			{
@@ -72,12 +74,12 @@ public class ThreadComunicationServer extends Thread
 				// On traite ensuite le message reçu.
 				this.messageTraitement(message);
 			}
-			System.out.println("Arret du Thread de communication");
+			logger.info("Arret du Thread de communication");
 			this.socket.close();
 			this.protocol.close();
 		} catch (IOException | InterruptedException e)
 		{
-			System.err.println("Erreur du ThreadComunicationServer, message: " + e.getMessage());
+			logger.severe("Erreur du ThreadComunicationServer, message: " + e.getMessage());
 		}
 	}
 
@@ -89,7 +91,8 @@ public class ThreadComunicationServer extends Thread
 	private void messageTraitement(String message)
 	{
 		StringTokenizer token = new StringTokenizer(message, ":");
-		System.out.println("Début du traitement du message : " + message);
+		logger.info("Début du traitement du message : " + message);
+		
 		String firstToken = token.nextToken();
 		if (token.hasMoreTokens())
 		{
@@ -209,8 +212,6 @@ public class ThreadComunicationServer extends Thread
 				switch (nextToken)
 				{
 				case "name":
-					// On informe le client qu'on a bien reçu son nom
-					// this.protocol.sendMessage("reply:register:name:OK");
 					this.tempVar = token.nextToken();
 					if (!this.tempVar.trim().equals(""))
 					{
@@ -222,8 +223,6 @@ public class ThreadComunicationServer extends Thread
 					}
 					break;
 				case "password":
-					// On informe le client qu'on a bien reçu son nom
-					// this.protocol.sendMessage("reply:register:name:OK");
 					String password = token.nextToken();
 
 					if (!password.trim().equals(""))
@@ -265,7 +264,6 @@ public class ThreadComunicationServer extends Thread
 					break;
 				case "id":
 					this.protocol.sendMessage("reply:register:DONE");
-					System.out.println(this.server.getClients());
 					this.stopThread();
 					break;
 				default:
@@ -281,8 +279,7 @@ public class ThreadComunicationServer extends Thread
 		// Sinon c'est qu'il s'agit d'une request
 		else
 		{
-			System.out.println("Demande d'enregistrement");
-			// On envoie un autre pour demander son nom
+			logger.info("Envoie d'une demande d'identifiant");
 			this.protocol.sendMessage("request:register:name");
 		}
 	}
