@@ -8,8 +8,11 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.ArrayList;
+import java.util.logging.FileHandler;
+import java.util.logging.Formatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -74,6 +77,17 @@ public class Server extends AbstractClientServer
 	public Server()
 	{
 		super();
+		try
+		{
+			FileHandler file = new FileHandler("log.txt", true);
+			SimpleFormatter formatter = new SimpleFormatter();
+			file.setFormatter(formatter);
+			logger.addHandler(file);
+		} catch (SecurityException | IOException e)
+		{
+			System.err.println("Erreur d'ouverture du fichier de log, message : " + e.getMessage());
+		}
+
 		this.protocol = new ProtocolUDP(30971);
 		this.threadListenerTCP = new ThreadListenerTCP(this, 30970);
 		this.threadListenerUDP = new ThreadListenerUDP(this, this.protocol);
@@ -90,6 +104,17 @@ public class Server extends AbstractClientServer
 	public Server(int port)
 	{
 		super();
+		try
+		{
+			FileHandler file = new FileHandler("log.txt", true);
+			SimpleFormatter formatter = new SimpleFormatter();
+			file.setFormatter(formatter);
+			logger.addHandler(file);
+		} catch (SecurityException | IOException e)
+		{
+			System.err.println("Erreur d'ouverture du fichier de log, message : " + e.getMessage());
+		}
+		
 		this.protocol = new ProtocolUDP(port + 1);
 		this.threadListenerTCP = new ThreadListenerTCP(this, port);
 		this.threadListenerUDP = new ThreadListenerUDP(this, this.protocol);
@@ -298,7 +323,7 @@ public class Server extends AbstractClientServer
 	 */
 	public boolean removeClient(ClientServerData client)
 	{
-		logger.info("Suppression d'un client : "+client.getName());
+		logger.info("Suppression d'un client : " + client.getName());
 		boolean ret = this.getClients().remove(client);
 		for (ClientServerData clientServerData : this.getClients())
 		{
@@ -316,7 +341,7 @@ public class Server extends AbstractClientServer
 	 */
 	public boolean removeClient(String id)
 	{
-		logger.info("Suppression d'un client(id) : "+id);
+		logger.info("Suppression d'un client(id) : " + id);
 		boolean erase = false;
 		ClientServerData eraseClient = null;
 		for (ClientServerData client : this.getClients())
@@ -348,7 +373,7 @@ public class Server extends AbstractClientServer
 	 */
 	public boolean removeClient(InetAddress ip)
 	{
-		logger.info("Suppression d'un/des clients (Ip) : "+ip);
+		logger.info("Suppression d'un/des clients (Ip) : " + ip);
 		boolean erase = false;
 		for (ClientServerData client : this.getClients())
 		{
