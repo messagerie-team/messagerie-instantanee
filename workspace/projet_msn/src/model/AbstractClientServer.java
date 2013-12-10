@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 /**
  * Classe abstraite permettant de représenter un client ou un serveur.
@@ -8,6 +9,7 @@ import java.util.ArrayList;
  */
 public abstract class AbstractClientServer
 {
+	private static Logger logger = Logger.getLogger(AbstractClientServer.class.toString());
 	/**
 	 * Liste des clients que connait la classe.
 	 * 
@@ -66,4 +68,14 @@ public abstract class AbstractClientServer
 	 * @param message Paquet reçus en UDP
 	 */
 	public abstract void treatIncomeUDP(String message);
+
+	public static Logger getLogger()
+	{
+		return logger;
+	}
+
+	public static void setLogger(Logger logger)
+	{
+		AbstractClientServer.logger = logger;
+	}
 }
