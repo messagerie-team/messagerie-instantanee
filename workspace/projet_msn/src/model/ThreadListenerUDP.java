@@ -66,8 +66,9 @@ public class ThreadListenerUDP extends Thread
 			this.protocol.close();
 		} catch (Exception e)
 		{
-			System.err.println("Erreur du ThreadListenerUDP, message: " + e.getMessage());
-			e.printStackTrace();
+			logger.severe("Erreur du ThreadListenerUDP, message: " + e.getMessage());
+			//System.err.println("Erreur du ThreadListenerUDP, message: " + e.getMessage());
+			//e.printStackTrace();
 		}
 	}
 
@@ -82,7 +83,8 @@ public class ThreadListenerUDP extends Thread
 			protocol.sendMessage("", InetAddress.getByName("localhost"), this.protocol.getLocalPort());
 		} catch (UnknownHostException e)
 		{
-			System.err.println("Erreur du ThreadListenerUDP, stopThread, message: " + e.getMessage());
+			logger.severe("Erreur du ThreadListenerUDP, stopThread, message: " + e.getMessage());
+			//System.err.println("Erreur du ThreadListenerUDP, stopThread, message: " + e.getMessage());
 		}
 		this.running = false;
 	}
