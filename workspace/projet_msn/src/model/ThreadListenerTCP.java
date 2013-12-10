@@ -47,7 +47,8 @@ public class ThreadListenerTCP extends Thread
 			this.running = false;
 		} catch (IOException e)
 		{
-			System.err.println("Erreur initialisation serveur, message: " + e.getMessage());
+			logger.severe("Erreur initialisation ThreadListenerTCP, message: " + e.getMessage());
+			//System.err.println("Erreur initialisation serveur, message: " + e.getMessage());
 		}
 	}
 
@@ -73,7 +74,8 @@ public class ThreadListenerTCP extends Thread
 		{
 			if (running)
 			{
-				System.err.println("Erreur du ThreadListenerTCP, message: " + e.getMessage());
+				//System.err.println("Erreur du ThreadListenerTCP, message: " + e.getMessage());
+				logger.severe("Erreur du ThreadListenerTCP, message: " + e.getMessage());
 			}else
 			{
 				logger.info("Arret du Thread d'ecoute TCP");
@@ -91,7 +93,8 @@ public class ThreadListenerTCP extends Thread
 			this.socket.close();
 		} catch (IOException e)
 		{
-			System.err.println("Erreur ThreadListenerTCP, erreur de fermerture du socket, message : " + e.getMessage());
+			logger.severe("Erreur ThreadListenerTCP, erreur de fermerture du socket, message : " + e.getMessage());
+			//System.err.println("Erreur ThreadListenerTCP, erreur de fermerture du socket, message : " + e.getMessage());
 		}
 		this.running = false;
 	}
