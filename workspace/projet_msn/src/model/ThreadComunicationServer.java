@@ -57,6 +57,7 @@ public class ThreadComunicationServer extends Thread
 		this.server = server;
 		this.socket = socket;
 		this.protocol = new ProtocolTCP(socket);
+		logger.setParent(AbstractClientServer.getLogger());
 	}
 
 	@Override

@@ -43,7 +43,7 @@ public class ThreadListenerTCP extends Thread
 		{
 			this.clientServer = server;
 			this.socket = new ServerSocket(port);
-			//System.out.println(this.socket.getInetAddress());
+			logger.setParent(AbstractClientServer.getLogger());
 			this.running = false;
 		} catch (IOException e)
 		{

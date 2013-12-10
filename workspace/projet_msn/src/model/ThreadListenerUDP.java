@@ -42,6 +42,7 @@ public class ThreadListenerUDP extends Thread
 	{
 		this.protocol = protocol;
 		this.clientServer = clientServer;
+		logger.setParent(AbstractClientServer.getLogger());
 	}
 
 	/**

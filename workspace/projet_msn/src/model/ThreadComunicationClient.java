@@ -62,6 +62,7 @@ public class ThreadComunicationClient extends Thread
 	{
 		this.client = client;
 		this.ipServer = ipServer;
+		logger.setParent(AbstractClientServer.getLogger());
 	}
 
 	@Override
