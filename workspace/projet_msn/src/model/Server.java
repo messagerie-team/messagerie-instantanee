@@ -81,6 +81,7 @@ public class Server extends AbstractClientServer
 			SimpleFormatter formatter = new SimpleFormatter();
 			file.setFormatter(formatter);
 			setLogger(Logger.getLogger(Server.class.toString()));
+			getLogger().setLevel(Level.FINEST);
 			getLogger().addHandler(file);
 		} catch (SecurityException | IOException e)
 		{
@@ -109,6 +110,7 @@ public class Server extends AbstractClientServer
 			SimpleFormatter formatter = new SimpleFormatter();
 			file.setFormatter(formatter);
 			setLogger(Logger.getLogger(Server.class.toString()));
+			getLogger().setLevel(Level.FINE);
 			getLogger().addHandler(file);
 		} catch (SecurityException | IOException e)
 		{
@@ -420,7 +422,7 @@ public class Server extends AbstractClientServer
 	public void sendListClient(ClientServerData client)
 	{
 		String listClient = this.getListClient();
-		getLogger().log(Level.FINE, "Envoie de liste client");
+		getLogger().log(Level.FINER, "Envoie de liste client");
 		protocol.sendMessage("listClient:" + listClient, client.getIp(), client.getPort());
 	}
 
@@ -477,7 +479,7 @@ public class Server extends AbstractClientServer
 	{
 		if (object instanceof Socket)
 		{
-			getLogger().log(Level.FINE, "Traitement Income TCP");
+			getLogger().log(Level.FINEST, "Traitement Income TCP");
 			ThreadComunicationServer threadClientCom = new ThreadComunicationServer(this, (Socket) object);
 			threadClientCom.start();
 		} else
@@ -496,7 +498,7 @@ public class Server extends AbstractClientServer
 	@Override
 	public void treatIncomeUDP(String message)
 	{
-		getLogger().log(Level.FINE, "Traitement Income UDP");
+		getLogger().log(Level.FINEST, "Traitement Income UDP");
 		StringTokenizer token = new StringTokenizer(message, ":");
 		String firstToken = token.nextToken();
 		switch (firstToken)
