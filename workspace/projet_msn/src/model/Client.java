@@ -1,18 +1,22 @@
 package model;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.ArrayList;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import network.Protocol;
 import network.ProtocolUDP;
 
 /**
- * Classe représentant un client. Hérite de la classe
- * AbstractClientServer.
+ * Classe représentant un client. Hérite de la classe AbstractClientServer.
  * 
  * @author Dorian, Mickaël, Raphaël, Thibault <br/>
  * @see AbstractClientServer
@@ -83,9 +87,10 @@ public class Client extends AbstractClientServer
 	 * 
 	 */
 	private String errorsMessages;
-	
+
 	/**
-	 * Constructeur d'un Client avec 3 paramètres le nom, le port udp et l'ip serveur.
+	 * Constructeur d'un Client avec 3 paramètres le nom, le port udp et l'ip
+	 * serveur.
 	 * 
 	 * @param name
 	 *            nom du client
@@ -97,6 +102,19 @@ public class Client extends AbstractClientServer
 	public Client(String name, int listeningUDPPort, String ipServer)
 	{
 		super();
+		try
+		{
+			FileHandler file = new FileHandler("logClient.txt", true);
+			SimpleFormatter formatter = new SimpleFormatter();
+			file.setFormatter(formatter);
+			setLogger(Logger.getLogger(Client.class.toString()));
+			getLogger().setLevel(Level.FINEST);
+			getLogger().addHandler(file);
+		} catch (SecurityException | IOException e)
+		{
+			System.err.println("Erreur d'ouverture du fichier de log, message : " + e.getMessage());
+		}
+		getLogger().info("Lancement du Client");
 		this.errorsMessages = "";
 		this.name = name;
 		this.password = "";
@@ -130,6 +148,20 @@ public class Client extends AbstractClientServer
 	public Client(String name, int listeningUDPPort, String ipServer, int udpServerPort, int tcpServerPort)
 	{
 		super();
+		try
+		{
+			FileHandler file = new FileHandler("logClient.txt", true);
+			SimpleFormatter formatter = new SimpleFormatter();
+			file.setFormatter(formatter);
+			setLogger(Logger.getLogger(Client.class.toString()));
+			getLogger().setLevel(Level.FINEST);
+			getLogger().addHandler(file);
+		} catch (SecurityException | IOException e)
+		{
+			System.err.println("Erreur d'ouverture du fichier de log, message : " + e.getMessage());
+		}
+		getLogger().info("Lancement du Client");
+
 		this.errorsMessages = "";
 		this.name = name;
 		this.password = "";
@@ -155,6 +187,7 @@ public class Client extends AbstractClientServer
 	{
 		try
 		{
+			getLogger().info("Enregistrement auprès du serveur : " + this.ipServer);
 			this.launchThread();
 			Thread.sleep(500);
 			threadComunicationClient.registerClient(new StringTokenizer(""));
@@ -186,7 +219,7 @@ public class Client extends AbstractClientServer
 			}).start();
 		} catch (InterruptedException e)
 		{
-			System.err.println("Erreur d'enregistrement du client au serveur, message : " + e.getMessage());
+			getLogger().severe("Erreur d'enregistrement du client au serveur, message : " + e.getMessage());
 		}
 	}
 
@@ -199,17 +232,19 @@ public class Client extends AbstractClientServer
 	{
 		try
 		{
+			getLogger().info("Desenregistrement auprès du serveur, serveur : " + this.ipServer);
 			this.launchThread();
 			Thread.sleep(500);
 			this.threadComunicationClient.unregisterClient(new StringTokenizer(""));
 		} catch (InterruptedException e)
 		{
-			System.err.println("Erreur de desenregistrement du client au serveur, message : " + e.getMessage());
+			getLogger().severe("Erreur de desenregistrement du client au serveur, message : " + e.getMessage());
 		}
 	}
 
 	/**
-	 * Méthode permettant au client de demander la liste des clients connectés au serveur.
+	 * Méthode permettant au client de demander la liste des clients connectés
+	 * au serveur.
 	 * 
 	 * @see Server
 	 */
@@ -217,19 +252,20 @@ public class Client extends AbstractClientServer
 	{
 		try
 		{
+			getLogger().info("Demande de list client auprès du serveur, serveur : " + this.ipServer);
 			this.launchThread();
 			Thread.sleep(500);
 			this.threadComunicationClient.askListClient(new StringTokenizer(""));
 		} catch (InterruptedException e)
 		{
-			System.err.println("Erreur de demande de liste du client au serveur, message : " + e.getMessage());
+			getLogger().severe("Erreur de demande de liste du client au serveur, message : " + e.getMessage());
 		}
 
 	}
 
 	/**
-	 * Méthode permettant au client de demander au serveur les informations d'un autre client connecté,
-	 * afin de démarrer un dialogue.
+	 * Méthode permettant au client de demander au serveur les informations d'un
+	 * autre client connecté, afin de démarrer un dialogue.
 	 * 
 	 * @param clientId
 	 *            clé publique du client
@@ -238,6 +274,7 @@ public class Client extends AbstractClientServer
 	{
 		try
 		{
+			getLogger().info("Demande d'information client : " + clientId);
 			// On recherche si on a déjà démarré un dialogue avec le client.
 			boolean alreadyDone = false;
 			for (ClientDialog dialog : this.dialogs)
@@ -274,12 +311,13 @@ public class Client extends AbstractClientServer
 			}
 		} catch (InterruptedException e)
 		{
-			System.err.println("Erreur de demande d'information client du client au serveur, message : " + e.getMessage());
+			getLogger().severe("Erreur de demande d'information client du client au serveur, message : " + e.getMessage());
 		}
 	}
 
 	/**
-	 * Méthode permettant au client de démarrer un dialogue avec un autre client.
+	 * Méthode permettant au client de démarrer un dialogue avec un autre
+	 * client.
 	 * 
 	 * @see ClientServerData
 	 * @see ClientDialog
@@ -290,6 +328,7 @@ public class Client extends AbstractClientServer
 	{
 		try
 		{
+			getLogger().info("Demarage d'un dialogue avec un client : " + client.getId());
 			// On verifie si il existe déjà un dialog avec le client
 			boolean alreadyDone = false;
 			for (ClientDialog dialog : this.dialogs)
@@ -317,19 +356,19 @@ public class Client extends AbstractClientServer
 			}
 		} catch (NumberFormatException e)
 		{
-			System.err.println("Erreur de demarage d'un dialogue client, message : " + e.getMessage());
+			getLogger().severe("Erreur de demarage d'un dialogue client, message : " + e.getMessage());
 		}
 	}
 
 	/**
-	 * Méthode permettant au client d'ajouter un autre client à un dialogue , sauf si il fait
-	 * déjà parti du dialogue.
+	 * Méthode permettant au client d'ajouter un autre client à un dialogue ,
+	 * sauf si il fait déjà parti du dialogue.
 	 * 
 	 * @see ClientDialog
 	 * @param clientId
 	 *            client avec lequel on souhaite discuter
 	 * @param dialog
-	 * 			  dialogue auquel ajouter le client
+	 *            dialogue auquel ajouter le client
 	 */
 	public void addClientToDialog(String clientId, ClientDialog dialog)
 	{
@@ -376,7 +415,7 @@ public class Client extends AbstractClientServer
 				{
 					listClient += "," + client.getId();
 					protocol.sendMessage("dialog:clients:" + dialog.getIdDialog() + ":" + clientAdd.getId(), client.getIp(), client.getPort());
-					//A garder, ancienne méthode de groupe, en cas d'erreur
+					// A garder, ancienne méthode de groupe, en cas d'erreur
 					// protocol.sendMessage("dialog:clients:" +
 					// dialog.getIdDialog() + ":" + client.getId(),
 					// clientAdd.getIp(), clientAdd.getPort());
@@ -386,8 +425,7 @@ public class Client extends AbstractClientServer
 			}
 		} catch (InterruptedException e)
 		{
-			System.err.println("Erreur d'ajout d'un client, message : " + e.getMessage());
-			// e.printStackTrace();
+			getLogger().severe("Erreur d'ajout d'un client, message : " + e.getMessage());
 		}
 	}
 
@@ -423,7 +461,7 @@ public class Client extends AbstractClientServer
 	 * 
 	 * @see ClientDialog
 	 * @param idDialog
-	 * 			id du dialogue
+	 *            id du dialogue
 	 * @return true si réussi, false sinon.
 	 */
 	public boolean hideDialog(String idDialog)
@@ -527,8 +565,8 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
-	 * Méthode permettant de traiter la réception d'une liste de clients et de la
-	 * rediriger vers la bonne méthode pour le bon traitement de données.
+	 * Méthode permettant de traiter la réception d'une liste de clients et de
+	 * la rediriger vers la bonne méthode pour le bon traitement de données.
 	 * 
 	 * @param token
 	 *            message sous forme de tokens {@link #treatIncomeUDP(String)}
@@ -682,11 +720,11 @@ public class Client extends AbstractClientServer
 										// conversation
 										if (this.getClients().size() != sizeClients)
 										{
-											dialog.addClient(this.getClients().get(this.getClients().size()-1));
+											dialog.addClient(this.getClients().get(this.getClients().size() - 1));
 										}
 									} catch (InterruptedException e)
 									{
-										System.err.println("Erreur d'ajout d'un client a une conversation, message : "+e.getMessage());
+										getLogger().severe("Erreur d'ajout d'un client a une conversation, message : " + e.getMessage());
 									}
 								}
 							}
@@ -840,7 +878,7 @@ public class Client extends AbstractClientServer
 				this.protocol.sendMessage("End", InetAddress.getByName("localhost"), this.listeningUDPPort);
 			} catch (UnknownHostException e)
 			{
-				e.printStackTrace();
+				getLogger().severe("Erreur d'auto envoie de message, message : " + e.getMessage());
 			}
 			this.threadListenerUDP.stopThread();
 			this.protocol.close();
@@ -977,7 +1015,7 @@ public class Client extends AbstractClientServer
 	{
 		this.tcpServerPort = tcpServerPort;
 	}
-	
+
 	/**
 	 * Getter du protocole du client
 	 * 
@@ -998,24 +1036,25 @@ public class Client extends AbstractClientServer
 	{
 		this.protocol = protocol;
 	}
-	
-	
 
 	/**
 	 * Getter des messages d'erreurs
 	 * 
 	 * @return the errorsMessages
 	 */
-	public String getErrorsMessages() {
+	public String getErrorsMessages()
+	{
 		return errorsMessages;
 	}
 
 	/**
 	 * Setter qui fixe le message d'erreur
 	 * 
-	 * @param errorsMessages the errorsMessages to set
+	 * @param errorsMessages
+	 *            the errorsMessages to set
 	 */
-	public void setErrorsMessages(String errorsMessages) {
+	public void setErrorsMessages(String errorsMessages)
+	{
 		this.errorsMessages = errorsMessages;
 	}
 
