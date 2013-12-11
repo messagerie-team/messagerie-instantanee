@@ -116,7 +116,7 @@ public class Server extends AbstractClientServer
 		{
 			System.err.println("Erreur d'ouverture du fichier de log, message : " + e.getMessage());
 		}
-		
+
 		this.protocol = new ProtocolUDP(port + 1);
 		this.threadListenerTCP = new ThreadListenerTCP(this, port);
 		this.threadListenerUDP = new ThreadListenerUDP(this, this.protocol);
@@ -407,7 +407,7 @@ public class Server extends AbstractClientServer
 		boolean firstOne = true;
 		for (ClientServerData client : this.getClients())
 		{
-			ret += ((firstOne) ? "" : ",") + client.getId() + "-" + client.getName()+"-"+client.getPersonalMessage();
+			ret += ((firstOne) ? "" : ",") + client.getId() + "-" + client.getName() + "-" + client.getPersonalMessage();
 			firstOne = false;
 		}
 		return ret;
@@ -439,7 +439,7 @@ public class Server extends AbstractClientServer
 		getLogger().log(Level.FINER, "Construction Information Client");
 		for (ClientServerData client : this.getClients())
 		{
-			
+
 			if (client.getId().equals(id))
 			{
 				return client.getId() + "," + client.getName() + "," + client.getIp().getCanonicalHostName() + "," + client.getPort();
@@ -507,8 +507,14 @@ public class Server extends AbstractClientServer
 		case "alive":
 			if (token.hasMoreElements())
 			{
-				String key = token.nextToken();
+				String[] elements = token.nextToken().split("-");
 				ClientServerData client = null;
+				String key = elements[0];
+				String personalMessage = "";
+				if (elements.length > 1)
+				{
+					personalMessage = elements[1];
+				}
 				for (ClientServerData clientD : this.getClients())
 				{
 					if (key.trim().equals(clientD.getId().trim()))
@@ -518,10 +524,8 @@ public class Server extends AbstractClientServer
 				}
 				if (client != null)
 				{
-					if (key.length() > 20)
-					{
-						clientTTL.put(client, 10);
-					}
+					client.setPersonalMessage(personalMessage);
+					clientTTL.put(client, 10);
 				}
 			}
 			break;

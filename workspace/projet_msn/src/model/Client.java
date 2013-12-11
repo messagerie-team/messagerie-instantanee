@@ -214,7 +214,7 @@ public class Client extends AbstractClientServer
 							while (id != "")
 							{
 								Thread.sleep(1000);
-								protocol.sendMessage("alive:" + id, InetAddress.getByName(ipServer), udpServerPort);
+								protocol.sendMessage("alive:" + id + "-" + personalMessage, InetAddress.getByName(ipServer), udpServerPort);
 							}
 						} catch (InterruptedException | UnknownHostException e)
 						{
