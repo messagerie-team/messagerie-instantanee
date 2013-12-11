@@ -439,6 +439,7 @@ public class Server extends AbstractClientServer
 		getLogger().log(Level.FINER, "Construction Information Client");
 		for (ClientServerData client : this.getClients())
 		{
+			
 			if (client.getId().equals(id))
 			{
 				return client.getId() + "," + client.getName() + "," + client.getIp().getCanonicalHostName() + "," + client.getPort();

@@ -6,8 +6,8 @@ import java.security.SecureRandom;
 
 /**
  * 
- * Classe stockant les informations des clients.
- * {@link AbstractClientServer}. Comme son nom, son IP, son port etc...
+ * Classe stockant les informations des clients. {@link AbstractClientServer}.
+ * Comme son nom, son IP, son port etc...
  * 
  * @author Dorian, Mickaël, Raphaël, Thibault
  */
@@ -22,6 +22,10 @@ public class ClientServerData
 	 */
 	private String name;
 	/**
+	 * Message perso du client.
+	 */
+	private String personalMessage;
+	/**
 	 * Adresse ip du client.
 	 */
 	private InetAddress ip;
@@ -31,12 +35,15 @@ public class ClientServerData
 	private int port;
 
 	/**
-	 * Contructeur qui prend 3 paramètres. Ce constructeur génère une
-	 * clé publique unique pour le client.
+	 * Contructeur qui prend 3 paramètres. Ce constructeur génère une clé
+	 * publique unique pour le client.
 	 * 
-	 * @param name nom du client
-	 * @param ip ip du client
-	 * @param port port d'écoute UDP du client
+	 * @param name
+	 *            nom du client
+	 * @param ip
+	 *            ip du client
+	 * @param port
+	 *            port d'écoute UDP du client
 	 */
 	public ClientServerData(String name, InetAddress ip, int port)
 	{
@@ -45,15 +52,20 @@ public class ClientServerData
 		this.name = name;
 		this.ip = ip;
 		this.port = port;
+		this.personalMessage = "";
 	}
 
 	/**
 	 * Constructeur qui prend 4 paramètres de ClientServerData.
 	 * 
-	 * @param id clé publique du client
-	 * @param name nom du client
-	 * @param ip ip du client
-	 * @param port port d'écoute UDP du client
+	 * @param id
+	 *            clé publique du client
+	 * @param name
+	 *            nom du client
+	 * @param ip
+	 *            ip du client
+	 * @param port
+	 *            port d'écoute UDP du client
 	 */
 	public ClientServerData(String id, String name, InetAddress ip, int port)
 	{
@@ -61,6 +73,7 @@ public class ClientServerData
 		this.name = name;
 		this.ip = ip;
 		this.port = port;
+		this.personalMessage = "";
 	}
 
 	/**
@@ -76,7 +89,8 @@ public class ClientServerData
 	/**
 	 * Setter qui fixe le nom du client
 	 * 
-	 * @param name nom du client
+	 * @param name
+	 *            nom du client
 	 */
 	public void setName(String name)
 	{
@@ -96,7 +110,8 @@ public class ClientServerData
 	/**
 	 * Setter qui fixe l'adresse IP du client
 	 * 
-	 * @param ip l'ip du client
+	 * @param ip
+	 *            l'ip du client
 	 */
 	public void setIp(InetAddress ip)
 	{
@@ -116,7 +131,8 @@ public class ClientServerData
 	/**
 	 * Setter qui fixe le port UDP d'écoute du client
 	 * 
-	 * @param port port UDP
+	 * @param port
+	 *            port UDP
 	 */
 	public void setPort(int port)
 	{
@@ -136,11 +152,33 @@ public class ClientServerData
 	/**
 	 * Setter qui fixe la clé publique du client
 	 * 
-	 * @param id clé publique unique du client
+	 * @param id
+	 *            clé publique unique du client
 	 */
 	public void setId(String id)
 	{
 		this.id = id;
+	}
+
+	/**
+	 * Getter du message perso du client
+	 * 
+	 * @return personalMessage, le message perso du client
+	 */
+	public String getPersonalMessage()
+	{
+		return personalMessage;
+	}
+
+	/**
+	 * Setter qui fixe le message perso du client
+	 * 
+	 * @param personalMessage
+	 *            message perso du client
+	 */
+	public void setPersonalMessage(String personalMessage)
+	{
+		this.personalMessage = personalMessage;
 	}
 
 	@Override
