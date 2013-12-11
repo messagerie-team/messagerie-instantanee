@@ -220,7 +220,6 @@ public class Server extends AbstractClientServer
 					{
 						ret = true;
 					}
-
 				}
 			}
 		} catch (ParserConfigurationException e)
@@ -228,6 +227,70 @@ public class Server extends AbstractClientServer
 			getLogger().severe("Erreur de vérifiaction id/mdp sur fichier");
 		}
 		return ret;
+	}
+
+	/**
+	 * Methode permettant de verifier les identifiants de connexion d'un client.
+	 * 
+	 * @param id
+	 *            identifiant du client
+	 * @param password
+	 *            mot de passe du client
+	 * @return true si le couple log/mdp est correct, sinon false
+	 */
+	protected String getClientGroups(String id, String password)
+	{
+		String groupList = "";
+		try
+		{
+			File fXmlFile = new File("server.xml");
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder;
+			dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = null;
+			try
+			{
+				doc = dBuilder.parse(fXmlFile);
+			} catch (SAXException | IOException e)
+			{
+				doc = dBuilder.newDocument();
+				Element rootElement = doc.createElement("clients");
+				doc.appendChild(rootElement);
+			}
+			doc.getDocumentElement().normalize();
+			NodeList clientsList = doc.getElementsByTagName("clients");
+			Node clients = clientsList.item(0);
+			
+			
+			for (int temp = 0; temp < clients.getChildNodes().getLength(); temp++)
+			{
+				Node clientNode = clients.getChildNodes().item(temp);
+				if (clientNode.getNodeType() == Node.ELEMENT_NODE)
+				{
+					Element client = (Element) clientNode;
+					String idClient = client.getElementsByTagName("name").item(0).getTextContent();
+					String passwordClient = client.getElementsByTagName("password").item(0).getTextContent();
+					if (id.equals(idClient) && password.equals(passwordClient))
+					{
+						NodeList groupsL = client.getElementsByTagName("groups");
+						Node groups = groupsL.item(0);
+						for (int i = 0; i < groups.getChildNodes().getLength(); i++)
+						{
+							Node groupNode = groups.getChildNodes().item(i);
+							if (groupNode.getNodeType() == Node.ELEMENT_NODE)
+							{
+								Element group = (Element) groupNode;
+								groupList += (groupList.equals("")?"":",")+ group.getTextContent();
+							}
+						}
+					}
+				}
+			}
+		} catch (ParserConfigurationException e)
+		{
+			getLogger().severe("Erreur de vérifiaction id/mdp sur fichier");
+		}
+		return groupList;
 	}
 
 	/**
