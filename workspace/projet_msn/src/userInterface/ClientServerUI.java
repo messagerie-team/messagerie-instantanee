@@ -163,7 +163,7 @@ public class ClientServerUI
 
 			for (String key : keyClientList)
 			{
-				JListData clientListData = new JListData(key, clientList.get(key)[0] + ": " + clientList.get(key)[1]);
+				JListData clientListData = new JListData(key, clientList.get(key)[0] + ((clientList.get(key)[1].equals("")) ? "" : ": " + clientList.get(key)[1]));
 				simpleClientList.add(clientListData);
 			}
 			jClientList.setListData(simpleClientList);
