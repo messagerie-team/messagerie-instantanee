@@ -25,6 +25,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import model.Client;
 
@@ -39,6 +41,7 @@ public class ClientServerUI
 	private static JFrame dialogFrame;
 	protected static Client client;
 
+	protected static JTextField personalMessageField;
 	protected static HashMap<String, String[]> clientList;
 	private static Set<String> keyClientList;
 	private static Vector<JListData> simpleClientList;
@@ -164,6 +167,7 @@ public class ClientServerUI
 				simpleClientList.add(clientListData);
 			}
 			jClientList.setListData(simpleClientList);
+			getMainFrame().getContentPane().add(personalMessageField, BorderLayout.SOUTH);
 			getMainFrame().getContentPane().add(jClientList, BorderLayout.CENTER);
 			jClientList.setVisible(true);
 		} else
@@ -180,6 +184,35 @@ public class ClientServerUI
 		setMainFrame(new JFrame("Projet msn"));
 		constructMenu();
 		constructConnectionPanel();
+
+		personalMessageField = new JTextField("");
+		personalMessageField.getDocument().addDocumentListener(new DocumentListener()
+		{
+
+			@Override
+			public void removeUpdate(DocumentEvent e)
+			{
+				updatePersonalMessage();
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent e)
+			{
+				updatePersonalMessage();
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent arg0)
+			{
+				updatePersonalMessage();
+			}
+
+			public void updatePersonalMessage()
+			{
+				System.out.println("changement");
+				client.setPersonalMessage(personalMessageField.getText());
+			}
+		});
 
 		getMainFrame().getContentPane().add(menuBar, BorderLayout.NORTH);
 		getMainFrame().getContentPane().add(connectionPanel, BorderLayout.CENTER);
