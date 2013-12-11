@@ -83,10 +83,8 @@ public class ClientServerData
 	}
 
 	/**
-	 * Constructeur qui prend 5 paramètres de ClientServerData.
+	 * Constructeur qui prend 4 paramètres de ClientServerData.
 	 * 
-	 * @param id
-	 *            clé publique du client
 	 * @param name
 	 *            nom du client
 	 * @param ip
@@ -96,9 +94,10 @@ public class ClientServerData
 	 * @param groups
 	 *            groupes du client
 	 */
-	public ClientServerData(String id, String name, InetAddress ip, int port, String groups)
+	public ClientServerData(String name, InetAddress ip, int port, String groups)
 	{
-		this.id = id;
+		SecureRandom random = new SecureRandom();
+		this.id = new BigInteger(130, random).toString(32);
 		this.name = name;
 		this.ip = ip;
 		this.port = port;

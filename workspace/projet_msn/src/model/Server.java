@@ -356,10 +356,10 @@ public class Server extends AbstractClientServer
 	 *            port UDP sur lequel le client écoute
 	 * @return une string de la clé publique du client.
 	 */
-	public String addClient(String name, Socket client, int listeningUDPPort)
+	public String addClient(String name, Socket client, int listeningUDPPort,String groups)
 	{
 		getLogger().info("Ajout d'un client : " + name);
-		ClientServerData newClient = new ClientServerData(name, client.getInetAddress(), listeningUDPPort);
+		ClientServerData newClient = new ClientServerData(name, client.getInetAddress(), listeningUDPPort,groups);
 		if (this.getClients().add(newClient))
 		{
 			new Thread(new Runnable()

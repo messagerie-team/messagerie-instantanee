@@ -41,9 +41,13 @@ public class ThreadComunicationServer extends Thread
 	 */
 	private boolean running;
 	/**
-	 * Variable temporaire utile au traitement des requêtes.
+	 * Variable temporaire d'id utile au traitement des requêtes.
 	 */
-	private String tempVar;
+	private String tempId;
+	/**
+	 * Variable temporaire de password utile au traitement des requêtes.
+	 */
+	private String tempPassword;
 	private static Logger logger = Logger.getLogger(ThreadComunicationServer.class.toString());
 
 	/**
@@ -213,8 +217,8 @@ public class ThreadComunicationServer extends Thread
 				switch (nextToken)
 				{
 				case "name":
-					this.tempVar = token.nextToken();
-					if (!this.tempVar.trim().equals(""))
+					this.tempId = token.nextToken();
+					if (!this.tempId.trim().equals(""))
 					{
 						this.protocol.sendMessage("request:register:password");
 					} else
@@ -228,8 +232,9 @@ public class ThreadComunicationServer extends Thread
 
 					if (!password.trim().equals(""))
 					{
-						if (this.server.verifyIDAndPassword(tempVar, password))
+						if (this.server.verifyIDAndPassword(tempId, password))
 						{
+							this.tempPassword=password;
 							this.protocol.sendMessage("request:register:port");
 						} else
 						{
@@ -248,7 +253,8 @@ public class ThreadComunicationServer extends Thread
 					{
 						String stringPort = token.nextToken();
 						int port = Integer.parseInt(stringPort);
-						String id = this.server.addClient(this.tempVar, this.socket, port);
+						String groups = this.server.getClientGroups(tempId, tempPassword);
+						String id = this.server.addClient(this.tempId, this.socket, port,groups);
 						if (id != null)
 						{
 							this.protocol.sendMessage("reply:register:id:" + id);
