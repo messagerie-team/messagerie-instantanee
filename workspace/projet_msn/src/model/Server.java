@@ -230,13 +230,13 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
-	 * Methode permettant de verifier les identifiants de connexion d'un client.
+	 * Methode récuperer les groupes d'un client.
 	 * 
 	 * @param id
 	 *            identifiant du client
 	 * @param password
 	 *            mot de passe du client
-	 * @return true si le couple log/mdp est correct, sinon false
+	 * @return liste des groupes du client
 	 */
 	protected String getClientGroups(String id, String password)
 	{
