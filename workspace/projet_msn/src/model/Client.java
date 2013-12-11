@@ -43,7 +43,7 @@ public class Client extends AbstractClientServer
 	 * Liste des clients connue par leurs identifiants public. Key : clé
 	 * publique client, value : nom client
 	 */
-	private HashMap<String, String> clientList;
+	private HashMap<String, String[]> clientList;
 	/**
 	 * Liste des dialogs que le client a.
 	 * 
@@ -126,7 +126,7 @@ public class Client extends AbstractClientServer
 		this.id = "";
 		this.listeningUDPPort = listeningUDPPort;
 		this.protocol = new ProtocolUDP(listeningUDPPort);
-		this.clientList = new HashMap<String, String>();
+		this.clientList = new HashMap<String, String[]>();
 		this.dialogs = new ArrayList<ClientDialog>();
 		this.ipServer = ipServer;
 		this.udpServerPort = 30971;
@@ -174,7 +174,7 @@ public class Client extends AbstractClientServer
 		this.id = "";
 		this.listeningUDPPort = listeningUDPPort;
 		this.protocol = new ProtocolUDP(listeningUDPPort);
-		this.clientList = new HashMap<String, String>();
+		this.clientList = new HashMap<String, String[]>();
 		this.dialogs = new ArrayList<ClientDialog>();
 		this.ipServer = ipServer;
 		this.udpServerPort = udpServerPort;
@@ -515,14 +515,14 @@ public class Client extends AbstractClientServer
 	public void addClientList(String list)
 	{
 		StringTokenizer token = new StringTokenizer(list, ",");
-		this.clientList = new HashMap<String, String>();
+		this.clientList = new HashMap<String, String[]>();
 		while (token.hasMoreTokens())
 		{
 			String element = token.nextToken();
 			String elements[] = element.split("-");
 			if (elements.length > 1 && !elements[0].equals(this.id))
 			{
-				this.clientList.put(elements[0], elements[1]);
+				this.clientList.put(elements[0], new String[] {elements[1],elements[2]});
 			}
 		}
 		System.out.println(this.clientList);
@@ -655,7 +655,7 @@ public class Client extends AbstractClientServer
 										}
 										if (!estAjoute)
 										{
-											ClientServerData newClient = new ClientServerData(client, this.clientList.get(client), ((ProtocolUDP) protocol).getLastAdress(), ((ProtocolUDP) protocol).getLastPort());
+											ClientServerData newClient = new ClientServerData(client, this.clientList.get(client)[0], ((ProtocolUDP) protocol).getLastAdress(), ((ProtocolUDP) protocol).getLastPort());
 											System.out.println(newClient);
 											this.getClients().add(newClient);
 											dialog.addClient(newClient);
@@ -843,7 +843,7 @@ public class Client extends AbstractClientServer
 	 * 
 	 * @return clientList, liste de client envoyée par le serveur
 	 */
-	public HashMap<String, String> getClientList()
+	public HashMap<String, String[]> getClientList()
 	{
 		return clientList;
 	}
@@ -854,7 +854,7 @@ public class Client extends AbstractClientServer
 	 * @param clientList
 	 *            liste de clients connectés
 	 */
-	public void setClientList(HashMap<String, String> clientList)
+	public void setClientList(HashMap<String, String[]> clientList)
 	{
 		this.clientList = clientList;
 	}

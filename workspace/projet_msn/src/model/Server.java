@@ -407,7 +407,7 @@ public class Server extends AbstractClientServer
 		boolean firstOne = true;
 		for (ClientServerData client : this.getClients())
 		{
-			ret += ((firstOne) ? "" : ",") + client.getId() + "-" + client.getName();
+			ret += ((firstOne) ? "" : ",") + client.getId() + "-" + client.getName()+"-"+client.getPersonalMessage();
 			firstOne = false;
 		}
 		return ret;

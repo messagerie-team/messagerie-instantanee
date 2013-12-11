@@ -39,7 +39,7 @@ public class ClientServerUI
 	private static JFrame dialogFrame;
 	protected static Client client;
 
-	protected static HashMap<String, String> clientList;
+	protected static HashMap<String, String[]> clientList;
 	private static Set<String> keyClientList;
 	private static Vector<JListData> simpleClientList;
 	protected static JList<JListData> jClientList;
@@ -124,12 +124,12 @@ public class ClientServerUI
 			@Override
 			public void run()
 			{
-				HashMap<String, String> listTemp = new HashMap<>(client.getClientList());
+				HashMap<String, String[]> listTemp = new HashMap<String, String[]>(client.getClientList());
 				while (true)
 				{
 					if (!listTemp.equals(client.getClientList()))
 					{
-						listTemp = new HashMap<>(client.getClientList());
+						listTemp = new HashMap<String, String[]>(client.getClientList());
 						refreshClient();
 					}
 					try
@@ -160,7 +160,7 @@ public class ClientServerUI
 
 			for (String key : keyClientList)
 			{
-				JListData clientListData = new JListData(key, clientList.get(key));
+				JListData clientListData = new JListData(key, clientList.get(key)[0] + " " + clientList.get(key)[1]);
 				simpleClientList.add(clientListData);
 			}
 			jClientList.setListData(simpleClientList);
@@ -244,13 +244,13 @@ public class ClientServerUI
 		serverTCPPort.addActionListener(listenerMenu);
 		JMenuItem UDPPort = new JMenuItem("Port UDP");
 		UDPPort.addActionListener(listenerMenu);
-		//JMenuItem TCPPort = new JMenuItem("Port TCP");
-		//TCPPort.addActionListener(listenerMenu);
+		// JMenuItem TCPPort = new JMenuItem("Port TCP");
+		// TCPPort.addActionListener(listenerMenu);
 		menuConfiguration.add(adressServer);
 		menuConfiguration.add(serverUDPPort);
 		menuConfiguration.add(serverTCPPort);
 		menuConfiguration.add(UDPPort);
-		//menuConfiguration.add(TCPPort);
+		// menuConfiguration.add(TCPPort);
 
 		menuBar.add(menuPrincipal);
 		menuBar.add(menuConfiguration);
@@ -265,7 +265,6 @@ public class ClientServerUI
 		Box principalBox = Box.createVerticalBox();
 		principalBox.setBorder(new EmptyBorder(50, 0, 0, 0));
 
-		
 		JLabel pseudoLabel = new JLabel("Identifiant : ");
 		pseudoLabel.setMinimumSize(new Dimension(110, 20));
 		pseudoLabel.setMaximumSize(new Dimension(135, 25));
@@ -276,7 +275,6 @@ public class ClientServerUI
 		pseudoField.setMaximumSize(new Dimension(135, 25));
 		pseudoField.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-		
 		JLabel passwordLabel = new JLabel("Mot de passe : ");
 		passwordLabel.setMinimumSize(new Dimension(110, 20));
 		passwordLabel.setMaximumSize(new Dimension(135, 25));
@@ -285,7 +283,7 @@ public class ClientServerUI
 		passwordField.setMinimumSize(new Dimension(110, 20));
 		passwordField.setMaximumSize(new Dimension(135, 25));
 		passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
+
 		// Construction du bouton de connexion
 		JButton connectionButton = new JButton("Se connecter");
 		connectionButton.setMinimumSize(new Dimension(110, 20));
@@ -306,7 +304,7 @@ public class ClientServerUI
 	{
 		JOptionPane.showMessageDialog(ClientServerUI.getMainFrame(), message);
 	}
-	
+
 	public static JFrame getMainFrame()
 	{
 		return mainFrame;

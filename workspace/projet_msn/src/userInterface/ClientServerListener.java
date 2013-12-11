@@ -27,7 +27,7 @@ public class ClientServerListener implements ActionListener
 		case "Rafraichir":
 			if (!ClientServerUI.client.getId().equals(""))
 			{
-				HashMap<String, String> list = new HashMap<>(ClientServerUI.client.getClientList());
+				HashMap<String, String[]> list = new HashMap<String, String[]>(ClientServerUI.client.getClientList());
 				ClientServerUI.client.askListToServer();
 				int ttl = 0;
 				while (list.equals(ClientServerUI.client.getClientList()) && ttl < 7)

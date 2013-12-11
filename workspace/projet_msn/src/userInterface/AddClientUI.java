@@ -14,6 +14,7 @@ import javax.swing.JList;
 import model.Client;
 import model.ClientDialog;
 import model.ClientServerData;
+
 /**
  * 
  * @author Dorian, Mickaël, Raphaël, Thibault
@@ -25,7 +26,7 @@ public class AddClientUI
 	public static Client client;
 	public static ClientDialog dialog;
 
-	public static HashMap<String, String> clientList;
+	public static HashMap<String, String[]> clientList;
 	private static Set<String> keyClientList;
 	private static Vector<JListData> simpleClientList;
 	public static JList<JListData> displayList;
@@ -47,12 +48,12 @@ public class AddClientUI
 			@Override
 			public void run()
 			{
-				HashMap<String, String> listTemp = new HashMap<>(client.getClientList());
+				HashMap<String, String[]> listTemp = new HashMap<String, String[]>(client.getClientList());
 				while (true)
 				{
 					if (!listTemp.equals(client.getClientList()))
 					{
-						listTemp = new HashMap<>(client.getClientList());
+						listTemp = new HashMap<String, String[]>(client.getClientList());
 						refreshClient();
 					}
 					try
@@ -60,7 +61,7 @@ public class AddClientUI
 						Thread.sleep(500);
 					} catch (InterruptedException e)
 					{
-						//e.printStackTrace();
+						// e.printStackTrace();
 					}
 				}
 			}
@@ -80,7 +81,7 @@ public class AddClientUI
 
 		for (String key : keyClientList)
 		{
-			JListData clientListData = new JListData(key, clientList.get(key));
+			JListData clientListData = new JListData(key, clientList.get(key)[0] + " " + clientList.get(key)[1]);
 			simpleClientList.add(clientListData);
 		}
 		System.out.println("nouvelle list" + simpleClientList);
