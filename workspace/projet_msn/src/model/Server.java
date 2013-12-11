@@ -260,8 +260,7 @@ public class Server extends AbstractClientServer
 			doc.getDocumentElement().normalize();
 			NodeList clientsList = doc.getElementsByTagName("clients");
 			Node clients = clientsList.item(0);
-			
-			
+
 			for (int temp = 0; temp < clients.getChildNodes().getLength(); temp++)
 			{
 				Node clientNode = clients.getChildNodes().item(temp);
@@ -280,7 +279,7 @@ public class Server extends AbstractClientServer
 							if (groupNode.getNodeType() == Node.ELEMENT_NODE)
 							{
 								Element group = (Element) groupNode;
-								groupList += (groupList.equals("")?"":",")+ group.getTextContent();
+								groupList += (groupList.equals("") ? "" : ",") + group.getTextContent();
 							}
 						}
 					}
@@ -356,10 +355,10 @@ public class Server extends AbstractClientServer
 	 *            port UDP sur lequel le client écoute
 	 * @return une string de la clé publique du client.
 	 */
-	public String addClient(String name, Socket client, int listeningUDPPort,String groups)
+	public String addClient(String name, Socket client, int listeningUDPPort, String groups)
 	{
 		getLogger().info("Ajout d'un client : " + name);
-		ClientServerData newClient = new ClientServerData(name, client.getInetAddress(), listeningUDPPort,groups);
+		ClientServerData newClient = new ClientServerData(name, client.getInetAddress(), listeningUDPPort, groups);
 		if (this.getClients().add(newClient))
 		{
 			new Thread(new Runnable()
@@ -487,6 +486,42 @@ public class Server extends AbstractClientServer
 	}
 
 	/**
+	 * Getter permettant de recupérer la liste de clients connecté appartenant
+	 * au même groupe que le client passé en parametre. Cette méthode est
+	 * utilisée pour envoyer une liste actualisée des clients connectés.
+	 * 
+	 * @param clientRef
+	 *            Client de reference pour les groupes
+	 * @return chaine, client sous la forme
+	 *         "ClePublic-NomCLient,ClePublic-NomClient...."
+	 */
+	public String getListClient(ClientServerData clientRef)
+	{
+		getLogger().log(Level.FINER, "Construction de list Client");
+		String ret = "";
+		String groups = clientRef.getGroups();
+		String[] groupList = groups.split(",");
+		boolean firstOne = true;
+		for (ClientServerData client : this.getClients())
+		{
+			boolean sameGroup = false;
+			for (String group : groupList)
+			{
+				if (client.getGroups().contains(group))
+				{
+					sameGroup = true;
+				}
+			}
+			if (sameGroup)
+			{
+				ret += ((firstOne) ? "" : ",") + client.getId() + "-" + client.getName() + "-" + client.getPersonalMessage();
+				firstOne = false;
+			}
+		}
+		return ret;
+	}
+
+	/**
 	 * Méthode permettant d'envoyer la liste des clients connectés.
 	 * 
 	 * @param client
@@ -494,7 +529,7 @@ public class Server extends AbstractClientServer
 	 */
 	public void sendListClient(ClientServerData client)
 	{
-		String listClient = this.getListClient();
+		String listClient = this.getListClient(client);
 		getLogger().log(Level.FINER, "Envoie de liste client");
 		protocol.sendMessage("listClient:" + listClient, client.getIp(), client.getPort());
 	}
