@@ -168,7 +168,13 @@ public class ClientServerUI
 			}
 			jClientList.setListData(simpleClientList);
 			getMainFrame().getContentPane().add(personalMessageField, BorderLayout.SOUTH);
+
+			boolean isFocused = personalMessageField.isFocusOwner();
 			getMainFrame().getContentPane().add(jClientList, BorderLayout.CENTER);
+			if (isFocused)
+			{
+				personalMessageField.requestFocus(isFocused);
+			}
 			jClientList.setVisible(true);
 		} else
 		{
