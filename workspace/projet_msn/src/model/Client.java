@@ -12,6 +12,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import org.hamcrest.core.IsSame;
+
 import network.Protocol;
 import network.ProtocolUDP;
 
@@ -522,7 +524,13 @@ public class Client extends AbstractClientServer
 			String elements[] = element.split("-");
 			if (elements.length > 1 && !elements[0].equals(this.id))
 			{
-				this.clientList.put(elements[0], new String[] {elements[1],elements[2]});
+				if (elements.length < 3)
+				{
+					this.clientList.put(elements[0], new String[] { elements[1], "" });
+				} else
+				{
+					this.clientList.put(elements[0], new String[] { elements[1], elements[2] });
+				}
 			}
 		}
 		System.out.println(this.clientList);
