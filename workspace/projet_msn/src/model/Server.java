@@ -328,11 +328,72 @@ public class Server extends AbstractClientServer
 			Element passwordClient = doc.createElement("password");
 			passwordClient.setTextContent(password);
 			clientElement.appendChild(passwordClient);
-			
+
 			Element groupsELement = doc.createElement("groups");
 			Element group = doc.createElement("group");
 			group.setTextContent("default");
 			groupsELement.appendChild(group);
+			clientElement.appendChild(groupsELement);
+
+			doc.getFirstChild().appendChild(clientElement);
+
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			DOMSource source = new DOMSource(doc);
+			StreamResult result = new StreamResult(fXmlFile);
+
+			transformer.transform(source, result);
+
+		} catch (ParserConfigurationException | TransformerException e)
+		{
+			getLogger().severe("Erreur d'enregistrement id/mdp sur fichier");
+		}
+	}
+
+	/**
+	 * Methode permettant d'ajouter des identifiants/motDePasse dans la base du
+	 * serveur
+	 * 
+	 * @param id
+	 *            identifiant du client
+	 * @param password
+	 *            mot de passe du client
+	 */
+	protected void registerClientInBase(String id, String password, String[] groups)
+	{
+		try
+		{
+			getLogger().info("Ajout identifiant/mdp dans la base serveur : " + id + "/" + password);
+			File fXmlFile = new File("server.xml");
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = null;
+			try
+			{
+				doc = dBuilder.parse(fXmlFile);
+			} catch (SAXException | IOException e)
+			{
+				doc = dBuilder.newDocument();
+				Element rootElement = doc.createElement("clients");
+				doc.appendChild(rootElement);
+			}
+
+			Element clientElement = doc.createElement("client");
+			Element nameClient = doc.createElement("name");
+			nameClient.setTextContent(id);
+			clientElement.appendChild(nameClient);
+
+			Element passwordClient = doc.createElement("password");
+			passwordClient.setTextContent(password);
+			clientElement.appendChild(passwordClient);
+
+			Element groupsELement = doc.createElement("groups");
+			for (String group : groups)
+			{
+				Element groupElement = doc.createElement("group");
+				groupElement.setTextContent(group);
+				groupsELement.appendChild(groupElement);
+			}
 			clientElement.appendChild(groupsELement);
 
 			doc.getFirstChild().appendChild(clientElement);
@@ -679,7 +740,24 @@ public class Server extends AbstractClientServer
 				String login = sc.nextLine();
 				System.out.println("Password :");
 				String pass = sc.nextLine();
-				server.registerClientInBase(login, pass);
+				System.out.println("Groups? (YES/NO):");
+				String groupQuestion = sc.nextLine();
+				if (("YES").equals(groupQuestion))
+				{
+					ArrayList<String> groupList = new ArrayList<String>();
+					String continu = "YES";
+					while (("YES").equals(continu))
+					{
+						System.out.println("Group name :");
+						groupList.add(sc.nextLine());
+						System.out.println("More group? (YES/NO) :");
+						continu = sc.nextLine();
+					}
+					server.registerClientInBase(login, pass,groupList.toArray(new String[0]));
+				} else
+				{
+					server.registerClientInBase(login, pass);
+				}
 				System.out.println("OK");
 				break;
 			default:
