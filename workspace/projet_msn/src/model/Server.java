@@ -328,6 +328,12 @@ public class Server extends AbstractClientServer
 			Element passwordClient = doc.createElement("password");
 			passwordClient.setTextContent(password);
 			clientElement.appendChild(passwordClient);
+			
+			Element groupsELement = doc.createElement("groups");
+			Element group = doc.createElement("group");
+			group.setTextContent("default");
+			groupsELement.appendChild(group);
+			clientElement.appendChild(groupsELement);
 
 			doc.getFirstChild().appendChild(clientElement);
 
