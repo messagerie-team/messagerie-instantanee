@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -123,7 +125,6 @@ public class ClientServerUI
 
 		new Thread(new Runnable()
 		{
-
 			@Override
 			public void run()
 			{
@@ -323,11 +324,36 @@ public class ClientServerUI
 		passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		// Construction du bouton de connexion
-		JButton connectionButton = new JButton("Se connecter");
+		final JButton connectionButton = new JButton("Se connecter");
 		connectionButton.setMinimumSize(new Dimension(110, 20));
 		connectionButton.setMaximumSize(new Dimension(135, 25));
 		connectionButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		connectionButton.addActionListener(listenerMenu);
+		
+		passwordField.addKeyListener(new KeyListener()
+		{
+			
+			@Override
+			public void keyTyped(KeyEvent e)
+			{
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER)
+				{
+					connectionButton.doClick();
+				}
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e)
+			{
+				
+			}
+		});
 
 		// Ajout des elements
 		principalBox.add(pseudoLabel);
