@@ -171,7 +171,6 @@ public class Server extends AbstractClientServer
 	 */
 	public void stopServer()
 	{
-		// System.out.println("Fermeture du serveur");
 		this.running = false;
 		this.threadListenerTCP.stopThread();
 		this.threadListenerUDP.stopThread();
@@ -212,8 +211,6 @@ public class Server extends AbstractClientServer
 			for (int temp = 0; temp < clients.getChildNodes().getLength(); temp++)
 			{
 				Node clientNode = clients.getChildNodes().item(temp);
-				// System.out.println("\nCurrent Element :" +
-				// clientNode.getNodeName());
 				if (clientNode.getNodeType() == Node.ELEMENT_NODE)
 				{
 					Element client = (Element) clientNode;
@@ -228,8 +225,6 @@ public class Server extends AbstractClientServer
 			}
 		} catch (ParserConfigurationException e)
 		{
-			// System.out.println("Erreur de vérifiaction id/mdp, message : " +
-			// e.getMessage());
 			getLogger().severe("Erreur de vérifiaction id/mdp sur fichier");
 		}
 		return ret;
@@ -283,8 +278,6 @@ public class Server extends AbstractClientServer
 
 		} catch (ParserConfigurationException | TransformerException e)
 		{
-			// System.out.println("Erreur de vérifiaction id/mdp, message : " +
-			// e.getMessage());
 			getLogger().severe("Erreur d'enregistrement id/mdp sur fichier");
 		}
 	}
@@ -502,7 +495,6 @@ public class Server extends AbstractClientServer
 			threadClientCom.start();
 		} else
 		{
-			// System.err.println("Erreur serveur, treatIncome: mauvaise argument");
 			getLogger().severe("Erreur serveur, treatIncome: mauvaise argument");
 		}
 	}
