@@ -36,6 +36,10 @@ public class Client extends AbstractClientServer
 	 */
 	private String password;
 	/**
+	 * Message perso du client.
+	 */
+	private String personalMessage;
+	/**
 	 * Liste des clients connue par leurs identifiants public. Key : clé
 	 * publique client, value : nom client
 	 */
@@ -118,6 +122,7 @@ public class Client extends AbstractClientServer
 		this.errorsMessages = "";
 		this.name = name;
 		this.password = "";
+		this.personalMessage = "";
 		this.id = "";
 		this.listeningUDPPort = listeningUDPPort;
 		this.protocol = new ProtocolUDP(listeningUDPPort);
@@ -165,6 +170,7 @@ public class Client extends AbstractClientServer
 		this.errorsMessages = "";
 		this.name = name;
 		this.password = "";
+		this.personalMessage = "";
 		this.id = "";
 		this.listeningUDPPort = listeningUDPPort;
 		this.protocol = new ProtocolUDP(listeningUDPPort);
@@ -1056,6 +1062,27 @@ public class Client extends AbstractClientServer
 	public void setErrorsMessages(String errorsMessages)
 	{
 		this.errorsMessages = errorsMessages;
+	}
+
+	/**
+	 * Getter du message perso du client
+	 * 
+	 * @return personalMessage, le message perso du client
+	 */
+	public String getPersonalMessage()
+	{
+		return personalMessage;
+	}
+
+	/**
+	 * Setter qui fixe le message perso du client
+	 * 
+	 * @param personalMessage
+	 *            message perso du client
+	 */
+	public void setPersonalMessage(String personalMessage)
+	{
+		this.personalMessage = personalMessage;
 	}
 
 	/**
