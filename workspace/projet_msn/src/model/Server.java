@@ -196,7 +196,16 @@ public class Server extends AbstractClientServer
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder;
 			dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(fXmlFile);
+			Document doc = null;
+			try
+			{
+				doc = dBuilder.parse(fXmlFile);
+			} catch (SAXException | IOException e)
+			{
+				doc = dBuilder.newDocument();
+				Element rootElement = doc.createElement("clients");
+				doc.appendChild(rootElement);
+			}
 			doc.getDocumentElement().normalize();
 			NodeList clientsList = doc.getElementsByTagName("clients");
 			Node clients = clientsList.item(0);
@@ -217,7 +226,7 @@ public class Server extends AbstractClientServer
 
 				}
 			}
-		} catch (ParserConfigurationException | SAXException | IOException e)
+		} catch (ParserConfigurationException e)
 		{
 			// System.out.println("Erreur de vérifiaction id/mdp, message : " +
 			// e.getMessage());
@@ -242,9 +251,17 @@ public class Server extends AbstractClientServer
 			getLogger().info("Ajout identifiant/mdp dans la base serveur : " + id + "/" + password);
 			File fXmlFile = new File("server.xml");
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder dBuilder;
-			dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(fXmlFile);
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = null;
+			try
+			{
+				doc = dBuilder.parse(fXmlFile);
+			} catch (SAXException | IOException e)
+			{
+				doc = dBuilder.newDocument();
+				Element rootElement = doc.createElement("clients");
+				doc.appendChild(rootElement);
+			}
 
 			Element clientElement = doc.createElement("client");
 			Element nameClient = doc.createElement("name");
@@ -264,7 +281,7 @@ public class Server extends AbstractClientServer
 
 			transformer.transform(source, result);
 
-		} catch (ParserConfigurationException | SAXException | IOException | TransformerException e)
+		} catch (ParserConfigurationException | TransformerException e)
 		{
 			// System.out.println("Erreur de vérifiaction id/mdp, message : " +
 			// e.getMessage());
