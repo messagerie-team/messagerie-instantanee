@@ -26,6 +26,10 @@ public class ClientServerData
 	 */
 	private String personalMessage;
 	/**
+	 * groupes auquel appartient le client.
+	 */
+	private String groups;
+	/**
 	 * Adresse ip du client.
 	 */
 	private InetAddress ip;
@@ -53,6 +57,7 @@ public class ClientServerData
 		this.ip = ip;
 		this.port = port;
 		this.personalMessage = "";
+		this.groups = "";
 	}
 
 	/**
@@ -74,6 +79,31 @@ public class ClientServerData
 		this.ip = ip;
 		this.port = port;
 		this.personalMessage = "";
+		this.groups = "";
+	}
+
+	/**
+	 * Constructeur qui prend 5 paramètres de ClientServerData.
+	 * 
+	 * @param id
+	 *            clé publique du client
+	 * @param name
+	 *            nom du client
+	 * @param ip
+	 *            ip du client
+	 * @param port
+	 *            port d'écoute UDP du client
+	 * @param groups
+	 *            groupes du client
+	 */
+	public ClientServerData(String id, String name, InetAddress ip, int port, String groups)
+	{
+		this.id = id;
+		this.name = name;
+		this.ip = ip;
+		this.port = port;
+		this.personalMessage = "";
+		this.groups = groups;
 	}
 
 	/**
@@ -179,6 +209,27 @@ public class ClientServerData
 	public void setPersonalMessage(String personalMessage)
 	{
 		this.personalMessage = personalMessage;
+	}
+
+	/**
+	 * Getter des groupes du client
+	 * 
+	 * @return groups, les groupes du client
+	 */
+	public String getGroups()
+	{
+		return groups;
+	}
+
+	/**
+	 * Setter qui fixe les groupes du client
+	 * 
+	 * @param groups
+	 *            groupes du client
+	 */
+	public void setGroups(String groups)
+	{
+		this.groups = groups;
 	}
 
 	@Override
