@@ -524,7 +524,14 @@ public class Server extends AbstractClientServer
 				}
 				if (client != null)
 				{
-					client.setPersonalMessage(personalMessage);
+					if (!client.getPersonalMessage().equals(personalMessage))
+					{
+						client.setPersonalMessage(personalMessage);
+						for (ClientServerData clientServerData : this.getClients())
+						{
+							this.sendListClient(clientServerData);
+						}
+					}
 					clientTTL.put(client, 10);
 				}
 			}
