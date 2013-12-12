@@ -61,6 +61,12 @@ public class Client extends AbstractClientServer
 	 */
 	private ThreadListenerUDP threadListenerUDP;
 	/**
+	 * Thread d'écoute du port TCP
+	 * 
+	 * @see ThreadListenerTCP
+	 */
+	private ThreadListenerTCP threadListenerTCP;
+	/**
 	 * Protocol de communication du client.
 	 * 
 	 * @see Protocol
@@ -132,6 +138,8 @@ public class Client extends AbstractClientServer
 		this.udpServerPort = 30971;
 		this.tcpServerPort = 30970;
 		this.threadComunicationClient = new ThreadComunicationClient(this, ipServer);
+		this.threadListenerTCP = new ThreadListenerTCP(this, 13267);
+		this.threadListenerTCP.start();
 		this.threadListenerUDP = new ThreadListenerUDP(this, this.protocol);
 		this.threadListenerUDP.start();
 	}
