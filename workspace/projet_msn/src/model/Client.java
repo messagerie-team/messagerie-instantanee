@@ -139,7 +139,7 @@ public class Client extends AbstractClientServer
 		this.udpServerPort = 30971;
 		this.tcpServerPort = 30970;
 		this.threadComunicationClient = new ThreadComunicationClient(this, ipServer);
-		this.threadListenerTCP = new ThreadListenerTCP(this, 13267);
+		this.threadListenerTCP = new ThreadListenerTCP(this, 13268);
 		this.threadListenerTCP.start();
 		this.threadListenerUDP = new ThreadListenerUDP(this, this.protocol);
 		this.threadListenerUDP.start();

@@ -79,6 +79,7 @@ public class ProtocolTCP extends Protocol
 	public void sendMessage(String message)
 	{
 		this.writer.println(message);
+		this.writer.flush();
 	}
 
 	/**

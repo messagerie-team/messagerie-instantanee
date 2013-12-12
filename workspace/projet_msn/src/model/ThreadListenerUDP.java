@@ -68,6 +68,7 @@ public class ThreadListenerUDP extends Thread
 		} catch (Exception e)
 		{
 			logger.severe("Erreur du ThreadListenerUDP, message: " + e.getMessage());
+			this.start();
 			//System.err.println("Erreur du ThreadListenerUDP, message: " + e.getMessage());
 			//e.printStackTrace();
 		}

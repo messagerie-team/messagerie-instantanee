@@ -14,9 +14,11 @@ import java.util.ArrayList;
 
 import network.FileTransfer;
 import network.Protocol;
+import network.ProtocolTCP;
 
 /**
  * Classe représentant un dialogue entre clients.
+ * 
  * @author Dorian, Mickaël, Raphaël, Thibault
  */
 public class ClientDialog
@@ -58,12 +60,14 @@ public class ClientDialog
 	private boolean inUse;
 
 	/**
-	 * Constructeur avec 2 paramètres créant un dialogue. Ce constructeur est appelé
-	 * par le client lors de la création d'un dialogue. Une clé
-	 * unique est générée par le constructeur pour identifier le dialogue.
+	 * Constructeur avec 2 paramètres créant un dialogue. Ce constructeur est
+	 * appelé par le client lors de la création d'un dialogue. Une clé unique
+	 * est générée par le constructeur pour identifier le dialogue.
 	 * 
-	 * @param client client auquel on démarre un dialogue
-	 * @param protocol protocole utilisé pour ce dialogue
+	 * @param client
+	 *            client auquel on démarre un dialogue
+	 * @param protocol
+	 *            protocole utilisé pour ce dialogue
 	 */
 	public ClientDialog(Client client, Protocol protocol)
 	{
@@ -77,14 +81,17 @@ public class ClientDialog
 	}
 
 	/**
-	 * Constructeur avec 2 paramètres créant un dialogue. Ce constructeur est appelé
-	 * par le client lorsqu'il reçoit une notification de dialogue par un autre
-	 * client. Le premier paramètre correspond à la clé unique du dialogue qui a
-	 * du être reçu.
+	 * Constructeur avec 2 paramètres créant un dialogue. Ce constructeur est
+	 * appelé par le client lorsqu'il reçoit une notification de dialogue par un
+	 * autre client. Le premier paramètre correspond à la clé unique du dialogue
+	 * qui a du être reçu.
 	 * 
-	 * @param idDialog clé unique du dialogue
-	 * @param client client auquel est rataché le dialogue
-	 * @param protocol protocol utilisé pour ce dialogue
+	 * @param idDialog
+	 *            clé unique du dialogue
+	 * @param client
+	 *            client auquel est rataché le dialogue
+	 * @param protocol
+	 *            protocol utilisé pour ce dialogue
 	 */
 	public ClientDialog(String idDialog, Client client, Protocol protocol)
 	{
@@ -100,7 +107,8 @@ public class ClientDialog
 	/**
 	 * Méthode permettant d'ajouter un message au dialogue
 	 * 
-	 * @param message rajoute un message sur la fenêtre du dialogue
+	 * @param message
+	 *            rajoute un message sur la fenêtre du dialogue
 	 */
 	public void addMessage(String message)
 	{
@@ -111,8 +119,9 @@ public class ClientDialog
 	/**
 	 * Méthode permettant d'envoyer un message à tous les clients du dialogue.
 	 * 
-	 * @param message message que l'on souhaite envoyé à l'autre client
-	 * {@link #addMessage(String)}
+	 * @param message
+	 *            message que l'on souhaite envoyé à l'autre client
+	 *            {@link #addMessage(String)}
 	 */
 	public void sendMessage(String message)
 	{
@@ -123,11 +132,12 @@ public class ClientDialog
 		}
 		this.addMessage("moi>" + message);
 	}
-	
+
 	/**
 	 * Méthode permettant d'envoyer un fichier à tous les clients du dialogue.
 	 * 
-	 * @param file fichier que l'on souhaite envoyé à l'autre client
+	 * @param file
+	 *            fichier que l'on souhaite envoyé à l'autre client
 	 * 
 	 */
 	public void sendFile(String file)
@@ -135,23 +145,28 @@ public class ClientDialog
 		this.inUse = true;
 		for (ClientServerData client : this.clients)
 		{
-			//this.protocol.sendMessage("dialog:message:" + this.idDialog + ":" + this.client.getName() + ">" + message, client.getIp(), client.getPort());
+			// this.protocol.sendMessage("dialog:message:" + this.idDialog + ":"
+			// + this.client.getName() + ">" + message, client.getIp(),
+			// client.getPort());
 			try
 			{
-				Socket sock = new Socket(client.getIp(), 13268);
+				Socket socket = new Socket(client.getIp(), 13268);
+				Protocol protocol = new ProtocolTCP(socket);
+				File fileF = new File(file);
+				//protocol.sendMessage("d_"+fileF.getName()+"\n");
 				System.out.println("Connecting...");
-		        InputStream is = sock.getInputStream();
-		        OutputStream os = sock.getOutputStream();
-		        // send file
-		        try
+				InputStream is = socket.getInputStream();
+				OutputStream os = socket.getOutputStream();
+				// send file
+				try
 				{
-					FileTransfer.send(os,file);
+					FileTransfer.send(os, file);
 				} catch (Exception e)
 				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-		        sock.close();
+				socket.close();
 			} catch (IOException e)
 			{
 				e.printStackTrace();
@@ -162,23 +177,24 @@ public class ClientDialog
 	/**
 	 * Méthode permettant de gérer la réception d'un message
 	 * 
-	 * @param message message reçu 
-	 * @return message, message reçu traité
-	 * {@link #addMessage(String)}
+	 * @param message
+	 *            message reçu
+	 * @return message, message reçu traité {@link #addMessage(String)}
 	 */
 	public String receiveMessage(String message)
 	{
 		System.out.println(this.idDialog + "->" + message);
-		//remettre le dialogue en actif
+		// remettre le dialogue en actif
 		this.inUse = true;
 		this.addMessage(message);
 		return message;
 	}
-	
+
 	/**
 	 * Méthode permettant de gérer la réception d'un fichier
 	 * 
-	 * @param file fichier reçu 
+	 * @param file
+	 *            fichier reçu
 	 * @return message, message reçu traité
 	 */
 	public String receiveFile(String file)
@@ -189,7 +205,8 @@ public class ClientDialog
 	/**
 	 * Méthode permettant d'ajouter un client au dialogue
 	 * 
-	 * @param client client que l'on souhaite ajouter au dialogue
+	 * @param client
+	 *            client que l'on souhaite ajouter au dialogue
 	 * @return true si le client est bien ajouté, false sinon.
 	 */
 	public boolean addClient(ClientServerData client)
@@ -212,14 +229,15 @@ public class ClientDialog
 	/**
 	 * Méthode permettant de supprimer un client du dialogue.
 	 * 
-	 * @param client à supprimer
+	 * @param client
+	 *            à supprimer
 	 * @return la liste des clients à jour
 	 */
 	public boolean removeClient(ClientServerData client)
 	{
 		return this.clients.remove(client);
 	}
-	
+
 	/**
 	 * Getter de la clé unique du dialogue
 	 * 
@@ -233,7 +251,8 @@ public class ClientDialog
 	/**
 	 * Setter qui fixe la clé unique du dialogue
 	 * 
-	 * @param idDialog la clé unique du dialogue
+	 * @param idDialog
+	 *            la clé unique du dialogue
 	 */
 	public void setIdDialog(String idDialog)
 	{
@@ -253,7 +272,8 @@ public class ClientDialog
 	/**
 	 * Setter qui fixe la liste des clients qui le client voit
 	 * 
-	 * @param clients la liste des clients que l'on veut ajouter
+	 * @param clients
+	 *            la liste des clients que l'on veut ajouter
 	 */
 	public void setClients(ArrayList<ClientServerData> clients)
 	{
@@ -273,7 +293,8 @@ public class ClientDialog
 	/**
 	 * Setter qui fixe le protocole utilisé
 	 * 
-	 * @param protocol le protocole utilisé
+	 * @param protocol
+	 *            le protocole utilisé
 	 */
 	public void setProtocol(Protocol protocol)
 	{
@@ -281,7 +302,8 @@ public class ClientDialog
 	}
 
 	/**
-	 * Getter du dialogue, c'est à dire l'ensemble de la conversation entre n clients
+	 * Getter du dialogue, c'est à dire l'ensemble de la conversation entre n
+	 * clients
 	 * 
 	 * @return dialogue, le dialogue
 	 */
@@ -291,9 +313,11 @@ public class ClientDialog
 	}
 
 	/**
-	 * Setter qui fixe le dialogue, c'est à dire l'ensemble de la conversation entre n clients
+	 * Setter qui fixe le dialogue, c'est à dire l'ensemble de la conversation
+	 * entre n clients
 	 * 
-	 * @param dialogue conversation complète entre n clients
+	 * @param dialogue
+	 *            conversation complète entre n clients
 	 */
 	public void setDialogue(String dialogue)
 	{
@@ -313,7 +337,8 @@ public class ClientDialog
 	/**
 	 * Setter qui fixe le dernier message d'un dialogue
 	 * 
-	 * @param lastMessage message que l'on veut ajouter à la conversation
+	 * @param lastMessage
+	 *            message que l'on veut ajouter à la conversation
 	 */
 	public void setLastMessage(String lastMessage)
 	{
@@ -333,7 +358,8 @@ public class ClientDialog
 	/**
 	 * Setter qui fixe l'état de la conversation
 	 * 
-	 * @param inUse état de la conversation
+	 * @param inUse
+	 *            état de la conversation
 	 */
 	public void setInUse(boolean inUse)
 	{

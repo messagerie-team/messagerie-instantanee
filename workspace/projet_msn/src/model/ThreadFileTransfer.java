@@ -68,11 +68,11 @@ public class ThreadFileTransfer extends Thread
 			//while (running)
 			{
 				Thread.sleep(500);
-				String message = protocol.readMessage();
+				//String message = protocol.readMessage();
 				InputStream is = this.socket.getInputStream();
 				try
 				{
-					FileTransfer.receiveFile(is, "test.txt");
+					FileTransfer.receiveFile(is, "dd");
 				} catch (Exception e)
 				{
 					// TODO Auto-generated catch block
