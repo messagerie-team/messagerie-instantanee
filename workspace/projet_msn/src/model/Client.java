@@ -444,7 +444,7 @@ public class Client extends AbstractClientServer
 	 *            id du dialogue avec lequel on souhaite envoyer le message
 	 * @return true si le message est parti, false sinon
 	 */
-	public boolean sendMessageToClient(String message, String idDialog)
+	public boolean sendMessageToDialog(String message, String idDialog)
 	{
 		ClientDialog dialog = null;
 		for (ClientDialog dial : this.dialogs)
@@ -1139,7 +1139,7 @@ public class Client extends AbstractClientServer
 				sc.reset();
 				System.out.println("Message:");
 				String mes = sc.nextLine();
-				client.sendMessageToClient(mes, client.dialogs.get(0).getIdDialog());
+				client.sendMessageToDialog(mes, client.dialogs.get(0).getIdDialog());
 				break;
 			case "refrech":
 				break;

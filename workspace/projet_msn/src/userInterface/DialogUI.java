@@ -396,7 +396,7 @@ public class DialogUI extends JFrame
 			{
 				message += messageSplit + " ";
 			}
-			this.client.sendMessageToClient(message, dialog.getKey());
+			this.client.sendMessageToDialog(message, dialog.getKey());
 			this.textAreaSaisie.setText("");
 		}
 	}
