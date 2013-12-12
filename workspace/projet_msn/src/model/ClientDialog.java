@@ -12,6 +12,7 @@ import java.net.UnknownHostException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 
+import network.FileTransfer;
 import network.Protocol;
 
 /**
@@ -142,17 +143,14 @@ public class ClientDialog
 		        InputStream is = sock.getInputStream();
 		        OutputStream os = sock.getOutputStream();
 		        // send file
-		        File myFile = new File(file);
-		        byte[] mybytearray = new byte[(int) myFile.length() + 1];
-		        FileInputStream fis = new FileInputStream(myFile);
-		        BufferedInputStream bis = new BufferedInputStream(fis);
-		        bis.read(mybytearray, 0, mybytearray.length);
-		        System.out.println("Sending...");
-		        os.write(mybytearray, 0, mybytearray.length);
-		        os.flush();
-
-		        is.close();
-		        bis.close();
+		        try
+				{
+					FileTransfer.send(os);
+				} catch (Exception e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		        sock.close();
 			} catch (IOException e)
 			{
