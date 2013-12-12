@@ -461,6 +461,33 @@ public class Client extends AbstractClientServer
 		}
 		return false;
 	}
+	
+	/**
+	 * Méthode permettant au client d'envoyer un fichier dans un dialogue.
+	 * 
+	 * @param file
+	 *            fichier que l'on souhaite envoyer
+	 * @param idDialog
+	 *            id du dialogue avec lequel on souhaite envoyer le message
+	 * @return true si le fichier est parti, false sinon
+	 */
+	public boolean sendFileToDialog(String file, String idDialog)
+	{
+		ClientDialog dialog = null;
+		for (ClientDialog dial : this.dialogs)
+		{
+			if (dial.getIdDialog().equals(idDialog))
+			{
+				dialog = dial;
+			}
+		}
+		if (dialog != null)
+		{
+			//dialog.sendMessage(message);
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * Méthode permettant de désactiver un dialogue.
