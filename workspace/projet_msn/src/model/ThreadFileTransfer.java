@@ -72,7 +72,7 @@ public class ThreadFileTransfer extends Thread
 				InputStream is = this.socket.getInputStream();
 				try
 				{
-					FileTransfer.receiveFile(is, "test");
+					FileTransfer.receiveFile(is, "test.txt");
 				} catch (Exception e)
 				{
 					// TODO Auto-generated catch block

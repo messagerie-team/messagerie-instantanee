@@ -25,9 +25,8 @@ public class SendFileUI
 	private static JFrame mainFrame;
 	public static Client client;
 	public static ClientDialog dialog;
-	
-	public static JFileChooser fileChooser;
 
+	public static JFileChooser fileChooser;
 
 	/**
 	 * Création de la fenêtre principale.
@@ -55,20 +54,20 @@ public class SendFileUI
 		searchButton.setPreferredSize(new Dimension(90, 23));
 		searchButton.setMaximumSize(new Dimension(90, 23));
 		searchButton.setMinimumSize(new Dimension(90, 23));
-		
+
 		final JTextField searchResultField = new JTextField();
 		searchResultField.setPreferredSize(new Dimension(190, 23));
 		searchResultField.setMaximumSize(new Dimension(190, 23));
 		searchResultField.setMinimumSize(new Dimension(190, 23));
-		
+
 		JButton sendButton = new JButton("Envoyer");
 		sendButton.setPreferredSize(new Dimension(90, 23));
 		sendButton.setMaximumSize(new Dimension(90, 23));
 		sendButton.setMinimumSize(new Dimension(90, 23));
-		
+
 		searchButton.addActionListener(new ActionListener()
 		{
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
@@ -83,11 +82,21 @@ public class SendFileUI
 				}
 			}
 		});
-		getMainFrame().setLayout(new GridLayout(2,2));
+
+		sendButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				client.sendFileToDialog(searchResultField.getText(), dialog.getIdDialog());
+			}
+		});
+
+		getMainFrame().setLayout(new GridLayout(2, 2));
 		getMainFrame().add(searchResultField);
 		getMainFrame().add(searchButton);
 		getMainFrame().add(sendButton);
-		
+
 		getMainFrame().setLocation(400, 300);
 		getMainFrame().setResizable(false);
 		getMainFrame().setVisible(true);

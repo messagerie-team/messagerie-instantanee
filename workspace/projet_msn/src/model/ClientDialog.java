@@ -138,7 +138,7 @@ public class ClientDialog
 			//this.protocol.sendMessage("dialog:message:" + this.idDialog + ":" + this.client.getName() + ">" + message, client.getIp(), client.getPort());
 			try
 			{
-				Socket sock = new Socket(client.getIp(), 13267);
+				Socket sock = new Socket(client.getIp(), 13268);
 				System.out.println("Connecting...");
 		        InputStream is = sock.getInputStream();
 		        OutputStream os = sock.getOutputStream();
