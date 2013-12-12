@@ -8,9 +8,21 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+/**
+ * Classe représentant le transfert de fichier
+ * 
+ * @author Dorian, Mickaël, Raphaël, Thibault
+ */
 public class FileTransfer
 {
-	public static void send(OutputStream os,String file) throws Exception
+	/**
+	 * Methode permettant d'envoyer un fichier
+	 * 
+	 * @param os
+	 * @param file
+	 * @throws Exception
+	 */
+	public static void send(OutputStream os, String file) throws Exception
 	{
 		// sendfile
 		File myFile = new File(file);
@@ -24,7 +36,14 @@ public class FileTransfer
 		bis.close();
 	}
 
-	public static void receiveFile(InputStream is,String folder) throws Exception
+	/**
+	 * Methode permettant de recevoir un fichier
+	 * 
+	 * @param is
+	 * @param folder
+	 * @throws Exception
+	 */
+	public static void receiveFile(InputStream is, String folder) throws Exception
 	{
 		int filesize = 6022386;
 		int bytesRead;

@@ -2,6 +2,7 @@ package model;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -578,8 +579,15 @@ public class Client extends AbstractClientServer
 	@Override
 	public void treatIncomeTCP(Object object)
 	{
-		// Pour le moment pas d'income TCP a géré vue qu'aucune machine ne se
-		// connecte à un client en TCP
+		if (object instanceof Socket)
+		{
+			getLogger().log(Level.FINEST, "Traitement Income TCP");
+			//ThreadComunicationServer threadClientCom = new ThreadComunicationServer(this, (Socket) object);
+			//threadClientCom.start();
+		} else
+		{
+			getLogger().severe("Erreur serveur, treatIncome: mauvaise argument");
+		}
 	}
 
 	/**
