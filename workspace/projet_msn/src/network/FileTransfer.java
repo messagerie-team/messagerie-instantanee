@@ -10,10 +10,10 @@ import java.io.OutputStream;
 
 public class FileTransfer
 {
-	public static void send(OutputStream os) throws Exception
+	public static void send(OutputStream os,String file) throws Exception
 	{
 		// sendfile
-		File myFile = new File("/home/nilesh/opt/eclipse/about.html");
+		File myFile = new File(file);
 		byte[] mybytearray = new byte[(int) myFile.length() + 1];
 		FileInputStream fis = new FileInputStream(myFile);
 		BufferedInputStream bis = new BufferedInputStream(fis);
@@ -24,14 +24,14 @@ public class FileTransfer
 		bis.close();
 	}
 
-	public static void receiveFile(InputStream is) throws Exception
+	public static void receiveFile(InputStream is,String folder) throws Exception
 	{
 		int filesize = 6022386;
 		int bytesRead;
 		int current = 0;
 		byte[] mybytearray = new byte[filesize];
 
-		FileOutputStream fos = new FileOutputStream("def");
+		FileOutputStream fos = new FileOutputStream(folder);
 		BufferedOutputStream bos = new BufferedOutputStream(fos);
 		bytesRead = is.read(mybytearray, 0, mybytearray.length);
 		current = bytesRead;
