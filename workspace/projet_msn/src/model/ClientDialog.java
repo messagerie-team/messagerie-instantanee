@@ -127,7 +127,7 @@ public class ClientDialog
 	 * Méthode permettant d'envoyer un fichier à tous les clients du dialogue.
 	 * 
 	 * @param file fichier que l'on souhaite envoyé à l'autre client
-	 * {@link #addMessage(String)}
+	 * 
 	 */
 	public void sendFile(String file)
 	{
@@ -175,6 +175,17 @@ public class ClientDialog
 		this.inUse = true;
 		this.addMessage(message);
 		return message;
+	}
+	
+	/**
+	 * Méthode permettant de gérer la réception d'un fichier
+	 * 
+	 * @param file fichier reçu 
+	 * @return message, message reçu traité
+	 */
+	public String receiveFile(String file)
+	{
+		return "";
 	}
 
 	/**
