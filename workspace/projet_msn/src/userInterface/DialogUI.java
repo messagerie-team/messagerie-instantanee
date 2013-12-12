@@ -169,6 +169,37 @@ public class DialogUI extends JFrame
 				}
 			}
 		});
+		
+		JButton buttonSendFile = new JButton("fichier");
+		buttonSendFile.setPreferredSize(new Dimension(90, 23));
+		buttonSendFile.setMaximumSize(new Dimension(90, 23));
+		buttonSendFile.setMinimumSize(new Dimension(90, 23));
+		buttonSendFile.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				// hideDialog();
+				if (jDialogList.getSelectedValue() != null)
+				{
+					JListData dialogListElement = jDialogList.getSelectedValue();
+					String idDialog = dialogListElement.getKey();
+					ArrayList<ClientDialog> listDialog = client.getDialogs();
+					ClientDialog dialog = null;
+					for (ClientDialog clientDialog : listDialog)
+					{
+						if (clientDialog.getIdDialog().equals(idDialog))
+						{
+							dialog = clientDialog;
+						}
+					}
+					if (dialog != null)
+					{
+						SendFileUI addClient = new SendFileUI(client, dialog);
+						addClient.toString();
+					}
+				}
+			}
+		});
 
 		JButton buttonCloseDialog = new JButton("Fermer");
 		buttonCloseDialog.setPreferredSize(new Dimension(90, 23));
@@ -182,9 +213,10 @@ public class DialogUI extends JFrame
 			}
 		});
 
-		groupButton.setBorder(new EmptyBorder(20, 5, 5, 5));
+		groupButton.setBorder(new EmptyBorder(5, 5, 5, 5));
 		groupButton.add(buttonSend);
 		groupButton.add(buttonAddClient);
+		groupButton.add(buttonSendFile);
 		groupButton.add(buttonCloseDialog);
 		buttonSend.setBorder(new EmptyBorder(5, 5, 5, 5));
 		buttonAddClient.setBorder(new EmptyBorder(5, 5, 5, 5));
