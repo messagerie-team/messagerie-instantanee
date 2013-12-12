@@ -582,8 +582,8 @@ public class Client extends AbstractClientServer
 		if (object instanceof Socket)
 		{
 			getLogger().log(Level.FINEST, "Traitement Income TCP");
-			//ThreadComunicationServer threadClientCom = new ThreadComunicationServer(this, (Socket) object);
-			//threadClientCom.start();
+			ThreadFileTransfer threadFileTransfer = new ThreadFileTransfer(this, (Socket) object);
+			threadFileTransfer.start();
 		} else
 		{
 			getLogger().severe("Erreur serveur, treatIncome: mauvaise argument");
