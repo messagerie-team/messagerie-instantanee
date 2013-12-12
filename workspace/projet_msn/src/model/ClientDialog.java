@@ -145,7 +145,7 @@ public class ClientDialog
 		        // send file
 		        try
 				{
-					FileTransfer.send(os);
+					FileTransfer.send(os,file);
 				} catch (Exception e)
 				{
 					// TODO Auto-generated catch block
