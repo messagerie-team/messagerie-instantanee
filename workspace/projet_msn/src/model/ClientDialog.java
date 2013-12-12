@@ -1,6 +1,14 @@
 package model;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigInteger;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 
@@ -127,8 +135,30 @@ public class ClientDialog
 		for (ClientServerData client : this.clients)
 		{
 			//this.protocol.sendMessage("dialog:message:" + this.idDialog + ":" + this.client.getName() + ">" + message, client.getIp(), client.getPort());
+			try
+			{
+				Socket sock = new Socket(client.getIp(), 13267);
+				System.out.println("Connecting...");
+		        InputStream is = sock.getInputStream();
+		        OutputStream os = sock.getOutputStream();
+		        // send file
+		        File myFile = new File(file);
+		        byte[] mybytearray = new byte[(int) myFile.length() + 1];
+		        FileInputStream fis = new FileInputStream(myFile);
+		        BufferedInputStream bis = new BufferedInputStream(fis);
+		        bis.read(mybytearray, 0, mybytearray.length);
+		        System.out.println("Sending...");
+		        os.write(mybytearray, 0, mybytearray.length);
+		        os.flush();
+
+		        is.close();
+		        bis.close();
+		        sock.close();
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+			}
 		}
-		//this.addMessage("moi>" + message);
 	}
 
 	/**
