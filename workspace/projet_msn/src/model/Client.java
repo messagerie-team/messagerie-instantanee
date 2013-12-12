@@ -483,7 +483,7 @@ public class Client extends AbstractClientServer
 		}
 		if (dialog != null)
 		{
-			//dialog.sendMessage(message);
+			dialog.sendFile(file);
 			return true;
 		}
 		return false;

@@ -114,6 +114,22 @@ public class ClientDialog
 		}
 		this.addMessage("moi>" + message);
 	}
+	
+	/**
+	 * Méthode permettant d'envoyer un fichier à tous les clients du dialogue.
+	 * 
+	 * @param file fichier que l'on souhaite envoyé à l'autre client
+	 * {@link #addMessage(String)}
+	 */
+	public void sendFile(String file)
+	{
+		this.inUse = true;
+		for (ClientServerData client : this.clients)
+		{
+			//this.protocol.sendMessage("dialog:message:" + this.idDialog + ":" + this.client.getName() + ">" + message, client.getIp(), client.getPort());
+		}
+		//this.addMessage("moi>" + message);
+	}
 
 	/**
 	 * Méthode permettant de gérer la réception d'un message
