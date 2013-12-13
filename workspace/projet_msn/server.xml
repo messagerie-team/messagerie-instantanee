@@ -1,18 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><clients>
 	<client>
-		<name>Raphael</name>
-		<password>test</password>
+		<name>richer</name>
+		<password>pwd_richer</password>
+		<groups>
+			<group>enseignant</group>
+		</groups>
 	</client>
 	<client>
-		<name>Thib</name>
-		<password>test</password>
+		<name>hao</name>
+		<password>pwd_hao</password>
+		<groups>
+			<group>enseignant</group>
+		</groups>
 	</client>
 	<client>
-		<name>Dorian</name>
-		<password>test</password>
+		<name>chhel</name>
+		<password>pwd_chhel</password>
+		<groups>
+			<group>enseignant</group>
+		</groups>
 	</client>
 	<client>
-		<name>Micka</name>
-		<password>test</password>
+		<name>raphael</name>
+		<password>pwd_raphael</password>
+		<groups>
+			<group>etudiant</group>
+		</groups>
 	</client>
-<client><name>testmp</name><password>mpmpmp</password></client></clients>
+	<client>
+		<name>thibault</name>
+		<password>pwd_thibault</password>
+		<groups>
+			<group>etudiant</group>
+		</groups>
+	</client>
+	<client>
+		<name>dorian</name>
+		<password>pwd_dorian</password>
+		<groups>
+			<group>etudiant</group>
+		</groups>
+	</client>
+	<client>
+		<name>mickael</name>
+		<password>pwd_mickael</password>
+		<groups>
+			<group>etudiant</group>
+		</groups>
+	</client>
+</clients>
