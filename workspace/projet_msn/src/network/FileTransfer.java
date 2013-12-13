@@ -2,6 +2,8 @@ package network;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -24,16 +26,33 @@ public class FileTransfer
 	 */
 	public static void send(OutputStream os, String file) throws Exception
 	{
-		// sendfile
-		File myFile = new File(file);
-		byte[] mybytearray = new byte[(int) myFile.length() + 1];
-		FileInputStream fis = new FileInputStream(myFile);
-		BufferedInputStream bis = new BufferedInputStream(fis);
-		bis.read(mybytearray, 0, mybytearray.length);
-		System.out.println("Sending... " + mybytearray.length);
-		os.write(mybytearray, 0, mybytearray.length);
-		os.flush();
-		// bis.close();
+		File fileF = new File(file);
+		int fileSize = (int)fileF.length();
+		FileInputStream fis = new FileInputStream(fileF);
+		
+		//Ouverture des OutputStream et InputStream du fichier
+		DataOutputStream dos = new DataOutputStream(os);
+		//Affichage de la taille du fichier
+		int sizeAvailable = fis.available();
+		System.out.println("Size available for File Input Stream : "+sizeAvailable);
+		
+		//Déclaration du tableau de bytes
+		byte byteTab[] = new byte[fileSize];
+		//Lecture des bytes
+		fis.read(byteTab);
+		long debut = 0, total = 0;
+		debut = System.nanoTime(); 
+		dos.write(byteTab);
+		total = System.nanoTime() - debut;                             								// Calcul du temps écoulé pour envoyer un paquet	
+
+		System.out.println("Envoi total du paquet en "+ total + " nano-secondes");
+		
+		dos.flush();
+		
+		fis.close();
+		
+		System.out.println("Flux envoyé");
+		//this.socket.close();
 	}
 
 	/**
@@ -45,27 +64,38 @@ public class FileTransfer
 	 */
 	public static void receiveFile(InputStream is, String folder) throws Exception
 	{
-		int filesize = 6022386;
-		int bytesRead;
-		int current = 0;
-		byte[] mybytearray = new byte[filesize];
+		//int sizeAvailable = receiveSocket.getReceiveBufferSize();
+		//System.out.println("Available Size Server Socket: " + sizeAvailable);
+		//Ouverture des Input et Output du fichier à enregistrer
+		DataInputStream dis = new DataInputStream(is);
+		//Reception du fichier
+		File receivedFile = new File(folder);
+		FileOutputStream fos = new FileOutputStream(receivedFile);
 
-		FileOutputStream fos = new FileOutputStream(folder);
-		BufferedOutputStream bos = new BufferedOutputStream(fos);
-		bytesRead = is.read(mybytearray, 0, mybytearray.length);
-		current = bytesRead;
+		while (dis.available() == 0); //attente available devienne different de zero
+			
+		//Attente de 10
+		Thread.sleep(10);
+		//Déclaration de la taille du fichier dans size
+		int size = dis.available();
+		int i = 0;
+		//Tant que la taille différente de 0
+		while (size != 0) {
+			i++;
+			size = dis.available();
+			//Reception des bytes
+			byte receivedDataTab[] = new byte[size];
+			dis.read(receivedDataTab);
+			//Ecriture dans le fichier
+			fos.write(receivedDataTab);
+			System.out.println("Taille du paquet :" + size + " octets");
+			Thread.sleep(15);
+		}
+		System.out.println(i + " segments TCP recus");
+		
+		//Close(s)
+		fos.close();
 
-		do
-		{
-			bytesRead = is.read(mybytearray, current, (mybytearray.length - current));
-			if (bytesRead >= 0)
-			{
-				current += bytesRead;
-			}
-		} while (bytesRead > -1);
-
-		bos.write(mybytearray, 0, current);
-		bos.flush();
-		bos.close();
+		dis.close();
 	}
 }
