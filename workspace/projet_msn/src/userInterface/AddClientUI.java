@@ -30,6 +30,7 @@ public class AddClientUI
 	private static Set<String> keyClientListAdd;
 	private static Vector<JListData> simpleClientListAdd;
 	public static JList<JListData> displayListAdd;
+	public boolean running;
 
 	/**
 	 * Création de la fenêtre principale.
@@ -38,6 +39,7 @@ public class AddClientUI
 	{
 		client = clientRef;
 		dialog = dialogRef;
+		running = true;
 		clientListAdd = client.getClientList();
 		keyClientListAdd = clientListAdd.keySet();
 		initialize();
@@ -49,7 +51,7 @@ public class AddClientUI
 			public void run()
 			{
 				HashMap<String, String[]> listTemp = new HashMap<String, String[]>(client.getClientList());
-				while (true)
+				while (running)
 				{
 					if (!listTemp.equals(client.getClientList()))
 					{
@@ -138,6 +140,7 @@ public class AddClientUI
 					{
 						ClientServerUI.client.addClientToDialog(clientList.getKey(), dialog);
 					}
+					running=false;
 					mainFrameAdd.dispose();
 				}
 			}
