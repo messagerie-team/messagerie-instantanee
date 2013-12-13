@@ -56,7 +56,7 @@ public class AddClientUI
 					if (!listTemp.equals(client.getClientList()))
 					{
 						listTemp = new HashMap<String, String[]>(client.getClientList());
-						refreshClient();
+						refreshClientAdd();
 					}
 					try
 					{
@@ -70,7 +70,7 @@ public class AddClientUI
 		}).start();
 	}
 
-	public static void refreshClient()
+	public static void refreshClientAdd()
 	{
 		clientListAdd = client.getClientList();
 		keyClientListAdd = clientListAdd.keySet();
@@ -152,7 +152,7 @@ public class AddClientUI
 		getMainFrameAdd().setVisible(true);
 		getMainFrameAdd().setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		refreshClient();
+		refreshClientAdd();
 	}
 
 	public static JFrame getMainFrameAdd()
