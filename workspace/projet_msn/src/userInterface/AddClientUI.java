@@ -4,12 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 import model.Client;
 import model.ClientDialog;
@@ -42,7 +45,7 @@ public class AddClientUI
 		running = true;
 		clientListAdd = client.getClientList();
 		keyClientListAdd = clientListAdd.keySet();
-		initialize();
+		initializeAdd();
 
 		new Thread(new Runnable()
 		{
@@ -95,7 +98,7 @@ public class AddClientUI
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize()
+	private void initializeAdd()
 	{
 		setMainFrameAdd(new JFrame("Ajout"));
 
@@ -151,7 +154,15 @@ public class AddClientUI
 		getMainFrameAdd().setResizable(false);
 		getMainFrameAdd().setVisible(true);
 		getMainFrameAdd().setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+		getMainFrameAdd().addWindowListener(new java.awt.event.WindowAdapter()
+		{
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent)
+			{
+				running=false;
+				mainFrameAdd.dispose();
+			}
+		});
 		refreshClientAdd();
 	}
 
