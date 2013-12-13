@@ -177,6 +177,7 @@ public class ClientServerUI
 				personalMessageField.requestFocus(isFocused);
 			}
 			jClientList.setVisible(true);
+			personalMessageField.setVisible(true);
 		} else
 		{
 			dialogFrame.setVisible(false);

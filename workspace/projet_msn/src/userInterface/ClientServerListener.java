@@ -84,6 +84,7 @@ public class ClientServerListener implements ActionListener
 		case "Se déconnecter":
 			ClientServerUI.client.unregisterToServer();
 			ClientServerUI.jClientList.setVisible(false);
+			ClientServerUI.personalMessageField.setVisible(false);
 			ClientServerUI.connectionPanel.setVisible(true);
 			break;
 		case "Adresse serveur":
