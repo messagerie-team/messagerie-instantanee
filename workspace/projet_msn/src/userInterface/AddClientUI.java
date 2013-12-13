@@ -22,7 +22,7 @@ import model.ClientServerData;
  */
 public class AddClientUI
 {
-	private static JFrame mainFrame;
+	private static JFrame mainFrameAdd;
 	public static Client client;
 	public static ClientDialog dialog;
 
@@ -86,7 +86,7 @@ public class AddClientUI
 		}
 		System.out.println("nouvelle list" + simpleClientListAdd);
 		displayListAdd.setListData(simpleClientListAdd);
-		getMainFrame().getContentPane().add(displayListAdd, BorderLayout.CENTER);
+		getMainFrameAdd().getContentPane().add(displayListAdd, BorderLayout.CENTER);
 		displayListAdd.setVisible(true);
 	}
 
@@ -95,7 +95,7 @@ public class AddClientUI
 	 */
 	private void initialize()
 	{
-		setMainFrame(new JFrame("Ajout"));
+		setMainFrameAdd(new JFrame("Ajout"));
 
 		displayListAdd = new JList<JListData>();
 		displayListAdd.setListData(new JListData[0]);
@@ -138,27 +138,27 @@ public class AddClientUI
 					{
 						ClientServerUI.client.addClientToDialog(clientList.getKey(), dialog);
 					}
-					mainFrame.dispose();
+					mainFrameAdd.dispose();
 				}
 			}
 		});
 
-		getMainFrame().setLocation(400, 300);
-		getMainFrame().setMinimumSize(new Dimension(200, 300));
-		getMainFrame().setResizable(false);
-		getMainFrame().setVisible(true);
-		getMainFrame().setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		getMainFrameAdd().setLocation(400, 300);
+		getMainFrameAdd().setMinimumSize(new Dimension(200, 300));
+		getMainFrameAdd().setResizable(false);
+		getMainFrameAdd().setVisible(true);
+		getMainFrameAdd().setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		refreshClient();
 	}
 
-	public static JFrame getMainFrame()
+	public static JFrame getMainFrameAdd()
 	{
-		return mainFrame;
+		return mainFrameAdd;
 	}
 
-	public static void setMainFrame(JFrame frame)
+	public static void setMainFrameAdd(JFrame frame)
 	{
-		AddClientUI.mainFrame = frame;
+		AddClientUI.mainFrameAdd = frame;
 	}
 }
