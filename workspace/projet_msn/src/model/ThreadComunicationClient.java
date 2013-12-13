@@ -328,6 +328,11 @@ public class ThreadComunicationClient extends Thread
 					ClientServerData client;
 					try
 					{
+						if("localhost".equals(elements[2]) || "127.0.0.1".equals(elements[2]) )
+						{
+							elements[2]=this.client.getIpServer();
+						}
+						
 						client = new ClientServerData(elements[0], elements[1], InetAddress.getByName(elements[2]), Integer.parseInt(elements[3]));
 
 						boolean add = this.client.getClients().add(client);

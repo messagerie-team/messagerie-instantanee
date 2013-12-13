@@ -617,7 +617,7 @@ public class Server extends AbstractClientServer
 
 			if (client.getId().equals(id))
 			{
-				return client.getId() + "," + client.getName() + "," + client.getIp().getCanonicalHostName() + "," + client.getPort();
+				return client.getId() + "," + client.getName() + "," + client.getIp().getHostAddress() + "," + client.getPort();
 			}
 		}
 		return null;
