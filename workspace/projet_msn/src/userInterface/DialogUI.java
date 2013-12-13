@@ -170,7 +170,7 @@ public class DialogUI extends JFrame
 			}
 		});
 		
-		JButton buttonSendFile = new JButton("fichier");
+		JButton buttonSendFile = new JButton("Fichier");
 		buttonSendFile.setPreferredSize(new Dimension(90, 23));
 		buttonSendFile.setMaximumSize(new Dimension(90, 23));
 		buttonSendFile.setMinimumSize(new Dimension(90, 23));
@@ -221,7 +221,8 @@ public class DialogUI extends JFrame
 		buttonSend.setBorder(new EmptyBorder(5, 5, 5, 5));
 		buttonAddClient.setBorder(new EmptyBorder(5, 5, 5, 5));
 		buttonCloseDialog.setBorder(new EmptyBorder(5, 5, 5, 5));
-
+		buttonSendFile.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
 		// panelListDialog.add(this.jDialogList, BorderLayout.CENTER);
 		dialogList.setPreferredSize(new Dimension(120, 280));
 		topBox.add(dialogList);
