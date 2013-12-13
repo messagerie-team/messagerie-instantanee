@@ -263,15 +263,12 @@ public class ClientServerUI
 		menuBar = new JMenuBar();
 		JMenu menuPrincipal = new JMenu("Fichier");
 		JMenu menuConfiguration = new JMenu("Configuration");
-		JMenuItem profil = new JMenuItem("Profil");
-		profil.addActionListener(listenerMenu);
 		JMenuItem refresh = new JMenuItem("Rafraichir");
 		refresh.addActionListener(listenerMenu);
 		JMenuItem connection = new JMenuItem("Se connecter");
 		connection.addActionListener(listenerMenu);
 		JMenuItem unConnection = new JMenuItem("Se déconnecter");
 		unConnection.addActionListener(listenerMenu);
-		menuPrincipal.add(profil);
 		menuPrincipal.add(refresh);
 		menuPrincipal.add(unConnection);
 
