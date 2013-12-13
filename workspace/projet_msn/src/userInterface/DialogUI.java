@@ -49,8 +49,8 @@ public class DialogUI extends JFrame
 		this.client = clientServer;
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		this.setBounds(100, 100, 600, 400);
-		this.setMinimumSize(new Dimension(300, 350));
+		this.setBounds(100, 100, 600, 420);
+		this.setMinimumSize(new Dimension(600, 420));
 		this.contentPane = new JPanel();
 		this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		this.contentPane.setLayout(new BorderLayout(0, 0));
