@@ -26,10 +26,10 @@ public class AddClientUI
 	public static Client client;
 	public static ClientDialog dialog;
 
-	public static HashMap<String, String[]> clientList;
-	private static Set<String> keyClientList;
-	private static Vector<JListData> simpleClientList;
-	public static JList<JListData> displayList;
+	public static HashMap<String, String[]> clientListAdd;
+	private static Set<String> keyClientListAdd;
+	private static Vector<JListData> simpleClientListAdd;
+	public static JList<JListData> displayListAdd;
 
 	/**
 	 * Création de la fenêtre principale.
@@ -38,8 +38,8 @@ public class AddClientUI
 	{
 		client = clientRef;
 		dialog = dialogRef;
-		clientList = client.getClientList();
-		keyClientList = clientList.keySet();
+		clientListAdd = client.getClientList();
+		keyClientListAdd = clientListAdd.keySet();
 		initialize();
 
 		new Thread(new Runnable()
@@ -70,24 +70,24 @@ public class AddClientUI
 
 	public static void refreshClient()
 	{
-		clientList = client.getClientList();
-		keyClientList = clientList.keySet();
-		simpleClientList = new Vector<JListData>();
+		clientListAdd = client.getClientList();
+		keyClientListAdd = clientListAdd.keySet();
+		simpleClientListAdd = new Vector<JListData>();
 
 		for (ClientServerData client : dialog.getClients())
 		{
-			keyClientList.remove(client.getId());
+			keyClientListAdd.remove(client.getId());
 		}
 
-		for (String key : keyClientList)
+		for (String key : keyClientListAdd)
 		{
-			JListData clientListData = new JListData(key, clientList.get(key)[0] + " " + clientList.get(key)[1]);
-			simpleClientList.add(clientListData);
+			JListData clientListData = new JListData(key, clientListAdd.get(key)[0] + " " + clientListAdd.get(key)[1]);
+			simpleClientListAdd.add(clientListData);
 		}
-		System.out.println("nouvelle list" + simpleClientList);
-		displayList.setListData(simpleClientList);
-		getMainFrame().getContentPane().add(displayList, BorderLayout.CENTER);
-		displayList.setVisible(true);
+		System.out.println("nouvelle list" + simpleClientListAdd);
+		displayListAdd.setListData(simpleClientListAdd);
+		getMainFrame().getContentPane().add(displayListAdd, BorderLayout.CENTER);
+		displayListAdd.setVisible(true);
 	}
 
 	/**
@@ -97,10 +97,10 @@ public class AddClientUI
 	{
 		setMainFrame(new JFrame("Ajout"));
 
-		displayList = new JList<JListData>();
-		displayList.setListData(new JListData[0]);
-		displayList.updateUI();
-		displayList.addMouseListener(new MouseListener()
+		displayListAdd = new JList<JListData>();
+		displayListAdd.setListData(new JListData[0]);
+		displayListAdd.updateUI();
+		displayListAdd.addMouseListener(new MouseListener()
 		{
 
 			@Override
@@ -133,7 +133,7 @@ public class AddClientUI
 				if (e.getClickCount() == 2)
 				{
 					System.out.println("dbclick");
-					JListData clientList = AddClientUI.displayList.getSelectedValue();
+					JListData clientList = AddClientUI.displayListAdd.getSelectedValue();
 					if (clientList != null)
 					{
 						ClientServerUI.client.addClientToDialog(clientList.getKey(), dialog);
