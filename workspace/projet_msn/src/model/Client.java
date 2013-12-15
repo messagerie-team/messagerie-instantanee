@@ -56,6 +56,10 @@ public class Client extends AbstractClientServer
 	 */
 	private int listeningUDPPort;
 	/**
+	 * Numéro du port d'écoute TCP du client
+	 */
+	private int listeningTCPPort;
+	/**
 	 * Thread d'écoute du port UDP
 	 * 
 	 * @see ThreadListenerUDP
@@ -110,7 +114,7 @@ public class Client extends AbstractClientServer
 	 * @param ipServer
 	 *            ip du server
 	 */
-	public Client(String name, int listeningUDPPort, String ipServer)
+	public Client(String name, int listeningUDPPort, int listeningTCPPort, String ipServer)
 	{
 		super();
 		try
@@ -132,6 +136,7 @@ public class Client extends AbstractClientServer
 		this.personalMessage = "";
 		this.id = "";
 		this.listeningUDPPort = listeningUDPPort;
+		this.listeningTCPPort = listeningTCPPort;
 		this.protocol = new ProtocolUDP(listeningUDPPort);
 		this.clientList = new HashMap<String, String[]>();
 		this.dialogs = new ArrayList<ClientDialog>();
@@ -139,7 +144,7 @@ public class Client extends AbstractClientServer
 		this.udpServerPort = 30971;
 		this.tcpServerPort = 30970;
 		this.threadComunicationClient = new ThreadComunicationClient(this, ipServer);
-		this.threadListenerTCP = new ThreadListenerTCP(this, 13268);
+		this.threadListenerTCP = new ThreadListenerTCP(this, listeningTCPPort);
 		this.threadListenerTCP.start();
 		this.threadListenerUDP = new ThreadListenerUDP(this, this.protocol);
 		this.threadListenerUDP.start();
@@ -159,7 +164,7 @@ public class Client extends AbstractClientServer
 	 * @param tcpServerPort
 	 *            port tcp du serveur
 	 */
-	public Client(String name, int listeningUDPPort, String ipServer, int udpServerPort, int tcpServerPort)
+	public Client(String name, int listeningUDPPort, int listeningTCPPort, String ipServer, int udpServerPort, int tcpServerPort)
 	{
 		super();
 		try
@@ -182,6 +187,7 @@ public class Client extends AbstractClientServer
 		this.personalMessage = "";
 		this.id = "";
 		this.listeningUDPPort = listeningUDPPort;
+		this.listeningTCPPort = listeningTCPPort;
 		this.protocol = new ProtocolUDP(listeningUDPPort);
 		this.clientList = new HashMap<String, String[]>();
 		this.dialogs = new ArrayList<ClientDialog>();
@@ -189,7 +195,7 @@ public class Client extends AbstractClientServer
 		this.udpServerPort = udpServerPort;
 		this.tcpServerPort = tcpServerPort;
 		this.threadComunicationClient = new ThreadComunicationClient(this, ipServer);
-		this.threadListenerTCP = new ThreadListenerTCP(this, 13268);
+		this.threadListenerTCP = new ThreadListenerTCP(this, this.listeningTCPPort);
 		this.threadListenerTCP.start();
 		this.threadListenerUDP = new ThreadListenerUDP(this, this.protocol);
 		this.threadListenerUDP.start();
@@ -472,7 +478,7 @@ public class Client extends AbstractClientServer
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Méthode permettant au client d'envoyer un fichier dans un dialogue.
 	 * 
@@ -948,6 +954,34 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
+	 * Getter du port TCP d'écoute
+	 * 
+	 * @return listeningTCPPort, port TCP
+	 */
+	public int getListeningTCPPort()
+	{
+		return listeningTCPPort;
+	}
+
+	/**
+	 * Setter qui fixe le port d'écoute TCP
+	 * 
+	 * @param listeningTCPPort
+	 *            port TCP
+	 */
+	public void setListeningTCPPort(int listeningTCPPort)
+	{
+		if (threadListenerTCP.isAlive())
+		{
+			this.threadListenerTCP.stopThread();
+		}
+		this.listeningTCPPort = listeningTCPPort;
+
+		this.threadListenerTCP = new ThreadListenerTCP(this, this.listeningTCPPort);
+		this.threadListenerTCP.start();
+	}
+
+	/**
 	 * Getter de la liste de dialogues
 	 * 
 	 * @return dialogs, liste de dialogues
@@ -1146,7 +1180,7 @@ public class Client extends AbstractClientServer
 	public static void main(String[] args)
 	{
 		Scanner sc = new Scanner(System.in);
-		Client client = new Client("raphael", 30001, "192.168.99.230");
+		Client client = new Client("raphael", 30001, 30000, "192.168.99.230");
 		boolean running = true;
 		while (running)
 		{
