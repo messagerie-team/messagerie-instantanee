@@ -3,7 +3,6 @@ package model;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
-import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import network.FileTransfer;
