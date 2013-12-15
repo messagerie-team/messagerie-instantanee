@@ -110,11 +110,12 @@ public class ClientServerUI
 		}
 		String alias = properties.getProperty("alias");
 		int udpPort = Integer.parseInt(properties.getProperty("UDPClient"));
+		int tcpPort = Integer.parseInt(properties.getProperty("TCPClient"));
 		String ipServer = properties.getProperty("ipServer");
 		int udpServerPort = Integer.parseInt(properties.getProperty("UDPServer"));
 		int tcpServerPort = Integer.parseInt(properties.getProperty("TCPServer"));
 
-		client = new Client(alias, udpPort, ipServer, udpServerPort, tcpServerPort);
+		client = new Client(alias, udpPort, tcpPort, ipServer, udpServerPort, tcpServerPort);
 		clientList = client.getClientList();
 		keyClientList = clientList.keySet();
 		listenerMenu = new ClientServerListener();
@@ -327,16 +328,16 @@ public class ClientServerUI
 		connectionButton.setMaximumSize(new Dimension(135, 25));
 		connectionButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		connectionButton.addActionListener(listenerMenu);
-		
+
 		passwordField.addKeyListener(new KeyListener()
 		{
-			
+
 			@Override
 			public void keyTyped(KeyEvent e)
 			{
-				
+
 			}
-			
+
 			@Override
 			public void keyReleased(KeyEvent e)
 			{
@@ -345,11 +346,11 @@ public class ClientServerUI
 					connectionButton.doClick();
 				}
 			}
-			
+
 			@Override
 			public void keyPressed(KeyEvent e)
 			{
-				
+
 			}
 		});
 
