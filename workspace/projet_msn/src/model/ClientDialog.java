@@ -1,20 +1,14 @@
 package model;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigInteger;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 
 import network.FileTransfer;
 import network.Protocol;
-import network.ProtocolTCP;
 
 /**
  * Classe représentant un dialogue entre clients.
@@ -151,11 +145,11 @@ public class ClientDialog
 			try
 			{
 				Socket socket = new Socket(client.getIp(), 13268);
-				Protocol protocol = new ProtocolTCP(socket);
-				File fileF = new File(file);
+				//Protocol protocol = new ProtocolTCP(socket);
+				//File fileF = new File(file);
 				//protocol.sendMessage("d_"+fileF.getName()+"\n");
 				System.out.println("Connecting...");
-				InputStream is = socket.getInputStream();
+				//InputStream is = socket.getInputStream();
 				OutputStream os = socket.getOutputStream();
 				// send file
 				try
