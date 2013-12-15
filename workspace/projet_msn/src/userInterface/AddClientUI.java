@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Vector;
@@ -30,7 +31,7 @@ public class AddClientUI
 	public static ClientDialog dialog;
 
 	public static HashMap<String, String[]> clientListAdd;
-	private static Set<String> keyClientListAdd;
+	private static ArrayList<String> keyClientListAdd;
 	private static Vector<JListData> simpleClientListAdd;
 	public static JList<JListData> displayListAdd;
 	public boolean running;
@@ -44,7 +45,7 @@ public class AddClientUI
 		dialog = dialogRef;
 		running = true;
 		clientListAdd = client.getClientList();
-		keyClientListAdd = clientListAdd.keySet();
+		keyClientListAdd = new ArrayList<String>(clientListAdd.keySet());
 		initializeAdd();
 
 		new Thread(new Runnable()
@@ -53,12 +54,12 @@ public class AddClientUI
 			@Override
 			public void run()
 			{
-				HashMap<String, String[]> listTemp = new HashMap<String, String[]>(client.getClientList());
+				HashMap<String, String[]> listTempAdd = new HashMap<String, String[]>(client.getClientList());
 				while (running)
 				{
-					if (!listTemp.equals(client.getClientList()))
+					if (!listTempAdd.equals(client.getClientList()))
 					{
-						listTemp = new HashMap<String, String[]>(client.getClientList());
+						listTempAdd = new HashMap<String, String[]>(client.getClientList());
 						refreshClientAdd();
 					}
 					try
@@ -76,7 +77,7 @@ public class AddClientUI
 	public static void refreshClientAdd()
 	{
 		clientListAdd = client.getClientList();
-		keyClientListAdd = clientListAdd.keySet();
+		keyClientListAdd = new ArrayList<String>(clientListAdd.keySet());
 		simpleClientListAdd = new Vector<JListData>();
 
 		for (ClientServerData client : dialog.getClients())
@@ -143,7 +144,7 @@ public class AddClientUI
 					{
 						ClientServerUI.client.addClientToDialog(clientList.getKey(), dialog);
 					}
-					running=false;
+					running = false;
 					mainFrameAdd.dispose();
 				}
 			}
@@ -159,7 +160,7 @@ public class AddClientUI
 			@Override
 			public void windowClosing(java.awt.event.WindowEvent windowEvent)
 			{
-				running=false;
+				running = false;
 				mainFrameAdd.dispose();
 			}
 		});
