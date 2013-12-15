@@ -36,7 +36,7 @@ public class ClientDialogTest
 			e.printStackTrace();
 		}
 
-		clientTest = new Client("TestUnitaire_C2",3001,"localhost");
+		clientTest = new Client("TestUnitaire_C2",3001,3000,"localhost");
 		clientDialogueTest = new ClientDialog(clientTest,clientTest.getProtocol());
 		clientDataTest = new ClientServerData("JUNIT_C1", inetTest, 3003);
 	}
