@@ -139,7 +139,19 @@ public class ClientServerListener implements ActionListener
 				JOptionPane.showMessageDialog(ClientServerUI.getMainFrame(), "Impossible de modifier le port UDP en étant connecté.");
 			}
 			break;
-
+		case "Port TCP":
+			if (ClientServerUI.client.getId().equals(""))
+			{
+				String port = JOptionPane.showInputDialog(ClientServerUI.getMainFrame(), "Port TCP", ClientServerUI.client.getListeningTCPPort());
+				if (port != null)
+				{
+					ClientServerUI.client.setListeningTCPPort(Integer.parseInt(port));
+				}
+			} else
+			{
+				JOptionPane.showMessageDialog(ClientServerUI.getMainFrame(), "Impossible de modifier le port TCP en étant connecté.");
+			}
+			break;
 		default:
 			break;
 		}
