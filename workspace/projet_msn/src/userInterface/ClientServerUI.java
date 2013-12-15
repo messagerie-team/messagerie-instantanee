@@ -282,13 +282,14 @@ public class ClientServerUI
 		serverTCPPort.addActionListener(listenerMenu);
 		JMenuItem UDPPort = new JMenuItem("Port UDP");
 		UDPPort.addActionListener(listenerMenu);
-		// JMenuItem TCPPort = new JMenuItem("Port TCP");
-		// TCPPort.addActionListener(listenerMenu);
+		JMenuItem TCPPort = new JMenuItem("Port TCP");
+		TCPPort.addActionListener(listenerMenu);
+
 		menuConfiguration.add(adressServer);
 		menuConfiguration.add(serverUDPPort);
 		menuConfiguration.add(serverTCPPort);
 		menuConfiguration.add(UDPPort);
-		// menuConfiguration.add(TCPPort);
+		menuConfiguration.add(TCPPort);
 
 		menuBar.add(menuPrincipal);
 		menuBar.add(menuConfiguration);
