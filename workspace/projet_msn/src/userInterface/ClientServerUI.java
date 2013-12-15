@@ -246,6 +246,7 @@ public class ClientServerUI
 					properties.setProperty("ipServer", client.getIpServer());
 					properties.setProperty("TCPServer", client.getTcpServerPort() + "");
 					properties.setProperty("UDPServer", client.getUdpServerPort() + "");
+					properties.setProperty("TCPClient", client.getListeningTCPPort() + "");
 					properties.setProperty("UDPClient", client.getListeningUDPPort() + "");
 
 					try
