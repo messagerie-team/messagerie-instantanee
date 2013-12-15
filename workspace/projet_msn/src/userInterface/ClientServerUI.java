@@ -97,7 +97,8 @@ public class ClientServerUI
 			properties.put("TCPServer", "30970");
 			properties.put("UDPServer", "30971");
 			properties.put("alias", "client");
-			properties.put("UDPClient", "3000");
+			properties.put("TCPClient", "3000");
+			properties.put("UDPClient", "3001");
 			try
 			{
 				FileOutputStream file = new FileOutputStream("configuration.property");
