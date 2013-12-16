@@ -180,6 +180,27 @@ public class ClientServerData
 	{
 		this.portUDP = portUDP;
 	}
+	
+	/**
+	 * Getter du port d'écoute TCP du client
+	 * 
+	 * @return port, le port d'écoute TCP
+	 */
+	public int getPortTCP()
+	{
+		return portTCP;
+	}
+
+	/**
+	 * Setter qui fixe le port TCP d'écoute du client
+	 * 
+	 * @param portTCP
+	 *            port TCP
+	 */
+	public void setPortTCP(int portTCP)
+	{
+		this.portTCP = portTCP;
+	}
 
 	/**
 	 * Getter de la clé publique du client
