@@ -144,7 +144,7 @@ public class ClientDialog
 			// client.getPort());
 			try
 			{
-				Socket socket = new Socket(client.getIp(), 13268);
+				Socket socket = new Socket(client.getIp(), client.getPortTCP());
 				//Protocol protocol = new ProtocolTCP(socket);
 				//File fileF = new File(file);
 				//protocol.sendMessage("d_"+fileF.getName()+"\n");
