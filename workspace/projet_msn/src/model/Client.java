@@ -670,6 +670,7 @@ public class Client extends AbstractClientServer
 					{
 						// On crée le dialog
 						this.dialogs.add(new ClientDialog(idDialog, this, this.protocol));
+						this.dialogs.get(this.dialogs.size()-1).setInUse(false);
 					}
 					// Si il s'agit d'ajouter des clients à la conversation
 					else if (idDialog.equals("clients"))
@@ -712,10 +713,37 @@ public class Client extends AbstractClientServer
 										}
 										if (!estAjoute)
 										{
-											ClientServerData newClient = new ClientServerData(client, this.clientList.get(client)[0], ((ProtocolUDP) protocol).getLastAdress(),0, ((ProtocolUDP) protocol).getLastPort());
+											/*ClientServerData newClient = new ClientServerData(client, this.clientList.get(client)[0], ((ProtocolUDP) protocol).getLastAdress(),0, ((ProtocolUDP) protocol).getLastPort());
 											System.out.println(newClient);
 											this.getClients().add(newClient);
-											dialog.addClient(newClient);
+											dialog.addClient(newClient);*/
+											try
+											{
+												this.launchThread();
+
+												Thread.sleep(500);
+
+												// On demande les informations du client
+												this.threadComunicationClient.getClientConnection(client);
+												int cpt = 0;
+												int sizeClients = this.getClients().size();
+												// On attent de les recevoir
+												while (cpt < 500 && this.getClients().size() == sizeClients)
+												{
+													Thread.sleep(200);
+													cpt++;
+												}
+												// Si on les a bien reçu on démarre une
+												// conversation
+												if (this.getClients().size() != sizeClients)
+												{
+													dialog.addClient(this.getClients().get(this.getClients().size() - 1));
+													dialog.setInUse(true);
+												}
+											} catch (InterruptedException e)
+											{
+												getLogger().severe("Erreur d'ajout d'un client a une conversation, message : " + e.getMessage());
+											}
 										}
 									}
 								}

@@ -329,7 +329,7 @@ public class ThreadComunicationClient extends Thread
 			if (token.hasMoreTokens())
 			{
 				String[] elements = token.nextToken().split(",");
-				if (elements.length == 4)
+				if (elements.length == 5)
 				{
 					ClientServerData client;
 					try
