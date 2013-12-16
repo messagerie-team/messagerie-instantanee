@@ -609,7 +609,7 @@ public class Server extends AbstractClientServer
 	 * @param id
 	 *            clé publique du client
 	 * @return chaine, sous la forme
-	 *         "ClePublic,NomClient,IpClient,PortEcouteClient"
+	 *         "ClePublic,NomClient,IpClient,PortEcouteUDPClient,PortEcouteTCPClient"
 	 */
 	public String getClient(String id)
 	{
@@ -619,7 +619,7 @@ public class Server extends AbstractClientServer
 
 			if (client.getId().equals(id))
 			{
-				return client.getId() + "," + client.getName() + "," + client.getIp().getHostAddress() + "," + client.getPortUDP();
+				return client.getId() + "," + client.getName() + "," + client.getIp().getHostAddress() + "," + client.getPortUDP() + "," + client.getPortTCP();
 			}
 		}
 		return null;
