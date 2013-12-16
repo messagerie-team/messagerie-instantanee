@@ -250,10 +250,16 @@ public class ThreadComunicationClient extends Thread
 						this.protocol.sendMessage("reply:register:password:" + this.client.getPassword());
 					}
 					break;
-				case "port":
+				case "portUDP":
 					if (!token.hasMoreTokens())
 					{
-						this.protocol.sendMessage("reply:register:port:" + this.client.getListeningUDPPort());
+						this.protocol.sendMessage("reply:register:portUDP:" + this.client.getListeningUDPPort());
+					}
+					break;
+				case "portTCP":
+					if (!token.hasMoreTokens())
+					{
+						this.protocol.sendMessage("reply:register:portTCP:" + this.client.getListeningTCPPort());
 					}
 					break;
 				case "id":
