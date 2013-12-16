@@ -122,7 +122,7 @@ public class ClientDialog
 		this.inUse = true;
 		for (ClientServerData client : this.clients)
 		{
-			this.protocol.sendMessage("dialog:message:" + this.idDialog + ":" + this.client.getName() + ">" + message, client.getIp(), client.getPort());
+			this.protocol.sendMessage("dialog:message:" + this.idDialog + ":" + this.client.getName() + ">" + message, client.getIp(), client.getPortUDP());
 		}
 		this.addMessage("moi>" + message);
 	}

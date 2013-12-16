@@ -9,11 +9,11 @@ import network.Protocol;
 import network.ProtocolTCP;
 
 /**
- *         Classe représentant le threa de comunication d'un serveur vers un client. Il permet de
- *         gérer les demandes client : connexion, déconnexion, demande de lien
- *         etc...
- *         
- *         @author Dorian, Mickaël, Raphaël, Thibault
+ * Classe représentant le threa de comunication d'un serveur vers un client. Il
+ * permet de gérer les demandes client : connexion, déconnexion, demande de lien
+ * etc...
+ * 
+ * @author Dorian, Mickaël, Raphaël, Thibault
  * 
  */
 public class ThreadComunicationServer extends Thread
@@ -48,13 +48,19 @@ public class ThreadComunicationServer extends Thread
 	 * Variable temporaire de password utile au traitement des requêtes.
 	 */
 	private String tempPassword;
+	/**
+	 * Variable temporaire de portUDP utile au traitement des requêtes.
+	 */
+	private int tempPortUDP;
 	private static Logger logger = Logger.getLogger(ThreadComunicationServer.class.toString());
 
 	/**
 	 * Constructeur du Thread qui prend 2 paramètres .
 	 * 
-	 * @param server Serveur de l'application
-	 * @param socket Socket du serveur
+	 * @param server
+	 *            Serveur de l'application
+	 * @param socket
+	 *            Socket du serveur
 	 */
 	public ThreadComunicationServer(Server server, Socket socket)
 	{
@@ -97,7 +103,7 @@ public class ThreadComunicationServer extends Thread
 	{
 		StringTokenizer token = new StringTokenizer(message, ":");
 		logger.info("Début du traitement du message : " + message);
-		
+
 		String firstToken = token.nextToken();
 		if (token.hasMoreTokens())
 		{
@@ -124,6 +130,7 @@ public class ThreadComunicationServer extends Thread
 	/**
 	 * Méthode permettant de traiter les demandes d'un serveur.
 	 * {@link #messageTraitement(String)}
+	 * 
 	 * @see Server
 	 * @param message
 	 * @param token
@@ -152,6 +159,7 @@ public class ThreadComunicationServer extends Thread
 	/**
 	 * Message permettant de traiter les réponses d'un serveur.
 	 * {@link #messageTraitement(String)}
+	 * 
 	 * @see Server
 	 * @param message
 	 * @param token
@@ -183,6 +191,7 @@ public class ThreadComunicationServer extends Thread
 	 * Méthode permettant traiter le processus de desenregistrement
 	 * {@link #messageTraitementReply(String, StringTokenizer)}
 	 * {@link #messageTraitementRequest(String, StringTokenizer)}
+	 * 
 	 * @param token
 	 */
 	private void unregisterClient(StringTokenizer token)
@@ -204,6 +213,7 @@ public class ThreadComunicationServer extends Thread
 	 * Méthode permettant de gérer le processus d'enregistrement.
 	 * {@link #messageTraitementReply(String, StringTokenizer)}
 	 * {@link #messageTraitementRequest(String, StringTokenizer)}
+	 * 
 	 * @param token
 	 */
 	private void registerClient(StringTokenizer token)
@@ -234,11 +244,12 @@ public class ThreadComunicationServer extends Thread
 					{
 						if (this.server.verifyIDAndPassword(tempId, password))
 						{
-							this.tempPassword=password;
-							this.protocol.sendMessage("request:register:port");
+							this.tempPassword = password;
+							this.protocol.sendMessage("request:register:portUDP");
 						} else
 						{
-							//this.server.registerClientInBase(tempVar, password);
+							// this.server.registerClientInBase(tempVar,
+							// password);
 							this.protocol.sendMessage("reply:register:ERROR:login_password");
 							this.stopThread();
 						}
@@ -248,13 +259,26 @@ public class ThreadComunicationServer extends Thread
 						this.stopThread();
 					}
 					break;
-				case "port":
+				case "portUDP":
 					if (token.hasMoreTokens())
 					{
 						String stringPort = token.nextToken();
 						int port = Integer.parseInt(stringPort);
+						this.tempPortUDP = port;
+						this.protocol.sendMessage("request:register:portTCP");
+					} else
+					{
+						this.protocol.sendMessage("reply:register:ERROR");
+						this.stopThread();
+					}
+					break;
+				case "portTCP":
+					if (token.hasMoreTokens())
+					{
+						String stringPort = token.nextToken();
+						int portTCP = Integer.parseInt(stringPort);
 						String groups = this.server.getClientGroups(tempId, tempPassword);
-						String id = this.server.addClient(this.tempId, this.socket, port,groups);
+						String id = this.server.addClient(this.tempId, this.socket, this.tempPortUDP, portTCP, groups);
 						if (id != null)
 						{
 							this.protocol.sendMessage("reply:register:id:" + id);
@@ -292,11 +316,12 @@ public class ThreadComunicationServer extends Thread
 	}
 
 	/**
-	 * Méthode permettant de demander de la liste des clients au
-	 * serveur.
+	 * Méthode permettant de demander de la liste des clients au serveur.
 	 * {@link #messageTraitementReply(String, StringTokenizer)}
 	 * {@link #messageTraitementRequest(String, StringTokenizer)}
-	 * @param token message sous forme de token
+	 * 
+	 * @param token
+	 *            message sous forme de token
 	 */
 	public void askListClient(StringTokenizer token)
 	{
@@ -310,11 +335,12 @@ public class ThreadComunicationServer extends Thread
 	}
 
 	/**
-	 * Méthode permettant de demander les informations de
-	 * connexion.
+	 * Méthode permettant de demander les informations de connexion.
 	 * {@link #messageTraitementReply(String, StringTokenizer)}
 	 * {@link #messageTraitementRequest(String, StringTokenizer)}
-	 * @param token message sous forme de token
+	 * 
+	 * @param token
+	 *            message sous forme de token
 	 */
 	public void getClientConnection(StringTokenizer token)
 	{

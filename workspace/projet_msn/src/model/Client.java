@@ -372,8 +372,8 @@ public class Client extends AbstractClientServer
 				String idDialog = dialog.getIdDialog();
 				// On envoie les informations du dialog au client avec qui l'on
 				// souhaite discuter
-				protocol.sendMessage("dialog:newDialog:" + idDialog, client.getIp(), client.getPort());
-				protocol.sendMessage("dialog:newDialog:clients:" + idDialog + ":" + this.id, client.getIp(), client.getPort());
+				protocol.sendMessage("dialog:newDialog:" + idDialog, client.getIp(), client.getPortUDP());
+				protocol.sendMessage("dialog:newDialog:clients:" + idDialog + ":" + this.id, client.getIp(), client.getPortUDP());
 				// On ajoute le dialogue à la liste des dialogue du client
 				this.dialogs.add(dialog);
 			}
@@ -430,21 +430,21 @@ public class Client extends AbstractClientServer
 			if (clientAdd != null)
 			{
 				System.out.println("On envoie les messages de dialog au nouveau client");
-				protocol.sendMessage("dialog:newDialog:" + dialog.getIdDialog(), clientAdd.getIp(), clientAdd.getPort());
-				protocol.sendMessage("dialog:newDialog:clients:" + dialog.getIdDialog() + ":" + this.id, clientAdd.getIp(), clientAdd.getPort());
+				protocol.sendMessage("dialog:newDialog:" + dialog.getIdDialog(), clientAdd.getIp(), clientAdd.getPortUDP());
+				protocol.sendMessage("dialog:newDialog:clients:" + dialog.getIdDialog() + ":" + this.id, clientAdd.getIp(), clientAdd.getPortUDP());
 
 				String listClient = this.id;
 				for (ClientServerData client : dialog.getClients())
 				{
 					listClient += "," + client.getId();
-					protocol.sendMessage("dialog:clients:" + dialog.getIdDialog() + ":" + clientAdd.getId(), client.getIp(), client.getPort());
+					protocol.sendMessage("dialog:clients:" + dialog.getIdDialog() + ":" + clientAdd.getId(), client.getIp(), client.getPortUDP());
 					// A garder, ancienne méthode de groupe, en cas d'erreur
 					// protocol.sendMessage("dialog:clients:" +
 					// dialog.getIdDialog() + ":" + client.getId(),
 					// clientAdd.getIp(), clientAdd.getPort());
 				}
 				dialog.addClient(clientAdd);
-				protocol.sendMessage("dialog:clients:" + dialog.getIdDialog() + ":" + listClient, clientAdd.getIp(), clientAdd.getPort());
+				protocol.sendMessage("dialog:clients:" + dialog.getIdDialog() + ":" + listClient, clientAdd.getIp(), clientAdd.getPortUDP());
 			}
 		} catch (InterruptedException e)
 		{
@@ -712,7 +712,7 @@ public class Client extends AbstractClientServer
 										}
 										if (!estAjoute)
 										{
-											ClientServerData newClient = new ClientServerData(client, this.clientList.get(client)[0], ((ProtocolUDP) protocol).getLastAdress(), ((ProtocolUDP) protocol).getLastPort());
+											ClientServerData newClient = new ClientServerData(client, this.clientList.get(client)[0], ((ProtocolUDP) protocol).getLastAdress(),0, ((ProtocolUDP) protocol).getLastPort());
 											System.out.println(newClient);
 											this.getClients().add(newClient);
 											dialog.addClient(newClient);

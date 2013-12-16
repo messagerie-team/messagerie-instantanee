@@ -334,15 +334,15 @@ public class ThreadComunicationClient extends Thread
 					ClientServerData client;
 					try
 					{
-						if("localhost".equals(elements[2]) || "127.0.0.1".equals(elements[2]) )
+						if ("localhost".equals(elements[2]) || "127.0.0.1".equals(elements[2]))
 						{
-							elements[2]=this.client.getIpServer();
+							elements[2] = this.client.getIpServer();
 						}
-						
-						client = new ClientServerData(elements[0], elements[1], InetAddress.getByName(elements[2]), Integer.parseInt(elements[3]));
+
+						client = new ClientServerData(elements[0], elements[1], InetAddress.getByName(elements[2]), Integer.parseInt(elements[3]), Integer.parseInt(elements[4]));
 
 						boolean add = this.client.getClients().add(client);
-						
+
 						if (add)
 						{
 							logger.info("Ajout d'information d'un client");

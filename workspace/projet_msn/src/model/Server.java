@@ -420,12 +420,14 @@ public class Server extends AbstractClientServer
 	 *            Socket du client
 	 * @param listeningUDPPort
 	 *            port UDP sur lequel le client écoute
+	 * @param listeningTCPPort
+	 *            port TCP sur lequel le client écoute
 	 * @return une string de la clé publique du client.
 	 */
-	public String addClient(String name, Socket client, int listeningUDPPort, String groups)
+	public String addClient(String name, Socket client, int listeningUDPPort, int listeningTCPPort, String groups)
 	{
 		getLogger().info("Ajout d'un client : " + name);
-		ClientServerData newClient = new ClientServerData(name, client.getInetAddress(), listeningUDPPort, groups);
+		ClientServerData newClient = new ClientServerData(name, client.getInetAddress(), listeningUDPPort, listeningTCPPort, groups);
 		if (this.getClients().add(newClient))
 		{
 			new Thread(new Runnable()
@@ -598,7 +600,7 @@ public class Server extends AbstractClientServer
 	{
 		String listClient = this.getListClient(client);
 		getLogger().log(Level.FINER, "Envoie de liste client");
-		protocol.sendMessage("listClient:" + listClient, client.getIp(), client.getPort());
+		protocol.sendMessage("listClient:" + listClient, client.getIp(), client.getPortUDP());
 	}
 
 	/**
@@ -617,7 +619,7 @@ public class Server extends AbstractClientServer
 
 			if (client.getId().equals(id))
 			{
-				return client.getId() + "," + client.getName() + "," + client.getIp().getHostAddress() + "," + client.getPort();
+				return client.getId() + "," + client.getName() + "," + client.getIp().getHostAddress() + "," + client.getPortUDP();
 			}
 		}
 		return null;
@@ -753,7 +755,7 @@ public class Server extends AbstractClientServer
 						System.out.println("More group? (YES/NO) :");
 						continu = sc.nextLine();
 					}
-					server.registerClientInBase(login, pass,groupList.toArray(new String[0]));
+					server.registerClientInBase(login, pass, groupList.toArray(new String[0]));
 				} else
 				{
 					server.registerClientInBase(login, pass);

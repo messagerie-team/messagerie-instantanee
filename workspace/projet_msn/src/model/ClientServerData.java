@@ -34,9 +34,13 @@ public class ClientServerData
 	 */
 	private InetAddress ip;
 	/**
-	 * Port d'écoute du client.
+	 * Port UDP d'écoute du client.
 	 */
-	private int port;
+	private int portUDP;
+	/**
+	 * Port TCP d'écoute du client.
+	 */
+	private int portTCP;
 
 	/**
 	 * Contructeur qui prend 3 paramètres. Ce constructeur génère une clé
@@ -46,16 +50,19 @@ public class ClientServerData
 	 *            nom du client
 	 * @param ip
 	 *            ip du client
-	 * @param port
+	 * @param portUDP
 	 *            port d'écoute UDP du client
+	 * @param portTCP
+	 *            port d'écoute TCP du client
 	 */
-	public ClientServerData(String name, InetAddress ip, int port)
+	public ClientServerData(String name, InetAddress ip, int portUDP, int portTCP)
 	{
 		SecureRandom random = new SecureRandom();
 		this.id = new BigInteger(130, random).toString(32);
 		this.name = name;
 		this.ip = ip;
-		this.port = port;
+		this.portUDP = portUDP;
+		this.portTCP = portTCP;
 		this.personalMessage = "";
 		this.groups = "";
 	}
@@ -69,15 +76,18 @@ public class ClientServerData
 	 *            nom du client
 	 * @param ip
 	 *            ip du client
-	 * @param port
+	 * @param portUDP
 	 *            port d'écoute UDP du client
+	 * @param portTCP
+	 *            port d'écoute TCP du client
 	 */
-	public ClientServerData(String id, String name, InetAddress ip, int port)
+	public ClientServerData(String id, String name, InetAddress ip, int portUDP, int portTCP)
 	{
 		this.id = id;
 		this.name = name;
 		this.ip = ip;
-		this.port = port;
+		this.portUDP = portUDP;
+		this.portTCP = portTCP;
 		this.personalMessage = "";
 		this.groups = "";
 	}
@@ -89,18 +99,21 @@ public class ClientServerData
 	 *            nom du client
 	 * @param ip
 	 *            ip du client
-	 * @param port
+	 * @param portUDP
 	 *            port d'écoute UDP du client
+	 * @param portTCP
+	 *            port d'écoute TCP du client
 	 * @param groups
 	 *            groupes du client
 	 */
-	public ClientServerData(String name, InetAddress ip, int port, String groups)
+	public ClientServerData(String name, InetAddress ip, int portUDP, int portTCP, String groups)
 	{
 		SecureRandom random = new SecureRandom();
 		this.id = new BigInteger(130, random).toString(32);
 		this.name = name;
 		this.ip = ip;
-		this.port = port;
+		this.portUDP = portUDP;
+		this.portTCP = portTCP;
 		this.personalMessage = "";
 		this.groups = groups;
 	}
@@ -152,20 +165,20 @@ public class ClientServerData
 	 * 
 	 * @return port, le port d'écoute UDP
 	 */
-	public int getPort()
+	public int getPortUDP()
 	{
-		return port;
+		return portUDP;
 	}
 
 	/**
 	 * Setter qui fixe le port UDP d'écoute du client
 	 * 
-	 * @param port
+	 * @param portUDP
 	 *            port UDP
 	 */
-	public void setPort(int port)
+	public void setPortUDP(int portUDP)
 	{
-		this.port = port;
+		this.portUDP = portUDP;
 	}
 
 	/**
@@ -243,7 +256,7 @@ public class ClientServerData
 		} else if (!this.name.equals(((ClientServerData) obj).name))
 		{
 			return false;
-		} else if (this.port != ((ClientServerData) obj).port)
+		} else if (this.portUDP != ((ClientServerData) obj).portUDP)
 		{
 			return false;
 		} else if (!this.ip.equals(((ClientServerData) obj).ip))
@@ -259,6 +272,6 @@ public class ClientServerData
 	@Override
 	public String toString()
 	{
-		return "Client: " + this.name + " " + this.ip + " " + this.port;
+		return "Client: " + this.name + " " + this.ip + " " + this.portUDP;
 	}
 }

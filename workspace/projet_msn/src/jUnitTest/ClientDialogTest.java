@@ -38,7 +38,7 @@ public class ClientDialogTest
 
 		clientTest = new Client("TestUnitaire_C2",3001,3000,"localhost");
 		clientDialogueTest = new ClientDialog(clientTest,clientTest.getProtocol());
-		clientDataTest = new ClientServerData("JUNIT_C1", inetTest, 3003);
+		clientDataTest = new ClientServerData("JUNIT_C1", inetTest, 3003,3000);
 	}
 	
 	@After
