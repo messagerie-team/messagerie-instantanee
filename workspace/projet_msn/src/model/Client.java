@@ -505,6 +505,32 @@ public class Client extends AbstractClientServer
 		}
 		return false;
 	}
+	
+	/**
+	 * Méthode permettant d'indiquer que l'on a reçu un fichier d'un dialogue.
+	 * 
+	 * @param file
+	 *            fichier que l'on a reçu
+	 * @param idDialog
+	 *            id du dialogue avec lequel on on a reçu le fichier
+	 */
+	public void receiveFileToDialog(String file, String idDialog)
+	{
+		System.out.println("recherche du dialog");
+		ClientDialog dialog = null;
+		for (ClientDialog dial : this.dialogs)
+		{
+			if (dial.getIdDialog().equals(idDialog))
+			{
+				dialog = dial;
+			}
+		}
+		if (dialog != null)
+		{
+			System.out.println("envoie du message au dialog");
+			dialog.receiveFile(file);
+		}
+	}
 
 	/**
 	 * Méthode permettant de désactiver un dialogue.

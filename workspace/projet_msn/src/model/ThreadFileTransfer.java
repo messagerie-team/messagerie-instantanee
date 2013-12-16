@@ -20,11 +20,11 @@ import network.ProtocolTCP;
 public class ThreadFileTransfer extends Thread
 {
 	/**
-	 * ClientServer à qui appartient le thread de communication.
+	 * Client à qui appartient le thread de communication.
 	 * 
-	 * @see Server
+	 * @see Client
 	 */
-	private AbstractClientServer clientServer;
+	private Client clientServer;
 	/**
 	 * Socket de communication.
 	 * 
@@ -49,7 +49,7 @@ public class ThreadFileTransfer extends Thread
 	 * @param server Serveur de l'application
 	 * @param socket Socket du serveur
 	 */
-	public ThreadFileTransfer(AbstractClientServer clientServer, Socket socket)
+	public ThreadFileTransfer(Client clientServer, Socket socket)
 	{
 		this.clientServer = clientServer;
 		this.socket = socket;
@@ -71,7 +71,7 @@ public class ThreadFileTransfer extends Thread
 				InputStream is = this.socket.getInputStream();
 				try
 				{
-					FileTransfer.receiveFile(is, "dd");
+					FileTransfer.receiveFile(is,clientServer);
 				} catch (Exception e)
 				{
 					// TODO Auto-generated catch block

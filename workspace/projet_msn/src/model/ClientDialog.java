@@ -139,22 +139,16 @@ public class ClientDialog
 		this.inUse = true;
 		for (ClientServerData client : this.clients)
 		{
-			// this.protocol.sendMessage("dialog:message:" + this.idDialog + ":"
-			// + this.client.getName() + ">" + message, client.getIp(),
-			// client.getPort());
 			try
 			{
 				Socket socket = new Socket(client.getIp(), client.getPortTCP());
-				//Protocol protocol = new ProtocolTCP(socket);
-				//File fileF = new File(file);
-				//protocol.sendMessage("d_"+fileF.getName()+"\n");
 				System.out.println("Connecting...");
-				//InputStream is = socket.getInputStream();
 				OutputStream os = socket.getOutputStream();
 				// send file
 				try
 				{
-					FileTransfer.send(os, file);
+					FileTransfer.send(os, file, this.idDialog);
+					this.addMessage( "Fichier (" + file + ") envoyé dans la conversation");
 				} catch (Exception e)
 				{
 					// TODO Auto-generated catch block
@@ -177,8 +171,6 @@ public class ClientDialog
 	 */
 	public String receiveMessage(String message)
 	{
-		System.out.println(this.idDialog + "->" + message);
-		// remettre le dialogue en actif
 		this.inUse = true;
 		this.addMessage(message);
 		return message;
@@ -193,7 +185,9 @@ public class ClientDialog
 	 */
 	public String receiveFile(String file)
 	{
-		return "";
+		this.inUse = true;
+		this.addMessage( "Fichier (" + file + ") reçu depuis la conversation");
+		return file;
 	}
 
 	/**
