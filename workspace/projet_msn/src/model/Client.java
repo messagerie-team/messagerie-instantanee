@@ -1099,6 +1099,27 @@ public class Client extends AbstractClientServer
 	}
 
 	/**
+	 * Getter du thread d'écoute TCP
+	 * 
+	 * @return threadListenerTCP, thread d'écoute TCP
+	 */
+	public ThreadListenerTCP getThreadListenerTCP()
+	{
+		return threadListenerTCP;
+	}
+
+	/**
+	 * Setter qui fixe le thread d'écoute TCP
+	 * 
+	 * @param threadListenerTCP
+	 *            thread d'écoute TCP
+	 */
+	public void setThreadListenerTCP(ThreadListenerTCP threadListenerTCP)
+	{
+		this.threadListenerTCP = threadListenerTCP;
+	}
+	
+	/**
 	 * Getter de l'IP du serveur
 	 * 
 	 * @return String, adresse IP du serveur
