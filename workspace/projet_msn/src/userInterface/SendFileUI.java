@@ -88,6 +88,7 @@ public class SendFileUI
 			public void actionPerformed(ActionEvent e)
 			{
 				client.sendFileToDialog(searchResultField.getText(), dialog.getIdDialog());
+				getMainFrame().dispose();
 			}
 		});
 
