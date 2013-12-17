@@ -47,6 +47,7 @@ public class FileTransfer
 		dos.flush();
 		
 		// Closing socket
+		dis.close();
 		os.close();
 	}
 
