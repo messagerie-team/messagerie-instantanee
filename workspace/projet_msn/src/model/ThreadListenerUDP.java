@@ -67,8 +67,13 @@ public class ThreadListenerUDP extends Thread
 			this.protocol.close();
 		} catch (Exception e)
 		{
-			logger.severe("Erreur du ThreadListenerUDP, message: " + e.getMessage());
-			this.start();
+			if(running)
+			{
+				logger.severe("Erreur du ThreadListenerUDP, message: " + e.getMessage());
+			}else
+			{
+				logger.info("Arret du Thread d'ecoute TCP");
+			}
 			//System.err.println("Erreur du ThreadListenerUDP, message: " + e.getMessage());
 			//e.printStackTrace();
 		}
@@ -79,6 +84,7 @@ public class ThreadListenerUDP extends Thread
 	 */
 	public void stopThread()
 	{
+		this.running = false;
 		try
 		{
 			//On s'auto envoie un message pour stopper le thread
@@ -88,6 +94,5 @@ public class ThreadListenerUDP extends Thread
 			logger.severe("Erreur du ThreadListenerUDP, stopThread, message: " + e.getMessage());
 			//System.err.println("Erreur du ThreadListenerUDP, stopThread, message: " + e.getMessage());
 		}
-		this.running = false;
 	}
 }

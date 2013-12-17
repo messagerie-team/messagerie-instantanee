@@ -46,6 +46,7 @@ public class ClientDialogTest
 	{
 		clientTest.getThreadComunicationClient().stopThread();
 		clientTest.getThreadListenerUDP().stopThread();
+		clientTest.getThreadListenerTCP().stopThread();
 		clientTest.getProtocol().close();
 		clientTest=null;
 		clientDialogueTest=null;

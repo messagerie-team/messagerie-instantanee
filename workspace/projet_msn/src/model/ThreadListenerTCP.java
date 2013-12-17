@@ -88,6 +88,7 @@ public class ThreadListenerTCP extends Thread
 	 */
 	public void stopThread()
 	{
+		this.running = false;
 		try
 		{
 			this.socket.close();
@@ -96,7 +97,6 @@ public class ThreadListenerTCP extends Thread
 			logger.severe("Erreur ThreadListenerTCP, erreur de fermerture du socket, message : " + e.getMessage());
 			//System.err.println("Erreur ThreadListenerTCP, erreur de fermerture du socket, message : " + e.getMessage());
 		}
-		this.running = false;
 	}
 
 	/**
