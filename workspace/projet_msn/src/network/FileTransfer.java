@@ -45,7 +45,7 @@ public class FileTransfer
 		dos.writeLong(mybytearray.length);
 		dos.write(mybytearray, 0, mybytearray.length);
 		dos.flush();
-		
+
 		// Closing socket
 		dis.close();
 		os.close();
@@ -68,7 +68,16 @@ public class FileTransfer
 		String idDialog = element[0];
 		String fichier = element[element.length - 1];
 
-		OutputStream output = new FileOutputStream(fichier);
+		File file = new File(fichier);
+		int i = 0;
+		while (file.exists())
+		{
+			i++;
+			String FichierBis = "(" + i + ")" + fichier;
+			file = new File(FichierBis);
+		}
+
+		OutputStream output = new FileOutputStream(file.getName());
 		long size = clientData.readLong();
 		byte[] buffer = new byte[1024];
 		while (size > 0 && (bytesRead = clientData.read(buffer, 0, (int) Math.min(buffer.length, size))) != -1)
