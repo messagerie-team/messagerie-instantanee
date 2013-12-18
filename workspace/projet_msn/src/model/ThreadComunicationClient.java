@@ -278,7 +278,17 @@ public class ThreadComunicationClient extends Thread
 					break;
 				case "ERROR":
 					this.stopThread();
-					this.client.setErrorsMessages("Erreur de connexion");
+					if (token.hasMoreTokens())
+					{
+						String errorMessage = token.nextToken();
+						if ("login_password".equals(errorMessage))
+						{
+							this.client.setErrorsMessages("Erreur login/password");
+						}
+					} else
+					{
+						this.client.setErrorsMessages("Erreur de connexion");
+					}
 					break;
 				default:
 					this.stopThread();
