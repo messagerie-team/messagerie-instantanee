@@ -63,7 +63,7 @@ public class ThreadListenerUDP extends Thread
 					this.clientServer.treatIncomeUDP(message);
 				}
 			}
-			logger.info("Arret du Thread d'ecoute TCP");
+			logger.info("Arret du Thread d'ecoute UDP");
 			this.protocol.close();
 		} catch (Exception e)
 		{
