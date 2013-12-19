@@ -73,6 +73,7 @@ public class ThreadListenerUDP extends Thread
 			}else
 			{
 				logger.info("Arret du Thread d'ecoute TCP");
+				this.protocol.close();
 			}
 			//System.err.println("Erreur du ThreadListenerUDP, message: " + e.getMessage());
 			//e.printStackTrace();

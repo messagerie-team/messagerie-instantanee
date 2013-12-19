@@ -44,6 +44,13 @@ public class ClientDialogTest
 	@After
 	public void endTest()
 	{
+		try
+		{
+			Thread.sleep(1000);
+		} catch (InterruptedException e)
+		{
+
+		}
 		clientTest.getThreadComunicationClient().stopThread();
 		clientTest.getThreadListenerUDP().stopThread();
 		clientTest.getThreadListenerTCP().stopThread();
