@@ -59,17 +59,15 @@ public class ClientDialogTest
 	{
 		//ajout du premier message
 		clientDialogueTest.addMessage("test junit");
-		//test si le dernier message est egale a celui qui est inserr� 
+		//test si le dernier message est egale a celui qui est inserré
 		assertEquals("test junit", clientDialogueTest.getLastMessage());
 		//test si le dialogue message est egale au message la premiere fois
 		assertEquals("\ntest junit", clientDialogueTest.getDialogue());
 		//ajout du second message
 		clientDialogueTest.addMessage("test junit2");
-		//test si le dernier message est egale a celui qui est inserr� 
+		//test si le dernier message est egale a celui qui est inserré
 		assertEquals("test junit2", clientDialogueTest.getLastMessage());
-		//test si le dialogue message n'est egale au message puisuqu'il contient tous les messages
-		//assertNotEquals("\ntest junit2", clientDialogueTest.getDialogue());
-		//test si le dialogue est �gale a l'ensemble des messages ajout�s
+		//test si le dialogue est égale a l'ensemble des messages ajoutés
 		assertEquals("\ntest junit\ntest junit2", clientDialogueTest.getDialogue());
 	}
 	
@@ -78,17 +76,15 @@ public class ClientDialogTest
 	{
 		//ajout du premier message
 		clientDialogueTest.sendMessage("test junit");
-		//test si le dernier message est egale a celui qui est inserr� 
+		//test si le dernier message est egale a celui qui est inserré
 		assertEquals("moi>test junit", clientDialogueTest.getLastMessage());
 		//test si le dialogue message est egale au message la premiere fois
 		assertEquals("\nmoi>test junit", clientDialogueTest.getDialogue());
 		//ajout du second message
 		clientDialogueTest.sendMessage("test junit2");
-		//test si le dernier message est egale a celui qui est inserr� 
+		//test si le dernier message est egale a celui qui est inserré
 		assertEquals("moi>test junit2", clientDialogueTest.getLastMessage());
-		//test si le dialogue message n'est egale au message puisuqu'il contient tous les messages
-		//assertNotEquals("\nmoi>test junit2", clientDialogueTest.getDialogue());
-		//test si le dialogue est �gale a l'ensemble des messages ajout�s
+		//test si le dialogue est egale a l'ensemble des messages ajoutés
 		assertEquals("\nmoi>test junit\nmoi>test junit2", clientDialogueTest.getDialogue());
 	}
 
@@ -97,51 +93,49 @@ public class ClientDialogTest
 	{
 		//ajout du premier message
 		clientDialogueTest.receiveMessage("test junit");
-		//test si le dernier message est egale a celui qui est inserr� 
+		//test si le dernier message est egale a celui qui est inserré
 		assertEquals("test junit", clientDialogueTest.getLastMessage());
 		//test si le dialogue message est egale au message la premiere fois
 		assertEquals("\ntest junit", clientDialogueTest.getDialogue());
 		//ajout du second message
 		clientDialogueTest.receiveMessage("test junit2");
-		//test si le dernier message est egale a celui qui est inserr� 
+		//test si le dernier message est egale a celui qui est inserré
 		assertEquals("test junit2", clientDialogueTest.getLastMessage());
-		//test si le dialogue message n'est egale au message puisuqu'il contient tous les messages
-		//assertNotEquals("\ntest junit2", clientDialogueTest.getDialogue());
-		//test si le dialogue est �gale a l'ensemble des messages ajout�s
+		//test si le dialogue est égale a l'ensemble des messages ajoutés
 		assertEquals("\ntest junit\ntest junit2", clientDialogueTest.getDialogue());
 	}
 
 	@Test
 	public void testAddClient()
 	{
-		//test si la liste (ou plutot vector de merde) est vide
+		//test si la liste est vide
 		assertEquals(clientDialogueTest.getClients().size(),0);
-		//test si la liste (ou plutot vector de merde) n'est pas null
+		//test si la liste n'est pas null
 		assertNotNull(clientDialogueTest.getClients());
 		//ajout d'un client
 		clientDialogueTest.addClient(clientDataTest);
-		//test si la liste (ou plutot vector de merde) poss�de un element
+		//test si la liste posséde un element
 		assertEquals(clientDialogueTest.getClients().size(),1);
 	}
 
 	@Test
 	public void testRemoveClient()
 	{
-		//test si la liste (ou plutot vector de merde) est vide
+		//test si la liste est vide
 		assertEquals(clientDialogueTest.getClients().size(),0);
-		//test si la liste (ou plutot vector de merde) n'est pas null
+		//test si la liste n'est pas null
 		assertNotNull(clientDialogueTest.getClients());
 		//ajout d'un client
 		clientDialogueTest.addClient(clientDataTest);
-		//test si la liste (ou plutot vector de merde) poss�de un element
+		//test si la liste de un element
 		assertEquals(clientDialogueTest.getClients().size(),1);
-		//on supprime un �l�ment existant
+		//on supprime un élément existant
 		clientDialogueTest.removeClient(clientDataTest);
-		//test si la liste (ou plutot vector de merde) est vide
+		//test si la liste est vide
 		assertEquals(clientDialogueTest.getClients().size(),0);
-		//on ressuprime un �l�ment pour v�rifier si �a ne plante pas
+		//on ressuprime un élément pour vérifier si ca ne plante pas
 		clientDialogueTest.removeClient(clientDataTest);
-		//test si la liste (ou plutot vector de merde) est vide
+		//test si la liste est vide
 		assertEquals(clientDialogueTest.getClients().size(),0);
 	}
 
