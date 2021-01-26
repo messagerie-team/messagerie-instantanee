@@ -91,14 +91,14 @@ public class ClientServerUI
 			FileInputStream file = new FileInputStream("configuration.property");
 			properties.loadFromXML(file);
 			file.close();
-		} catch (IOException e2)
-		{
+		} catch (IOException e2)   // exception erreur
+		{ // port server localhost
 			properties.put("ipServer", "localhost");
-			properties.put("TCPServer", "30970");
-			properties.put("UDPServer", "30971");
+			properties.put("TCPServer", "4000");
+			properties.put("UDPServer", "4040");
 			properties.put("alias", "client");
-			properties.put("TCPClient", "3000");
-			properties.put("UDPClient", "3001");
+			properties.put("TCPClient", "8000");
+			properties.put("UDPClient", "8080");
 			try
 			{
 				FileOutputStream file = new FileOutputStream("configuration.property");
@@ -304,11 +304,11 @@ public class ClientServerUI
 		connectionPanel.setLayout(new BorderLayout(0, 0));
 		// Box principal
 		Box principalBox = Box.createVerticalBox();
-		principalBox.setBorder(new EmptyBorder(50, 0, 0, 0));
+		principalBox.setBorder(new EmptyBorder(100, 0, 0, 0));
 
 		JLabel pseudoLabel = new JLabel("Identifiant : ");
-		pseudoLabel.setMinimumSize(new Dimension(110, 20));
-		pseudoLabel.setMaximumSize(new Dimension(135, 25));
+		pseudoLabel.setMinimumSize(new Dimension(120, 21));
+		pseudoLabel.setMaximumSize(new Dimension(125, 28));
 		pseudoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		// Construction du pseudo
 		pseudoField = new JTextField(properties.getProperty("alias"));
@@ -322,13 +322,13 @@ public class ClientServerUI
 		passwordLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		passwordField = new JPasswordField();
 		passwordField.setMinimumSize(new Dimension(110, 20));
-		passwordField.setMaximumSize(new Dimension(135, 25));
+		passwordField.setMaximumSize(new Dimension(130, 25));
 		passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		// Construction du bouton de connexion
 		final JButton connectionButton = new JButton("Se connecter");
 		connectionButton.setMinimumSize(new Dimension(110, 20));
-		connectionButton.setMaximumSize(new Dimension(135, 25));
+		connectionButton.setMaximumSize(new Dimension(135, 20));
 		connectionButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		connectionButton.addActionListener(listenerMenu);
 
