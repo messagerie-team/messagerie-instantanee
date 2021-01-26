@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><clients>
 	<client>
-		<name>richer</name>
-		<password>pwd_richer</password>
+		<name>jaafer</name>
+		<password>pwd_jaafer</password>
 		<groups>
 			<group>enseignant</group>
 		</groups>
@@ -21,29 +21,29 @@
 		</groups>
 	</client>
 	<client>
-		<name>raphael</name>
-		<password>pwd_raphael</password>
+		<name>Thabet</name>
+		<password>pwd_thabet</password>
 		<groups>
 			<group>etudiant</group>
 		</groups>
 	</client>
 	<client>
-		<name>thibault</name>
-		<password>pwd_thibault</password>
+		<name>jihed</name>
+		<password>pwd_jihed</password>
 		<groups>
 			<group>etudiant</group>
 		</groups>
 	</client>
 	<client>
-		<name>dorian</name>
-		<password>pwd_dorian</password>
+		<name>younes</name>
+		<password>pwd_younes</password>
 		<groups>
 			<group>etudiant</group>
 		</groups>
 	</client>
 	<client>
-		<name>mickael</name>
-		<password>pwd_mickael</password>
+		<name>jawher</name>
+		<password>pwd_jawher</password>
 		<groups>
 			<group>etudiant</group>
 		</groups>
