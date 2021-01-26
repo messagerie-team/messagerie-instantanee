@@ -14,7 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 /**
  * 
- * @author Dorian, Mickaël, Raphaël, Thibault
+ * @author jaafer,thabet,jihed,younes,jawher
  * 
  */
 public class ClientDialogTest 
@@ -36,9 +36,9 @@ public class ClientDialogTest
 			e.printStackTrace();
 		}
 
-		clientTest = new Client("TestUnitaire_C2",3001,3000,"localhost");
+		clientTest = new Client("TestUnitaire_C2",4001,4000,"localhost");
 		clientDialogueTest = new ClientDialog(clientTest,clientTest.getProtocol());
-		clientDataTest = new ClientServerData("JUNIT_C1", inetTest, 3003,3000);
+		clientDataTest = new ClientServerData("JUNIT_C1", inetTest, 8080,8000);
 	}
 	
 	@After
